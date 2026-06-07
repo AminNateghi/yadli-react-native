@@ -6,7 +6,6 @@ import { Colors, rtlStyles } from '@/constants/theme';
 import { useData } from '@/contexts/DataContext';
 import { useTranslation } from '@/languages/useTranslation';
 import { expenseTypeOptions, serviceTypeOptions } from '@/types/interfaces';
-import { format } from 'date-fns';
 import { useRouter } from 'expo-router';
 import {
   CalendarIcon,
@@ -16,10 +15,10 @@ import {
   ReceiptIcon,
   TrendingUpIcon,
   WrenchIcon,
-  XIcon,
 } from 'lucide-react-native';
-import { useCallback, useState } from 'react';
-import { Modal, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
+import { getServiceReminders } from '@/utils/serviceReminders';
+import { useCallback, useMemo, useState } from 'react';
+import { Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { useMediaQuery } from 'react-responsive';
 
 export default function DashboardScreen() {
@@ -27,8 +26,10 @@ export default function DashboardScreen() {
   const { services, fuelRecords, expenses, stats, isLoading } = useData();
   const router = useRouter();
   const [refreshing, setRefreshing] = useState(false);
-  const [modalUpcoming, setModalUpcoming] = useState<boolean>(false);
   const isDesktop = useMediaQuery({ minWidth: 768 });
+
+  const reminders = useMemo(() => getServiceReminders(services, stats.totalKm), [services, stats.totalKm]);
+  const urgentReminder = reminders[0];
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -81,15 +82,26 @@ export default function DashboardScreen() {
               </Text>
             </View>
           </View>
-          {stats.nextServiceDue! && (
-            <Pressable onPress={() => setModalUpcoming(true)}>
-              <View style={styles.nextService}>
+          {urgentReminder && (
+            <Pressable onPress={() => router.push('/services/reminders')}>
+              <View
+                style={[
+                  styles.nextService,
+                  (urgentReminder.dateProgress?.overdue || urgentReminder.odometerProgress?.overdue) && {
+                    backgroundColor: Colors.danger + '20',
+                  },
+                ]}
+              >
                 <CalendarIcon
                   size={14}
                   color={Colors.danger}
                 />
                 <Text style={styles.nextServiceText}>
-                  {t('dashboard.serviceDue')} {format(new Date(stats.nextServiceDue), 'MMM d')}
+                  {urgentReminder.dateProgress?.overdue || urgentReminder.odometerProgress?.overdue
+                    ? t('reminders.overdue')
+                    : urgentReminder.dateProgress
+                      ? `${urgentReminder.dateProgress.remainingDays} ${t('reminders.daysRemaining')}`
+                      : `${urgentReminder.odometerProgress!.remainingKm} ${t('common.km')} ${t('reminders.remaining')}`}
                 </Text>
               </View>
             </Pressable>
@@ -221,43 +233,6 @@ export default function DashboardScreen() {
         <View style={{ height: 32 }} />
       </ScrollView>
 
-      <Modal
-        visible={modalUpcoming}
-        animationType='fade'
-        transparent
-      >
-        <View style={styles.modalOverlay}>
-          <View style={[styles.modalContent, isDesktop && styles.modalContentDesktop]}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>up coming</Text>
-              <Pressable onPress={() => setModalUpcoming(false)}>
-                <XIcon
-                  size={24}
-                  color={Colors.text}
-                />
-              </Pressable>
-            </View>
-
-            <ScrollView
-              style={styles.modalScroll}
-              showsVerticalScrollIndicator={false}
-            >
-              {stats.upcomingService.map(service => (
-                <RecordCard
-                  key={service.id}
-                  title={getExpenseLabel(service.type)}
-                  date={service.date}
-                  amount={service.cost}
-                  icon={ReceiptIcon}
-                  color={Colors.expense}
-                  rtl={isRTL}
-                  onPress={() => {}}
-                />
-              ))}
-            </ScrollView>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -356,40 +331,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.primary,
     fontWeight: 500,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'flex-end',
-  },
-  modalContent: {
-    backgroundColor: Colors.surface,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    maxHeight: '90%',
-  },
-  modalContentDesktop: {
-    maxWidth: 500,
-    alignSelf: 'center',
-    width: '100%',
-    borderRadius: 24,
-    marginBottom: 40,
-    maxHeight: '85%',
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 600,
-    color: Colors.text,
-  },
-  modalScroll: {
-    padding: 20,
   },
 });

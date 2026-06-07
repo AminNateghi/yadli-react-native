@@ -21,6 +21,10 @@ export default function ServicesLayout() {
         name='index'
         options={{ title: t('menus.services'), headerLargeTitle: true, headerTitleAlign: 'center' }}
       />
+      <Stack.Screen
+        name='reminders'
+        options={{ title: t('reminders.title'), headerTitleAlign: 'center' }}
+      />
     </Stack>
   );
 }

@@ -1,3 +1,4 @@
+import { Text } from '@/components/AppText';
 import { Button } from '@/components/Button';
 import { ConfirmationDialog } from '@/components/ConfirmationDialog';
 import { DatePicker } from '@/components/DatePicker';
@@ -6,14 +7,14 @@ import { Input } from '@/components/Input';
 import { PriceValue } from '@/components/PriceValue';
 import { RecordCard } from '@/components/RecordCard';
 import { SelectPicker } from '@/components/SelectPicker';
-import { Text } from '@/components/AppText';
 import { Colors } from '@/constants/theme';
 import { useData } from '@/contexts/DataContext';
 import { useTranslation } from '@/languages/useTranslation';
 import { ServiceDto, ServiceType, serviceTypeOptions } from '@/types/interfaces';
+import { getServiceReminders } from '@/utils/serviceReminders';
 import { format } from 'date-fns';
-import { useLocalSearchParams } from 'expo-router';
-import { PlusIcon, WrenchIcon, XIcon } from 'lucide-react-native';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { BellIcon, ChevronLeftIcon, ChevronRightIcon, PlusIcon, WrenchIcon, XIcon } from 'lucide-react-native';
 import { useEffect, useMemo, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useMediaQuery } from 'react-responsive';
@@ -22,7 +23,11 @@ export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
   const { services, addService, updateService, deleteService, stats } = useData();
   const { edit } = useLocalSearchParams<{ edit?: string }>();
+  const router = useRouter();
   const isDesktop = useMediaQuery({ minWidth: 768 });
+
+  const reminders = useMemo(() => getServiceReminders(services, stats.totalKm), [services, stats.totalKm]);
+  const overdueCount = reminders.filter(r => r.dateProgress?.overdue || r.odometerProgress?.overdue).length;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -144,6 +149,40 @@ export default function ServicesScreen() {
         contentContainerStyle={[styles.content, isDesktop && styles.contentDesktop]}
         showsVerticalScrollIndicator={false}
       >
+        {reminders.length > 0 && (
+          <Pressable
+            style={({ pressed }) => [styles.remindersBanner, pressed && styles.remindersBannerPressed]}
+            onPress={() => router.push('/services/reminders')}
+          >
+            <View style={styles.remindersBannerIcon}>
+              <BellIcon
+                size={20}
+                color={overdueCount > 0 ? Colors.danger : Colors.service}
+              />
+            </View>
+            <View style={styles.remindersBannerContent}>
+              <Text style={styles.remindersBannerTitle}>{t('reminders.title')}</Text>
+              <Text style={styles.remindersBannerSubtitle}>
+                {overdueCount > 0
+                  ? `${overdueCount} ${t('reminders.needAttention')}`
+                  : `${reminders.length} ${t('reminders.activeReminders')}`}
+              </Text>
+            </View>
+
+            {isRTL ? (
+              <ChevronLeftIcon
+                size={18}
+                color={Colors.textMuted}
+              />
+            ) : (
+              <ChevronRightIcon
+                size={18}
+                color={Colors.textMuted}
+              />
+            )}
+          </Pressable>
+        )}
+
         {stats.totalServiceCost > 0 && (
           <View style={styles.summaryCard}>
             <Text style={styles.summaryTitle}>{t('services.totalServiceCost')}</Text>
@@ -420,6 +459,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 8,
     gap: 10,
+  },
+  remindersBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.surface,
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 16,
+    gap: 12,
+  },
+  remindersBannerPressed: {
+    opacity: 0.85,
+  },
+  remindersBannerIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: Colors.danger + '15',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  remindersBannerContent: {
+    flex: 1,
+  },
+  remindersBannerTitle: {
+    fontSize: 15,
+    fontWeight: 600,
+    color: Colors.text,
+  },
+  remindersBannerSubtitle: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    marginTop: 2,
   },
   summaryCard: {
     backgroundColor: Colors.surface,
