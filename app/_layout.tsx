@@ -15,7 +15,8 @@ export default function RootLayout() {
   const insets = useSafeAreaInsets();
 
   const [loaded] = useFonts({
-    VazirMatn: require('@/assets/fonts/vazir-matn.ttf'),
+    VazirRegular: require('@/assets/fonts/Vazirmatn-Regular.ttf'),
+    VazirBold: require('@/assets/fonts/Vazirmatn-Bold.ttf'),
   });
 
   useEffect(() => {

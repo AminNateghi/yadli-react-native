@@ -11,6 +11,7 @@ export interface TranslationKeys {
   dashboard: Dashboard;
   settings: Settings;
   fuel: Fuel;
+  reminders: Reminders;
   serviceType: ServiceType;
   services: Services;
   expenses: Expenses;
@@ -67,6 +68,25 @@ interface Dashboard {
 interface Settings {
   title: string;
   language: string;
+}
+
+interface Reminders {
+  title: string;
+  noReminders: string;
+  noRemindersDescription: string;
+  activeReminders: string;
+  needAttention: string;
+  allOnTrack: string;
+  lastService: string;
+  overdue: string;
+  byDate: string;
+  byOdometer: string;
+  daysRemaining: string;
+  daysOverdue: string;
+  dueToday: string;
+  dueOn: string;
+  dueAt: string;
+  remaining: string;
 }
 
 interface Fuel {

@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   summaryCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.surface,
+    backgroundColor: Colors.surfaceAlt,
     borderRadius: 16,
     padding: 16,
     marginBottom: 16,
@@ -112,9 +112,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   summaryValue: {
-    fontSize: 18,
-    // fontWeight: 'bold',
-    // fontFamily: 'VazirBold',
+    fontSize: 16,
+    fontWeight: 'bold',
     color: Colors.text,
   },
   summaryLabel: {

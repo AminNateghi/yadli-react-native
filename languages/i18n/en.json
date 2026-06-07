@@ -68,6 +68,24 @@
     "kmPerLiter": "km/L",
     "averageFuelEconomy": "Average fuel economy"
   },
+  "reminders": {
+    "title": "Service Reminders",
+    "noReminders": "No Reminders Set",
+    "noRemindersDescription": "Set a next due date or odometer when adding a service to track periodic maintenance",
+    "activeReminders": "active reminders",
+    "needAttention": "need attention",
+    "allOnTrack": "All services on track",
+    "lastService": "Last service",
+    "overdue": "overdue",
+    "byDate": "By date",
+    "byOdometer": "By odometer",
+    "daysRemaining": "days remaining",
+    "daysOverdue": "days overdue",
+    "dueToday": "Due today",
+    "dueOn": "Due on",
+    "dueAt": "Due at",
+    "remaining": "remaining"
+  },
   "services": {
     "totalServiceCost": "Total Service Cost",
     "noServicesYet": "No Services Yet",

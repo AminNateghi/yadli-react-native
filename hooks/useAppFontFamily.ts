@@ -1,7 +1,9 @@
 import { getAppFontFamily } from '@/constants/theme';
 import { useData } from '@/contexts/DataContext';
+import { StyleProp, StyleSheet, TextStyle } from 'react-native';
 
-export const useAppFontFamily = () => {
+export const useAppFontFamily = (style?: StyleProp<TextStyle>) => {
   const { language } = useData();
-  return getAppFontFamily(language);
+  const fontWeight = StyleSheet.flatten(style)?.fontWeight;
+  return getAppFontFamily(language, fontWeight);
 };

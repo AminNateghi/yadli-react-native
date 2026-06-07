@@ -69,6 +69,24 @@
     "kmPerLiter": "",
     "averageFuelEconomy": "مصرف در هر ۱۰۰ کیلومتر"
   },
+  "reminders": {
+    "title": "یادآور سرویس‌ها",
+    "noReminders": "یادآوری ثبت نشده",
+    "noRemindersDescription": "هنگام ثبت سرویس، تاریخ یا کیلومتر سررسید بعدی را وارد کنید تا سرویس‌های دوره‌ای یادآوری شود",
+    "activeReminders": "یادآور فعال",
+    "needAttention": "مورد نیاز به تعویض",
+    "allOnTrack": "همه سرویس‌ها در وضعیت مناسب",
+    "lastService": "سرویس قبلی",
+    "overdue": "یادآوری",
+    "byDate": "روز طی شده",
+    "byOdometer": "کیلومتر طی شده",
+    "daysRemaining": "روز مانده",
+    "daysOverdue": "روز گذشته",
+    "dueToday": "امروز سررسید",
+    "dueOn": "سررسید در",
+    "dueAt": "سررسید در",
+    "remaining": "مانده"
+  },
   "services": {
     "totalServiceCost": "جمع سرویس‌ها",
     "noServicesYet": "هیچ سرویسی ثبت نشده",
