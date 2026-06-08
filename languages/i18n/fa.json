@@ -24,7 +24,8 @@
     "dashboard": "داشبورد",
     "fuel": "سوخت‌گیری",
     "services": "سرویس‌ها",
-    "expenses": "هزینه‌ها"
+    "expenses": "هزینه‌ها",
+    "reminders": "یادآوری‌ها"
   },
 
   "dashboard": {
@@ -85,7 +86,8 @@
     "dueToday": "امروز سررسید",
     "dueOn": "سررسید در",
     "dueAt": "سررسید در",
-    "remaining": "مانده"
+    "remaining": "مانده",
+    "passed": "گذشته"
   },
   "services": {
     "totalServiceCost": "جمع سرویس‌ها",

@@ -1,6 +1,6 @@
 import { Text } from '@/components/AppText';
 import { EmptyState } from '@/components/EmptyState';
-import { ServiceReminderCard } from '@/components/ServiceReminderCard';
+import { ReminderCard } from '@/components/ReminderCard';
 import { Colors } from '@/constants/theme';
 import { useData } from '@/contexts/DataContext';
 import { useTranslation } from '@/languages/useTranslation';
@@ -59,12 +59,14 @@ export default function ServiceRemindersScreen() {
           />
         ) : (
           reminders.map(reminder => (
-            <ServiceReminderCard
+            <ReminderCard
               key={reminder.service.id}
               reminder={reminder}
               serviceLabel={getServiceLabel(reminder.service.type)}
               t={t}
-              onPress={() => router.push(`/services?edit=${reminder.service.id}`)}
+              onPress={() =>
+                router.push(`/services?add=true&type=${reminder.service.type}&prevId=${reminder.service.id}`)
+              }
             />
           ))
         )}
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 14,
-    backgroundColor: Colors.danger + '15',
+    backgroundColor: Colors.secondary + '15',
     alignItems: 'center',
     justifyContent: 'center',
   },

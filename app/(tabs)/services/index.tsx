@@ -15,14 +15,18 @@ import { getServiceReminders } from '@/utils/serviceReminders';
 import { format } from 'date-fns';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { BellIcon, ChevronLeftIcon, ChevronRightIcon, PlusIcon, WrenchIcon, XIcon } from 'lucide-react-native';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useMediaQuery } from 'react-responsive';
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
-  const { services, addService, updateService, deleteService, stats } = useData();
-  const { edit } = useLocalSearchParams<{ edit?: string }>();
+  const { services, addService, updateService, deleteService, stats, doneService } = useData();
+  const {
+    edit,
+    add,
+    type: addType,
+  } = useLocalSearchParams<{ edit?: string; add?: string; type?: string; prevId?: string }>();
   const router = useRouter();
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
@@ -43,14 +47,38 @@ export default function ServicesScreen() {
   const [nextDueDate, setNextDueDate] = useState('');
   const [nextDueOdometer, setNextDueOdometer] = useState('');
 
+  const openCreateModal = useCallback((serviceType?: ServiceType) => {
+    resetForm();
+    if (serviceType) setType(serviceType);
+    setModalVisible(true);
+  }, []);
+
+  const openEditModal = useCallback((service: ServiceDto) => {
+    setEditingId(service.id);
+    setType(service.type);
+    setDate(service.date);
+    setOdometer(service.odometer?.toString() || '');
+    setCost(service.cost.toString());
+    setNotes(service.notes);
+    setNextDueDate(service.nextDueDate || '');
+    setNextDueOdometer(service.nextDueOdometer?.toString() || '');
+    setModalVisible(true);
+  }, []);
+
   useEffect(() => {
     if (edit) {
       const service = services.find(s => s.id === edit);
       if (service) {
         openEditModal(service);
+        // Clear param so layout updates won't lock the modal open
+        router.setParams({ edit: undefined });
       }
+    } else if (add) {
+      openCreateModal(addType as ServiceType | undefined);
+      // Clear params so layout updates won't lock the modal open
+      router.setParams({ add: undefined, type: undefined });
     }
-  }, [edit, services]);
+  }, [edit, add, addType, services, router, openCreateModal, openEditModal]);
 
   const handleValidationClose = () => {
     setIsConfirmValidation(false);
@@ -79,18 +107,6 @@ export default function ServicesScreen() {
     setEditingId(null);
   };
 
-  const openEditModal = (service: ServiceDto) => {
-    setEditingId(service.id);
-    setType(service.type);
-    setDate(service.date);
-    setOdometer(service.odometer?.toString());
-    setCost(service.cost.toString());
-    setNotes(service.notes);
-    setNextDueDate(service.nextDueDate || '');
-    setNextDueOdometer(service.nextDueOdometer?.toString() || '');
-    setModalVisible(true);
-  };
-
   const handleSave = async () => {
     if (!odometer || !cost) {
       setIsConfirmValidation(true);
@@ -112,6 +128,9 @@ export default function ServicesScreen() {
       if (editingId) {
         await updateService(editingId, data);
       } else {
+        // first clear previuse service warning
+        await doneService(type);
+        //  add service
         await addService(data);
       }
 
@@ -126,7 +145,6 @@ export default function ServicesScreen() {
 
   const handleDelete = async () => {
     if (!editingId) return;
-
     setIsConfirmDelete(true);
   };
 
@@ -141,7 +159,6 @@ export default function ServicesScreen() {
     return totals;
   }, [services]);
 
-  //#region JSX
   return (
     <View style={[styles.wrapper, isRTL && { direction: 'rtl' }]}>
       <ScrollView
@@ -152,7 +169,7 @@ export default function ServicesScreen() {
         {reminders.length > 0 && (
           <Pressable
             style={({ pressed }) => [styles.remindersBanner, pressed && styles.remindersBannerPressed]}
-            onPress={() => router.push('/services/reminders')}
+            onPress={() => router.push('/reminders')}
           >
             <View style={styles.remindersBannerIcon}>
               <BellIcon
@@ -237,10 +254,7 @@ export default function ServicesScreen() {
       <View style={[isRTL ? styles.fabContainerRTL : styles.fabContainer, isDesktop && styles.fabContainerDesktop]}>
         <Pressable
           style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]}
-          onPress={() => {
-            resetForm();
-            setModalVisible(true);
-          }}
+          onPress={() => openCreateModal()}
         >
           <PlusIcon
             size={24}
@@ -335,7 +349,7 @@ export default function ServicesScreen() {
                   />
                 )}
                 <Button
-                  title={editingId ? t('common.save') : t('common.save')}
+                  title={editingId ? t('common.update') : t('common.save')}
                   onPress={handleSave}
                   loading={saving}
                   style={{ flex: 1 }}
@@ -364,7 +378,6 @@ export default function ServicesScreen() {
       />
     </View>
   );
-  //#endregion
 }
 
 const styles = StyleSheet.create({
@@ -442,7 +455,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: '600',
     color: Colors.text,
   },
   modalScroll: {
@@ -450,7 +463,7 @@ const styles = StyleSheet.create({
   },
   sectionLabel: {
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: '600',
     color: Colors.text,
     marginTop: 8,
     marginBottom: 16,
@@ -485,7 +498,7 @@ const styles = StyleSheet.create({
   },
   remindersBannerTitle: {
     fontSize: 15,
-    fontWeight: 600,
+    fontWeight: '600',
     color: Colors.text,
   },
   remindersBannerSubtitle: {
@@ -505,7 +518,7 @@ const styles = StyleSheet.create({
   },
   summaryValue: {
     fontSize: 28,
-    fontWeight: 700,
+    fontWeight: '700',
     color: Colors.text,
     marginTop: 4,
   },
@@ -533,7 +546,7 @@ const styles = StyleSheet.create({
   },
   categoryTotal: {
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: '600',
     color: Colors.text,
   },
 });

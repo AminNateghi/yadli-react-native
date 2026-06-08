@@ -1,4 +1,4 @@
-import { CarStats, ExpenseDto, FuelDto, LanguageType, ServiceDto } from '@/types/interfaces';
+import { CarStats, ExpenseDto, FuelDto, LanguageType, ServiceDto, ServiceType } from '@/types/interfaces';
 import createContextHook from '@nkzw/create-context-hook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -42,117 +42,106 @@ export const [DataProvider, useData] = createContextHook(() => {
     }
   };
 
-  const saveServices = async (data: ServiceDto[]) => {
-    await AsyncStorage.setItem(STORAGE_KEYS.services, JSON.stringify(data));
-    setServices(data);
-  };
-
-  const saveFuelRecords = async (data: FuelDto[]) => {
-    await AsyncStorage.setItem(STORAGE_KEYS.fuel, JSON.stringify(data));
-    setFuelRecords(data);
-  };
-
-  const saveExpenses = async (data: ExpenseDto[]) => {
-    await AsyncStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(data));
-    setExpenses(data);
-  };
-
   const saveLanguage = async (data: LanguageType) => {
     await AsyncStorage.setItem(STORAGE_KEYS.language, JSON.stringify(data));
     setLanguage(data);
   };
 
   //#region  APIs
-  const addService = useCallback(
-    async (service: Omit<ServiceDto, 'id'>) => {
-      const newService: ServiceDto = {
-        ...service,
-        id: Date.now().toString(),
-      };
-      const updated = [newService, ...services];
-      await saveServices(updated);
-    },
-    [services]
-  );
+  const addService = useCallback(async (service: Omit<ServiceDto, 'id'>) => {
+    const newService: ServiceDto = { ...service, id: Date.now().toString() };
+    setServices(prev => {
+      const updated = [newService, ...prev];
+      AsyncStorage.setItem(STORAGE_KEYS.services, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const updateService = useCallback(
-    async (id: string, service: Partial<ServiceDto>) => {
-      const updated = services.map(s => (s.id === id ? { ...s, ...service } : s));
-      await saveServices(updated);
-    },
-    [services]
-  );
+  const updateService = useCallback(async (id: string, service: Partial<ServiceDto>) => {
+    setServices(prev => {
+      const updated = prev.map(s => (s.id === id ? { ...s, ...service } : s));
+      AsyncStorage.setItem(STORAGE_KEYS.services, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const deleteService = useCallback(
-    async (id: string) => {
-      const updated = services.filter(s => s.id !== id);
-      await saveServices(updated);
-    },
-    [services]
-  );
+  const deleteService = useCallback(async (id: string) => {
+    setServices(prev => {
+      const updated = prev.filter(s => s.id !== id);
+      AsyncStorage.setItem(STORAGE_KEYS.services, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const addFuelRecord = useCallback(
-    async (fuel: Omit<FuelDto, 'id'>) => {
-      const newFuel: FuelDto = {
-        ...fuel,
-        id: Date.now().toString(),
-      };
-      const updated = [newFuel, ...fuelRecords];
-      await saveFuelRecords(updated);
-    },
-    [fuelRecords]
-  );
+  const doneService = useCallback(async (serviceType: ServiceType) => {
+    setServices(prev => {
+      const updated = prev.map(s =>
+        s.type === serviceType ? { ...s, nextDueDate: undefined, nextDueOdometer: undefined } : s
+      );
+      AsyncStorage.setItem(STORAGE_KEYS.services, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const updateFuelRecord = useCallback(
-    async (id: string, fuel: Partial<FuelDto>) => {
-      const updated = fuelRecords.map(f => (f.id === id ? { ...f, ...fuel } : f));
-      await saveFuelRecords(updated);
-    },
-    [fuelRecords]
-  );
+  const addFuelRecord = useCallback(async (fuel: Omit<FuelDto, 'id'>) => {
+    const newFuel: FuelDto = {
+      ...fuel,
+      id: Date.now().toString(),
+    };
+    setFuelRecords(prev => {
+      const updated = [newFuel, ...prev];
+      AsyncStorage.setItem(STORAGE_KEYS.fuel, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const deleteFuelRecord = useCallback(
-    async (id: string) => {
-      const updated = fuelRecords.filter(f => f.id !== id);
-      await saveFuelRecords(updated);
-    },
-    [fuelRecords]
-  );
+  const updateFuelRecord = useCallback(async (id: string, fuel: Partial<FuelDto>) => {
+    setFuelRecords(prev => {
+      const updated = prev.map(f => (f.id === id ? { ...f, ...fuel } : f));
+      AsyncStorage.setItem(STORAGE_KEYS.fuel, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const addExpense = useCallback(
-    async (expense: Omit<ExpenseDto, 'id'>) => {
-      const newExpense: ExpenseDto = {
-        ...expense,
-        id: Date.now().toString(),
-      };
-      const updated = [newExpense, ...expenses];
-      await saveExpenses(updated);
-    },
-    [expenses]
-  );
+  const deleteFuelRecord = useCallback(async (id: string) => {
+    setFuelRecords(prev => {
+      const updated = prev.filter(f => f.id !== id);
+      AsyncStorage.setItem(STORAGE_KEYS.fuel, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const updateExpense = useCallback(
-    async (id: string, expense: Partial<ExpenseDto>) => {
-      const updated = expenses.map(e => (e.id === id ? { ...e, ...expense } : e));
-      await saveExpenses(updated);
-    },
-    [expenses]
-  );
+  const addExpense = useCallback(async (expense: Omit<ExpenseDto, 'id'>) => {
+    const newExpense: ExpenseDto = {
+      ...expense,
+      id: Date.now().toString(),
+    };
+    setExpenses(prev => {
+      const updated = [newExpense, ...prev];
+      AsyncStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const deleteExpense = useCallback(
-    async (id: string) => {
-      const updated = expenses.filter(e => e.id !== id);
-      await saveExpenses(updated);
-    },
-    [expenses]
-  );
+  const updateExpense = useCallback(async (id: string, expense: Partial<ExpenseDto>) => {
+    setExpenses(prev => {
+      const updated = prev.map(e => (e.id === id ? { ...e, ...expense } : e));
+      AsyncStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
 
-  const updateLanguage = useCallback(
-    async (payload: LanguageType) => {
-      await saveLanguage(payload);
-    },
-    [language]
-  );
+  const deleteExpense = useCallback(async (id: string) => {
+    setExpenses(prev => {
+      const updated = prev.filter(e => e.id !== id);
+      AsyncStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(updated));
+      return updated;
+    });
+  }, []);
+
+  const updateLanguage = useCallback(async (payload: LanguageType) => {
+    await saveLanguage(payload);
+  }, []);
 
   //#endregion
 
@@ -208,15 +197,16 @@ export const [DataProvider, useData] = createContextHook(() => {
   }, [services, fuelRecords, expenses]);
 
   return {
-    services: services.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
-    fuelRecords: fuelRecords.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
-    expenses: expenses.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+    services: [...services].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+    fuelRecords: [...fuelRecords].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+    expenses: [...expenses].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
     stats,
     language,
     isLoading,
     addService,
     updateService,
     deleteService,
+    doneService,
     addFuelRecord,
     updateFuelRecord,
     deleteFuelRecord,

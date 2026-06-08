@@ -46,6 +46,7 @@ interface Menus {
   fuel: string;
   services: string;
   expenses: string;
+  reminders: string;
 }
 
 interface Dashboard {
@@ -87,6 +88,7 @@ interface Reminders {
   dueOn: string;
   dueAt: string;
   remaining: string;
+  passed: string;
 }
 
 interface Fuel {

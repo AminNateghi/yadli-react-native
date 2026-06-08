@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { CalendarIcon, GaugeIcon, LucideIcon, WrenchIcon } from 'lucide-react-native';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-interface ServiceReminderCardProps {
+interface Props {
   reminder: ServiceReminder;
   serviceLabel: string;
   t: (key: NestedKeyOf<TranslationKeys>) => string;
@@ -31,20 +31,18 @@ function ProgressBar({ progress, color }: { progress: number; color: string }) {
   );
 }
 
-export function ServiceReminderCard({
+export function ReminderCard({
   reminder,
   serviceLabel,
   t,
   icon: Icon = WrenchIcon,
   color = Colors.service,
   onPress,
-}: ServiceReminderCardProps) {
+}: Props) {
   const { service, dateProgress, odometerProgress } = reminder;
 
   const primaryProgress = dateProgress ?? odometerProgress;
-  const headerColor = primaryProgress
-    ? getProgressColor(primaryProgress.progress, primaryProgress.overdue)
-    : color;
+  const headerColor = primaryProgress ? getProgressColor(primaryProgress.progress, primaryProgress.overdue) : color;
 
   return (
     <Pressable
@@ -85,7 +83,9 @@ export function ServiceReminderCard({
               color={Colors.textSecondary}
             />
             <Text style={styles.progressLabel}>{t('reminders.byDate')}</Text>
-            <Text style={[styles.progressValue, { color: getProgressColor(dateProgress.progress, dateProgress.overdue) }]}>
+            <Text
+              style={[styles.progressValue, { color: getProgressColor(dateProgress.progress, dateProgress.overdue) }]}
+            >
               {dateProgress.overdue
                 ? `${Math.abs(dateProgress.remainingDays)} ${t('reminders.daysOverdue')}`
                 : dateProgress.remainingDays === 0
@@ -118,7 +118,7 @@ export function ServiceReminderCard({
               ]}
             >
               {odometerProgress.overdue
-                ? `${Math.abs(odometerProgress.remainingKm).toLocaleString()} ${t('common.km')} ${t('reminders.overdue')}`
+                ? `${Math.abs(odometerProgress.remainingKm).toLocaleString()} ${t('common.km')} ${t('reminders.passed')}`
                 : `${odometerProgress.remainingKm.toLocaleString()} ${t('common.km')} ${t('reminders.remaining')}`}
             </Text>
           </View>

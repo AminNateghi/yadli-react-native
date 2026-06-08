@@ -83,7 +83,7 @@ export default function DashboardScreen() {
             </View>
           </View>
           {urgentReminder && (
-            <Pressable onPress={() => router.push('/services/reminders')}>
+            <Pressable onPress={() => router.push('/reminders')}>
               <View
                 style={[
                   styles.nextService,
@@ -232,7 +232,6 @@ export default function DashboardScreen() {
 
         <View style={{ height: 32 }} />
       </ScrollView>
-
     </View>
   );
 }

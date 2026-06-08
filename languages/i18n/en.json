@@ -24,7 +24,8 @@
     "dashboard": "Dashboard",
     "fuel": "Fuel",
     "services": "Services",
-    "expenses": "Expenses"
+    "expenses": "Expenses",
+    "reminders": "Reminders"
   },
   "dashboard": {
     "myVehicle": "My Vehicle",
@@ -84,7 +85,8 @@
     "dueToday": "Due today",
     "dueOn": "Due on",
     "dueAt": "Due at",
-    "remaining": "remaining"
+    "remaining": "remaining",
+    "passed": "passed"
   },
   "services": {
     "totalServiceCost": "Total Service Cost",

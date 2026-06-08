@@ -2,7 +2,7 @@ import { Colors } from '@/constants/theme';
 import { useAppFontFamily } from '@/hooks/useAppFontFamily';
 import { useTranslation } from '@/languages/useTranslation';
 import { Tabs } from 'expo-router';
-import { FuelIcon, LayoutDashboardIcon, ReceiptIcon, WrenchIcon } from 'lucide-react-native';
+import { FuelIcon, LayoutDashboardIcon, ReceiptIcon, WrenchIcon, TimerIcon } from 'lucide-react-native';
 
 export default function TabLayout() {
   const { t, isRTL } = useTranslation();
@@ -73,6 +73,19 @@ export default function TabLayout() {
           title: t('menus.expenses'),
           tabBarIcon: ({ color, size }) => (
             <ReceiptIcon
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name='reminders'
+        options={{
+          title: t('menus.reminders'),
+          tabBarIcon: ({ color, size }) => (
+            <TimerIcon
               size={size}
               color={color}
             />
