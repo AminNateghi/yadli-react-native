@@ -29,7 +29,7 @@ export default function DashboardScreen() {
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const reminders = useMemo(() => getServiceReminders(services, stats.totalKm), [services, stats.totalKm]);
-  const urgentReminder = reminders[0];
+  const overdueCount = reminders.filter(r => r.dateProgress?.overdue || r.odometerProgress?.overdue).length;
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -82,27 +82,14 @@ export default function DashboardScreen() {
               </Text>
             </View>
           </View>
-          {urgentReminder && (
+          {overdueCount > 0 && (
             <Pressable onPress={() => router.push('/reminders')}>
-              <View
-                style={[
-                  styles.nextService,
-                  (urgentReminder.dateProgress?.overdue || urgentReminder.odometerProgress?.overdue) && {
-                    backgroundColor: Colors.danger + '20',
-                  },
-                ]}
-              >
+              <View style={styles.nextService}>
                 <CalendarIcon
                   size={14}
                   color={Colors.danger}
                 />
-                <Text style={styles.nextServiceText}>
-                  {urgentReminder.dateProgress?.overdue || urgentReminder.odometerProgress?.overdue
-                    ? t('reminders.overdue')
-                    : urgentReminder.dateProgress
-                      ? `${urgentReminder.dateProgress.remainingDays} ${t('reminders.daysRemaining')}`
-                      : `${urgentReminder.odometerProgress!.remainingKm} ${t('common.km')} ${t('reminders.remaining')}`}
-                </Text>
+                <Text style={styles.nextServiceText}>{t('reminders.overdue')}</Text>
               </View>
             </Pressable>
           )}
