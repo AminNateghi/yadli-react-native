@@ -1,11 +1,10 @@
 import { Text } from '@/components/AppText';
 import { Colors } from '@/constants/theme';
-import { useAppFontFamily } from '@/hooks/useAppFontFamily';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react-native';
 import { useState } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import DateTimePicker, { useDefaultStyles } from 'react-native-ui-datepicker';
 
 interface DatePickerProps {
   label: string;
@@ -15,11 +14,11 @@ interface DatePickerProps {
 }
 
 export function DatePicker({ label, value, onChange, placeholder = 'Select date...' }: DatePickerProps) {
+  const defaultStyles = useDefaultStyles();
   const [visible, setVisible] = useState(false);
-  const fontFamily = useAppFontFamily();
 
-  const handleDayPress = (day: { dateString: string }) => {
-    onChange(day.dateString);
+  const handleDayPress = (date: string) => {
+    onChange(date);
     setVisible(false);
   };
 
@@ -44,7 +43,7 @@ export function DatePicker({ label, value, onChange, placeholder = 'Select date.
         transparent
         animationType='fade'
       >
-        <Pressable
+        {/*<Pressable
           style={styles.overlay}
           onPress={() => setVisible(false)}
         >
@@ -87,7 +86,25 @@ export function DatePicker({ label, value, onChange, placeholder = 'Select date.
               style={styles.calendar}
             />
           </View>
-        </Pressable>
+        </Pressable>*/}
+
+        <View style={styles.overlay}>
+          <View style={styles.modal}>
+            <DateTimePicker
+              mode='single'
+              onChange={({ date }) => handleDayPress(date?.toString()!)}
+              styles={{
+                ...defaultStyles,
+                today: { borderColor: 'blue', borderWidth: 1 }, // Add a border to today's date
+                selected: { backgroundColor: 'blue' }, // Highlight the selected day
+                selected_label: { color: 'white' }, // Highlight the selected day label
+              }}
+              calendar='jalali'
+              firstDayOfWeek={6}
+              locale='fa-IR'
+            />
+          </View>
+        </View>
       </Modal>
     </View>
   );
