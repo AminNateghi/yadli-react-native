@@ -8,6 +8,9 @@
     "scheme": "yadlinative",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -37,6 +40,19 @@
           "backgroundColor": "#dad7ce",
           "dark": {
             "backgroundColor": "#0e0e0e"
+          }
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
+            "buildToolsVersion": "36.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "16.4"
           }
         }
       ]
