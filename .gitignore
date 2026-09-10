@@ -43,4 +43,3 @@ app-example
 /android
 
 .npmrc
-pnpm-lock.yaml
