@@ -25,7 +25,10 @@ import { Input } from "../Input";
 import { SelectPicker } from "../SelectPicker";
 import { Text } from "../Text";
 import { ServiceDeletionModal } from "./ServiceDeletionModal";
-import { createServiceSchema, type ServiceFormData } from "./service-schema";
+import {
+  createServiceSchema,
+  type ServiceFormData,
+} from "../../types/service-schema";
 
 const defaultValues = {
   type: "EngineOil",
@@ -67,7 +70,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
   });
 
   useEffect(() => {
-    console.log("rest:", editingId);
     if (!editingId) {
       setModalVisible(false);
       reset(defaultValues);
@@ -78,8 +80,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
   }, [editingId, reset]);
 
   useEffect(() => {
-    console.log("edit:", editingId);
-    console.log(data);
     if (!data || !editingId) {
       return;
     }

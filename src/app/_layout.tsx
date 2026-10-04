@@ -21,7 +21,6 @@ import { useTranslation } from "@/languages/useTranslation";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const { isRTL } = useTranslation();
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
 

@@ -21,7 +21,7 @@ export default function ServicesLayout() {
         name="index"
         options={{
           title: t("menus.services"),
-          headerLargeTitle: true,
+          headerLargeTitle: false,
           headerTitleAlign: "center",
         }}
       />
