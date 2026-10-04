@@ -34,6 +34,9 @@ jobs:
           node --version
           pnpm --version
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: PreBuild Android
         run: pnpm exec expo prebuild --platform android --clean
 
@@ -42,13 +45,6 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
-          # cache: 'gradle'
-          # cache-dependency-path: |
-          #   android/**/*.gradle*
-          #   android/**/gradle-wrapper.properties
-
-      - name: Install dependencies
-        run: pnpm install
 
       - name: Make Gradlew executable
         run: chmod +x android/gradlew
@@ -56,7 +52,7 @@ jobs:
       - name: Build Android Release APK
         run: |
           cd android
-          ./gradlew bundleRelease --stacktrace --info
+          ./gradlew assembleRelease --stacktrace --info
 
       - name: Upload Gradle problems report
         if: always()
@@ -73,6 +69,6 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
-          files: android/app/build/outputs/apk/release/yadli.apk
+          files: android/app/build/outputs/apk/release/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
