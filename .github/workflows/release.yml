@@ -1,5 +1,8 @@
 name: Build and Release Android APK
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
     tags:
@@ -24,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: "24"
 
       - name: PreBuild Android
         run: pnpm exec expo prebuild --platform android --clean
@@ -40,7 +43,7 @@ jobs:
           #   android/**/gradle-wrapper.properties
 
       - name: Install dependencies
-        run: pnpm i
+        run: pnpm install
 
       - name: Make Gradlew executable
         run: chmod +x android/gradlew
