@@ -58,6 +58,13 @@ jobs:
           cd android
           ./gradlew bundleRelease --stacktrace --info
 
+      - name: Upload Gradle problems report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-problems-report
+          path: android/build/reports/problems/problems-report.html
+
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
