@@ -10,6 +10,9 @@ import { useTranslation } from "@/languages/useTranslation";
 import { type ServiceDto, serviceTypeOptions } from "@/types/interfaces";
 import { EmptyState } from "@/components/EmptyState";
 import { RecordCard } from "@/components/RecordCard";
+import { useStatistics } from "@/contexts/statistics-repository";
+import { Text } from "@/components/Text";
+import { PriceValue } from "@/components/PriceValue";
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
@@ -23,10 +26,11 @@ export default function ServicesScreen() {
     type?: string;
     prevId?: string;
   }>();
-  const router = useRouter();
+
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
-  const { data: services, isLoading } = useServices();
+  const { data: services } = useServices();
+  const { totalServiceCost } = useStatistics();
 
   // const reminders = useMemo(async () => {
 
@@ -37,14 +41,14 @@ export default function ServicesScreen() {
   //   (r) => r.dateProgress?.overdue || r.odometerProgress?.overdue,
   // ).length;
 
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
   // const [isConfirmDelete, setIsConfirmDelete] = useState(false);
 
-  const openCreateModal = useCallback(() => {
-    setModalVisible(true);
-  }, []);
+  // const openCreateModal = useCallback(() => {
+  //   setModalVisible(true);
+  // }, []);
 
   // useEffect(async () => {
   //   if (edit) {
@@ -73,14 +77,14 @@ export default function ServicesScreen() {
   const getServiceLabel = (serviceType: string) =>
     serviceTypeOptions(t).find((s) => s.value === serviceType)?.label || "-";
 
-  const categoryTotals = useMemo(async () => {
-    const totals: Record<string, number> = {};
+  // const categoryTotals = useMemo(async () => {
+  //   const totals: Record<string, number> = {};
 
-    services?.forEach((e) => {
-      totals[e.type] = (totals[e.type] || 0) + e.cost;
-    });
-    return totals;
-  }, [services]);
+  //   services?.forEach((e) => {
+  //     totals[e.type] = (totals[e.type] || 0) + e.cost;
+  //   });
+  //   return totals;
+  // }, [services]);
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
@@ -125,16 +129,16 @@ export default function ServicesScreen() {
           </Pressable>
         )} */}
 
-        {/* {stats.totalServiceCost > 0 && (
+        {totalServiceCost > 0 && (
           <View style={styles.summaryCard}>
             <Text style={styles.summaryTitle}>
               {t("services.totalServiceCost")}
             </Text>
             <PriceValue
-              value={stats.totalServiceCost.toFixed(2)}
+              value={totalServiceCost?.toFixed(2)}
               style={styles.summaryValue}
             />
-            <View style={styles.categoryBreakdown}>
+            {/* <View style={styles.categoryBreakdown}>
               {Object.entries(categoryTotals).map(([cat, total]) => (
                 <View key={cat} style={styles.categoryItem}>
                   <View
@@ -147,14 +151,14 @@ export default function ServicesScreen() {
                     {getServiceLabel(cat)}
                   </Text>
                   <PriceValue
-                    value={total.toFixed(0)}
+                    value={String(total)}
                     style={styles.categoryTotal}
                   />
                 </View>
               ))}
-            </View>
+            </View> */}
           </View>
-        )} */}
+        )}
 
         {services?.length === 0 ? (
           <EmptyState
