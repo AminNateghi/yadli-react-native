@@ -19,7 +19,8 @@
     "ok": "تایید",
     "confirm": "قبول",
     "loading": "صبر کنید...",
-    "selectDate": "انتخاب تاریخ"
+    "selectDate": "انتخاب تاریخ",
+    "required": "اجباری"
   },
   "menus": {
     "dashboard": "داشبورد",
@@ -28,7 +29,6 @@
     "expenses": "هزینه‌ها",
     "reminders": "یادآوری‌ها"
   },
-
   "dashboard": {
     "myVehicle": "خودرو من",
     "serviceDue": "سرویس بعدی",

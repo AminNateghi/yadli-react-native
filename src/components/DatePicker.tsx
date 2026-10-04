@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import dayjs from "dayjs";
 import jalaliday from "jalaliday";
 import { CalendarIcon, XIcon } from "lucide-react-native";
@@ -11,6 +10,7 @@ import DateTimePicker, {
 import { Text } from "@/components/Text";
 import { Colors } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
+import { dateFormat } from "@/utils/dateFormat";
 
 dayjs.extend(jalaliday);
 
@@ -26,12 +26,6 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
   const [visible, setVisible] = useState(false);
 
   const [date, setDate] = useState<DateType>();
-
-  const formattedDate = date
-    ? isRTL
-      ? dayjs(date).calendar("jalali").locale("fa").format("DD MMMM YYYY")
-      : format(value, "MMM d, yyyy")
-    : "";
 
   const handleDayPress = (date: string) => {
     setDate(date);
@@ -50,7 +44,7 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
         onPress={() => setVisible(true)}
       >
         <Text style={[styles.selectorText, !value && styles.placeholder]}>
-          {formattedDate}
+          {dateFormat(isRTL, value)}
         </Text>
         <CalendarIcon size={20} color={Colors.textSecondary} />
       </Pressable>

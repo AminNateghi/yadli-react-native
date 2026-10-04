@@ -42,6 +42,7 @@ interface Common {
   confirm: string;
   loading: string;
   selectDate: string;
+  required: string;
 }
 
 interface Menus {

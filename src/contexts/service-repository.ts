@@ -71,10 +71,13 @@ export function useDoneService() {
   });
 }
 
-export function useGetService(enabled: boolean, id: number) {
+export function useGetService(id: number | null) {
   return useQuery({
-    queryKey: serviceQueryKey.byId(id),
-    queryFn: () => db.query.servicesRecords.findFirst({ with: { id: id } }),
-    enabled,
+    queryKey: serviceQueryKey.byId(id!),
+    queryFn: () =>
+      db.query.servicesRecords.findFirst({
+        where: eq(servicesRecords.id, id!),
+      }),
+    enabled: id !== null,
   });
 }

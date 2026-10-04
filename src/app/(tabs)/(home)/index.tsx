@@ -21,7 +21,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { RecordCard } from "@/components/RecordCard";
 import { StatCard } from "@/components/StatCard";
 import { Text } from "@/components/Text";
-import { Colors, rtlStyles } from "@/constants/theme";
+import { Colors } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { expenseTypeOptions, serviceTypeOptions } from "@/types/interfaces";
 import { getServiceReminders } from "@/utils/serviceReminders";

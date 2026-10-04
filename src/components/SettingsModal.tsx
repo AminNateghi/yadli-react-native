@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { Text } from "@/components/Text";
-import { Colors, rtlStyles } from "@/constants/theme";
+import { Colors } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { LANGUAGE_TYPE, LanguageType } from "@/types/interfaces";
 import { Button } from "./Button";

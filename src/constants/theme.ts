@@ -48,13 +48,10 @@ export const Colors = {
   expense: "#8B5CF6",
 };
 
-export const rtlStyles = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
   rtl: {
     direction: "rtl",
   },
-});
-
-export const globalStyles = StyleSheet.create({
   fabContainer: {
     position: "absolute",
     right: 16,
@@ -84,5 +81,10 @@ export const globalStyles = StyleSheet.create({
   },
   fabPressed: {
     opacity: 0.8,
+  },
+
+  error: {
+    color: Colors.danger,
+    fontSize: 10,
   },
 });

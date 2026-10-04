@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { PlusIcon } from "lucide-react-native";
+import { PlusIcon, WrenchIcon } from "lucide-react-native";
 import { useCallback, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
@@ -8,6 +8,8 @@ import { Colors } from "@/constants/theme";
 import { useServices } from "@/contexts/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
 import { type ServiceDto, serviceTypeOptions } from "@/types/interfaces";
+import { EmptyState } from "@/components/EmptyState";
+import { RecordCard } from "@/components/RecordCard";
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
@@ -68,8 +70,8 @@ export default function ServicesScreen() {
   //   getService,
   // ]);
 
-  // const getServiceLabel = (serviceType: string) =>
-  //   serviceTypeOptions(t).find((s) => s.value === serviceType)?.label || "-";
+  const getServiceLabel = (serviceType: string) =>
+    serviceTypeOptions(t).find((s) => s.value === serviceType)?.label || "-";
 
   const categoryTotals = useMemo(async () => {
     const totals: Record<string, number> = {};
@@ -154,16 +156,17 @@ export default function ServicesScreen() {
           </View>
         )} */}
 
-        {/* {services.length === 0 ? (
+        {services?.length === 0 ? (
           <EmptyState
             icon={WrenchIcon}
             title={t("services.noServicesYet")}
             subtitle={t("services.servicesDescription")}
           />
         ) : (
-          services.map((service) => {
+          services?.map((service) => {
             return (
               <RecordCard
+                id={service.id}
                 key={service.id}
                 title={getServiceLabel(service.type)}
                 date={service.date}
@@ -172,15 +175,17 @@ export default function ServicesScreen() {
                 icon={WrenchIcon}
                 color={Colors.service}
                 rtl={isRTL}
-                onPress={() => openEditModal(service)}
+                onPress={(id) => {
+                  setEditingId(id);
+                }}
               />
             );
           })
-        )} */}
+        )}
         <View style={{ height: 100 }} />
       </ScrollView>
 
-      <ServiceForm visible={modalVisible} editingId={editingId!} />
+      <ServiceForm editingId={editingId} onClose={() => setEditingId(null)} />
     </View>
   );
 }

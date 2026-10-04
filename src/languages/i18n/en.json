@@ -19,7 +19,8 @@
     "ok": "Ok",
     "confirm": "Confirm",
     "loading": "Loading...",
-    "selectDate": "Select Date"
+    "selectDate": "Select Date",
+    "required": "Required"
   },
   "menus": {
     "dashboard": "Dashboard",
