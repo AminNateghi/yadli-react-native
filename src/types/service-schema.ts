@@ -11,11 +11,7 @@ export const createServiceSchema = (
     cost: z.number().positive(t("common.required")),
     note: z.string().nullable().optional(),
     nextDueDate: z.string().nullable().optional(),
-    nextDueOdometer: z
-      .number()
-      .positive(t("common.required"))
-      .nullable()
-      .optional(),
+    nextDueOdometer: z.number().nullable().optional(),
   });
 
 export type ServiceFormData = z.infer<ReturnType<typeof createServiceSchema>>;

@@ -49,7 +49,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
   const isDesktop = useMediaQuery({ minWidth: 768 });
   const { t, isRTL } = useTranslation();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [isConfirmDelete, setIsConfirmDelete] = useState<boolean>(false);
 
   const { mutate: updateService, isPending: isPendingUpdate } =
     useUpdateService(editingId!);
@@ -107,11 +106,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
   const handleNew = () => {
     setModalVisible(true);
     handleResetForm();
-  };
-
-  const handleDelete = async () => {
-    if (!editingId) return;
-    setIsConfirmDelete(true);
   };
 
   const handleSave = async (formData: ServiceFormData) => {
@@ -299,12 +293,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
                         paddingTop: 12,
                       }}
                     />
-
-                    {errors.note && (
-                      <Text style={globalStyles.error}>
-                        {errors.note.message}
-                      </Text>
-                    )}
                   </>
                 )}
               />
@@ -338,23 +326,15 @@ export function ServiceForm({ editingId, onClose }: Props) {
                       placeholder={t("services.nextDueOdometerPlaceholder")}
                       style={{ direction: "ltr" }}
                     />
-
-                    {errors.nextDueOdometer && (
-                      <Text style={globalStyles.error}>
-                        {errors.nextDueOdometer.message}
-                      </Text>
-                    )}
                   </>
                 )}
               />
 
               <View style={styles.buttonRow}>
                 {editingId && (
-                  <Button
-                    title={t("common.delete")}
-                    variant="danger"
-                    onPress={handleDelete}
-                    style={{ flex: 1 }}
+                  <ServiceDeletionModal
+                    editingId={editingId!}
+                    onConfirm={() => handleClose()}
                   />
                 )}
                 <Button
@@ -370,7 +350,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
           </View>
         </View>
       </Modal>
-      <ServiceDeletionModal editingId={editingId!} visible={isConfirmDelete} />
     </>
   );
 }
