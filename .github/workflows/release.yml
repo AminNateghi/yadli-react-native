@@ -27,7 +27,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: 22
+
+      - name: Check versions
+        run: |
+          node --version
+          pnpm --version
 
       - name: PreBuild Android
         run: pnpm exec expo prebuild --platform android --clean
@@ -45,13 +50,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Expo Doctor
+        run: pnpm exec expo-doctor
+
       - name: Make Gradlew executable
         run: chmod +x android/gradlew
 
       - name: Build Android Release APK
         run: |
           cd android
-          ./gradlew assembleRelease --no-daemon
+          ./gradlew bundleRelease --stacktrace --info
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
