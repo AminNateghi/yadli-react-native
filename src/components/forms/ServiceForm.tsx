@@ -104,6 +104,10 @@ export function ServiceForm({ editingId, onClose }: Props) {
     handleResetForm();
     onClose();
   };
+  const handleNew = () => {
+    setModalVisible(true);
+    handleResetForm();
+  };
 
   const handleDelete = async () => {
     if (!editingId) return;
@@ -126,7 +130,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
     if (editingId) {
       updateService(service, {
         onSuccess: () => {
-          Toast({ text: "Saved" });
+          Toast({ text: t("common.saved") });
         },
       });
     } else {
@@ -134,7 +138,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
       doneService(formData.type as ServiceType);
       createService(service, {
         onSuccess: () => {
-          Toast({ text: "Saved" });
+          Toast({ text: t("common.saved") });
         },
       });
     }
@@ -156,7 +160,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
             globalStyles.fab,
             pressed && globalStyles.fabPressed,
           ]}
-          onPress={() => handleClose()}
+          onPress={() => handleNew()}
         >
           <PlusIcon size={24} color="#FFFFFF" />
         </Pressable>

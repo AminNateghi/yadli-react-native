@@ -43,6 +43,8 @@ interface Common {
   loading: string;
   selectDate: string;
   required: string;
+  saved: string;
+  deleted: string;
 }
 
 interface Menus {

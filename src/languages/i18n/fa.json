@@ -20,7 +20,9 @@
     "confirm": "قبول",
     "loading": "صبر کنید...",
     "selectDate": "انتخاب تاریخ",
-    "required": "اجباری"
+    "required": "اجباری",
+    "saved": "ذخیره شد",
+    "deleted": "حذف شد"
   },
   "menus": {
     "dashboard": "داشبورد",

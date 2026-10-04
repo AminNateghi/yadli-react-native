@@ -44,7 +44,7 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
         onPress={() => setVisible(true)}
       >
         <Text style={[styles.selectorText, !value && styles.placeholder]}>
-          {dateFormat(isRTL, value)}
+          {dateFormat(isRTL, value ?? "")}
         </Text>
         <CalendarIcon size={20} color={Colors.textSecondary} />
       </Pressable>
@@ -67,22 +67,29 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
                 selected: { backgroundColor: "blue" }, // Highlight the selected day
                 selected_label: { color: "white" }, // Highlight the selected day label
                 day_label: {
-                  fontFamily: "Vazirmatn",
+                  fontFamily: "VazirRegular",
                 },
                 month_selector_label: {
-                  fontFamily: "Vazirmatn",
+                  fontFamily: "VazirRegular",
                 },
                 year_selector_label: {
-                  fontFamily: "Vazirmatn",
+                  fontFamily: "VazirRegular",
                 },
                 weekday_label: {
-                  fontFamily: "Vazirmatn",
+                  fontFamily: "VazirRegular",
+                },
+                month_label: {
+                  fontFamily: "VazirRegular",
                 },
               }}
               date={date}
               calendar={isRTL ? "jalali" : "gregory"}
-              locale={isRTL ? "en" : "fa"}
+              locale={isRTL ? "fa" : "en"}
               numerals={isRTL ? "arabext" : undefined}
+              firstDayOfWeek={isRTL ? 6 : 0}
+              weekdaysFormat="min"
+              monthsFormat="full"
+              monthCaptionFormat="full"
             />
           </View>
         </View>
@@ -143,7 +150,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
+    padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
   },

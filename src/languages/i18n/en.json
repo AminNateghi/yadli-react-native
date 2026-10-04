@@ -20,7 +20,9 @@
     "confirm": "Confirm",
     "loading": "Loading...",
     "selectDate": "Select Date",
-    "required": "Required"
+    "required": "Required",
+    "saved": "Saved",
+    "deleted": "Deleted"
   },
   "menus": {
     "dashboard": "Dashboard",
