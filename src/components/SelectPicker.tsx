@@ -1,8 +1,8 @@
-import { Text } from '@/components/Text';
-import { Colors } from '@/constants/theme';
-import { CheckIcon, ChevronDownIcon } from 'lucide-react-native';
-import { useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Text } from "@/components/Text";
+import { Colors } from "@/constants/theme";
+import { CheckIcon, ChevronDownIcon } from "lucide-react-native";
+import { useState } from "react";
+import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
 
 interface OptionProps {
   value: string;
@@ -18,39 +18,40 @@ interface SelectPickerProps {
   placeholder?: string;
 }
 
-export function SelectPicker({ label, value, options, onValueChange, placeholder = 'Select...' }: SelectPickerProps) {
+export function SelectPicker({
+  label,
+  value,
+  options,
+  onValueChange,
+  placeholder = "Select...",
+}: SelectPickerProps) {
   const [visible, setVisible] = useState(false);
-  const selectedLabel = options.find(o => o.value === value)?.label;
+  const selectedLabel = options.find((o) => o.value === value)?.label;
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <Pressable
-        style={({ pressed }) => [styles.selector, pressed && styles.selectorPressed]}
+        style={({ pressed }) => [
+          styles.selector,
+          pressed && styles.selectorPressed,
+        ]}
         onPress={() => setVisible(true)}
       >
-        <Text style={[styles.selectorText, !selectedLabel && styles.placeholder]}>
+        <Text
+          style={[styles.selectorText, !selectedLabel && styles.placeholder]}
+        >
           {selectedLabel || placeholder}
         </Text>
-        <ChevronDownIcon
-          size={20}
-          color={Colors.textSecondary}
-        />
+        <ChevronDownIcon size={20} color={Colors.textSecondary} />
       </Pressable>
 
-      <Modal
-        visible={visible}
-        transparent
-        animationType='fade'
-      >
-        <Pressable
-          style={styles.overlay}
-          onPress={() => setVisible(false)}
-        >
+      <Modal visible={visible} transparent animationType="fade">
+        <Pressable style={styles.overlay} onPress={() => setVisible(false)}>
           <View style={styles.modal}>
             <Text style={styles.modalTitle}>{label}</Text>
             <ScrollView style={styles.optionsList}>
-              {options.map(option => (
+              {options.map((option) => (
                 <Pressable
                   key={option.value}
                   style={({ pressed }) => [
@@ -64,14 +65,16 @@ export function SelectPicker({ label, value, options, onValueChange, placeholder
                     setVisible(false);
                   }}
                 >
-                  <Text style={[styles.optionText, option.value === value && styles.optionTextSelected]}>
+                  <Text
+                    style={[
+                      styles.optionText,
+                      option.value === value && styles.optionTextSelected,
+                    ]}
+                  >
                     {option.label}
                   </Text>
                   {option.value === value && (
-                    <CheckIcon
-                      size={20}
-                      color={Colors.primary}
-                    />
+                    <CheckIcon size={20} color={Colors.primary} />
                   )}
                 </Pressable>
               ))}
@@ -99,9 +102,9 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     borderRadius: 12,
     paddingHorizontal: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: Colors.surface,
   },
   selectorPressed: {
@@ -116,18 +119,18 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 24,
   },
   modal: {
     backgroundColor: Colors.surface,
     borderRadius: 20,
-    width: '100%',
+    width: "100%",
     maxWidth: 400,
-    maxHeight: '70%',
-    overflow: 'hidden',
+    maxHeight: "70%",
+    overflow: "hidden",
   },
   modalTitle: {
     fontSize: 18,
@@ -141,10 +144,10 @@ const styles = StyleSheet.create({
     maxHeight: 300,
   },
   option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 20,
     paddingRight: 24,
     paddingLeft: 24,
     borderBottomWidth: 1,
@@ -154,16 +157,21 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surfaceAlt,
   },
   optionSelected: {
-    backgroundColor: Colors.primary + '10',
+    backgroundColor: Colors.primary + "10",
   },
   optionIsGroup: {
-    flexDirection: 'row',
-    textAlign: 'center',
+    flexDirection: "row",
+    textAlign: "center",
+    alignItems: "center",
+    justifyContent: "center",
     color: Colors.secondary,
-    padding: 10,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 5,
+    paddingBottom: 5,
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
-    backgroundColor: Colors.secondary + 10,
+    backgroundColor: Colors.secondary + 20,
   },
   optionText: {
     fontSize: 16,
