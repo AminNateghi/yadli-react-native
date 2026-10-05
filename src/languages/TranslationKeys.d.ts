@@ -118,6 +118,8 @@ interface Fuel {
   stationPlaceHolder: string;
   kmPerLiter: string;
   averageFuelEconomy: string;
+  note: string;
+  notePlaceholder: string;
 }
 
 interface ServiceType {

@@ -16,16 +16,16 @@ import { PriceValue } from "@/components/PriceValue";
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
-  const {
-    edit,
-    add,
-    type: addType,
-  } = useLocalSearchParams<{
-    edit?: string;
-    add?: string;
-    type?: string;
-    prevId?: string;
-  }>();
+  // const {
+  //   edit,
+  //   add,
+  //   type: addType,
+  // } = useLocalSearchParams<{
+  //   edit?: string;
+  //   add?: string;
+  //   type?: string;
+  //   prevId?: string;
+  // }>();
 
   const isDesktop = useMediaQuery({ minWidth: 768 });
 

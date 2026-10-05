@@ -71,7 +71,9 @@
     "station": "Station (optional)",
     "stationPlaceHolder": "e.g. Shell, Costco",
     "kmPerLiter": "km/L",
-    "averageFuelEconomy": "Average fuel economy"
+    "averageFuelEconomy": "Average fuel economy",
+    "note": "Note (optional)",
+    "notePlaceholder": "Any additional notes..."
   },
   "reminders": {
     "title": "Service Reminders",

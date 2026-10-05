@@ -52,6 +52,8 @@ export const globalStyles = StyleSheet.create({
   rtl: {
     direction: "rtl",
   },
+
+  // fab button
   fabContainer: {
     position: "absolute",
     right: 16,
@@ -83,8 +85,45 @@ export const globalStyles = StyleSheet.create({
     opacity: 0.8,
   },
 
-  error: {
-    color: Colors.danger,
-    fontSize: 10,
+  // modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
+  modalContent: {
+    backgroundColor: Colors.surface,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: "90%",
+  },
+  modalContentDesktop: {
+    maxWidth: 500,
+    alignSelf: "center",
+    width: "100%",
+    borderRadius: 24,
+    marginBottom: 40,
+    maxHeight: "85%",
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.borderLight,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: Colors.text,
+  },
+  modalScroll: {
+    padding: 20,
+  },
+  modalButtonRow: {
+    flexDirection: "row",
+    marginTop: 8,
+    gap: 10,
   },
 });

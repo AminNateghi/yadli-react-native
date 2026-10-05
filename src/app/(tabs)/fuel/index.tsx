@@ -19,24 +19,20 @@ import type { FuelDto } from "@/types/interfaces";
 
 export default function FuelScreen() {
   // const { t, isRTL } = useTranslation();
-
   // const { fuels, addFuel, updateFuel, deleteFuel, stats } = useData();
   // const { edit } = useLocalSearchParams<{ edit?: string }>();
   // const isDesktop = useMediaQuery({ minWidth: 768 });
-
   // const [editingId, setEditingId] = useState<number | null>(null);
   // const [saving, setSaving] = useState(false);
   // const [isModalVisible, setModalVisible] = useState(false);
   // const [isConfirmValidation, setIsConfirmValidation] = useState(false);
   // const [isConfirmDelete, setIsConfirmDelete] = useState(false);
-
   // const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   // const [odometer, setOdometer] = useState("");
   // const [liters, setLiters] = useState("");
   // const [pricePerLiter, setPricePerLiter] = useState("");
   // const [fullTank, setFullTank] = useState(true);
   // const [station, setStation] = useState("");
-
   // useEffect(() => {
   //   if (edit) {
   //     const fuel = fuels.find((f) => f.id === edit);
@@ -45,11 +41,9 @@ export default function FuelScreen() {
   //     }
   //   }
   // }, [edit, fuels]);
-
   // const handleValidationClose = () => {
   //   setIsConfirmValidation(false);
   // };
-
   // const handleDeleteConfirm = async () => {
   //   if (!editingId) return;
   //   await deleteFuel(editingId);
@@ -57,11 +51,9 @@ export default function FuelScreen() {
   //   setModalVisible(false);
   //   resetForm();
   // };
-
   // const handleDeleteClose = () => {
   //   setIsConfirmDelete(false);
   // };
-
   // const resetForm = () => {
   //   setDate(format(new Date(), "yyyy-MM-dd"));
   //   setOdometer("");
@@ -71,7 +63,6 @@ export default function FuelScreen() {
   //   setStation("");
   //   setEditingId(null);
   // };
-
   // const openEditModal = (fuel: FuelDto) => {
   //   setEditingId(fuel.id);
   //   setDate(fuel.date);
@@ -82,18 +73,15 @@ export default function FuelScreen() {
   //   setStation(fuel.station || "");
   //   setModalVisible(true);
   // };
-
   // const handleSave = async () => {
   //   if (!odometer || !liters || !pricePerLiter) {
   //     setIsConfirmValidation(true);
   //     return;
   //   }
-
   //   setSaving(true);
   //   try {
   //     const lt = parseFloat(liters);
   //     const price = parseFloat(pricePerLiter);
-
   //     const data = {
   //       date,
   //       odometer: parseInt(odometer),
@@ -103,13 +91,11 @@ export default function FuelScreen() {
   //       fullTank,
   //       station: station || undefined,
   //     };
-
   //     if (editingId) {
   //       await updateFuel(editingId, data);
   //     } else {
   //       await addFuel(data);
   //     }
-
   //     setModalVisible(false);
   //     resetForm();
   //   } catch (error) {
@@ -118,18 +104,14 @@ export default function FuelScreen() {
   //     setSaving(false);
   //   }
   // };
-
   // const handleDelete = async () => {
   //   if (!editingId) return;
-
   //   setIsConfirmDelete(true);
   // };
-
   // const totalCost =
   //   liters && pricePerLiter
   //     ? (parseFloat(liters) * parseFloat(pricePerLiter)).toFixed(2)
   //     : "0.00";
-
   // //#region JSX
   // return (
   //   <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
@@ -156,7 +138,6 @@ export default function FuelScreen() {
   //           </View>
   //         </View>
   //       )}
-
   //       {fuels.length === 0 ? (
   //         <EmptyState
   //           icon={FuelIcon}
@@ -180,7 +161,6 @@ export default function FuelScreen() {
   //       )}
   //       <View style={{ height: 100 }} />
   //     </ScrollView>
-
   //     <View
   //       style={[
   //         isRTL ? styles.fabContainerRTL : styles.fabContainer,
@@ -201,7 +181,6 @@ export default function FuelScreen() {
   //         <PlusIcon size={24} color="#FFFFFF" />
   //       </Pressable>
   //     </View>
-
   //     <Modal visible={isModalVisible} animationType="fade" transparent>
   //       <View style={styles.modalOverlay}>
   //         <View
@@ -218,7 +197,6 @@ export default function FuelScreen() {
   //               <XIcon size={24} color={Colors.text} />
   //             </Pressable>
   //           </View>
-
   //           <ScrollView
   //             style={styles.modalScroll}
   //             showsVerticalScrollIndicator={false}
@@ -228,7 +206,6 @@ export default function FuelScreen() {
   //               value={date}
   //               onChange={setDate}
   //             />
-
   //             <Input
   //               label={t("fuel.odometer")}
   //               value={odometer}
@@ -236,7 +213,6 @@ export default function FuelScreen() {
   //               keyboardType="numeric"
   //               placeholder={t("fuel.odometerPlaceholder")}
   //             />
-
   //             <Input
   //               label={t("fuel.liters")}
   //               value={liters}
@@ -244,7 +220,6 @@ export default function FuelScreen() {
   //               keyboardType="decimal-pad"
   //               placeholder={t("fuel.litersPlaceholder")}
   //             />
-
   //             <Input
   //               label={t("fuel.price")}
   //               value={pricePerLiter}
@@ -252,26 +227,22 @@ export default function FuelScreen() {
   //               keyboardType="decimal-pad"
   //               placeholder={t("fuel.pricePlaceholder")}
   //             />
-
   //             <View style={styles.totalRow}>
   //               <Text style={styles.totalLabel}>{t("fuel.totalCost")}</Text>
   //               <PriceValue value={totalCost} />
   //             </View>
-
   //             <SwitchToggle
   //               label={t("fuel.fullTank")}
   //               value={fullTank}
   //               onValueChange={setFullTank}
   //               description={t("fuel.fullTankPlaceholder")}
   //             />
-
   //             <Input
   //               label={t("fuel.station")}
   //               value={station}
   //               onChangeText={setStation}
   //               placeholder={t("fuel.stationPlaceHolder")}
   //             />
-
   //             <View style={styles.buttonRow}>
   //               {editingId && (
   //                 <Button
@@ -288,13 +259,11 @@ export default function FuelScreen() {
   //                 style={{ flex: 1 }}
   //               />
   //             </View>
-
   //             <View style={{ height: 40 }} />
   //           </ScrollView>
   //         </View>
   //       </View>
   //     </Modal>
-
   //     <ConfirmationDialog
   //       visible={isConfirmValidation}
   //       onConfirm={handleValidationClose}
@@ -302,7 +271,6 @@ export default function FuelScreen() {
   //       type="Ok"
   //       message={t("fuel.confirmValidation")}
   //     />
-
   //     <ConfirmationDialog
   //       visible={isConfirmDelete}
   //       onConfirm={handleDeleteConfirm}
@@ -312,8 +280,6 @@ export default function FuelScreen() {
   //   </View>
   // );
   //#endregion
-
-  return <Text>Fuel</Text>;
 }
 
 const styles = StyleSheet.create({

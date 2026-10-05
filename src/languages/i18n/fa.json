@@ -71,7 +71,9 @@
     "station": "محل سوخت‌گیری (اختیاری)",
     "stationPlaceHolder": "مثلا رشت",
     "kmPerLiter": "",
-    "averageFuelEconomy": "مصرف در هر ۱۰۰ کیلومتر"
+    "averageFuelEconomy": "مصرف در هر ۱۰۰ کیلومتر",
+    "note": "یادداشت (اختیاری)",
+    "notePlaceholder": "هر توضیح اضافه در مورد سرویس..."
   },
   "reminders": {
     "title": "یادآور سرویس‌ها",

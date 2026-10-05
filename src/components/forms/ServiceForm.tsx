@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 import { PlusIcon, XIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Modal, Pressable, ScrollView, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +26,7 @@ import { SelectPicker } from "../SelectPicker";
 import { Text } from "../Text";
 import { ServiceDeletionModal } from "./ServiceDeletionModal";
 import {
-  createServiceSchema,
+  serviceSchema,
   type ServiceFormData,
 } from "../../types/service-schema";
 
@@ -57,7 +57,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
     useCreateService();
   const { data } = useGetService(editingId);
 
-  const schema = createServiceSchema(t);
+  const schema = serviceSchema(t);
   const {
     control,
     reset,
@@ -160,15 +160,15 @@ export function ServiceForm({ editingId, onClose }: Props) {
         </Pressable>
       </View>
       <Modal visible={modalVisible} animationType="fade" transparent>
-        <View style={styles.modalOverlay}>
+        <View style={globalStyles.modalOverlay}>
           <View
             style={[
-              styles.modalContent,
-              isDesktop && styles.modalContentDesktop,
+              globalStyles.modalContent,
+              isDesktop && globalStyles.modalContentDesktop,
             ]}
           >
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>
+            <View style={globalStyles.modalHeader}>
+              <Text style={globalStyles.modalTitle}>
                 {editingId
                   ? t("services.updateTitle")
                   : t("services.createTitle")}
@@ -179,7 +179,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
             </View>
 
             <ScrollView
-              style={styles.modalScroll}
+              style={globalStyles.modalScroll}
               showsVerticalScrollIndicator={false}
             >
               <Controller
@@ -193,12 +193,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
                       options={serviceTypeOptions(t)}
                       onValueChange={(value) => onChange(value as ServiceType)}
                     />
-
-                    {errors.type && (
-                      <Text style={globalStyles.error}>
-                        {errors.type.message}
-                      </Text>
-                    )}
                   </>
                 )}
               />
@@ -213,12 +207,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
                       value={value}
                       onChange={onChange}
                     />
-
-                    {errors.date && (
-                      <Text style={globalStyles.error}>
-                        {errors.date.message}
-                      </Text>
-                    )}
                   </>
                 )}
               />
@@ -238,13 +226,8 @@ export function ServiceForm({ editingId, onClose }: Props) {
                       keyboardType="numeric"
                       placeholder={t("services.odometerPlaceholder")}
                       style={{ direction: "ltr" }}
+                      error={errors?.odometer?.message}
                     />
-
-                    {errors.odometer && (
-                      <Text style={globalStyles.error}>
-                        {errors.odometer.message}
-                      </Text>
-                    )}
                   </>
                 )}
               />
@@ -264,13 +247,8 @@ export function ServiceForm({ editingId, onClose }: Props) {
                       keyboardType="decimal-pad"
                       placeholder={t("services.costPlaceholder")}
                       style={{ direction: "ltr" }}
+                      error={errors?.cost?.message}
                     />
-
-                    {errors.cost && (
-                      <Text style={globalStyles.error}>
-                        {errors.cost.message}
-                      </Text>
-                    )}
                   </>
                 )}
               />
@@ -330,7 +308,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
                 )}
               />
 
-              <View style={styles.buttonRow}>
+              <View style={globalStyles.modalButtonRow}>
                 {editingId && (
                   <ServiceDeletionModal
                     editingId={editingId!}
@@ -353,46 +331,3 @@ export function ServiceForm({ editingId, onClose }: Props) {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "flex-end",
-  },
-  modalContent: {
-    backgroundColor: Colors.surface,
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    maxHeight: "90%",
-  },
-  modalContentDesktop: {
-    maxWidth: 500,
-    alignSelf: "center",
-    width: "100%",
-    borderRadius: 24,
-    marginBottom: 40,
-    maxHeight: "85%",
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: Colors.text,
-  },
-  modalScroll: {
-    padding: 20,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    marginTop: 8,
-    gap: 10,
-  },
-});

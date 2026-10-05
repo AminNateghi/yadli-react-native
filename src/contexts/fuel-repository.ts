@@ -52,10 +52,11 @@ export function useDeleteFuel() {
   });
 }
 
-export function useGetFuel(enabled: boolean, id: number) {
+export function useGetFuel(id: number | null) {
   return useQuery({
-    queryKey: fuelQueryKey.byId(id),
-    queryFn: () => db.query.fuelsRecords.findFirst({ with: { id: id } }),
-    enabled,
+    queryKey: fuelQueryKey.byId(id!),
+    queryFn: () =>
+      db.query.fuelsRecords.findFirst({ where: eq(fuelsRecords.id, id!) }),
+    enabled: id !== null,
   });
 }
