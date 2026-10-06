@@ -131,8 +131,8 @@
     "amountPlaceholder": "مثلا ۲۰۰۰۰۰ تومان",
     "notes": "یادداشت",
     "notesPlaceholder": "یادداشتی در مورد این هزینه",
-    "odometer": "عدد کیلومتر (اختیاری)",
-    "odometerPlaceholder": "اگر نیاز به ثبت عدد کیلومتر بود"
+    "odometer": "عدد کیلومتر",
+    "odometerPlaceholder": "مثلا ۱۲۰۰۰"
   },
   "serviceType": {
     "FuelAdditive": "مکمل سوخت",

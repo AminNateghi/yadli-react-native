@@ -55,10 +55,13 @@ export function useDeleteExpense() {
   });
 }
 
-export function useGetExpense(enabled: boolean, id: number) {
+export function useGetExpense(id: number | null) {
   return useQuery({
-    queryKey: expenseQueryKey.byId(id),
-    queryFn: () => db.query.expensesRecords.findFirst({ with: { id: id } }),
-    enabled,
+    queryKey: expenseQueryKey.byId(id!),
+    queryFn: () =>
+      db.query.expensesRecords.findFirst({
+        where: eq(expensesRecords.id, id!),
+      }),
+    enabled: id !== null,
   });
 }

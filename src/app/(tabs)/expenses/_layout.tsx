@@ -1,7 +1,7 @@
-import { Colors } from '@/constants/theme';
-import { useAppFontFamily } from '@/hooks/useAppFontFamily';
-import { useTranslation } from '@/languages/useTranslation';
-import { Stack } from 'expo-router';
+import { Colors } from "@/constants/theme";
+import { useAppFontFamily } from "@/hooks/useAppFontFamily";
+import { useTranslation } from "@/languages/useTranslation";
+import { Stack } from "expo-router";
 
 export default function ExpensesLayout() {
   const { t } = useTranslation();
@@ -18,8 +18,12 @@ export default function ExpensesLayout() {
       }}
     >
       <Stack.Screen
-        name='index'
-        options={{ title: t('menus.expenses'), headerLargeTitle: true, headerTitleAlign: 'center' }}
+        name="index"
+        options={{
+          title: t("menus.expenses"),
+          headerLargeTitle: true,
+          headerTitleAlign: "center",
+        }}
       />
     </Stack>
   );

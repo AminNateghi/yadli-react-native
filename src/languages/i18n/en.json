@@ -131,8 +131,8 @@
     "amountPlaceholder": "e.g. 150.0",
     "notes": "Description",
     "notesPlaceholder": "What was this expense for?",
-    "odometer": "Odometer (optional)",
-    "odometerPlaceholder": "Odometer reading if applicable"
+    "odometer": "Odometer)",
+    "odometerPlaceholder": "e.g. 12000"
   },
   "serviceType": {
     "FuelAdditive": "Fuel Additive",
