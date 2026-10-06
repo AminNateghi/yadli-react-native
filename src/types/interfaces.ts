@@ -227,3 +227,13 @@ export const LANGUAGE_TYPE: { value: LanguageType; label: string }[] = [
   { value: "fa", label: "Persian (فارسی)" },
   { value: "en", label: "English" },
 ];
+
+export const getServiceTypeTitle = (
+  serviceType: string,
+  t: (key: NestedKeyOf<TranslationKeys>) => string,
+) => serviceTypeOptions(t).find((s) => s.value === serviceType)?.label || "-";
+
+export const getExpenseTypeTitle = (
+  expenseType: string,
+  t: (key: NestedKeyOf<TranslationKeys>) => string,
+) => expenseTypeOptions(t).find((s) => s.value === expenseType)?.label || "-";

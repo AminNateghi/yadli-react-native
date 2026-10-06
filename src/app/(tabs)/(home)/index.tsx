@@ -21,13 +21,42 @@ import { EmptyState } from "@/components/EmptyState";
 import { RecordCard } from "@/components/RecordCard";
 import { StatCard } from "@/components/StatCard";
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants/theme";
+import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
-import { expenseTypeOptions, serviceTypeOptions } from "@/types/interfaces";
+import {
+  expenseTypeOptions,
+  getExpenseTypeTitle,
+  getServiceTypeTitle,
+  serviceTypeOptions,
+} from "@/types/interfaces";
 import { getServiceReminders } from "@/utils/serviceReminders";
+import { useStatistics } from "@/contexts/statistics-repository";
+import { useServices } from "@/contexts/service-repository";
+import { useFuels } from "@/contexts/fuel-repository";
+import { useExpenses } from "@/contexts/expense-repository";
 
 export default function DashboardScreen() {
-  // const { t, isRTL } = useTranslation();
+  const { t, isRTL } = useTranslation();
+  const router = useRouter();
+  const isDesktop = useMediaQuery({ minWidth: 768 });
+
+  const {
+    totalFuelCost,
+    avgKmPerLiter,
+    nextServiceDue,
+    totalExpenses,
+    totalKm,
+    totalServiceCost,
+    totalSpent,
+    expenseRecordsLength,
+    fuelRecordsLength,
+    serviceRecordsLength,
+  } = useStatistics();
+
+  const { data: recentServices } = useServices(3);
+  const { data: recentFuel } = useFuels(3);
+  const { data: recentExpenses } = useExpenses(3);
+
   // const {
   //   services,
   //   fuels: fuelRecords,
@@ -35,9 +64,7 @@ export default function DashboardScreen() {
   //   stats,
   //   isLoading,
   // } = useData();
-  // const router = useRouter();
   // const [refreshing, setRefreshing] = useState(false);
-  // const isDesktop = useMediaQuery({ minWidth: 768 });
 
   // const reminders = useMemo(
   //   () => getServiceReminders(services, stats.totalKm),
@@ -55,8 +82,6 @@ export default function DashboardScreen() {
   // const recentServices = services.slice(0, 3);
   // const recentExpenses = expenses.slice(0, 3);
   // const recentFuel = fuelRecords.slice(0, 3);
-  // const totalSpent =
-  //   stats.totalFuelCost + stats.totalServiceCost + stats.totalExpenses;
 
   // const getServiceLabel = (type: string) =>
   //   serviceTypeOptions(t).find((s) => s.value === type)?.label || "-";
@@ -72,179 +97,178 @@ export default function DashboardScreen() {
   //   );
   // }
 
-  // return (
-  //   <View style={[styles.wrapper, isRTL && rtlStyles.rtl]}>
-  //     <ScrollView
-  //       style={styles.container}
-  //       contentContainerStyle={[
-  //         styles.content,
-  //         isDesktop && styles.contentDesktop,
-  //       ]}
-  //       refreshControl={
-  //         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-  //       }
-  //       showsVerticalScrollIndicator={false}
-  //     >
-  //       <View style={styles.header}>
-  //         <View style={styles.carInfo}>
-  //           <View style={styles.carIconContainer}>
-  //             <CarIcon size={24} color={Colors.primary} />
-  //           </View>
-  //           <View>
-  //             <Text style={styles.carTitle}>{t("dashboard.myVehicle")}</Text>
-  //             <Text style={styles.carSubtitle}>
-  //               {stats.totalKm?.toLocaleString()} {t("common.kilometer")}
-  //             </Text>
-  //           </View>
-  //         </View>
-  //         {overdueCount > 0 && (
-  //           <Pressable onPress={() => router.push("/reminders")}>
-  //             <View style={styles.nextService}>
-  //               <CalendarIcon size={14} color={Colors.danger} />
-  //               <Text style={styles.nextServiceText}>
-  //                 {t("reminders.overdue")}
-  //               </Text>
-  //             </View>
-  //           </Pressable>
-  //         )}
-  //       </View>
+  return (
+    <View style={[styles.wrapper, isRTL && globalStyles.rtl]}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={[
+          styles.content,
+          isDesktop && styles.contentDesktop,
+        ]}
+        // refreshControl={
+        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        // }
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <View style={styles.carInfo}>
+            <View style={styles.carIconContainer}>
+              <CarIcon size={24} color={Colors.primary} />
+            </View>
+            <View>
+              <Text style={styles.carTitle}>{t("dashboard.myVehicle")}</Text>
+              <Text style={styles.carSubtitle}>
+                {totalKm?.toLocaleString()} {t("common.kilometer")}
+              </Text>
+            </View>
+          </View>
+          {/* {overdueCount > 0 && (
+            <Pressable onPress={() => router.push("/reminders")}>
+              <View style={styles.nextService}>
+                <CalendarIcon size={14} color={Colors.danger} />
+                <Text style={styles.nextServiceText}>
+                  {t("reminders.overdue")}
+                </Text>
+              </View>
+            </Pressable>
+          )} */}
+        </View>
 
-  //       <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
-  //         <StatCard
-  //           title={t("dashboard.totalSpent")}
-  //           value={`${totalSpent.toFixed(0)}`}
-  //           subtitle={t("dashboard.allTime")}
-  //           icon={TrendingUpIcon}
-  //           color={Colors.primary}
-  //         />
-  //         <StatCard
-  //           title={t("dashboard.avgPerKm")}
-  //           value={
-  //             stats.avgKmPerLiter > 0 ? stats.avgKmPerLiter.toFixed(1) : "0"
-  //           }
-  //           valueWithSpan={false}
-  //           subtitle={t("dashboard.fuelEfficiency")}
-  //           icon={GaugeIcon}
-  //           color={Colors.success}
-  //         />
-  //       </View>
+        <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
+          <StatCard
+            title={t("dashboard.totalSpent")}
+            value={`${totalSpent.toFixed(0)}`}
+            subtitle={t("dashboard.allTime")}
+            icon={TrendingUpIcon}
+            color={Colors.primary}
+          />
+          <StatCard
+            title={t("dashboard.avgPerKm")}
+            value={avgKmPerLiter > 0 ? avgKmPerLiter.toFixed(1) : "0"}
+            valueWithSpan={false}
+            subtitle={t("dashboard.fuelEfficiency")}
+            icon={GaugeIcon}
+            color={Colors.success}
+          />
+        </View>
 
-  //       <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
-  //         <StatCard
-  //           title={t("dashboard.fuelCosts")}
-  //           value={`${stats.totalFuelCost.toFixed(0)}`}
-  //           subtitle={`${fuelRecords.length} ${t("dashboard.fillUps")}`}
-  //           icon={FuelIcon}
-  //           color={Colors.fuel}
-  //         />
-  //         <StatCard
-  //           title={t("dashboard.serviceCosts")}
-  //           value={`${stats.totalServiceCost.toFixed(0)}`}
-  //           subtitle={`${services.length} ${t("dashboard.servicesCount")}`}
-  //           icon={WrenchIcon}
-  //           color={Colors.service}
-  //         />
-  //       </View>
+        <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
+          <StatCard
+            title={t("dashboard.fuelCosts")}
+            value={`${totalFuelCost.toFixed(0)}`}
+            subtitle={`${fuelRecordsLength} ${t("dashboard.fillUps")}`}
+            icon={FuelIcon}
+            color={Colors.fuel}
+          />
+          <StatCard
+            title={t("dashboard.serviceCosts")}
+            value={`${totalServiceCost.toFixed(0)}`}
+            subtitle={`${serviceRecordsLength} ${t("dashboard.servicesCount")}`}
+            icon={WrenchIcon}
+            color={Colors.service}
+          />
+        </View>
 
-  //       <View style={styles.section}>
-  //         <View style={styles.sectionHeader}>
-  //           <Text style={styles.sectionTitle}>
-  //             {t("dashboard.recentFillUps")}
-  //           </Text>
-  //           <Pressable onPress={() => router.push("/fuel")}>
-  //             <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
-  //           </Pressable>
-  //         </View>
-  //         {recentFuel.length === 0 ? (
-  //           <EmptyState
-  //             icon={FuelIcon}
-  //             title={t("fuel.noFuelRecords")}
-  //             subtitle={t("fuel.fuelDescription")}
-  //           />
-  //         ) : (
-  //           recentFuel.map((fuel) => (
-  //             <RecordCard
-  //               key={fuel.id}
-  //               title={`${fuel.liters?.toFixed(1)} ${t("common.liter")}`}
-  //               date={fuel.date}
-  //               amount={fuel.totalCost}
-  //               icon={FuelIcon}
-  //               color={Colors.fuel}
-  //               rtl={isRTL}
-  //               onPress={() => router.push(`/fuel?edit=${fuel.id}`)}
-  //             />
-  //           ))
-  //         )}
-  //       </View>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>
+              {t("dashboard.recentFillUps")}
+            </Text>
+            <Pressable onPress={() => router.push("/fuel")}>
+              <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
+            </Pressable>
+          </View>
+          {recentFuel?.length === 0 ? (
+            <EmptyState
+              icon={FuelIcon}
+              title={t("fuel.noFuelRecords")}
+              subtitle={t("fuel.fuelDescription")}
+            />
+          ) : (
+            recentFuel?.map((fuel) => (
+              <RecordCard
+                id={fuel.id}
+                key={fuel.id}
+                title={`${fuel.liters?.toFixed(1)} ${t("common.liter")}`}
+                date={fuel.date}
+                amount={fuel.totalCost}
+                icon={FuelIcon}
+                color={Colors.fuel}
+                rtl={isRTL}
+                onPress={() => router.push(`/fuel?edit=${fuel.id}`)}
+              />
+            ))
+          )}
+        </View>
 
-  //       <View style={styles.section}>
-  //         <View style={styles.sectionHeader}>
-  //           <Text style={styles.sectionTitle}>
-  //             {t("dashboard.recentServices")}
-  //           </Text>
-  //           <Pressable onPress={() => router.push("/services")}>
-  //             <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
-  //           </Pressable>
-  //         </View>
-  //         {recentServices.length === 0 ? (
-  //           <EmptyState
-  //             icon={WrenchIcon}
-  //             title={t("services.noServicesYet")}
-  //             subtitle={t("services.servicesDescription")}
-  //           />
-  //         ) : (
-  //           recentServices.map((service) => (
-  //             <RecordCard
-  //               key={service.id}
-  //               title={getServiceLabel(service.type)}
-  //               date={service.date}
-  //               amount={service.cost}
-  //               icon={WrenchIcon}
-  //               color={Colors.service}
-  //               rtl={isRTL}
-  //               onPress={() => router.push(`/services?edit=${service.id}`)}
-  //             />
-  //           ))
-  //         )}
-  //       </View>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>
+              {t("dashboard.recentServices")}
+            </Text>
+            <Pressable onPress={() => router.push("/services")}>
+              <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
+            </Pressable>
+          </View>
+          {recentServices?.length === 0 ? (
+            <EmptyState
+              icon={WrenchIcon}
+              title={t("services.noServicesYet")}
+              subtitle={t("services.servicesDescription")}
+            />
+          ) : (
+            recentServices?.map((service) => (
+              <RecordCard
+                id={service.id}
+                key={service.id}
+                title={getServiceTypeTitle(service.type, t)}
+                date={service.date}
+                amount={service.cost}
+                icon={WrenchIcon}
+                color={Colors.service}
+                rtl={isRTL}
+                onPress={() => router.push(`/services?edit=${service.id}`)}
+              />
+            ))
+          )}
+        </View>
 
-  //       <View style={styles.section}>
-  //         <View style={styles.sectionHeader}>
-  //           <Text style={styles.sectionTitle}>
-  //             {t("dashboard.recentExpenses")}
-  //           </Text>
-  //           <Pressable onPress={() => router.push("/expenses")}>
-  //             <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
-  //           </Pressable>
-  //         </View>
-  //         {recentExpenses.length === 0 ? (
-  //           <EmptyState
-  //             icon={ReceiptIcon}
-  //             title={t("expenses.noExpenseYet")}
-  //             subtitle={t("expenses.expensesDescription")}
-  //           />
-  //         ) : (
-  //           recentExpenses.map((expense) => (
-  //             <RecordCard
-  //               key={expense.id}
-  //               title={getExpenseLabel(expense.type)}
-  //               date={expense.date}
-  //               amount={expense.amount}
-  //               icon={ReceiptIcon}
-  //               color={Colors.expense}
-  //               rtl={isRTL}
-  //               onPress={() => router.push(`/expenses?edit=${expense.id}`)}
-  //             />
-  //           ))
-  //         )}
-  //       </View>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>
+              {t("dashboard.recentExpenses")}
+            </Text>
+            <Pressable onPress={() => router.push("/expenses")}>
+              <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
+            </Pressable>
+          </View>
+          {recentExpenses?.length === 0 ? (
+            <EmptyState
+              icon={ReceiptIcon}
+              title={t("expenses.noExpenseYet")}
+              subtitle={t("expenses.expensesDescription")}
+            />
+          ) : (
+            recentExpenses?.map((expense) => (
+              <RecordCard
+                id={expense.id}
+                key={expense.id}
+                title={getExpenseTypeTitle(expense.type, t)}
+                date={expense.date}
+                amount={expense.amount}
+                icon={ReceiptIcon}
+                color={Colors.expense}
+                rtl={isRTL}
+                onPress={() => router.push(`/expenses?edit=${expense.id}`)}
+              />
+            ))
+          )}
+        </View>
 
-  //       <View style={{ height: 32 }} />
-  //     </ScrollView>
-  //   </View>
-  // );
-
-  return <Text>reminder</Text>;
+        <View style={{ height: 32 }} />
+      </ScrollView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -262,16 +286,6 @@ const styles = StyleSheet.create({
     maxWidth: 1024,
     alignSelf: "center",
     width: "100%",
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.background,
-  },
-  loadingText: {
-    fontSize: 16,
-    color: Colors.textSecondary,
   },
   header: {
     flexDirection: "row",

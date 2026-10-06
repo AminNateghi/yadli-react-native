@@ -8,10 +8,10 @@ import { RecordCard } from "@/components/RecordCard";
 import { Text } from "@/components/Text";
 import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
-import { expenseTypeOptions } from "@/types/interfaces";
 import { useExpenses } from "@/contexts/expense-repository";
 import { useStatistics } from "@/contexts/statistics-repository";
 import { ExpenseForm } from "@/components/forms/ExpenseForm";
+import { getExpenseTypeTitle } from "@/types/interfaces";
 
 export default function ExpensesScreen() {
   const { t, isRTL } = useTranslation();
@@ -20,9 +20,6 @@ export default function ExpensesScreen() {
 
   const { data: expenses } = useExpenses();
   const { totalExpenses } = useStatistics();
-
-  const getExpenseTypeTitle = (expenseType: string) =>
-    expenseTypeOptions(t).find((s) => s.value === expenseType)?.label || "-";
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
@@ -58,7 +55,7 @@ export default function ExpensesScreen() {
               <RecordCard
                 id={expense.id}
                 key={expense.id}
-                title={getExpenseTypeTitle(expense.type)}
+                title={getExpenseTypeTitle(expense.type, t)}
                 date={expense.date}
                 amount={expense.amount}
                 subtitle={""}
