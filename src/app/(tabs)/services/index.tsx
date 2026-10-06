@@ -4,7 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { ServiceForm } from "@/components/forms/ServiceForm";
-import { Colors } from "@/constants/theme";
+import { Colors, globalStyles } from "@/constants/theme";
 import { useServices } from "@/contexts/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
 import { type ServiceDto, serviceTypeOptions } from "@/types/interfaces";
@@ -130,13 +130,13 @@ export default function ServicesScreen() {
         )} */}
 
         {totalServiceCost > 0 && (
-          <View style={styles.summaryCard}>
-            <Text style={styles.summaryTitle}>
+          <View style={globalStyles.summaryCard}>
+            <Text style={globalStyles.summaryTitle}>
               {t("services.totalServiceCost")}
             </Text>
             <PriceValue
               value={totalServiceCost?.toFixed(2)}
-              style={styles.summaryValue}
+              style={globalStyles.summaryValue}
             />
             {/* <View style={styles.categoryBreakdown}>
               {Object.entries(categoryTotals).map(([cat, total]) => (
@@ -273,22 +273,7 @@ const styles = StyleSheet.create({
     color: Colors.textSecondary,
     marginTop: 2,
   },
-  summaryCard: {
-    backgroundColor: Colors.surface,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 20,
-  },
-  summaryTitle: {
-    fontSize: 14,
-    color: Colors.textSecondary,
-  },
-  summaryValue: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: Colors.text,
-    marginTop: 4,
-  },
+
   categoryBreakdown: {
     marginTop: 16,
     paddingTop: 16,

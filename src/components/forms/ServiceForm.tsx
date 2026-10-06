@@ -62,7 +62,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
     control,
     reset,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
@@ -152,6 +152,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
         <Pressable
           style={({ pressed }) => [
             globalStyles.fab,
+            globalStyles.fabService,
             pressed && globalStyles.fabPressed,
           ]}
           onPress={() => handleNew()}
@@ -319,6 +320,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
                   title={editingId ? t("common.update") : t("common.save")}
                   onPress={handleSubmit(handleSave)}
                   loading={isPendingUpdate || isPendingCreate}
+                  disabled={!isValid}
                   style={{ flex: 1 }}
                 />
               </View>

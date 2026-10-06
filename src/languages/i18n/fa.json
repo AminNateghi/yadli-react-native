@@ -52,6 +52,7 @@
     "language": "زبان (Language)"
   },
   "fuel": {
+    "totalFuelCost": "جمع پرداختی‌ها",
     "noFuelRecords": "هیچ سوخت‌گیری ثبت نشده",
     "fuelDescription": "اولین سوخت‌گیری خودرو را ثبت کنید",
     "confirmValidation": "لطفا موارد تاریخ، کیلومتر، مقدار و مبلغ را وارد کنید.",
@@ -69,7 +70,7 @@
     "fullTank": "باک پر شد",
     "fullTankPlaceholder": "آیا باک خودرو پر شده است؟",
     "station": "محل سوخت‌گیری (اختیاری)",
-    "stationPlaceHolder": "مثلا رشت",
+    "stationPlaceHolder": "مثلا اتوبان رشت",
     "kmPerLiter": "",
     "averageFuelEconomy": "مصرف در هر ۱۰۰ کیلومتر",
     "note": "یادداشت (اختیاری)",
@@ -95,7 +96,7 @@
     "passed": "گذشته"
   },
   "services": {
-    "totalServiceCost": "جمع سرویس‌ها",
+    "totalServiceCost": "جمع پرداختی‌ها",
     "noServicesYet": "هیچ سرویسی ثبت نشده",
     "servicesDescription": "اولین سرویس نگهداری از خودرو را ثبت کنید",
     "confirmValidation": "لطفا موارد کیلومتر و هزینه را اورد کنید.",

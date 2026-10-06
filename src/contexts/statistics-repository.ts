@@ -28,7 +28,7 @@ export function useStatistics() {
 
       // ====== Average Liter/Km
       let avgLiterPerKm = 0;
-      if (objFuels.length >= 2) {
+      if (objFuels.length > 2) {
         const sorted = [...listOfFuels].sort((a, b) => a.odometer - b.odometer);
         let totalDistance = 0;
         let totalLiters = 0;

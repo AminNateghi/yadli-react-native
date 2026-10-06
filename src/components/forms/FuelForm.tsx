@@ -23,13 +23,13 @@ import type { FuelDto } from "@/types/interfaces";
 import { PriceValue } from "../PriceValue";
 import { SwitchToggle } from "../SwitchToggle";
 
-const defaultValues: FuelFormData = {
+const defaultValues = {
   date: format(new Date(), "yyyy-MM-dd"),
   fullTank: false,
-  liters: 0,
-  odometer: 0,
-  pricePerLiter: 0,
-  totalCost: 0,
+  liters: undefined,
+  odometer: undefined,
+  pricePerLiter: undefined,
+  totalCost: undefined,
   note: "",
   station: "",
 };
@@ -56,7 +56,7 @@ export function FuelForm({ editingId, onClose }: Props) {
     control,
     reset,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
@@ -90,6 +90,10 @@ export function FuelForm({ editingId, onClose }: Props) {
     });
   }, [data, editingId, reset]);
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   const handleResetForm = () => {
     reset(defaultValues);
   };
@@ -114,9 +118,11 @@ export function FuelForm({ editingId, onClose }: Props) {
       fullTank: formData.fullTank,
       liters: formData.liters,
       pricePerLiter: formData.pricePerLiter,
-      totalCost: formData.totalCost,
+      totalCost: Number(formData.liters) * Number(formData.pricePerLiter),
       station: formData.station ?? null,
     };
+
+    console.log(fuel);
 
     if (editingId) {
       updateService(fuel, {
@@ -154,6 +160,7 @@ export function FuelForm({ editingId, onClose }: Props) {
         <Pressable
           style={({ pressed }) => [
             globalStyles.fab,
+            globalStyles.fabFuel,
             pressed && globalStyles.fabPressed,
           ]}
           onPress={() => handleNew()}
@@ -267,7 +274,7 @@ export function FuelForm({ editingId, onClose }: Props) {
               <Controller
                 control={control}
                 name="fullTank"
-                render={({ field: { value, onChange, onBlur } }) => (
+                render={({ field: { value, onChange } }) => (
                   <>
                     <SwitchToggle
                       label={t("fuel.fullTank")}
@@ -288,9 +295,7 @@ export function FuelForm({ editingId, onClose }: Props) {
                       label={t("fuel.station")}
                       value={value?.toString() ?? ""}
                       onBlur={onBlur}
-                      onChangeText={(text) => {
-                        onChange(text === "" ? undefined : Number(text));
-                      }}
+                      onChangeText={onChange}
                       placeholder={t("fuel.stationPlaceHolder")}
                     />
                   </>
@@ -330,6 +335,7 @@ export function FuelForm({ editingId, onClose }: Props) {
                   title={editingId ? t("common.update") : t("common.save")}
                   onPress={handleSubmit(handleSave)}
                   loading={isPendingUpdate || isPendingCreate}
+                  // disabled={!isValid}
                   style={{ flex: 1 }}
                 />
               </View>

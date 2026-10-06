@@ -98,6 +98,7 @@ interface Reminders {
 }
 
 interface Fuel {
+  totalFuelCost: string;
   noFuelRecords: string;
   fuelDescription: string;
   confirmValidation: string;

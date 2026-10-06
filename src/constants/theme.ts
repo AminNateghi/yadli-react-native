@@ -72,10 +72,10 @@ export const globalStyles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: Colors.service,
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
+    backgroundColor: Colors.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 8,
@@ -83,6 +83,15 @@ export const globalStyles = StyleSheet.create({
   },
   fabPressed: {
     opacity: 0.8,
+  },
+  fabService: {
+    backgroundColor: Colors.service,
+  },
+  fabFuel: {
+    backgroundColor: Colors.fuel,
+  },
+  fabExpense: {
+    backgroundColor: Colors.expense,
   },
 
   // modal
@@ -125,5 +134,23 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 8,
     gap: 10,
+  },
+
+  // summery card
+  summaryCard: {
+    backgroundColor: Colors.surface,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+  },
+  summaryTitle: {
+    fontSize: 14,
+    color: Colors.textSecondary,
+  },
+  summaryValue: {
+    fontSize: 28,
+    fontWeight: "700",
+    color: Colors.text,
+    marginTop: 4,
   },
 });

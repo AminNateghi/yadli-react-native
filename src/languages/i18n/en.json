@@ -52,6 +52,7 @@
     "language": "Language"
   },
   "fuel": {
+    "totalFuelCost": "Total Fuel Cost",
     "noFuelRecords": "No Fuel Records",
     "fuelDescription": "Track your fill-ups to monitor fuel economy and spending",
     "confirmValidation": "Please fill in date, odometer, liters and price",
