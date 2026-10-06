@@ -18,7 +18,7 @@ export function useExpenses(limit?: number) {
         .select()
         .from(expensesRecords)
         .orderBy(desc(expensesRecords.date))
-        .limit(limit ?? 100),
+        .limit(limit ?? 1000),
   });
 }
 

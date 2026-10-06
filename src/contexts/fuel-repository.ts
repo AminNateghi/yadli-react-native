@@ -18,7 +18,7 @@ export function useFuels(limit?: number) {
         .select()
         .from(fuelsRecords)
         .orderBy(desc(fuelsRecords.date))
-        .limit(limit ?? 100),
+        .limit(limit ?? 1000),
   });
 }
 

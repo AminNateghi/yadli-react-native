@@ -18,7 +18,7 @@ export function useServices(limit?: number) {
         .select()
         .from(servicesRecords)
         .orderBy(desc(servicesRecords.date))
-        .limit(limit ?? 100),
+        .limit(limit ?? 1000),
   });
 }
 

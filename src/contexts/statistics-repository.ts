@@ -15,9 +15,9 @@ export function useStatistics() {
   const [serviceRecordsLength, setServiceRecordsLength] = useState<number>(0);
   const [expenseRecordsLength, setExpenseRecordsLength] = useState<number>(0);
 
-  const { data: listOfServices } = useServices(3);
-  const { data: listOfFuels } = useFuels(3);
-  const { data: listOfExpenses } = useExpenses(3);
+  const { data: listOfServices } = useServices();
+  const { data: listOfFuels } = useFuels();
+  const { data: listOfExpenses } = useExpenses();
 
   useEffect(() => {
     if (listOfExpenses && listOfFuels && listOfServices) {

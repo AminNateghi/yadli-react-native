@@ -38,9 +38,9 @@ export default function DashboardScreen() {
     serviceRecordsLength,
   } = useStatistics();
 
-  const { data: recentServices } = useServices(3);
-  const { data: recentFuel } = useFuels(3);
-  const { data: recentExpenses } = useExpenses(3);
+  const { data: recentServices } = useServices();
+  const { data: recentFuel } = useFuels();
+  const { data: recentExpenses } = useExpenses();
 
   return (
     <View style={[styles.wrapper, isRTL && globalStyles.rtl]}>
@@ -126,19 +126,21 @@ export default function DashboardScreen() {
               subtitle={t("fuel.fuelDescription")}
             />
           ) : (
-            recentFuel?.map((fuel) => (
-              <RecordCard
-                id={fuel.id}
-                key={fuel.id}
-                title={`${fuel.liters?.toFixed(1)} ${t("common.liter")}`}
-                date={fuel.date}
-                amount={fuel.totalCost}
-                icon={FuelIcon}
-                color={Colors.fuel}
-                rtl={isRTL}
-                onPress={() => router.push(`/fuel?edit=${fuel.id}`)}
-              />
-            ))
+            recentFuel
+              ?.slice(0, 2)
+              .map((fuel) => (
+                <RecordCard
+                  id={fuel.id}
+                  key={fuel.id}
+                  title={`${fuel.liters?.toFixed(1)} ${t("common.liter")}`}
+                  date={fuel.date}
+                  amount={fuel.totalCost}
+                  icon={FuelIcon}
+                  color={Colors.fuel}
+                  rtl={isRTL}
+                  onPress={() => router.push(`/fuel?edit=${fuel.id}`)}
+                />
+              ))
           )}
         </View>
 
@@ -158,19 +160,21 @@ export default function DashboardScreen() {
               subtitle={t("services.servicesDescription")}
             />
           ) : (
-            recentServices?.map((service) => (
-              <RecordCard
-                id={service.id}
-                key={service.id}
-                title={getServiceTypeTitle(service.type, t)}
-                date={service.date}
-                amount={service.cost}
-                icon={WrenchIcon}
-                color={Colors.service}
-                rtl={isRTL}
-                onPress={() => router.push(`/services?edit=${service.id}`)}
-              />
-            ))
+            recentServices
+              ?.slice(0, 2)
+              .map((service) => (
+                <RecordCard
+                  id={service.id}
+                  key={service.id}
+                  title={getServiceTypeTitle(service.type, t)}
+                  date={service.date}
+                  amount={service.cost}
+                  icon={WrenchIcon}
+                  color={Colors.service}
+                  rtl={isRTL}
+                  onPress={() => router.push(`/services?edit=${service.id}`)}
+                />
+              ))
           )}
         </View>
 
@@ -190,19 +194,21 @@ export default function DashboardScreen() {
               subtitle={t("expenses.expensesDescription")}
             />
           ) : (
-            recentExpenses?.map((expense) => (
-              <RecordCard
-                id={expense.id}
-                key={expense.id}
-                title={getExpenseTypeTitle(expense.type, t)}
-                date={expense.date}
-                amount={expense.amount}
-                icon={BanknoteIcon}
-                color={Colors.expense}
-                rtl={isRTL}
-                onPress={() => router.push(`/expenses?edit=${expense.id}`)}
-              />
-            ))
+            recentExpenses
+              ?.slice(0, 2)
+              .map((expense) => (
+                <RecordCard
+                  id={expense.id}
+                  key={expense.id}
+                  title={getExpenseTypeTitle(expense.type, t)}
+                  date={expense.date}
+                  amount={expense.amount}
+                  icon={BanknoteIcon}
+                  color={Colors.expense}
+                  rtl={isRTL}
+                  onPress={() => router.push(`/expenses?edit=${expense.id}`)}
+                />
+              ))
           )}
         </View>
 
