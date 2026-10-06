@@ -1,12 +1,18 @@
-import { Stack } from "expo-router";
-import { SettingsModal } from "@/components/SettingsModal";
+import { Stack, useRouter } from "expo-router";
 import { Colors } from "@/constants/theme";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
+import { IconButton } from "@/components/IconButton";
+import { MenuIcon } from "lucide-react-native";
 
 export default function HomeLayout() {
   const { t, isRTL } = useTranslation();
+  const router = useRouter();
   const fontFamily = useAppFontFamily();
+
+  const handleGotoMenu = () => {
+    router.push("/drawer");
+  };
 
   return (
     <Stack
@@ -24,8 +30,18 @@ export default function HomeLayout() {
           title: t("menus.dashboard"),
           headerTitleAlign: "center",
           headerLargeTitle: true,
-          headerLeft: () => (isRTL ? <></> : <SettingsModal />),
-          headerRight: () => (isRTL ? <SettingsModal /> : <></>),
+          headerLeft: () =>
+            isRTL ? (
+              <></>
+            ) : (
+              <IconButton icon={MenuIcon} onPress={() => handleGotoMenu()} />
+            ),
+          headerRight: () =>
+            isRTL ? (
+              <IconButton icon={MenuIcon} onPress={() => handleGotoMenu()} />
+            ) : (
+              <></>
+            ),
         }}
       />
     </Stack>

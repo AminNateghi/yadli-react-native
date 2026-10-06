@@ -29,20 +29,23 @@
     "fuel": "سوخت‌گیری",
     "services": "سرویس‌ها",
     "expenses": "هزینه‌ها",
-    "reminders": "یادآوری‌ها"
+    "reminders": "یادآوری‌ها",
+    "drawer": "تنظیمات"
   },
   "dashboard": {
     "myVehicle": "خودرو من",
     "serviceDue": "سرویس بعدی",
-    "totalSpent": "هزینه کل",
+    "totalSpent": "جمع کل",
     "avgPerKm": "میانگین مصرف",
     "allTime": "",
     "fuelEfficiency": "در هر ۱۰۰ کیلومتر",
     "fuelCosts": "هزینه سوخت‌گیری",
     "fillUps": "بار",
+    "records": "مورد",
     "serviceCosts": "هزینه سرویس‌ها",
     "servicesCount": "بار",
     "recentServices": "آخرین سرویس‌ها",
+    "expenses": "هزینه‌ها",
     "seeAll": "همه موارد",
     "recentExpenses": "آخرین هزینه‌ها",
     "recentFillUps": "آخرین سوخت‌گیری‌ها"

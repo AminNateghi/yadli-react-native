@@ -1,8 +1,13 @@
-import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { profileRecords } from "@/db/schema";
 import type { LanguageType } from "@/types/interfaces";
+import { queryClient } from "./query-client";
+
+export const profileQueryKey = {
+  profile: ["profile"],
+};
 
 export function useSaveProfileName() {
   return useMutation({
@@ -22,14 +27,35 @@ export function useSaveProfileLanguage() {
         id: 1,
         language,
       }),
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: profileQueryKey.profile });
+    },
   });
 }
 
-export async function useGetProfile() {
+export function useGetProfile() {
   return useQuery({
-    queryKey: ["profile"],
-    queryFn: async () =>
-      await db.select().from(profileRecords).where(eq(profileRecords.id, 1)),
+    queryKey: profileQueryKey.profile,
+    queryFn: async () => {
+      const existing = await db.query.profileRecords.findFirst({
+        where: eq(profileRecords.id, 1),
+      });
+
+      if (existing) {
+        return existing;
+      }
+
+      const [created] = await db
+        .insert(profileRecords)
+        .values({
+          id: 1,
+          fullName: "بدون اسم",
+          language: "fa",
+          vehicleName: "خودرو من",
+        })
+        .returning();
+
+      return created;
+    },
   });
 }

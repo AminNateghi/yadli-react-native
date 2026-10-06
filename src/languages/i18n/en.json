@@ -29,7 +29,8 @@
     "fuel": "Fuel",
     "services": "Services",
     "expenses": "Expenses",
-    "reminders": "Reminders"
+    "reminders": "Reminders",
+    "drawer": "Settings"
   },
   "dashboard": {
     "myVehicle": "My Vehicle",
@@ -39,10 +40,12 @@
     "allTime": "All time",
     "fuelEfficiency": "Fuel efficiency",
     "fuelCosts": "Fuel Costs",
-    "fillUps": "fill-ups",
+    "fillUps": "Fill-ups",
+    "records": "Records",
     "serviceCosts": "Service Costs",
     "servicesCount": "services",
     "recentServices": "Recent Services",
+    "expenses": "Expenses",
     "seeAll": "See All",
     "recentExpenses": "Recent Expenses",
     "recentFillUps": "Recent Fill-ups"

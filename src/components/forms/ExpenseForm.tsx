@@ -5,7 +5,7 @@ import { Modal, Pressable, ScrollView, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Colors, globalStyles } from "@/constants/theme";
+import { globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "../Button";
 import { Toast } from "../CustomToast";
@@ -25,6 +25,7 @@ import {
   expenseTypeOptions,
 } from "@/types/interfaces";
 import { ExpenseDeletionModal } from "./ExpenseDeletionModal";
+import { IconButton } from "../IconButton";
 
 const defaultValues = {
   type: "Reimbursement",
@@ -161,9 +162,7 @@ export function ExpenseForm({ editingId, onClose }: Props) {
                   ? t("expenses.updateTitle")
                   : t("expenses.createTitle")}
               </Text>
-              <Pressable onPress={() => handleClose()}>
-                <XIcon size={24} color={Colors.text} />
-              </Pressable>
+              <IconButton icon={XIcon} onPress={() => handleClose()} />
             </View>
 
             <ScrollView

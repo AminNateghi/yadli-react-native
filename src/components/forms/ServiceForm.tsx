@@ -5,7 +5,7 @@ import { Modal, Pressable, ScrollView, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Colors, globalStyles } from "@/constants/theme";
+import { globalStyles } from "@/constants/theme";
 import {
   useCreateService,
   useDoneService,
@@ -29,6 +29,7 @@ import {
   serviceSchema,
   type ServiceFormData,
 } from "../../types/service-schema";
+import { IconButton } from "../IconButton";
 
 const defaultValues = {
   type: "EngineOil",
@@ -174,9 +175,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
                   ? t("services.updateTitle")
                   : t("services.createTitle")}
               </Text>
-              <Pressable onPress={() => handleClose()}>
-                <XIcon size={24} color={Colors.text} />
-              </Pressable>
+              <IconButton icon={XIcon} onPress={() => handleClose()} />
             </View>
 
             <ScrollView

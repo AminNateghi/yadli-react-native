@@ -1,8 +1,8 @@
 import { Tabs } from "expo-router";
 import {
+  BanknoteIcon,
   FuelIcon,
   LayoutDashboardIcon,
-  ReceiptIcon,
   TimerIcon,
   WrenchIcon,
 } from "lucide-react-native";
@@ -18,6 +18,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        animation: "fade",
 
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.textMuted,
@@ -45,15 +46,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="fuel"
-        options={{
-          title: t("menus.fuel"),
-          tabBarIcon: ({ color, size }) => (
-            <FuelIcon size={size} color={color} />
-          ),
-        }}
-      />
+
       <Tabs.Screen
         name="services"
         options={{
@@ -65,11 +58,21 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
+        name="fuel"
+        options={{
+          title: t("menus.fuel"),
+          tabBarIcon: ({ color, size }) => (
+            <FuelIcon size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
         name="expenses"
         options={{
           title: t("menus.expenses"),
           tabBarIcon: ({ color, size }) => (
-            <ReceiptIcon size={size} color={color} />
+            <BanknoteIcon size={size} color={color} />
           ),
         }}
       />
@@ -81,6 +84,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <TimerIcon size={size} color={color} />
           ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="drawer"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

@@ -53,6 +53,7 @@ interface Menus {
   services: string;
   expenses: string;
   reminders: string;
+  drawer: string;
 }
 
 interface Dashboard {
@@ -70,6 +71,8 @@ interface Dashboard {
   seeAll: string;
   recentExpenses: string;
   recentFillUps: string;
+  expenses: string;
+  records: string;
 }
 
 interface Settings {

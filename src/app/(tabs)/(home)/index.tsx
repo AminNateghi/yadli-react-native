@@ -1,21 +1,12 @@
 import { useRouter } from "expo-router";
 import {
-  CalendarIcon,
   CarIcon,
   FuelIcon,
-  GaugeIcon,
-  ReceiptIcon,
-  TrendingUpIcon,
+  BanknoteIcon,
   WrenchIcon,
+  WalletIcon,
 } from "lucide-react-native";
-import { useCallback, useMemo, useState } from "react";
-import {
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { EmptyState } from "@/components/EmptyState";
 import { RecordCard } from "@/components/RecordCard";
@@ -23,13 +14,7 @@ import { StatCard } from "@/components/StatCard";
 import { Text } from "@/components/Text";
 import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
-import {
-  expenseTypeOptions,
-  getExpenseTypeTitle,
-  getServiceTypeTitle,
-  serviceTypeOptions,
-} from "@/types/interfaces";
-import { getServiceReminders } from "@/utils/serviceReminders";
+import { getExpenseTypeTitle, getServiceTypeTitle } from "@/types/interfaces";
 import { useStatistics } from "@/contexts/statistics-repository";
 import { useServices } from "@/contexts/service-repository";
 import { useFuels } from "@/contexts/fuel-repository";
@@ -57,46 +42,6 @@ export default function DashboardScreen() {
   const { data: recentFuel } = useFuels(3);
   const { data: recentExpenses } = useExpenses(3);
 
-  // const {
-  //   services,
-  //   fuels: fuelRecords,
-  //   expenses,
-  //   stats,
-  //   isLoading,
-  // } = useData();
-  // const [refreshing, setRefreshing] = useState(false);
-
-  // const reminders = useMemo(
-  //   () => getServiceReminders(services, stats.totalKm),
-  //   [services, stats.totalKm],
-  // );
-  // const overdueCount = reminders.filter(
-  //   (r) => r.dateProgress?.overdue || r.odometerProgress?.overdue,
-  // ).length;
-
-  // const onRefresh = useCallback(() => {
-  //   setRefreshing(true);
-  //   setTimeout(() => setRefreshing(false), 500);
-  // }, []);
-
-  // const recentServices = services.slice(0, 3);
-  // const recentExpenses = expenses.slice(0, 3);
-  // const recentFuel = fuelRecords.slice(0, 3);
-
-  // const getServiceLabel = (type: string) =>
-  //   serviceTypeOptions(t).find((s) => s.value === type)?.label || "-";
-
-  // const getExpenseLabel = (category: string) =>
-  //   expenseTypeOptions(t).find((c) => c.value === category)?.label || category;
-
-  // if (isLoading) {
-  //   return (
-  //     <View style={styles.loadingContainer}>
-  //       <Text style={styles.loadingText}>{t("common.loading")}</Text>
-  //     </View>
-  //   );
-  // }
-
   return (
     <View style={[styles.wrapper, isRTL && globalStyles.rtl]}>
       <ScrollView
@@ -105,9 +50,6 @@ export default function DashboardScreen() {
           styles.content,
           isDesktop && styles.contentDesktop,
         ]}
-        // refreshControl={
-        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        // }
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
@@ -139,16 +81,15 @@ export default function DashboardScreen() {
             title={t("dashboard.totalSpent")}
             value={`${totalSpent.toFixed(0)}`}
             subtitle={t("dashboard.allTime")}
-            icon={TrendingUpIcon}
+            icon={WalletIcon}
             color={Colors.primary}
           />
           <StatCard
-            title={t("dashboard.avgPerKm")}
-            value={avgKmPerLiter > 0 ? avgKmPerLiter.toFixed(1) : "0"}
-            valueWithSpan={false}
-            subtitle={t("dashboard.fuelEfficiency")}
-            icon={GaugeIcon}
-            color={Colors.success}
+            title={t("dashboard.expenses")}
+            value={`${totalExpenses.toFixed(0)}`}
+            subtitle={`${expenseRecordsLength} ${t("dashboard.records")}`}
+            icon={BanknoteIcon}
+            color={Colors.expense}
           />
         </View>
 
@@ -244,7 +185,7 @@ export default function DashboardScreen() {
           </View>
           {recentExpenses?.length === 0 ? (
             <EmptyState
-              icon={ReceiptIcon}
+              icon={BanknoteIcon}
               title={t("expenses.noExpenseYet")}
               subtitle={t("expenses.expensesDescription")}
             />
@@ -256,7 +197,7 @@ export default function DashboardScreen() {
                 title={getExpenseTypeTitle(expense.type, t)}
                 date={expense.date}
                 amount={expense.amount}
-                icon={ReceiptIcon}
+                icon={BanknoteIcon}
                 color={Colors.expense}
                 rtl={isRTL}
                 onPress={() => router.push(`/expenses?edit=${expense.id}`)}

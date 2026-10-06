@@ -22,6 +22,7 @@ import type { FuelDto } from "@/types/interfaces";
 import { PriceValue } from "../PriceValue";
 import { SwitchToggle } from "../SwitchToggle";
 import { FuelDeletionModal } from "./FuelDeletionModal";
+import { IconButton } from "../IconButton";
 
 const defaultValues = {
   date: format(new Date(), "yyyy-MM-dd"),
@@ -174,9 +175,7 @@ export function FuelForm({ editingId, onClose }: Props) {
               <Text style={globalStyles.modalTitle}>
                 {editingId ? t("fuel.updateTitle") : t("fuel.createTitle")}
               </Text>
-              <Pressable onPress={() => handleClose()}>
-                <XIcon size={24} color={Colors.text} />
-              </Pressable>
+              <IconButton icon={XIcon} onPress={() => handleClose()} />
             </View>
 
             <ScrollView

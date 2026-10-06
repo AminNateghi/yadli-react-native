@@ -1,4 +1,4 @@
-import { ReceiptIcon } from "lucide-react-native";
+import { BanknoteIcon } from "lucide-react-native";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
@@ -45,7 +45,7 @@ export default function ExpensesScreen() {
 
         {expenses?.length === 0 ? (
           <EmptyState
-            icon={ReceiptIcon}
+            icon={BanknoteIcon}
             title={t("expenses.noExpenseYet")}
             subtitle={t("expenses.expensesDescription")}
           />
@@ -59,7 +59,7 @@ export default function ExpensesScreen() {
                 date={expense.date}
                 amount={expense.amount}
                 subtitle={""}
-                icon={ReceiptIcon}
+                icon={BanknoteIcon}
                 color={Colors.expense}
                 rtl={isRTL}
                 onPress={(id) => {

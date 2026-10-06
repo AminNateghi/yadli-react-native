@@ -11,6 +11,7 @@ import { Text } from "@/components/Text";
 import { Colors } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { dateFormat } from "@/utils/dateFormat";
+import { IconButton } from "./IconButton";
 
 dayjs.extend(jalaliday);
 
@@ -54,9 +55,7 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
           <View style={styles.modal}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>{t("common.selectDate")}</Text>
-              <Pressable onPress={() => setVisible(false)}>
-                <XIcon size={24} color={Colors.text} />
-              </Pressable>
+              <IconButton icon={XIcon} onPress={() => setVisible(false)} />
             </View>
             <DateTimePicker
               mode="single"

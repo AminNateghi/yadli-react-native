@@ -1,6 +1,9 @@
+import { useGetProfile } from "@/contexts/profile-repository";
 import langEn from "./i18n/en.json";
 import langFa from "./i18n/fa.json";
 import type { NestedKeyOf, TranslationKeys } from "./TranslationKeys";
+import { useEffect, useState } from "react";
+import { LanguageType } from "@/types/interfaces";
 
 type Props = {
   [key: string]: string | Props;
@@ -21,8 +24,17 @@ const getNestedValue = (obj: Props, key: string): string | undefined => {
 };
 
 export const useTranslation = () => {
+  const { data } = useGetProfile();
+  const [language, setLanguage] = useState<LanguageType>("fa");
+
+  useEffect(() => {
+    if (data) {
+      setLanguage(data.language ?? "fa");
+    }
+  }, [data]);
+
   const t = (key: NestedKeyOf<TranslationKeys>): string => {
-    const module = translationLoaders["fa"]?.();
+    const module = translationLoaders[language]?.();
     const dict = module?.default;
 
     if (!dict) return key;
@@ -32,7 +44,7 @@ export const useTranslation = () => {
   };
 
   const tString = (key: string): string => {
-    const module = translationLoaders["fa"]?.();
+    const module = translationLoaders[language]?.();
     const dict = module?.default;
 
     if (!dict) return key;

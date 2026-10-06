@@ -10,6 +10,10 @@ export function useStatistics() {
   const [totalServiceCost, setTotalServiceCost] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
   const [nextServiceDue, setNextServiceDue] = useState<string>();
+  const [totalSpent, setTotalSpent] = useState<number>(0);
+  const [fuelRecordsLength, setFuelRecordsLength] = useState<number>(0);
+  const [serviceRecordsLength, setServiceRecordsLength] = useState<number>(0);
+  const [expenseRecordsLength, setExpenseRecordsLength] = useState<number>(0);
 
   const { data: listOfServices } = useServices(3);
   const { data: listOfFuels } = useFuels(3);
@@ -20,6 +24,11 @@ export function useStatistics() {
       const objServices = listOfServices?.map((s) => s.odometer);
       const objFuels = listOfFuels?.map((f) => f.odometer);
       const objExpenses = listOfExpenses?.map((e) => e.odometer);
+
+      // ====== length
+      setFuelRecordsLength(objFuels.length);
+      setServiceRecordsLength(objServices.length);
+      setExpenseRecordsLength(objExpenses.length);
 
       // ====== Maximum Odometer
       const flat = [...objServices, ...objFuels, ...objExpenses];
@@ -80,6 +89,10 @@ export function useStatistics() {
     }
   }, [listOfExpenses, listOfFuels, listOfServices]);
 
+  useEffect(() => {
+    setTotalSpent(totalFuelCost + totalServiceCost + totalExpenses);
+  }, [totalFuelCost, totalServiceCost, totalExpenses]);
+
   return {
     totalKm: maxOdometer,
     avgKmPerLiter: averageLiterPerKm,
@@ -87,5 +100,9 @@ export function useStatistics() {
     totalServiceCost,
     totalExpenses,
     nextServiceDue,
+    totalSpent,
+    fuelRecordsLength,
+    serviceRecordsLength,
+    expenseRecordsLength,
   };
 }
