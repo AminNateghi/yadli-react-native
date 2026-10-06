@@ -12,7 +12,6 @@ import { Toast } from "../CustomToast";
 import { DatePicker } from "../DatePicker";
 import { Input } from "../Input";
 import { Text } from "../Text";
-import { ServiceDeletionModal } from "./ServiceDeletionModal";
 import { type FuelFormData, fuelSchema } from "@/types/fuel-schema";
 import {
   useCreateFuel,
@@ -22,6 +21,7 @@ import {
 import type { FuelDto } from "@/types/interfaces";
 import { PriceValue } from "../PriceValue";
 import { SwitchToggle } from "../SwitchToggle";
+import { FuelDeletionModal } from "./FuelDeletionModal";
 
 const defaultValues = {
   date: format(new Date(), "yyyy-MM-dd"),
@@ -90,10 +90,6 @@ export function FuelForm({ editingId, onClose }: Props) {
     });
   }, [data, editingId, reset]);
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   const handleResetForm = () => {
     reset(defaultValues);
   };
@@ -121,8 +117,6 @@ export function FuelForm({ editingId, onClose }: Props) {
       totalCost: Number(formData.liters) * Number(formData.pricePerLiter),
       station: formData.station ?? null,
     };
-
-    console.log(fuel);
 
     if (editingId) {
       updateService(fuel, {
@@ -326,7 +320,7 @@ export function FuelForm({ editingId, onClose }: Props) {
 
               <View style={globalStyles.modalButtonRow}>
                 {editingId && (
-                  <ServiceDeletionModal
+                  <FuelDeletionModal
                     editingId={editingId!}
                     onConfirm={() => handleClose()}
                   />

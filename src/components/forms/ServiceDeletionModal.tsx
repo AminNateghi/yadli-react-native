@@ -14,11 +14,11 @@ export function ServiceDeletionModal({ editingId, onConfirm }: Props) {
   const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const { mutate: deleteService } = useDeleteService();
+  const { mutate: deleteItem } = useDeleteService();
 
   const handleDeleteConfirm = async () => {
     if (!editingId) return;
-    deleteService(editingId, {
+    deleteItem(editingId, {
       onSuccess: () => {
         setModalVisible(false);
         onConfirm();

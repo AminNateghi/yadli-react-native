@@ -74,7 +74,7 @@ export default function ServicesScreen() {
   //   getService,
   // ]);
 
-  const getServiceLabel = (serviceType: string) =>
+  const getServiceTypeTitle = (serviceType: string) =>
     serviceTypeOptions(t).find((s) => s.value === serviceType)?.label || "-";
 
   // const categoryTotals = useMemo(async () => {
@@ -172,7 +172,7 @@ export default function ServicesScreen() {
               <RecordCard
                 id={service.id}
                 key={service.id}
-                title={getServiceLabel(service.type)}
+                title={getServiceTypeTitle(service.type)}
                 date={service.date}
                 amount={service.cost}
                 subtitle={`${service.odometer} ${t("common.km")}`}

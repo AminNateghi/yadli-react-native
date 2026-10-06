@@ -109,31 +109,4 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "100%",
   },
-  disPerLiterCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.success + "15",
-    borderRadius: 14,
-    padding: 16,
-    gap: 10,
-    marginBottom: 16,
-  },
-  disPerLiterIconContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: Colors.success + "25",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  disPerLiterValue: {
-    fontSize: 20,
-    fontWeight: 700,
-    color: Colors.success,
-  },
-  disPerLiterLabel: {
-    fontSize: 13,
-    color: Colors.textSecondary,
-    marginTop: 2,
-  },
 });
