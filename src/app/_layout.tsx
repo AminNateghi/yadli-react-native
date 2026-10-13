@@ -9,9 +9,9 @@ import { View } from "react-native";
 import { Text } from "@/components/Text";
 import { queryClient } from "@/utils/query-client";
 import { db } from "@/db";
-import migrations from "@/db/migrations/migrations";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import migrations from "@/db/migrations/migrations";
 
 SplashScreen.preventAutoHideAsync();
 

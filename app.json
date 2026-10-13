@@ -4,37 +4,31 @@
     "slug": "yadli-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/splash-icon.png",
+    "icon": "./assets/images/yadli-icon.png",
     "scheme": "yadli",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/images/splash-icon.png",
       "bundleIdentifier": "xyz.nateghi.yadli",
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#a8a8a8",
-        "foregroundImage": "./assets/images/splash-icon.png",
-        "backgroundImage": "./assets/images/splash-icon.png",
-        "monochromeImage": "./assets/images/splash-icon.png"
-      },
+      "package": "xyz.nateghi.yadli",
       "predictiveBackGestureEnabled": false,
-      "package": "xyz.nateghi.yadli"
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/splash-icon.png"
+      "favicon": "./assets/images/yadli-icon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#e2e2e2",
-          "image": "./assets/images/splash-icon.png",
+          "backgroundColor": "#ece2caff",
+          "image": "./assets/images/yadli-icon-light.png",
           "dark": {
-            "image": "./assets/images/splash-icon.png",
+            "image": "./assets/images/yadli-icon-dark.png",
             "backgroundColor": "#3a3a3a"
           },
           "imageWidth": 200

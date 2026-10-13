@@ -29,7 +29,6 @@ Add the plugin (build-time; requires a rebuild to take effect):
   "expo": {
     "plugins": [
       "expo-router",
-      ["expo-splash-screen", { "backgroundColor": "#208AEF", "image": "./assets/images/splash-icon.png", "imageWidth": 76 }],
       ["expo-notifications", { "icon": "./assets/images/icon.png", "color": "#2563EB" }]
     ]
   }
