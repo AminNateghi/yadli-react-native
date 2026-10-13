@@ -16,12 +16,16 @@ export const profileRecords = sqliteTable("profile", {
 
   createdAt: integer("created_at", {
     mode: "timestamp",
-  }).default(sql`(CURRENT_TIMESTAMP)`),
+  })
+    .notNull()
+    .default(sql`(unixepoch())`),
+
   updatedAt: integer("updated_at", {
     mode: "timestamp",
   })
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+    .notNull()
+    .default(sql`(unixepoch())`)
+    .$onUpdate(() => sql`(unixepoch())`),
 });
 
 export const servicesRecords = sqliteTable("services", {
@@ -36,12 +40,16 @@ export const servicesRecords = sqliteTable("services", {
 
   createdAt: integer("created_at", {
     mode: "timestamp",
-  }).default(sql`(CURRENT_TIMESTAMP)`),
+  })
+    .notNull()
+    .default(sql`(unixepoch())`),
+
   updatedAt: integer("updated_at", {
     mode: "timestamp",
   })
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+    .notNull()
+    .default(sql`(unixepoch())`)
+    .$onUpdate(() => sql`(unixepoch())`),
 });
 
 export const fuelsRecords = sqliteTable("fuels", {
@@ -59,12 +67,16 @@ export const fuelsRecords = sqliteTable("fuels", {
 
   createdAt: integer("created_at", {
     mode: "timestamp",
-  }).default(sql`(CURRENT_TIMESTAMP)`),
+  })
+    .notNull()
+    .default(sql`(unixepoch())`),
+
   updatedAt: integer("updated_at", {
     mode: "timestamp",
   })
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+    .notNull()
+    .default(sql`(unixepoch())`)
+    .$onUpdate(() => sql`(unixepoch())`),
 });
 
 export const expensesRecords = sqliteTable("expenses", {
@@ -79,12 +91,16 @@ export const expensesRecords = sqliteTable("expenses", {
 
   createdAt: integer("created_at", {
     mode: "timestamp",
-  }).default(sql`(CURRENT_TIMESTAMP)`),
+  })
+    .notNull()
+    .default(sql`(unixepoch())`),
+
   updatedAt: integer("updated_at", {
     mode: "timestamp",
   })
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+    .notNull()
+    .default(sql`(unixepoch())`)
+    .$onUpdate(() => sql`(unixepoch())`),
 });
 
 export const remindersRecords = sqliteTable("reminders", {
@@ -127,10 +143,14 @@ export const remindersRecords = sqliteTable("reminders", {
 
   createdAt: integer("created_at", {
     mode: "timestamp",
-  }).default(sql`(CURRENT_TIMESTAMP)`),
+  })
+    .notNull()
+    .default(sql`(unixepoch())`),
+
   updatedAt: integer("updated_at", {
     mode: "timestamp",
   })
-    .default(sql`(CURRENT_TIMESTAMP)`)
-    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+    .notNull()
+    .default(sql`(unixepoch())`)
+    .$onUpdate(() => sql`(unixepoch())`),
 });
