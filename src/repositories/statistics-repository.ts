@@ -37,8 +37,9 @@ export function useStatistics() {
         fuels: listOfFuels || [],
         expense: listOfExpenses || [],
       });
+
       setTotalReminders(
-        result.filter((reminder) => reminder.urgency > 0).length,
+        result.filter((reminder) => reminder.urgency >= 0.8).length,
       );
     };
 
