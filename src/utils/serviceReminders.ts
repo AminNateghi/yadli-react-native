@@ -80,7 +80,7 @@ async function getDateReminderProgress(
   reminder: ReminderDto,
   latest: LatestData,
 ): Promise<DateReminderProgress | undefined> {
-  if (!reminder.active) return undefined;
+  if (!reminder.startDate) return undefined;
 
   const startDate = reminder.startDate ? dayjs(reminder.startDate) : null;
   const nextDateRaw = calculateNextThresholds(reminder).nextDate;
@@ -114,7 +114,7 @@ async function getOdometerReminderProgress(
   reminder: ReminderDto,
   latest: LatestData,
 ): Promise<OdometerReminderProgress | undefined> {
-  if (!reminder.active) return undefined;
+  if (!reminder.startOdometer) return undefined;
 
   const latestOdometer = latest.maxOdometer;
   const startOdometer = reminder.startOdometer;

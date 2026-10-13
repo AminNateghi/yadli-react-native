@@ -59,7 +59,11 @@ export function ReminderCard({ reminder, onPress }: Props) {
 
   return (
     <Pressable
-      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+      style={({ pressed }) => [
+        styles.card,
+        pressed && styles.cardPressed,
+        !reminder.data.active && styles.cardDisabled,
+      ]}
       onPress={() => onPress?.(reminder.data.id)}
       disabled={!onPress}
     >
@@ -167,6 +171,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
+  },
+  cardDisabled: {
+    opacity: 0.5,
   },
   cardPressed: {
     opacity: 0.85,
