@@ -6,23 +6,16 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { View } from "react-native";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
-
 import { Text } from "@/components/Text";
-import { queryClient } from "@/contexts/query-client";
+import { queryClient } from "@/utils/query-client";
 import { db } from "@/db";
 import migrations from "@/db/migrations/migrations";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { useTranslation } from "@/languages/useTranslation";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const insets = useSafeAreaInsets();
 
   const { success, error } = useMigrations(db, migrations);
 
@@ -57,13 +50,11 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider style={{ marginBottom: insets.bottom }}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <QueryClientProvider client={queryClient}>
-          <Stack screenOptions={{ headerShown: false }} />
-          <StatusBar style="auto" animated />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <QueryClientProvider client={queryClient}>
+        <Stack screenOptions={{ headerShown: false }} />
+        <StatusBar style="auto" animated />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }

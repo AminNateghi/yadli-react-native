@@ -3,7 +3,8 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { expensesRecords } from "@/db/schema";
 import type { ExpenseDto } from "@/types/interfaces";
-import { queryClient } from "./query-client";
+import { queryClient } from "../utils/query-client";
+import { remindersQueryKey } from "./reminder-repository";
 
 export const expenseQueryKey = {
   list: ["expense-list"],
@@ -28,6 +29,7 @@ export function useCreateExpense() {
       await db.insert(expensesRecords).values(values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }
@@ -41,6 +43,8 @@ export function useUpdateExpense(id: number) {
         .where(eq(expensesRecords.id, id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: expenseQueryKey.byId(id) });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }
@@ -51,6 +55,7 @@ export function useDeleteExpense() {
       db.delete(expensesRecords).where(eq(expensesRecords.id, id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }

@@ -1,7 +1,7 @@
-import { Colors } from '@/constants/theme';
-import { useAppFontFamily } from '@/hooks/useAppFontFamily';
-import { useTranslation } from '@/languages/useTranslation';
-import { Stack } from 'expo-router';
+import { Colors } from "@/constants/theme";
+import { useAppFontFamily } from "@/hooks/useAppFontFamily";
+import { useTranslation } from "@/languages/useTranslation";
+import { Stack } from "expo-router";
 
 export default function ServicesLayout() {
   const { t } = useTranslation();
@@ -18,8 +18,12 @@ export default function ServicesLayout() {
       }}
     >
       <Stack.Screen
-        name='index'
-        options={{ title: t('menus.reminders'), headerLargeTitle: true, headerTitleAlign: 'center' }}
+        name="index"
+        options={{
+          title: t("menus.reminders"),
+          headerLargeTitle: true,
+          headerTitleAlign: "center",
+        }}
       />
     </Stack>
   );

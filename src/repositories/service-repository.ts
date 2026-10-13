@@ -2,8 +2,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { servicesRecords } from "@/db/schema";
-import type { ServiceDto, ServiceType } from "@/types/interfaces";
-import { queryClient } from "./query-client";
+import type { ServiceDto } from "@/types/interfaces";
+import { queryClient } from "../utils/query-client";
+import { remindersQueryKey } from "./reminder-repository";
 
 export const serviceQueryKey = {
   list: ["service-list"],
@@ -28,6 +29,7 @@ export function useCreateService() {
       await db.insert(servicesRecords).values(values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: serviceQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }
@@ -41,6 +43,8 @@ export function useUpdateService(id: number) {
         .where(eq(servicesRecords.id, id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: serviceQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: serviceQueryKey.byId(id) });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }
@@ -51,22 +55,7 @@ export function useDeleteService() {
       db.delete(servicesRecords).where(eq(servicesRecords.id, id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: serviceQueryKey.list });
-    },
-  });
-}
-
-export function useDoneService() {
-  return useMutation({
-    mutationFn: async (serviceType: ServiceType) =>
-      await db
-        .update(servicesRecords)
-        .set({
-          nextDueDate: null,
-          nextDueOdometer: null,
-        })
-        .where(eq(servicesRecords.type, serviceType)),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: serviceQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }

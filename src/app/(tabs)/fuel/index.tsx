@@ -8,8 +8,8 @@ import { RecordCard } from "@/components/RecordCard";
 import { Text } from "@/components/Text";
 import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
-import { useFuels } from "@/contexts/fuel-repository";
-import { useStatistics } from "@/contexts/statistics-repository";
+import { useFuels } from "@/repositories/fuel-repository";
+import { useStatistics } from "@/repositories/statistics-repository";
 import { FuelForm } from "@/components/forms/FuelForm";
 
 export default function FuelScreen() {

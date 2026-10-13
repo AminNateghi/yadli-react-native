@@ -1,8 +1,5 @@
-import { MenuIcon, XIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import { useMediaQuery } from "react-responsive";
-import { Text } from "@/components/Text";
+import { StyleSheet, View } from "react-native";
 import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { LANGUAGE_TYPE, type LanguageType } from "@/types/interfaces";
@@ -11,11 +8,12 @@ import { SelectPicker } from "./SelectPicker";
 import {
   useGetProfile,
   useSaveProfileLanguage,
-} from "@/contexts/profile-repository";
-import { Toast } from "./CustomToast";
+} from "@/repositories/profile-repository";
+import { useRouter } from "expo-router";
 
 export function SettingsForm() {
   const { t, isRTL } = useTranslation();
+  const router = useRouter();
   const [language, setLanguage] = useState<LanguageType>("fa");
 
   const { data } = useGetProfile();
@@ -29,6 +27,7 @@ export function SettingsForm() {
 
   const handleSave = () => {
     saveLanguage(language);
+    router.back();
   };
 
   return (

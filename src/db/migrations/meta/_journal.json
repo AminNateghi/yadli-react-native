@@ -8,6 +8,20 @@
       "when": 1790881504546,
       "tag": "0000_cool_yellow_claw",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791396669019,
+      "tag": "0001_foamy_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791833162627,
+      "tag": "0002_glossy_scarlet_spider",
+      "breakpoints": true
     }
   ]
 }

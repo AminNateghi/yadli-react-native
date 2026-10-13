@@ -1,23 +1,35 @@
-import { Text } from '@/components/Text';
-import { Colors } from '@/constants/theme';
-import { ActivityIndicator, Pressable, StyleSheet, ViewStyle } from 'react-native';
+import { Text } from "@/components/Text";
+import { Colors } from "@/constants/theme";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleSheet,
+  type ViewStyle,
+} from "react-native";
 
 interface ButtonProps {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'danger';
+  variant?: "primary" | "secondary" | "danger";
   loading?: boolean;
   disabled?: boolean;
   style?: ViewStyle;
 }
 
-export function Button({ title, onPress, variant = 'primary', loading, disabled, style }: ButtonProps) {
+export function Button({
+  title,
+  onPress,
+  variant = "primary",
+  loading,
+  disabled,
+  style,
+}: ButtonProps) {
   const getBackgroundColor = () => {
     if (disabled) return Colors.border;
     switch (variant) {
-      case 'secondary':
+      case "secondary":
         return Colors.surfaceAlt;
-      case 'danger':
+      case "danger":
         return Colors.danger;
       default:
         return Colors.primary;
@@ -27,10 +39,10 @@ export function Button({ title, onPress, variant = 'primary', loading, disabled,
   const getTextColor = () => {
     if (disabled) return Colors.textMuted;
     switch (variant) {
-      case 'secondary':
+      case "secondary":
         return Colors.text;
       default:
-        return '#FFFFFF';
+        return "#FFFFFF";
     }
   };
 
@@ -46,10 +58,7 @@ export function Button({ title, onPress, variant = 'primary', loading, disabled,
       disabled={disabled || loading}
     >
       {loading ? (
-        <ActivityIndicator
-          color={getTextColor()}
-          size='small'
-        />
+        <ActivityIndicator color={getTextColor()} size="small" />
       ) : (
         <Text style={[styles.text, { color: getTextColor() }]}>{title}</Text>
       )}
@@ -61,8 +70,8 @@ const styles = StyleSheet.create({
   button: {
     height: 50,
     borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 20,
   },
   pressed: {

@@ -5,6 +5,8 @@ import {
   BanknoteIcon,
   WrenchIcon,
   WalletIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
@@ -15,10 +17,11 @@ import { Text } from "@/components/Text";
 import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { getExpenseTypeTitle, getServiceTypeTitle } from "@/types/interfaces";
-import { useStatistics } from "@/contexts/statistics-repository";
-import { useServices } from "@/contexts/service-repository";
-import { useFuels } from "@/contexts/fuel-repository";
-import { useExpenses } from "@/contexts/expense-repository";
+import { useStatistics } from "@/repositories/statistics-repository";
+import { useServices } from "@/repositories/service-repository";
+import { useFuels } from "@/repositories/fuel-repository";
+import { useExpenses } from "@/repositories/expense-repository";
+import { MotiView } from "moti";
 
 export default function DashboardScreen() {
   const { t, isRTL } = useTranslation();
@@ -27,12 +30,11 @@ export default function DashboardScreen() {
 
   const {
     totalFuelCost,
-    avgKmPerLiter,
-    nextServiceDue,
     totalExpenses,
     totalKm,
     totalServiceCost,
     totalSpent,
+    totalReminders,
     expenseRecordsLength,
     fuelRecordsLength,
     serviceRecordsLength,
@@ -64,16 +66,31 @@ export default function DashboardScreen() {
               </Text>
             </View>
           </View>
-          {/* {overdueCount > 0 && (
+          {totalReminders > 0 && (
             <Pressable onPress={() => router.push("/reminders")}>
-              <View style={styles.nextService}>
-                <CalendarIcon size={14} color={Colors.danger} />
-                <Text style={styles.nextServiceText}>
-                  {t("reminders.overdue")}
-                </Text>
-              </View>
+              <MotiView
+                from={{ opacity: 0.3 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  loop: true,
+                  type: "timing",
+                  duration: 1000,
+                  delay: 200,
+                }}
+              >
+                <View style={styles.nextService}>
+                  <Text style={styles.reminderText}>
+                    {t("reminders.overdue")}
+                  </Text>
+                  {isRTL ? (
+                    <ChevronLeftIcon size={14} color={Colors.danger} />
+                  ) : (
+                    <ChevronRightIcon size={14} color={Colors.danger} />
+                  )}
+                </View>
+              </MotiView>
             </Pressable>
-          )} */}
+          )}
         </View>
 
         <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
@@ -85,28 +102,28 @@ export default function DashboardScreen() {
             color={Colors.primary}
           />
           <StatCard
-            title={t("dashboard.expenses")}
-            value={`${totalExpenses.toFixed(0)}`}
-            subtitle={`${expenseRecordsLength} ${t("dashboard.records")}`}
-            icon={BanknoteIcon}
-            color={Colors.expense}
-          />
-        </View>
-
-        <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
-          <StatCard
             title={t("dashboard.fuelCosts")}
             value={`${totalFuelCost.toFixed(0)}`}
             subtitle={`${fuelRecordsLength} ${t("dashboard.fillUps")}`}
             icon={FuelIcon}
             color={Colors.fuel}
           />
+        </View>
+
+        <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
           <StatCard
             title={t("dashboard.serviceCosts")}
             value={`${totalServiceCost.toFixed(0)}`}
             subtitle={`${serviceRecordsLength} ${t("dashboard.servicesCount")}`}
             icon={WrenchIcon}
             color={Colors.service}
+          />
+          <StatCard
+            title={t("dashboard.expenses")}
+            value={`${totalExpenses.toFixed(0)}`}
+            subtitle={`${expenseRecordsLength} ${t("dashboard.records")}`}
+            icon={BanknoteIcon}
+            color={Colors.expense}
           />
         </View>
 
@@ -120,11 +137,7 @@ export default function DashboardScreen() {
             </Pressable>
           </View>
           {recentFuel?.length === 0 ? (
-            <EmptyState
-              icon={FuelIcon}
-              title={t("fuel.noFuelRecords")}
-              subtitle={t("fuel.fuelDescription")}
-            />
+            <EmptyState icon={FuelIcon} title={t("fuel.noFuelRecords")} />
           ) : (
             recentFuel
               ?.slice(0, 2)
@@ -154,11 +167,7 @@ export default function DashboardScreen() {
             </Pressable>
           </View>
           {recentServices?.length === 0 ? (
-            <EmptyState
-              icon={WrenchIcon}
-              title={t("services.noServicesYet")}
-              subtitle={t("services.servicesDescription")}
-            />
+            <EmptyState icon={WrenchIcon} title={t("services.noServicesYet")} />
           ) : (
             recentServices
               ?.slice(0, 2)
@@ -191,7 +200,6 @@ export default function DashboardScreen() {
             <EmptyState
               icon={BanknoteIcon}
               title={t("expenses.noExpenseYet")}
-              subtitle={t("expenses.expensesDescription")}
             />
           ) : (
             recentExpenses
@@ -271,9 +279,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 20,
   },
-  nextServiceText: {
-    fontSize: 12,
-    fontWeight: 500,
+  reminderText: {
+    fontSize: 11,
+    fontWeight: 600,
     color: Colors.danger,
   },
   statsGrid: {

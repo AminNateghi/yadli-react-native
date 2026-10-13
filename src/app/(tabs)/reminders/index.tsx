@@ -1,80 +1,79 @@
-import { useRouter } from "expo-router";
-import { BellIcon, CalendarClockIcon } from "lucide-react-native";
-import { useMemo } from "react";
+import { TimerIcon } from "lucide-react-native";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { EmptyState } from "@/components/EmptyState";
-import { ReminderCard } from "@/components/ReminderCard";
-import { Text } from "@/components/Text";
 import { Colors } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
-import { serviceTypeOptions } from "@/types/interfaces";
-import { getServiceReminders } from "@/utils/serviceReminders";
+import { useReminders } from "@/repositories/reminder-repository";
+import { ReminderForm } from "@/components/forms/ReminderForm";
+import { ReminderCard } from "@/components/ReminderCard";
+import { getReminders, type ReminderCardProp } from "@/utils/serviceReminders";
+import { useServices } from "@/repositories/service-repository";
+import { useFuels } from "@/repositories/fuel-repository";
+import { useExpenses } from "@/repositories/expense-repository";
 
 export default function ServiceRemindersScreen() {
-  // const { t, isRTL } = useTranslation();
-  // const { services, stats } = useData();
-  // const router = useRouter();
-  // const isDesktop = useMediaQuery({ minWidth: 768 });
+  const { t, isRTL } = useTranslation();
+  const isDesktop = useMediaQuery({ minWidth: 768 });
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [reminders, setReminders] = useState<ReminderCardProp[]>([]);
 
-  // const reminders = useMemo(() => getServiceReminders(services, stats.totalKm), [services, stats.totalKm]);
+  const { data } = useReminders();
+  const { data: services } = useServices();
+  const { data: fuels } = useFuels();
+  const { data: expenses } = useExpenses();
 
-  // const overdueCount = reminders.filter(r => r.dateProgress?.overdue || r.odometerProgress?.overdue).length;
+  useEffect(() => {
+    const loadReminders = async () => {
+      if (!data || !services || !fuels || !expenses) return;
 
-  // const getServiceLabel = (serviceType: string) =>
-  //   serviceTypeOptions(t).find(s => s.value === serviceType)?.label || '-';
+      const result = await getReminders(data, {
+        services: services || [],
+        fuels: fuels || [],
+        expense: expenses || [],
+      });
+      setReminders(result);
+    };
 
-  // return (
-  //   <View style={[styles.wrapper, isRTL && { direction: 'rtl' }]}>
-  //     <ScrollView
-  //       style={styles.container}
-  //       contentContainerStyle={[styles.content, isDesktop && styles.contentDesktop]}
-  //       showsVerticalScrollIndicator={false}
-  //     >
-  //       {reminders.length > 0 && (
-  //         <View style={styles.summaryCard}>
-  //           <View style={styles.summaryIconContainer}>
-  //             <CalendarClockIcon
-  //               size={22}
-  //               color={overdueCount > 0 ? Colors.danger : Colors.service}
-  //             />
-  //           </View>
-  //           <View style={styles.summaryContent}>
-  //             <Text style={styles.summaryValue}>
-  //               {reminders.length} {t('reminders.activeReminders')}
-  //             </Text>
-  //             <Text style={styles.summaryLabel}>
-  //               {overdueCount > 0 ? `${overdueCount} ${t('reminders.needAttention')}` : t('reminders.allOnTrack')}
-  //             </Text>
-  //           </View>
-  //         </View>
-  //       )}
+    loadReminders();
+  }, [data, services, fuels, expenses]);
 
-  //       {reminders.length === 0 ? (
-  //         <EmptyState
-  //           icon={BellIcon}
-  //           title={t('reminders.noReminders')}
-  //           subtitle={t('reminders.noRemindersDescription')}
-  //         />
-  //       ) : (
-  //         reminders.map(reminder => (
-  //           <ReminderCard
-  //             key={reminder.service.id}
-  //             reminder={reminder}
-  //             serviceLabel={getServiceLabel(reminder.service.type)}
-  //             t={t}
-  //             onPress={() =>
-  //               router.push(`/services?add=true&type=${reminder.service.type}&prevId=${reminder.service.id}`)
-  //             }
-  //           />
-  //         ))
-  //       )}
+  return (
+    <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={[
+          styles.content,
+          isDesktop && styles.contentDesktop,
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
+        {!reminders || reminders?.length === 0 ? (
+          <EmptyState
+            icon={TimerIcon}
+            title={t("reminders.noReminders")}
+            subtitle={t("reminders.noRemindersDescription")}
+          />
+        ) : (
+          reminders?.map((reminder) => {
+            return (
+              <ReminderCard
+                key={reminder?.data?.id}
+                reminder={reminder}
+                onPress={(id) => {
+                  setEditingId(id);
+                }}
+              />
+            );
+          })
+        )}
+        <View style={{ height: 100 }} />
+      </ScrollView>
 
-  //       <View style={{ height: 32 }} />
-  //     </ScrollView>
-  //   </View>
-  // );
-  return <Text>Reminder</Text>;
+      <ReminderForm editingId={editingId} onClose={() => setEditingId(null)} />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -92,35 +91,5 @@ const styles = StyleSheet.create({
     maxWidth: 1024,
     alignSelf: "center",
     width: "100%",
-  },
-  summaryCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.surfaceAlt,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
-    gap: 12,
-  },
-  summaryIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    backgroundColor: Colors.secondary + "15",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  summaryContent: {
-    flex: 1,
-  },
-  summaryValue: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: Colors.text,
-  },
-  summaryLabel: {
-    fontSize: 13,
-    color: Colors.textSecondary,
-    marginTop: 2,
   },
 });

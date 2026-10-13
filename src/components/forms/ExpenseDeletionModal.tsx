@@ -3,7 +3,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { ConfirmationDialog } from "../ConfirmationDialog";
 import { Button } from "../Button";
 import { Toast } from "../CustomToast";
-import { useDeleteExpense } from "@/contexts/expense-repository";
+import { useDeleteExpense } from "@/repositories/expense-repository";
 
 type Props = {
   editingId: number;

@@ -3,7 +3,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { ConfirmationDialog } from "../ConfirmationDialog";
 import { Button } from "../Button";
 import { Toast } from "../CustomToast";
-import { useDeleteFuel } from "@/contexts/fuel-repository";
+import { useDeleteFuel } from "@/repositories/fuel-repository";
 
 type Props = {
   editingId: number;

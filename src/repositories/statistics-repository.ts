@@ -2,6 +2,8 @@ import { useServices } from "./service-repository";
 import { useFuels } from "./fuel-repository";
 import { useExpenses } from "./expense-repository";
 import { useEffect, useState } from "react";
+import { useReminders } from "./reminder-repository";
+import { getReminders } from "@/utils/serviceReminders";
 
 export function useStatistics() {
   const [maxOdometer, setMaxOdometer] = useState<number>(0);
@@ -9,7 +11,7 @@ export function useStatistics() {
   const [totalFuelCost, setTotalFuelCost] = useState<number>(0);
   const [totalServiceCost, setTotalServiceCost] = useState<number>(0);
   const [totalExpenses, setTotalExpenses] = useState<number>(0);
-  const [nextServiceDue, setNextServiceDue] = useState<string>();
+  const [totalReminders, setTotalReminders] = useState<number>(0);
   const [totalSpent, setTotalSpent] = useState<number>(0);
   const [fuelRecordsLength, setFuelRecordsLength] = useState<number>(0);
   const [serviceRecordsLength, setServiceRecordsLength] = useState<number>(0);
@@ -18,6 +20,30 @@ export function useStatistics() {
   const { data: listOfServices } = useServices();
   const { data: listOfFuels } = useFuels();
   const { data: listOfExpenses } = useExpenses();
+  const { data: listOfReminders } = useReminders();
+
+  useEffect(() => {
+    const loadReminders = async () => {
+      if (
+        !listOfReminders ||
+        !listOfServices ||
+        !listOfFuels ||
+        !listOfExpenses
+      )
+        return;
+
+      const result = await getReminders(listOfReminders, {
+        services: listOfServices || [],
+        fuels: listOfFuels || [],
+        expense: listOfExpenses || [],
+      });
+      setTotalReminders(
+        result.filter((reminder) => reminder.urgency > 0).length,
+      );
+    };
+
+    loadReminders();
+  }, [listOfReminders, listOfServices, listOfFuels, listOfExpenses]);
 
   useEffect(() => {
     if (listOfExpenses && listOfFuels && listOfServices) {
@@ -69,23 +95,6 @@ export function useStatistics() {
         0,
       );
       setTotalExpenses(expenses);
-
-      // ====== Next Due Service
-      const today = new Date();
-
-      const timeUntilNextService =
-        listOfServices.length > 0
-          ? new Date(listOfServices[0].nextDueDate!).getTime() - today.getTime()
-          : 0;
-
-      const daysUntilNextService = Math.ceil(
-        timeUntilNextService / (1000 * 60 * 60 * 24),
-      );
-      const nextService =
-        daysUntilNextService <= 7 && daysUntilNextService > 0
-          ? listOfServices[0].nextDueDate!
-          : "";
-      setNextServiceDue(nextService);
     }
   }, [listOfExpenses, listOfFuels, listOfServices]);
 
@@ -99,7 +108,7 @@ export function useStatistics() {
     totalFuelCost,
     totalServiceCost,
     totalExpenses,
-    nextServiceDue,
+    totalReminders,
     totalSpent,
     fuelRecordsLength,
     serviceRecordsLength,

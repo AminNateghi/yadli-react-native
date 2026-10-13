@@ -8,8 +8,8 @@ import { RecordCard } from "@/components/RecordCard";
 import { Text } from "@/components/Text";
 import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
-import { useExpenses } from "@/contexts/expense-repository";
-import { useStatistics } from "@/contexts/statistics-repository";
+import { useExpenses } from "@/repositories/expense-repository";
+import { useStatistics } from "@/repositories/statistics-repository";
 import { ExpenseForm } from "@/components/forms/ExpenseForm";
 import { getExpenseTypeTitle } from "@/types/interfaces";
 

@@ -46,6 +46,7 @@ export const Colors = {
   fuel: "#F59E0B",
   service: "#10B981",
   expense: "#8B5CF6",
+  reminder: "#8d0d49",
 };
 
 export const globalStyles = StyleSheet.create({
@@ -92,6 +93,9 @@ export const globalStyles = StyleSheet.create({
   },
   fabExpense: {
     backgroundColor: Colors.expense,
+  },
+  fabReminder: {
+    backgroundColor: Colors.reminder,
   },
 
   // modal

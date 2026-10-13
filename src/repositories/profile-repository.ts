@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { profileRecords } from "@/db/schema";
 import type { LanguageType } from "@/types/interfaces";
-import { queryClient } from "./query-client";
+import { queryClient } from "../utils/query-client";
 
 export const profileQueryKey = {
   profile: ["profile"],

@@ -22,7 +22,10 @@
     "selectDate": "انتخاب تاریخ",
     "required": "اجباری",
     "saved": "ذخیره شد",
-    "deleted": "حذف شد"
+    "deleted": "حذف شد",
+    "select": "انتخاب کنید...",
+    "active": "فعال",
+    "inactive": "غیرفعال"
   },
   "menus": {
     "dashboard": "داشبورد",
@@ -39,10 +42,10 @@
     "avgPerKm": "میانگین مصرف",
     "allTime": "",
     "fuelEfficiency": "در هر ۱۰۰ کیلومتر",
-    "fuelCosts": "هزینه سوخت‌گیری",
+    "fuelCosts": "سوخت‌گیری",
     "fillUps": "بار",
     "records": "مورد",
-    "serviceCosts": "هزینه سرویس‌ها",
+    "serviceCosts": "سرویس‌ها",
     "servicesCount": "بار",
     "recentServices": "آخرین سرویس‌ها",
     "expenses": "هزینه‌ها",
@@ -66,23 +69,38 @@
     "odometer": "عدد کیلومتر",
     "odometerPlaceholder": "عدد کیلومتر الان خودرو",
     "liters": "لیتر",
-    "litersPlaceholder": "مثلا ۳۰ لیتر",
+    "litersPlaceholder": "مثال ۳۰ لیتر",
     "price": "قیمت هر لیتر (تومان)",
-    "pricePlaceholder": "مثلا ۳۰۰۰ تومان",
+    "pricePlaceholder": "مثال ۳۰۰۰ تومان",
     "totalCost": "مبلغ پرداختی",
     "fullTank": "باک پر شد",
     "fullTankPlaceholder": "آیا باک خودرو پر شده است؟",
     "station": "محل سوخت‌گیری (اختیاری)",
-    "stationPlaceHolder": "مثلا اتوبان رشت",
+    "stationPlaceHolder": "مثال اتوبان رشت",
     "kmPerLiter": "",
     "averageFuelEconomy": "مصرف در هر ۱۰۰ کیلومتر",
     "note": "یادداشت (اختیاری)",
-    "notePlaceholder": "هر توضیح اضافه در مورد سرویس..."
+    "notePlaceholder": "یادداشتی برای این سوخت‌گیری"
   },
   "reminders": {
     "title": "یادآور سرویس‌ها",
-    "noReminders": "یادآوری ثبت نشده",
-    "noRemindersDescription": "هنگام ثبت سرویس، تاریخ یا کیلومتر سررسید بعدی را وارد کنید تا سرویس‌های دوره‌ای یادآوری شود",
+    "noReminders": "هیچ یادآوری ثبت نشده",
+    "noRemindersDescription": "با ثبت یادآوری، سرویس‌های دوره‌ای را فراموش نخواهید کرد",
+    "confirmDelete": "آیا این مورد را حذف می‌کنید؟",
+    "dependent": "وابسته به",
+    "mode": "نحوه تکرار",
+    "startOdometer": "آخرین کیلومتر سرویس",
+    "startDate": "تاریخ آخرین سرویس",
+    "triggerType": "نحوه محاسبه",
+    "odometerInterval": "چند کیلومتر پیمایش",
+    "dateIntervalMonths": "چند ماه پیمایش",
+    "active": "وضعیت فعال/غیرفعال",
+    "notes": "یادداشت",
+    "updateTitle": "ویرایش یادآور",
+    "createTitle": "ثبت یادآور",
+    "titleCard1": "وابستگی یادآور را انتخاب کنید",
+    "titleCard2": "یکی از موارد زیر یا هر دو را وارد کنید",
+    "titleCard3": "نحوه محاسبه و نمایش یادآوری را وارد کنید",
     "activeReminders": "یادآور فعال",
     "needAttention": "مورد نیاز به تعویض",
     "allOnTrack": "همه سرویس‌ها در وضعیت مناسب",
@@ -109,16 +127,16 @@
     "serviceType": "نوع سرویس",
     "date": "تاریخ",
     "odometer": "عدد کیلومتر",
-    "odometerPlaceholder": "مثلا ۱۲۰۰۰",
+    "odometerPlaceholder": "مثال ۱۲۰۰۰",
     "cost": "هزینه (تومان)",
-    "costPlaceholder": "مثلا ۷۵۰۰۰",
+    "costPlaceholder": "مثال ۷۵۰۰۰",
     "note": "یادداشت (اختیاری)",
-    "notePlaceholder": "هر توضیح اضافه در مورد سرویس...",
+    "notePlaceholder": "یادداشتی برای این سرویس",
     "nextServiceDue": "سررسید سرویس بعدی (اختیاری)",
     "nextDueDate": "تاریخ سررسید بعدی",
     "nextDueDatePlaceholder": "تاریخ بعدی سرویس",
     "nextDueOdometer": "کیلومتر سررسید بعدی",
-    "nextDueOdometerPlaceholder": "مثلا ۱۷۰۰۰ کیلومتر بعدی سرویس"
+    "nextDueOdometerPlaceholder": "مثال ۱۷۰۰۰ کیلومتر بعدی سرویس"
   },
   "expenses": {
     "noExpenseYet": "هیچ هزینه‌ای ثبت نشده",
@@ -131,11 +149,11 @@
     "category": "نوع هزینه",
     "date": "تاریخ",
     "amount": "مبلغ (تومان)",
-    "amountPlaceholder": "مثلا ۲۰۰۰۰۰ تومان",
+    "amountPlaceholder": "مثال ۲۰۰۰۰۰ تومان",
     "notes": "یادداشت",
     "notesPlaceholder": "یادداشتی در مورد این هزینه",
     "odometer": "عدد کیلومتر",
-    "odometerPlaceholder": "مثلا ۱۲۰۰۰"
+    "odometerPlaceholder": "مثال ۱۲۰۰۰"
   },
   "serviceType": {
     "FuelAdditive": "مکمل سوخت",
@@ -193,18 +211,41 @@
     "Tuning": "تیونینگ"
   },
   "expenseType": {
-    "Other": "سایر موارد",
-    "Buy": "خرید خودرو",
-    "Sell": "فروش خودرو",
     "Reimbursement": "پرداخت قسط",
     "Fine": "جریمه",
     "Tolls": "عوارض",
     "Tax": "مالیات",
     "Parking": "پارکینگ",
     "Registration": "ثبت و اسناد",
+    "TechnicalInspection": "معاینه فنی",
     "CertificateRenewal": "تمدید گواهینامه",
     "InsuranceSecondPerson": "بیمه شخص ثالث",
     "InsuranceBody": "بیمه بدنه",
-    "TechnicalInspection": "معاینه فنی"
+    "Other": "سایر موارد"
+  },
+  "reminderMode": {
+    "OneTime": "يکبار",
+    "Recurring": "چندبار"
+  },
+  "reminderDependent": {
+    "Service": "سرویس‌ها",
+    "Expense": "هزینه‌ها"
+  },
+  "reminderTriggerType": {
+    "Odometer": "با کیلومتر",
+    "Date": "با تاریخ",
+    "Either": "هر دو اما هرکدام زودتر"
+  },
+  "reminderDateInterval": {
+    "m1": "۱ ماه",
+    "m3": "۳ ماه",
+    "m6": "۶ ماه",
+    "m9": "۹ ماه",
+    "m12": "۱ سال",
+    "m18": "۱۸ ماه",
+    "m24": "۲ سال",
+    "m36": "۳ سال",
+    "m48": "۴ سال",
+    "m60": "۵ سال"
   }
 }

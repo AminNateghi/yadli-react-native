@@ -1,6 +1,7 @@
 import type {
   expensesRecords,
   fuelsRecords,
+  remindersRecords,
   servicesRecords,
 } from "@/db/schema";
 import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
@@ -8,6 +9,7 @@ import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
 export type ServiceDto = typeof servicesRecords.$inferSelect;
 export type FuelDto = typeof fuelsRecords.$inferSelect;
 export type ExpenseDto = typeof expensesRecords.$inferSelect;
+export type ReminderDto = typeof remindersRecords.$inferSelect;
 
 export type ServiceType =
   | "Other"
@@ -77,6 +79,10 @@ export type ExpenseType =
   | "InsuranceBody"
   | "Other";
 
+export type ReminderDependent = "Service" | "Expense";
+export type ReminderMode = "OneTime" | "Recurring";
+export type ReminderTriggerType = "Odometer" | "Date" | "Either";
+
 export interface CarStats {
   totalKm: number;
   avgKmPerLiter: number;
@@ -94,6 +100,30 @@ export interface ServiceOptionProps {
 
 export interface ExpenseOptionProps {
   value: ExpenseType;
+  label: string;
+  isGroup?: boolean;
+}
+
+export interface ReminderModeOptionProps {
+  value: ReminderMode;
+  label: string;
+  isGroup?: boolean;
+}
+
+export interface ReminderDependentOptionProps {
+  value: "Service" | "Expense";
+  label: string;
+  isGroup?: boolean;
+}
+
+export interface ReminderDateIntervalMonthsProps {
+  value: string;
+  label: string;
+  isGroup?: boolean;
+}
+
+export interface ReminderTriggerTypeProps {
+  value: ReminderTriggerType;
   label: string;
   isGroup?: boolean;
 }
@@ -218,6 +248,51 @@ export function expenseTypeOptions(
     },
     { value: "InsuranceBody", label: t("expenseType.InsuranceBody") },
     { value: "Other", label: t(`expenseType.Other`) },
+  ];
+}
+
+export function reminderModeOptions(
+  t: (key: NestedKeyOf<TranslationKeys>) => string,
+): ReminderModeOptionProps[] {
+  return [
+    { value: "OneTime", label: t("reminderMode.OneTime") },
+    { value: "Recurring", label: t("reminderMode.Recurring") },
+  ];
+}
+
+export function reminderDependentOptions(
+  t: (key: NestedKeyOf<TranslationKeys>) => string,
+): ReminderDependentOptionProps[] {
+  return [
+    { value: "Service", label: t("reminderDependent.Service") },
+    { value: "Expense", label: t("reminderDependent.Expense") },
+  ];
+}
+
+export function reminderTriggerTypeOptions(
+  t: (key: NestedKeyOf<TranslationKeys>) => string,
+): ReminderTriggerTypeProps[] {
+  return [
+    { value: "Date", label: t("reminderTriggerType.Date") },
+    { value: "Odometer", label: t("reminderTriggerType.Odometer") },
+    { value: "Either", label: t("reminderTriggerType.Either") },
+  ];
+}
+
+export function reminderDateIntervalMonths(
+  t: (key: NestedKeyOf<TranslationKeys>) => string,
+): ReminderDateIntervalMonthsProps[] {
+  return [
+    { value: "1", label: t("reminderDateInterval.m1") },
+    { value: "3", label: t("reminderDateInterval.m3") },
+    { value: "6", label: t("reminderDateInterval.m6") },
+    { value: "9", label: t("reminderDateInterval.m9") },
+    { value: "12", label: t("reminderDateInterval.m12") },
+    { value: "18", label: t("reminderDateInterval.m18") },
+    { value: "24", label: t("reminderDateInterval.m24") },
+    { value: "36", label: t("reminderDateInterval.m36") },
+    { value: "48", label: t("reminderDateInterval.m48") },
+    { value: "60", label: t("reminderDateInterval.m60") },
   ];
 }
 

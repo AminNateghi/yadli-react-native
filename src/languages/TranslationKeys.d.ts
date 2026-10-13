@@ -18,6 +18,10 @@ export interface TranslationKeys {
   services: Services;
   expenses: Expenses;
   expenseType: ExpenseType;
+  reminderMode: ReminderMode;
+  reminderDependent: ReminderDependent;
+  reminderDateInterval: ReminderDateInterval;
+  reminderTriggerType: ReminderTriggerType;
 }
 
 interface App {
@@ -45,6 +49,9 @@ interface Common {
   required: string;
   saved: string;
   deleted: string;
+  select: string;
+  active: string;
+  inactive: string;
 }
 
 interface Menus {
@@ -84,6 +91,21 @@ interface Reminders {
   title: string;
   noReminders: string;
   noRemindersDescription: string;
+  confirmDelete: string;
+  dependent: string;
+  mode: string;
+  startOdometer: string;
+  startDate: string;
+  triggerType: string;
+  odometerInterval: string;
+  dateIntervalMonths: string;
+  active: string;
+  notes: string;
+  updateTitle: string;
+  createTitle: string;
+  titleCard1: string;
+  titleCard2: string;
+  titleCard3: string;
   activeReminders: string;
   needAttention: string;
   allOnTrack: string;
@@ -235,4 +257,33 @@ interface ExpenseType {
   InsuranceSecondPerson: string;
   InsuranceBody: string;
   Other: string;
+}
+
+interface ReminderMode {
+  OneTime: string;
+  Recurring: string;
+}
+
+interface ReminderDependent {
+  Service: string;
+  Expense: string;
+}
+
+interface ReminderTriggerType {
+  Either: string;
+  Odometer: string;
+  Date: string;
+}
+
+interface ReminderDateInterval {
+  m1: string;
+  m3: string;
+  m6: string;
+  m9: string;
+  m12: string;
+  m18: string;
+  m24: string;
+  m36: string;
+  m48: string;
+  m60: string;
 }

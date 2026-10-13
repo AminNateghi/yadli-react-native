@@ -22,7 +22,10 @@
     "selectDate": "Select Date",
     "required": "Required",
     "saved": "Saved",
-    "deleted": "Deleted"
+    "deleted": "Deleted",
+    "select": "Select one...",
+    "active": "Active",
+    "inactive": "Disabled"
   },
   "menus": {
     "dashboard": "Dashboard",
@@ -82,7 +85,22 @@
   "reminders": {
     "title": "Service Reminders",
     "noReminders": "No Reminders Set",
-    "noRemindersDescription": "Set a next due date or odometer when adding a service to track periodic maintenance",
+    "noRemindersDescription": "By setting a reminder, you won't forget scheduled maintenance services",
+    "confirmDelete": "Delete this reminder record?",
+    "dependent": "Reminder as",
+    "mode": "Mode",
+    "startOdometer": "Odometer when the interval started",
+    "startDate": "Date when the interval started",
+    "triggerType": "Type",
+    "odometerInterval": "How many km until next reminder",
+    "dateIntervalMonths": "How many months until next reminder",
+    "active": "Active",
+    "notes": "Note",
+    "updateTitle": "Edit Reminder",
+    "createTitle": "Add Reminder",
+    "titleCard1": "Select the reminder dependency",
+    "titleCard2": "Enter one or both of the following",
+    "titleCard3": "Specify how the reminder is calculated and displayed",
     "activeReminders": "active reminders",
     "needAttention": "need attention",
     "allOnTrack": "All services on track",
@@ -204,5 +222,30 @@
     "InsuranceSecondPerson": "Insurance Second Person",
     "InsuranceBody": "Insurance Body",
     "Other": "Other"
+  },
+  "reminderMode": {
+    "OneTime": "One-Time",
+    "Recurring": "Recurring"
+  },
+  "reminderDependent": {
+    "Service": "Service",
+    "Expense": "Expense"
+  },
+  "reminderTriggerType": {
+    "Odometer": "Odometer",
+    "Date": "Date",
+    "Either": "Either"
+  },
+  "reminderDateInterval": {
+    "m1": "1 month",
+    "m3": "3 months",
+    "m6": "6 months",
+    "m9": "9 months",
+    "m12": "1 Year",
+    "m18": "18 months",
+    "m24": "2 years",
+    "m36": "3 years",
+    "m48": "4 years",
+    "m60": "5 years"
   }
 }

@@ -1,9 +1,11 @@
 import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import type {
-  ExpenseType,
-  LanguageType,
-  ServiceType,
+import {
+  ReminderMode,
+  ReminderTriggerType,
+  type ExpenseType,
+  type LanguageType,
+  type ServiceType,
 } from "@/types/interfaces";
 
 export const profileRecords = sqliteTable("profile", {
@@ -12,8 +14,12 @@ export const profileRecords = sqliteTable("profile", {
   vehicleName: text("vehicle_name").default("-"),
   language: text("language").$type<LanguageType>().default("fa"),
 
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at")
+  createdAt: integer("created_at", {
+    mode: "timestamp",
+  }).default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer("updated_at", {
+    mode: "timestamp",
+  })
     .default(sql`(CURRENT_TIMESTAMP)`)
     .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
 });
@@ -23,15 +29,17 @@ export const servicesRecords = sqliteTable("services", {
     autoIncrement: true,
   }),
   type: text("type").$type<ServiceType>().notNull(),
-  date: text("date").notNull(),
+  date: integer("date", { mode: "timestamp" }).notNull(),
   odometer: integer("odometer").notNull(),
   cost: integer("cost").notNull(),
   note: text("note"),
-  nextDueDate: text("next_due_date"),
-  nextDueOdometer: integer("next_due_odometer"),
 
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at")
+  createdAt: integer("created_at", {
+    mode: "timestamp",
+  }).default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer("updated_at", {
+    mode: "timestamp",
+  })
     .default(sql`(CURRENT_TIMESTAMP)`)
     .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
 });
@@ -40,7 +48,7 @@ export const fuelsRecords = sqliteTable("fuels", {
   id: integer("id").primaryKey({
     autoIncrement: true,
   }),
-  date: text("date").notNull(),
+  date: integer("date", { mode: "timestamp" }).notNull(),
   odometer: integer("odometer").notNull(),
   liters: integer("liters").notNull(),
   pricePerLiter: integer("price_per_liter").notNull(),
@@ -49,8 +57,12 @@ export const fuelsRecords = sqliteTable("fuels", {
   station: text("station"),
   note: text("note"),
 
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at")
+  createdAt: integer("created_at", {
+    mode: "timestamp",
+  }).default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer("updated_at", {
+    mode: "timestamp",
+  })
     .default(sql`(CURRENT_TIMESTAMP)`)
     .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
 });
@@ -60,13 +72,65 @@ export const expensesRecords = sqliteTable("expenses", {
     autoIncrement: true,
   }),
   type: text("type").$type<ExpenseType>().notNull(),
-  date: text("date").notNull(),
+  date: integer("date", { mode: "timestamp" }).notNull(),
   odometer: integer("odometer").notNull(),
   amount: integer("amount").notNull(),
   note: text("note"),
 
-  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
-  updatedAt: text("updated_at")
+  createdAt: integer("created_at", {
+    mode: "timestamp",
+  }).default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer("updated_at", {
+    mode: "timestamp",
+  })
+    .default(sql`(CURRENT_TIMESTAMP)`)
+    .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
+});
+
+export const remindersRecords = sqliteTable("reminders", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+
+  // What the reminder is for
+  serviceType: text("service_type"),
+  expenseType: text("expense_type"),
+
+  // one-time | recurring
+  mode: text("mode").$type<ReminderMode>().notNull().default("OneTime"),
+
+  // mileage | date | either
+  triggerType: text("trigger_type")
+    .$type<ReminderTriggerType>()
+    .notNull()
+    .default("Either"),
+
+  // Mileage when the interval started
+  startOdometer: integer("start_odometer"),
+  // Date when the interval started
+  startDate: integer("start_date", {
+    mode: "timestamp",
+  }),
+
+  // How many km until next reminder
+  odometerInterval: integer("odometer_interval"),
+
+  // How many months/days until next reminder.
+  // More on this below.
+  dateIntervalMonths: integer("date_interval_months"),
+
+  active: integer("active", {
+    mode: "boolean",
+  })
+    .notNull()
+    .default(true),
+
+  note: text("note"),
+
+  createdAt: integer("created_at", {
+    mode: "timestamp",
+  }).default(sql`(CURRENT_TIMESTAMP)`),
+  updatedAt: integer("updated_at", {
+    mode: "timestamp",
+  })
     .default(sql`(CURRENT_TIMESTAMP)`)
     .$onUpdate(() => sql`(CURRENT_TIMESTAMP)`),
 });

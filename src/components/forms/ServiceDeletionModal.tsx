@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDeleteService } from "@/contexts/service-repository";
+import { useDeleteService } from "@/repositories/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
 import { ConfirmationDialog } from "../ConfirmationDialog";
 import { Button } from "../Button";

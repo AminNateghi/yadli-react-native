@@ -1,4 +1,4 @@
-import { useGetProfile } from "@/contexts/profile-repository";
+import { useGetProfile } from "@/repositories/profile-repository";
 import langEn from "./i18n/en.json";
 import langFa from "./i18n/fa.json";
 import type { NestedKeyOf, TranslationKeys } from "./TranslationKeys";

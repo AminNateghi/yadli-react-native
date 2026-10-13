@@ -8,10 +8,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { globalStyles } from "@/constants/theme";
 import {
   useCreateService,
-  useDoneService,
   useGetService,
   useUpdateService,
-} from "@/contexts/service-repository";
+} from "@/repositories/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
 import {
   type ServiceDto,
@@ -37,8 +36,6 @@ const defaultValues = {
   odometer: undefined,
   cost: undefined,
   note: "",
-  nextDueDate: null,
-  nextDueOdometer: null,
 };
 
 type Props = {
@@ -53,7 +50,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
 
   const { mutate: updateService, isPending: isPendingUpdate } =
     useUpdateService(editingId!);
-  const { mutate: doneService } = useDoneService();
   const { mutate: createService, isPending: isPendingCreate } =
     useCreateService();
   const { data } = useGetService(editingId);
@@ -87,11 +83,9 @@ export function ServiceForm({ editingId, onClose }: Props) {
     reset({
       type: data.type,
       cost: data.cost,
-      date: data.date,
+      date: String(data.date),
       note: data.note,
       odometer: data.odometer,
-      nextDueDate: data.nextDueDate,
-      nextDueOdometer: data.nextDueOdometer,
     });
   }, [data, editingId, reset]);
 
@@ -112,12 +106,10 @@ export function ServiceForm({ editingId, onClose }: Props) {
   const handleSave = async (formData: ServiceFormData) => {
     const service: Omit<ServiceDto, "id"> = {
       type: formData.type as ServiceType,
-      date: formData.date,
+      date: new Date(formData.date),
       odometer: formData.odometer,
       cost: formData.cost,
       note: formData.note ?? null,
-      nextDueDate: formData.nextDueDate ?? null,
-      nextDueOdometer: formData.nextDueOdometer ?? null,
       createdAt: null,
       updatedAt: null,
     };
@@ -129,8 +121,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
         },
       });
     } else {
-      // first clear prev service warning
-      doneService(formData.type as ServiceType);
       createService(service, {
         onSuccess: () => {
           Toast({ text: t("common.saved") });
@@ -270,39 +260,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
                         textAlignVertical: "top",
                         paddingTop: 12,
                       }}
-                    />
-                  </>
-                )}
-              />
-
-              <Text>{t("services.nextServiceDue")}</Text>
-
-              <Controller
-                control={control}
-                name="nextDueDate"
-                render={({ field: { value, onChange } }) => (
-                  <DatePicker
-                    label={t("services.nextDueDate")}
-                    value={value ?? ""}
-                    onChange={onChange}
-                  />
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="nextDueOdometer"
-                render={({ field: { value, onChange } }) => (
-                  <>
-                    <Input
-                      label={t("services.nextDueOdometer")}
-                      value={value?.toString() ?? ""}
-                      onChangeText={(text) => {
-                        onChange(text === "" ? null : Number(text));
-                      }}
-                      keyboardType="numeric"
-                      placeholder={t("services.nextDueOdometerPlaceholder")}
-                      style={{ direction: "ltr" }}
                     />
                   </>
                 )}

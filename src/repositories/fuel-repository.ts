@@ -3,7 +3,8 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { fuelsRecords } from "@/db/schema";
 import type { FuelDto } from "@/types/interfaces";
-import { queryClient } from "./query-client";
+import { queryClient } from "../utils/query-client";
+import { remindersQueryKey } from "./reminder-repository";
 
 export const fuelQueryKey = {
   list: ["fuel-list"],
@@ -28,6 +29,7 @@ export function useCreateFuel() {
       await db.insert(fuelsRecords).values(values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }
@@ -38,6 +40,8 @@ export function useUpdateFuel(id: number) {
       await db.update(fuelsRecords).set(values).where(eq(fuelsRecords.id, id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: fuelQueryKey.byId(id) });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }
@@ -48,6 +52,7 @@ export function useDeleteFuel() {
       db.delete(fuelsRecords).where(eq(fuelsRecords.id, id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }

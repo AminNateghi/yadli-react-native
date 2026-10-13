@@ -1,5 +1,6 @@
 import { Text } from "@/components/Text";
 import { Colors } from "@/constants/theme";
+import { useTranslation } from "@/languages/useTranslation";
 import { CheckIcon, ChevronDownIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
@@ -23,8 +24,9 @@ export function SelectPicker({
   value,
   options,
   onValueChange,
-  placeholder = "Select...",
+  placeholder,
 }: SelectPickerProps) {
+  const { t, isRTL } = useTranslation();
   const [visible, setVisible] = useState(false);
   const selectedLabel = options.find((o) => o.value === value)?.label;
 
@@ -41,7 +43,7 @@ export function SelectPicker({
         <Text
           style={[styles.selectorText, !selectedLabel && styles.placeholder]}
         >
-          {selectedLabel || placeholder}
+          {selectedLabel || placeholder || t("common.select")}
         </Text>
         <ChevronDownIcon size={20} color={Colors.textSecondary} />
       </Pressable>

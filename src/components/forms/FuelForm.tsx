@@ -17,7 +17,7 @@ import {
   useCreateFuel,
   useGetFuel,
   useUpdateFuel,
-} from "@/contexts/fuel-repository";
+} from "@/repositories/fuel-repository";
 import type { FuelDto } from "@/types/interfaces";
 import { PriceValue } from "../PriceValue";
 import { SwitchToggle } from "../SwitchToggle";
@@ -80,7 +80,7 @@ export function FuelForm({ editingId, onClose }: Props) {
 
     // fill form in edit mode
     reset({
-      date: data.date,
+      date: String(data.date),
       note: data.note,
       odometer: data.odometer,
       fullTank: data.fullTank,
@@ -107,7 +107,7 @@ export function FuelForm({ editingId, onClose }: Props) {
 
   const handleSave = async (formData: FuelFormData) => {
     const fuel: Omit<FuelDto, "id"> = {
-      date: formData.date,
+      date: new Date(formData.date),
       odometer: formData.odometer,
       note: formData.note ?? null,
       createdAt: null,
@@ -328,7 +328,7 @@ export function FuelForm({ editingId, onClose }: Props) {
                   title={editingId ? t("common.update") : t("common.save")}
                   onPress={handleSubmit(handleSave)}
                   loading={isPendingUpdate || isPendingCreate}
-                  // disabled={!isValid}
+                  disabled={!isValid}
                   style={{ flex: 1 }}
                 />
               </View>

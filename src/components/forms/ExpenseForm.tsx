@@ -17,7 +17,7 @@ import {
   useCreateExpense,
   useGetExpense,
   useUpdateExpense,
-} from "@/contexts/expense-repository";
+} from "@/repositories/expense-repository";
 import { type ExpenseFormData, expenseSchema } from "@/types/expense-schema";
 import {
   type ExpenseDto,
@@ -80,7 +80,7 @@ export function ExpenseForm({ editingId, onClose }: Props) {
     reset({
       type: data.type,
       amount: data.amount,
-      date: data.date,
+      date: String(data.date),
       odometer: data.odometer,
       note: data.note,
     });
@@ -103,7 +103,7 @@ export function ExpenseForm({ editingId, onClose }: Props) {
   const handleSave = async (formData: ExpenseFormData) => {
     const expense: Omit<ExpenseDto, "id"> = {
       type: formData.type as ExpenseType,
-      date: formData.date,
+      date: new Date(formData.date),
       odometer: formData.odometer,
       amount: formData.amount,
       note: formData.note ?? null,

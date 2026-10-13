@@ -4,12 +4,12 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { ServiceForm } from "@/components/forms/ServiceForm";
 import { Colors, globalStyles } from "@/constants/theme";
-import { useServices } from "@/contexts/service-repository";
+import { useServices } from "@/repositories/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
 import { getServiceTypeTitle } from "@/types/interfaces";
 import { EmptyState } from "@/components/EmptyState";
 import { RecordCard } from "@/components/RecordCard";
-import { useStatistics } from "@/contexts/statistics-repository";
+import { useStatistics } from "@/repositories/statistics-repository";
 import { Text } from "@/components/Text";
 import { PriceValue } from "@/components/PriceValue";
 

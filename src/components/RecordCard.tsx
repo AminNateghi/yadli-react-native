@@ -12,13 +12,13 @@ import { dateFormat } from "@/utils/dateFormat";
 interface RecordCardProps {
   id: number;
   title: string;
-  date: string;
+  date: Date;
   amount: number;
   subtitle?: string;
   icon: LucideIcon;
   color: string;
   rtl: boolean;
-  onPress?: (ev: number) => void;
+  onPress?: (id: number) => void;
 }
 
 export function RecordCard({
@@ -50,7 +50,7 @@ export function RecordCard({
         </Text>
       </View>
       <View style={styles.rightContent}>
-        <PriceValue value={amount.toString()} style={styles.amount} />
+        <PriceValue value={String(amount)} style={styles.amount} />
         {rtl ? (
           <ChevronLeftIcon size={18} color={Colors.textMuted} />
         ) : (
