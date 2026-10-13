@@ -21,7 +21,6 @@ import { useStatistics } from "@/repositories/statistics-repository";
 import { useServices } from "@/repositories/service-repository";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
-import { MotiView } from "moti";
 
 export default function DashboardScreen() {
   const { t, isRTL } = useTranslation();
@@ -68,27 +67,16 @@ export default function DashboardScreen() {
           </View>
           {totalReminders > 0 && (
             <Pressable onPress={() => router.push("/reminders")}>
-              <MotiView
-                from={{ opacity: 0.3 }}
-                animate={{ opacity: 1 }}
-                transition={{
-                  loop: true,
-                  type: "timing",
-                  duration: 1000,
-                  delay: 200,
-                }}
-              >
-                <View style={styles.nextService}>
-                  <Text style={styles.reminderText}>
-                    {t("reminders.overdue")}
-                  </Text>
-                  {isRTL ? (
-                    <ChevronLeftIcon size={14} color={Colors.danger} />
-                  ) : (
-                    <ChevronRightIcon size={14} color={Colors.danger} />
-                  )}
-                </View>
-              </MotiView>
+              <View style={styles.nextService}>
+                <Text style={styles.reminderText}>
+                  {t("reminders.overdue")}
+                </Text>
+                {isRTL ? (
+                  <ChevronLeftIcon size={14} color={Colors.danger} />
+                ) : (
+                  <ChevronRightIcon size={14} color={Colors.danger} />
+                )}
+              </View>
             </Pressable>
           )}
         </View>

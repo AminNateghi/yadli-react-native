@@ -1,11 +1,10 @@
-import { sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import {
+import type {
   ReminderMode,
   ReminderTriggerType,
-  type ExpenseType,
-  type LanguageType,
-  type ServiceType,
+  ExpenseType,
+  LanguageType,
+  ServiceType,
 } from "@/types/interfaces";
 
 export const profileRecords = sqliteTable("profile", {
@@ -13,19 +12,6 @@ export const profileRecords = sqliteTable("profile", {
   fullName: text("full_name").default("-"),
   vehicleName: text("vehicle_name").default("-"),
   language: text("language").$type<LanguageType>().default("fa"),
-
-  createdAt: integer("created_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`),
-
-  updatedAt: integer("updated_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`)
-    .$onUpdate(() => sql`(unixepoch())`),
 });
 
 export const servicesRecords = sqliteTable("services", {
@@ -37,19 +23,6 @@ export const servicesRecords = sqliteTable("services", {
   odometer: integer("odometer").notNull(),
   cost: integer("cost").notNull(),
   note: text("note"),
-
-  createdAt: integer("created_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`),
-
-  updatedAt: integer("updated_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`)
-    .$onUpdate(() => sql`(unixepoch())`),
 });
 
 export const fuelsRecords = sqliteTable("fuels", {
@@ -64,19 +37,6 @@ export const fuelsRecords = sqliteTable("fuels", {
   fullTank: integer("full_tank", { mode: "boolean" }).notNull(),
   station: text("station"),
   note: text("note"),
-
-  createdAt: integer("created_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`),
-
-  updatedAt: integer("updated_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`)
-    .$onUpdate(() => sql`(unixepoch())`),
 });
 
 export const expensesRecords = sqliteTable("expenses", {
@@ -88,19 +48,6 @@ export const expensesRecords = sqliteTable("expenses", {
   odometer: integer("odometer").notNull(),
   amount: integer("amount").notNull(),
   note: text("note"),
-
-  createdAt: integer("created_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`),
-
-  updatedAt: integer("updated_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`)
-    .$onUpdate(() => sql`(unixepoch())`),
 });
 
 export const remindersRecords = sqliteTable("reminders", {
@@ -140,17 +87,4 @@ export const remindersRecords = sqliteTable("reminders", {
     .default(true),
 
   note: text("note"),
-
-  createdAt: integer("created_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`),
-
-  updatedAt: integer("updated_at", {
-    mode: "timestamp",
-  })
-    .notNull()
-    .default(sql`(unixepoch())`)
-    .$onUpdate(() => sql`(unixepoch())`),
 });
