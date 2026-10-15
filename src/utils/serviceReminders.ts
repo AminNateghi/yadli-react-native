@@ -227,7 +227,7 @@ export async function getReminders(
       urgency: getUrgency(dateProgress, odometerProgress),
       progressColor: getProgressColor(
         dateProgress?.progress ?? odometerProgress?.progress ?? 0,
-        dateProgress?.overdue ?? odometerProgress?.overdue ?? false,
+        !!(dateProgress?.overdue || odometerProgress?.overdue),
       ),
     });
   }

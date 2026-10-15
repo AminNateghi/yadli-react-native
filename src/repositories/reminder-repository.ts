@@ -90,24 +90,11 @@ export function useCompleteReminder() {
           .update(remindersRecords)
           .set({
             active: false,
-            updatedAt: new Date(),
           })
           .where(eq(remindersRecords.id, props.reminderId));
 
         return;
       }
-
-      // const nextOdometer =
-      //   reminder.odometerInterval != null
-      //     ? props.actualOdometer + reminder.odometerInterval
-      //     : null;
-
-      // const d = dayjs(props.actualDate);
-
-      // const nextDate =
-      //   reminder.dateIntervalMonths != null
-      //     ? d.add(reminder.dateIntervalMonths, "months")
-      //     : null;
 
       await db
         .update(remindersRecords)
@@ -116,7 +103,6 @@ export function useCompleteReminder() {
           startDate: props.actualDate,
 
           active: true,
-          updatedAt: new Date(),
         })
         .where(eq(remindersRecords.id, props.reminderId));
     },

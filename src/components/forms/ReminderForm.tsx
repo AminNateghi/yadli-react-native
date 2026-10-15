@@ -36,6 +36,14 @@ import {
 import { ReminderDeletionModal } from "./ReminderDeletionModal";
 import { SwitchToggle } from "../SwitchToggle";
 import { Card } from "../Card";
+import { CompleteReminderModal } from "./CompleteReminderModal";
+import { SegmentedButtons } from "../SegmentedButtons";
+
+const modeOptions = [
+  { label: "Map", value: "map" },
+  { label: "Transit", value: "transit" },
+  { label: "Satellite", value: "satellite" },
+];
 
 const defaultValues = {
   dependent: "Service",
@@ -130,17 +138,19 @@ export function ReminderForm({ editingId, onClose }: Props) {
       mode: formData.mode as ReminderMode,
       note: formData.note ?? null,
       serviceType:
-        formData.dependent === "Service" ? formData.serviceType! : null,
+        formData.dependent === "Service"
+          ? (formData.serviceType! as ServiceType)
+          : null,
       expenseType:
-        formData.dependent === "Expense" ? formData.expenseType! : null,
+        formData.dependent === "Expense"
+          ? (formData.expenseType! as ExpenseType)
+          : null,
       triggerType: formData.triggerType as ReminderTriggerType,
       startOdometer: formData.startOdometer ?? null,
       startDate: formData.startDate ? new Date(formData.startDate) : null,
       odometerInterval: formData.odometerInterval ?? null,
       dateIntervalMonths: formData.dateIntervalMonths ?? null,
       active: formData.active,
-      createdAt: null,
-      updatedAt: null,
     };
 
     if (editingId) {
@@ -165,6 +175,10 @@ export function ReminderForm({ editingId, onClose }: Props) {
   const mode = watch("mode") as ReminderMode;
   const trigger = watch("triggerType") as ReminderTriggerType;
 
+  const [singleValue, setSingleValue] = useState<string>("map");
+
+  // Multi Select State
+  const [multiValues, setMultiValues] = useState<string[]>(["map"]);
   return (
     <>
       <View
@@ -254,93 +268,96 @@ export function ReminderForm({ editingId, onClose }: Props) {
                 )}
               </Card>
 
-              <Card title={t("reminders.titleCard2")}>
+              <Card title={t("reminders.mode")}>
                 <Controller
                   control={control}
-                  name="startDate"
+                  name="mode"
                   render={({ field: { value, onChange } }) => (
-                    <DatePicker
-                      label={t("reminders.startDate")}
-                      value={value ?? ""}
-                      onChange={onChange}
-                    />
-                  )}
-                />
-                <Controller
-                  control={control}
-                  name="startOdometer"
-                  render={({ field: { value, onChange, onBlur } }) => (
-                    <Input
-                      label={t("reminders.startOdometer")}
-                      value={value?.toString() ?? ""}
-                      onBlur={onBlur}
-                      onChangeText={(text) => {
-                        onChange(text === "" ? undefined : Number(text));
-                      }}
-                      keyboardType="numeric"
-                      style={{ direction: "ltr" }}
+                    <SegmentedButtons
+                      buttons={reminderModeOptions(t)}
+                      value={value}
+                      onValueChange={(value) => onChange(value)}
                     />
                   )}
                 />
               </Card>
-              <Controller
-                control={control}
-                name="mode"
-                render={({ field: { value, onChange } }) => (
-                  <SelectPicker
-                    label={t("reminders.mode")}
-                    value={value}
-                    options={reminderModeOptions(t)}
-                    onValueChange={(value) => onChange(value)}
-                  />
-                )}
-              />
 
               <Card title={t("reminders.titleCard3")}>
                 <Controller
                   control={control}
                   name="triggerType"
                   render={({ field: { value, onChange } }) => (
-                    <SelectPicker
+                    <SegmentedButtons
                       label={t("reminders.triggerType")}
-                      value={String(value)}
-                      options={reminderTriggerTypeOptions(t)}
+                      buttons={reminderTriggerTypeOptions(t)}
+                      value={value}
                       onValueChange={(value) => onChange(value)}
                     />
                   )}
                 />
 
                 {trigger === "Date" && (
-                  <Controller
-                    control={control}
-                    name="dateIntervalMonths"
-                    render={({ field: { value, onChange } }) => (
-                      <SelectPicker
-                        label={t("reminders.dateIntervalMonths")}
-                        value={String(value)}
-                        options={reminderDateIntervalMonths(t)}
-                        onValueChange={(value) => onChange(Number(value))}
-                      />
-                    )}
-                  />
+                  <>
+                    <Controller
+                      control={control}
+                      name="dateIntervalMonths"
+                      render={({ field: { value, onChange } }) => (
+                        <SelectPicker
+                          label={t("reminders.dateIntervalMonths")}
+                          value={String(value)}
+                          options={reminderDateIntervalMonths(t)}
+                          onValueChange={(value) => onChange(Number(value))}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="startDate"
+                      render={({ field: { value, onChange } }) => (
+                        <DatePicker
+                          label={t("reminders.startDate")}
+                          value={value ?? ""}
+                          onChange={onChange}
+                        />
+                      )}
+                    />
+                  </>
                 )}
                 {trigger === "Odometer" && (
-                  <Controller
-                    control={control}
-                    name="odometerInterval"
-                    render={({ field: { value, onChange, onBlur } }) => (
-                      <Input
-                        label={t("reminders.odometerInterval")}
-                        value={value?.toString() ?? ""}
-                        onBlur={onBlur}
-                        onChangeText={(text) => {
-                          onChange(text === "" ? undefined : Number(text));
-                        }}
-                        keyboardType="numeric"
-                        style={{ direction: "ltr" }}
-                      />
-                    )}
-                  />
+                  <>
+                    <Controller
+                      control={control}
+                      name="odometerInterval"
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <Input
+                          label={t("reminders.odometerInterval")}
+                          value={value?.toString() ?? ""}
+                          onBlur={onBlur}
+                          onChangeText={(text) => {
+                            onChange(text === "" ? undefined : Number(text));
+                          }}
+                          keyboardType="numeric"
+                          style={{ direction: "ltr" }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="startOdometer"
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <Input
+                          label={t("reminders.startOdometer")}
+                          value={value?.toString() ?? ""}
+                          onBlur={onBlur}
+                          onChangeText={(text) => {
+                            onChange(text === "" ? undefined : Number(text));
+                          }}
+                          keyboardType="numeric"
+                          style={{ direction: "ltr" }}
+                        />
+                      )}
+                    />
+                  </>
                 )}
 
                 {trigger === "Either" && (
@@ -363,6 +380,33 @@ export function ReminderForm({ editingId, onClose }: Props) {
                       render={({ field: { value, onChange, onBlur } }) => (
                         <Input
                           label={t("reminders.odometerInterval")}
+                          value={value?.toString() ?? ""}
+                          onBlur={onBlur}
+                          onChangeText={(text) => {
+                            onChange(text === "" ? undefined : Number(text));
+                          }}
+                          keyboardType="numeric"
+                          style={{ direction: "ltr" }}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="startDate"
+                      render={({ field: { value, onChange } }) => (
+                        <DatePicker
+                          label={t("reminders.startDate")}
+                          value={value ?? ""}
+                          onChange={onChange}
+                        />
+                      )}
+                    />
+                    <Controller
+                      control={control}
+                      name="startOdometer"
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <Input
+                          label={t("reminders.startOdometer")}
                           value={value?.toString() ?? ""}
                           onBlur={onBlur}
                           onChangeText={(text) => {
@@ -410,6 +454,9 @@ export function ReminderForm({ editingId, onClose }: Props) {
                 )}
               />
 
+              {editingId && (
+                <CompleteReminderModal id={editingId} onConfirm={() => {}} />
+              )}
               <View style={globalStyles.modalButtonRow}>
                 {editingId && (
                   <ReminderDeletionModal

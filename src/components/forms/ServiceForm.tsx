@@ -110,8 +110,6 @@ export function ServiceForm({ editingId, onClose }: Props) {
       odometer: formData.odometer,
       cost: formData.cost,
       note: formData.note ?? null,
-      createdAt: null,
-      updatedAt: null,
     };
 
     if (editingId) {

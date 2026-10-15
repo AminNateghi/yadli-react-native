@@ -234,7 +234,7 @@
   "reminderTriggerType": {
     "Odometer": "با کیلومتر",
     "Date": "با تاریخ",
-    "Either": "هر دو اما هرکدام زودتر"
+    "Either": "هرکدام زودتر"
   },
   "reminderDateInterval": {
     "m1": "۱ ماه",

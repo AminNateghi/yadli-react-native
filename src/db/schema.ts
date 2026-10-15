@@ -54,8 +54,8 @@ export const remindersRecords = sqliteTable("reminders", {
   id: integer("id").primaryKey({ autoIncrement: true }),
 
   // What the reminder is for
-  serviceType: text("service_type"),
-  expenseType: text("expense_type"),
+  serviceType: text("service_type").$type<ServiceType>(),
+  expenseType: text("expense_type").$type<ExpenseType>(),
 
   // one-time | recurring
   mode: text("mode").$type<ReminderMode>().notNull().default("OneTime"),

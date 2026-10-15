@@ -1,0 +1,40 @@
+import type { ReminderDto } from "@/types/interfaces";
+
+export const reminderTemplate: Omit<ReminderDto, "id">[] = [
+  {
+    serviceType: "EngineOil",
+    mode: "Recurring",
+    triggerType: "Either",
+    odometerInterval: 5000,
+    dateIntervalMonths: 6,
+    active: true,
+    expenseType: null,
+    note: null,
+    startDate: null,
+    startOdometer: null,
+  },
+  {
+    serviceType: "TimingBelt",
+    mode: "Recurring",
+    triggerType: "Either",
+    odometerInterval: 50000,
+    dateIntervalMonths: 24,
+    active: true,
+    expenseType: null,
+    note: null,
+    startDate: null,
+    startOdometer: null,
+  },
+  {
+    serviceType: "SparkPlug",
+    mode: "Recurring",
+    triggerType: "Odometer",
+    odometerInterval: 30000,
+    dateIntervalMonths: null,
+    active: true,
+    expenseType: null,
+    note: null,
+    startDate: null,
+    startOdometer: null,
+  },
+];

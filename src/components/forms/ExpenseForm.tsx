@@ -107,8 +107,6 @@ export function ExpenseForm({ editingId, onClose }: Props) {
       odometer: formData.odometer,
       amount: formData.amount,
       note: formData.note ?? null,
-      createdAt: null,
-      updatedAt: null,
     };
 
     if (editingId) {

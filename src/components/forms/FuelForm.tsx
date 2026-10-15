@@ -110,8 +110,6 @@ export function FuelForm({ editingId, onClose }: Props) {
       date: new Date(formData.date),
       odometer: formData.odometer,
       note: formData.note ?? null,
-      createdAt: null,
-      updatedAt: null,
       fullTank: formData.fullTank,
       liters: formData.liters,
       pricePerLiter: formData.pricePerLiter,
