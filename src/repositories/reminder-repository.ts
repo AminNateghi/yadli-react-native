@@ -70,8 +70,8 @@ export function useGetReminder(id: number | null) {
 
 interface CompleteReminderProps {
   reminderId: number;
-  actualOdometer: number;
-  actualDate: Date;
+  actualOdometer: number | null;
+  actualDate: Date | null;
 }
 
 export function useCompleteReminder() {
@@ -86,14 +86,12 @@ export function useCompleteReminder() {
       }
 
       if (reminder.mode === "OneTime") {
-        await db
+        return await db
           .update(remindersRecords)
           .set({
             active: false,
           })
           .where(eq(remindersRecords.id, props.reminderId));
-
-        return;
       }
 
       await db

@@ -1,20 +1,22 @@
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { useTranslation } from "@/languages/useTranslation";
-import { ConfirmationDialog } from "../ConfirmationDialog";
 import { Button } from "../Button";
 import { Toast } from "../CustomToast";
 import { useCompleteReminder } from "@/repositories/reminder-repository";
 import { Modal, StyleSheet, View } from "react-native";
 import { Text } from "../Text";
 import { Colors } from "@/constants/theme";
-import { completeReminderSchema } from "@/types/compelete-reminder-schema";
+import {
+  type CompleteReminderFormData,
+  completeReminderSchema,
+} from "@/types/compelete-reminder-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
 import { Input } from "../Input";
+import { DatePicker } from "../DatePicker";
 
 const defaultValues = {
-  date: format(new Date(), "yyyy-MM-dd"),
+  date: undefined,
   odometer: undefined,
 };
 
@@ -27,7 +29,7 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
   const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-  const { mutate: completeItem } = useCompleteReminder();
+  const { mutate: completeItem, isPending } = useCompleteReminder();
 
   const schema = completeReminderSchema(t);
   const {
@@ -40,19 +42,19 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
     defaultValues: { ...defaultValues },
   });
 
-  const handleDeleteConfirm = async () => {
+  const handleConfirm = async (formData: CompleteReminderFormData) => {
     if (!id) return;
     completeItem(
       {
         reminderId: id,
-        actualOdometer: 0, // Replace with actual value
-        actualDate: new Date(), // Replace with actual value
+        actualOdometer: formData.odometer ? Number(formData.odometer) : null,
+        actualDate: formData.date ? new Date(formData.date!) : null,
       },
       {
         onSuccess: () => {
           setModalVisible(false);
           onConfirm();
-          Toast({ text: t("common.deleted") });
+          Toast({ text: t("common.saved") });
         },
       },
     );
@@ -60,6 +62,7 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
 
   const handleClose = () => {
     setModalVisible(false);
+    reset();
   };
 
   const handleShow = async () => {
@@ -70,7 +73,7 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
   return (
     <>
       <Button
-        title="done"
+        title={`${t("common.done")}...`}
         variant="secondary"
         onPress={handleShow}
         style={styles.doneButton}
@@ -79,7 +82,7 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>message</Text>
+            <Text style={styles.modalText}>{t("reminders.doneMessage")}</Text>
 
             <Controller
               control={control}
@@ -87,7 +90,7 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
               render={({ field: { value, onChange, onBlur } }) => (
                 <>
                   <Input
-                    label={t("expenses.odometer")}
+                    label={t("reminders.startOdometer")}
                     value={value?.toString() ?? ""}
                     onBlur={onBlur}
                     onChangeText={(text) => {
@@ -102,20 +105,32 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
               )}
             />
 
+            <Controller
+              control={control}
+              name="date"
+              render={({ field: { value, onChange } }) => (
+                <DatePicker
+                  label={t("reminders.startDate")}
+                  value={value ?? ""}
+                  onChange={onChange}
+                />
+              )}
+            />
+
             <View style={styles.buttonContainer}>
               <Button
-                title="Cancel"
-                onPress={() => {
-                  setModalVisible(false);
-                }}
+                title={t("common.cancel")}
+                onPress={() => handleClose()}
                 variant="secondary"
                 style={{ flex: 1 }}
               />
 
               <Button
-                title="Done"
-                onPress={onConfirm}
-                variant="danger"
+                title={t("common.save")}
+                onPress={handleSubmit(handleConfirm)}
+                variant="primary"
+                disabled={!isValid}
+                loading={isPending}
                 style={{ flex: 1 }}
               />
             </View>
@@ -138,7 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 20,
     padding: 25,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -160,6 +174,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   doneButton: {
-    backgroundColor: Colors.success,
+    backgroundColor: Colors.success + 75,
   },
 });

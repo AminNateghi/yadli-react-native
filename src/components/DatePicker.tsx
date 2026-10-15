@@ -12,13 +12,14 @@ import { Colors } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { dateFormat } from "@/utils/dateFormat";
 import { IconButton } from "./IconButton";
+import { Button } from "./Button";
 
 dayjs.extend(jalaliday);
 
 interface DatePickerProps {
   label: string;
   value: string;
-  onChange: (date: string) => void;
+  onChange: (date: string | null) => void;
 }
 
 export function DatePicker({ label, value, onChange }: DatePickerProps) {
@@ -31,6 +32,19 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
   const handleDayPress = (date: string) => {
     setDate(date);
     onChange(date);
+    setVisible(false);
+  };
+
+  const handleClear = () => {
+    setDate(undefined);
+    onChange(null);
+    setVisible(false);
+  };
+
+  const handleToday = () => {
+    const today = new Date();
+    setDate(today);
+    onChange(today.toISOString());
     setVisible(false);
   };
 
@@ -90,6 +104,18 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
               monthsFormat="full"
               monthCaptionFormat="full"
             />
+            <View style={styles.buttonRow}>
+              <Button
+                title={t("common.today")}
+                style={styles.button}
+                onPress={() => handleToday()}
+              />
+              <Button
+                title={t("common.clear")}
+                style={styles.button}
+                onPress={() => handleClear()}
+              />
+            </View>
           </View>
         </View>
       </Modal>
@@ -155,5 +181,22 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     color: Colors.text,
+  },
+  button: {
+    height: 45,
+    backgroundColor: Colors.background + 20,
+    color: Colors.text,
+    fontSize: 12,
+    fontWeight: 400,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 10,
   },
 });

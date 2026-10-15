@@ -39,12 +39,6 @@ import { Card } from "../Card";
 import { CompleteReminderModal } from "./CompleteReminderModal";
 import { SegmentedButtons } from "../SegmentedButtons";
 
-const modeOptions = [
-  { label: "Map", value: "map" },
-  { label: "Transit", value: "transit" },
-  { label: "Satellite", value: "satellite" },
-];
-
 const defaultValues = {
   dependent: "Service",
   mode: "OneTime",
@@ -175,10 +169,6 @@ export function ReminderForm({ editingId, onClose }: Props) {
   const mode = watch("mode") as ReminderMode;
   const trigger = watch("triggerType") as ReminderTriggerType;
 
-  const [singleValue, setSingleValue] = useState<string>("map");
-
-  // Multi Select State
-  const [multiValues, setMultiValues] = useState<string[]>(["map"]);
   return (
     <>
       <View
@@ -455,8 +445,12 @@ export function ReminderForm({ editingId, onClose }: Props) {
               />
 
               {editingId && (
-                <CompleteReminderModal id={editingId} onConfirm={() => {}} />
+                <CompleteReminderModal
+                  id={editingId}
+                  onConfirm={() => handleClose()}
+                />
               )}
+
               <View style={globalStyles.modalButtonRow}>
                 {editingId && (
                   <ReminderDeletionModal

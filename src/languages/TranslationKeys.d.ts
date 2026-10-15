@@ -52,6 +52,9 @@ interface Common {
   select: string;
   active: string;
   inactive: string;
+  done: string;
+  today: string;
+  clear: string;
 }
 
 interface Menus {
@@ -120,6 +123,7 @@ interface Reminders {
   dueAt: string;
   remaining: string;
   passed: string;
+  doneMessage: string;
 }
 
 interface Fuel {

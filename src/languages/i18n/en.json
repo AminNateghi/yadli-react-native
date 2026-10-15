@@ -25,7 +25,10 @@
     "deleted": "Deleted",
     "select": "Select one...",
     "active": "Active",
-    "inactive": "Disabled"
+    "inactive": "Disabled",
+    "done": "Done",
+    "today": "Today",
+    "clear": "Clear"
   },
   "menus": {
     "dashboard": "Dashboard",
@@ -114,7 +117,8 @@
     "dueOn": "Due on",
     "dueAt": "Due at",
     "remaining": "remaining",
-    "passed": "passed"
+    "passed": "passed",
+    "doneMessage": "Enter the odometer reading or date of the completed service"
   },
   "services": {
     "totalServiceCost": "Total Service Cost",

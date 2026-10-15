@@ -25,7 +25,10 @@
     "deleted": "حذف شد",
     "select": "انتخاب کنید...",
     "active": "فعال",
-    "inactive": "غیرفعال"
+    "inactive": "غیرفعال",
+    "done": "انجام شد",
+    "today": "امروز",
+    "clear": "پاک کردن"
   },
   "menus": {
     "dashboard": "داشبورد",
@@ -114,7 +117,8 @@
     "dueOn": "سررسید در",
     "dueAt": "سررسید در",
     "remaining": "مانده",
-    "passed": "گذشته"
+    "passed": "گذشته",
+    "doneMessage": "کیلومتر یا تاریخ انجام سرویس را وارد کنید"
   },
   "services": {
     "totalServiceCost": "جمع پرداختی‌ها",
