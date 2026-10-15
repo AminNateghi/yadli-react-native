@@ -41,7 +41,7 @@ jobs:
         run: pnpm exec expo prebuild --platform android --clean
 
       - name: Setup Java JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: "17"
@@ -61,6 +61,12 @@ jobs:
           name: gradle-problems-report
           path: android/build/reports/problems/problems-report.html
 
+      - name: Rename APK
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          mv app/build/outputs/apk/release/app-release.apk \
+             "yadli_v${VERSION}.apk"
+
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -69,6 +75,6 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
-          files: android/app/build/outputs/apk/release/app-release.apk
+          files: yadli_v*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
