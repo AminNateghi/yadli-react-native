@@ -1,7 +1,14 @@
 import { format } from "date-fns";
 import { PlusIcon, XIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  View,
+} from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -146,6 +153,7 @@ export function ExpenseForm({ editingId, onClose }: Props) {
           <PlusIcon size={24} color="#FFFFFF" />
         </Pressable>
       </View>
+
       <Modal visible={modalVisible} animationType="fade" transparent>
         <View style={globalStyles.modalOverlay}>
           <View
@@ -163,121 +171,132 @@ export function ExpenseForm({ editingId, onClose }: Props) {
               <IconButton icon={XIcon} onPress={() => handleClose()} />
             </View>
 
-            <ScrollView
-              style={globalStyles.modalScroll}
-              showsVerticalScrollIndicator={false}
+            <KeyboardAvoidingView
+              style={{ flex: 1 }}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              keyboardVerticalOffset={0}
             >
-              <Controller
-                control={control}
-                name="type"
-                render={({ field: { value, onChange } }) => (
-                  <>
-                    <SelectPicker
-                      label={t("expenses.category")}
-                      value={value}
-                      options={expenseTypeOptions(t)}
-                      onValueChange={(value) => onChange(value as ExpenseType)}
-                    />
-                  </>
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="date"
-                render={({ field: { value, onChange } }) => (
-                  <>
-                    <DatePicker
-                      label={t("expenses.date")}
-                      value={value}
-                      onChange={onChange}
-                    />
-                  </>
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="odometer"
-                render={({ field: { value, onChange, onBlur } }) => (
-                  <>
-                    <Input
-                      label={t("expenses.odometer")}
-                      value={value?.toString() ?? ""}
-                      onBlur={onBlur}
-                      onChangeText={(text) => {
-                        onChange(text === "" ? undefined : Number(text));
-                      }}
-                      keyboardType="numeric"
-                      placeholder={t("expenses.odometerPlaceholder")}
-                      style={{ direction: "ltr" }}
-                      error={errors?.odometer?.message}
-                    />
-                  </>
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="amount"
-                render={({ field: { value, onChange, onBlur } }) => (
-                  <>
-                    <Input
-                      label={t("expenses.amount")}
-                      value={value?.toString() ?? ""}
-                      onBlur={onBlur}
-                      onChangeText={(text) => {
-                        onChange(text === "" ? undefined : Number(text));
-                      }}
-                      keyboardType="decimal-pad"
-                      placeholder={t("expenses.amountPlaceholder")}
-                      style={{ direction: "ltr" }}
-                      error={errors?.amount?.message}
-                    />
-                  </>
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="note"
-                render={({ field: { value, onChange, onBlur } }) => (
-                  <>
-                    <Input
-                      label={t("expenses.notes")}
-                      value={value ?? ""}
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      placeholder={t("expenses.notesPlaceholder")}
-                      multiline
-                      style={{
-                        height: 80,
-                        textAlignVertical: "top",
-                        paddingTop: 12,
-                      }}
-                    />
-                  </>
-                )}
-              />
-
-              <View style={globalStyles.modalButtonRow}>
-                {editingId && (
-                  <ExpenseDeletionModal
-                    editingId={editingId!}
-                    onConfirm={() => handleClose()}
-                  />
-                )}
-                <Button
-                  title={editingId ? t("common.update") : t("common.save")}
-                  onPress={handleSubmit(handleSave)}
-                  loading={isPendingUpdate || isPendingCreate}
-                  disabled={!isValid}
-                  style={{ flex: 1 }}
+              <ScrollView
+                style={globalStyles.modalScroll}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ flexGrow: 1 }}
+                keyboardShouldPersistTaps="handled"
+                keyboardDismissMode="on-drag"
+              >
+                <Controller
+                  control={control}
+                  name="type"
+                  render={({ field: { value, onChange } }) => (
+                    <>
+                      <SelectPicker
+                        label={t("expenses.category")}
+                        value={value}
+                        options={expenseTypeOptions(t)}
+                        onValueChange={(value) =>
+                          onChange(value as ExpenseType)
+                        }
+                      />
+                    </>
+                  )}
                 />
-              </View>
 
-              <View style={{ height: 40 }} />
-            </ScrollView>
+                <Controller
+                  control={control}
+                  name="date"
+                  render={({ field: { value, onChange } }) => (
+                    <>
+                      <DatePicker
+                        label={t("expenses.date")}
+                        value={value}
+                        onChange={onChange}
+                      />
+                    </>
+                  )}
+                />
+
+                <Controller
+                  control={control}
+                  name="odometer"
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <>
+                      <Input
+                        label={t("expenses.odometer")}
+                        value={value?.toString() ?? ""}
+                        onBlur={onBlur}
+                        onChangeText={(text) => {
+                          onChange(text === "" ? undefined : Number(text));
+                        }}
+                        keyboardType="numeric"
+                        placeholder={t("expenses.odometerPlaceholder")}
+                        style={{ direction: "ltr" }}
+                        error={errors?.odometer?.message}
+                      />
+                    </>
+                  )}
+                />
+
+                <Controller
+                  control={control}
+                  name="amount"
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <>
+                      <Input
+                        label={t("expenses.amount")}
+                        value={value?.toString() ?? ""}
+                        onBlur={onBlur}
+                        onChangeText={(text) => {
+                          onChange(text === "" ? undefined : Number(text));
+                        }}
+                        keyboardType="decimal-pad"
+                        placeholder={t("expenses.amountPlaceholder")}
+                        style={{ direction: "ltr" }}
+                        error={errors?.amount?.message}
+                      />
+                    </>
+                  )}
+                />
+
+                <Controller
+                  control={control}
+                  name="note"
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <>
+                      <Input
+                        label={t("expenses.notes")}
+                        value={value ?? ""}
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        placeholder={t("expenses.notesPlaceholder")}
+                        multiline
+                        style={{
+                          height: 80,
+                          textAlignVertical: "top",
+                          paddingTop: 12,
+                        }}
+                      />
+                    </>
+                  )}
+                />
+
+                <View style={globalStyles.modalButtonRow}>
+                  {editingId && (
+                    <ExpenseDeletionModal
+                      editingId={editingId!}
+                      onConfirm={() => handleClose()}
+                    />
+                  )}
+                  <Button
+                    title={editingId ? t("common.update") : t("common.save")}
+                    onPress={handleSubmit(handleSave)}
+                    loading={isPendingUpdate || isPendingCreate}
+                    disabled={!isValid}
+                    style={{ flex: 1 }}
+                  />
+                </View>
+
+                <View style={{ height: 40 }} />
+              </ScrollView>
+            </KeyboardAvoidingView>
           </View>
         </View>
       </Modal>
