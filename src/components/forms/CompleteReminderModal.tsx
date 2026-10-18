@@ -6,7 +6,6 @@ import { Toast } from "../CustomToast";
 import { useCompleteReminder } from "@/repositories/reminder-repository";
 import { Modal, StyleSheet, View } from "react-native";
 import { Text } from "../Text";
-import { Colors } from "@/constants/theme";
 import {
   type CompleteReminderFormData,
   completeReminderSchema,
@@ -74,9 +73,10 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
     <>
       <Button
         title={`${t("common.done")}...`}
-        variant="secondary"
+        variant="solid"
+        color="green"
         onPress={handleShow}
-        style={styles.doneButton}
+        style={{ flex: 1 }}
       />
 
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
@@ -121,14 +121,14 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
               <Button
                 title={t("common.cancel")}
                 onPress={() => handleClose()}
-                variant="secondary"
+                variant="outline"
                 style={{ flex: 1 }}
               />
 
               <Button
                 title={t("common.save")}
                 onPress={handleSubmit(handleConfirm)}
-                variant="primary"
+                variant="solid"
                 disabled={!isValid}
                 loading={isPending}
                 style={{ flex: 1 }}
@@ -172,8 +172,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     width: "100%",
     gap: 10,
-  },
-  doneButton: {
-    backgroundColor: Colors.success + 75,
   },
 });

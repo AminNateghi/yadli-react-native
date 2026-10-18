@@ -43,7 +43,6 @@ export function ReminderDeletionModal({ editingId, onConfirm }: Props) {
         variant="outline"
         color="red"
         onPress={handleDelete}
-        style={{ flex: 1 }}
       />
 
       <ConfirmationDialog

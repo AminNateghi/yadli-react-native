@@ -6,17 +6,16 @@ import { EmptyState } from "@/components/EmptyState";
 import { Colors } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { useReminders } from "@/repositories/reminder-repository";
-import { ReminderForm } from "@/components/forms/ReminderForm";
 import { ReminderCard } from "@/components/ReminderCard";
 import { getReminders, type ReminderCardProp } from "@/utils/serviceReminders";
 import { useServices } from "@/repositories/service-repository";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
+import { router } from "expo-router";
 
 export default function ServiceRemindersScreen() {
   const { t, isRTL } = useTranslation();
   const isDesktop = useMediaQuery({ minWidth: 768 });
-  const [editingId, setEditingId] = useState<number | null>(null);
   const [reminders, setReminders] = useState<ReminderCardProp[]>([]);
 
   const { data } = useReminders();
@@ -62,7 +61,10 @@ export default function ServiceRemindersScreen() {
                 key={reminder?.data?.id}
                 reminder={reminder}
                 onPress={(id) => {
-                  setEditingId(id);
+                  router.push({
+                    pathname: "/reminders/form",
+                    params: { id },
+                  });
                 }}
               />
             );
@@ -70,8 +72,6 @@ export default function ServiceRemindersScreen() {
         )}
         <View style={{ height: 100 }} />
       </ScrollView>
-
-      <ReminderForm editingId={editingId} onClose={() => setEditingId(null)} />
     </View>
   );
 }
