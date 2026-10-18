@@ -22,6 +22,7 @@ import { PriceValue } from "@/components/PriceValue";
 import { SwitchToggle } from "@/components/SwitchToggle";
 import { FuelDeletionModal } from "@/components/forms/FuelDeletionModal";
 import { Button } from "@/components/Button";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const defaultValues = {
   date: format(new Date(), "yyyy-MM-dd"),
@@ -122,7 +123,7 @@ export default function FuelForm() {
       : "0.00";
 
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
       style={[globalStyles.modalScroll, isRTL && { direction: "rtl" }]}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1 }}
@@ -278,7 +279,7 @@ export default function FuelForm() {
       </View>
 
       <View style={{ height: 40 }} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

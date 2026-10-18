@@ -26,7 +26,7 @@ export function SelectPicker({
   onValueChange,
   placeholder,
 }: SelectPickerProps) {
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
   const selectedLabel = options.find((o) => o.value === value)?.label;
 

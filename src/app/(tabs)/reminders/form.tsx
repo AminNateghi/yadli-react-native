@@ -34,6 +34,7 @@ import { SwitchToggle } from "@/components/SwitchToggle";
 import { CompleteReminderModal } from "@/components/forms/CompleteReminderModal";
 import { ReminderDeletionModal } from "@/components/forms/ReminderDeletionModal";
 import { Button } from "@/components/Button";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const defaultValues = {
   dependent: "Service",
@@ -146,7 +147,7 @@ export default function ReminderForm() {
   const trigger = watch("triggerType") as ReminderTriggerType;
 
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
       style={[globalStyles.modalScroll, isRTL && { direction: "rtl" }]}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1 }}
@@ -403,6 +404,6 @@ export default function ReminderForm() {
       </View>
 
       <View style={{ height: 40 }} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }

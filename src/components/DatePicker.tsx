@@ -108,11 +108,15 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
               <Button
                 title={t("common.today")}
                 style={styles.button}
+                variant="outline"
+                color="gray"
                 onPress={() => handleToday()}
               />
               <Button
                 title={t("common.clear")}
                 style={styles.button}
+                variant="outline"
+                color="gray"
                 onPress={() => handleClear()}
               />
             </View>
@@ -184,8 +188,6 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 45,
-    backgroundColor: Colors.background + 20,
-    color: Colors.text,
     fontSize: 12,
     fontWeight: 400,
   },

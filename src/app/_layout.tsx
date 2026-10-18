@@ -12,6 +12,7 @@ import { db } from "@/db";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import migrations from "@/db/migrations/migrations";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -51,13 +52,17 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <QueryClientProvider client={queryClient}>
-          <Stack screenOptions={{ headerShown: false }} />
-          <StatusBar style="auto" animated />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <KeyboardProvider>
+      <SafeAreaProvider style={{ flex: 1 }}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <QueryClientProvider client={queryClient}>
+            <Stack screenOptions={{ headerShown: false }} />
+            <StatusBar style="auto" animated />
+          </QueryClientProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </KeyboardProvider>
   );
 }

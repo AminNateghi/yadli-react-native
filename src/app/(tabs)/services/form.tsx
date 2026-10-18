@@ -22,6 +22,7 @@ import { DatePicker } from "@/components/DatePicker";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 import { ServiceDeletionModal } from "@/components/forms/ServiceDeletionModal";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const defaultValues = {
   type: "EngineOil",
@@ -104,7 +105,7 @@ export default function ServiceForm() {
   };
 
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
       style={[globalStyles.modalScroll, isRTL && { direction: "rtl" }]}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1 }}
@@ -221,6 +222,6 @@ export default function ServiceForm() {
       </View>
 
       <View style={{ height: 40 }} />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
