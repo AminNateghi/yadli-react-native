@@ -10,6 +10,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useStatistics } from "@/repositories/statistics-repository";
 import { router } from "expo-router";
+import { Button } from "@/components/Button";
 
 export default function FuelScreen() {
   const { t, isRTL } = useTranslation();
@@ -58,11 +59,18 @@ export default function FuelScreen() {
         )}
 
         {fuels?.length === 0 ? (
-          <EmptyState
-            icon={FuelIcon}
-            title={t("fuel.noFuelRecords")}
-            subtitle={t("fuel.fuelDescription")}
-          />
+          <>
+            <EmptyState
+              icon={FuelIcon}
+              title={t("fuel.noFuelRecords")}
+              subtitle={t("fuel.fuelDescription")}
+            />
+            <Button
+              title={t("common.new")}
+              onPress={() => router.push("/fuel/form")}
+              style={{ flex: 1 }}
+            />
+          </>
         ) : (
           fuels?.map((fuel) => {
             return (

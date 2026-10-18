@@ -2,7 +2,6 @@ import { WrenchIcon } from "lucide-react-native";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
-import { ServiceForm } from "@/components/forms/ServiceForm";
 import { Colors, globalStyles } from "@/constants/theme";
 import { useServices } from "@/repositories/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
@@ -12,6 +11,8 @@ import { RecordCard } from "@/components/RecordCard";
 import { useStatistics } from "@/repositories/statistics-repository";
 import { Text } from "@/components/Text";
 import { PriceValue } from "@/components/PriceValue";
+import { Button } from "@/components/Button";
+import { router } from "expo-router";
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
@@ -97,11 +98,18 @@ export default function ServicesScreen() {
         )}
 
         {services?.length === 0 ? (
-          <EmptyState
-            icon={WrenchIcon}
-            title={t("services.noServicesYet")}
-            subtitle={t("services.servicesDescription")}
-          />
+          <>
+            <EmptyState
+              icon={WrenchIcon}
+              title={t("services.noServicesYet")}
+              subtitle={t("services.servicesDescription")}
+            />
+            <Button
+              title={t("common.new")}
+              onPress={() => router.push("/services/form")}
+              style={{ flex: 1 }}
+            />
+          </>
         ) : (
           services?.map((service) => {
             return (
@@ -124,8 +132,6 @@ export default function ServicesScreen() {
         )}
         <View style={{ height: 100 }} />
       </ScrollView>
-
-      <ServiceForm editingId={editingId} onClose={() => setEditingId(null)} />
     </View>
   );
 }
