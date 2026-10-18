@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import type {
   ReminderMode,
   ReminderTriggerType,
@@ -21,7 +21,7 @@ export const servicesRecords = sqliteTable("services", {
   type: text("type").$type<ServiceType>().notNull(),
   date: integer("date", { mode: "timestamp" }).notNull(),
   odometer: integer("odometer").notNull(),
-  cost: integer("cost").notNull(),
+  cost: real("cost").notNull(),
   note: text("note"),
 });
 
@@ -31,9 +31,9 @@ export const fuelsRecords = sqliteTable("fuels", {
   }),
   date: integer("date", { mode: "timestamp" }).notNull(),
   odometer: integer("odometer").notNull(),
-  liters: integer("liters").notNull(),
-  pricePerLiter: integer("price_per_liter").notNull(),
-  totalCost: integer("total_cost").notNull(),
+  liters: real("liters").notNull(),
+  pricePerLiter: real("price_per_liter").notNull(),
+  totalCost: real("total_cost").notNull(),
   fullTank: integer("full_tank", { mode: "boolean" }).notNull(),
   station: text("station"),
   note: text("note"),
@@ -46,7 +46,7 @@ export const expensesRecords = sqliteTable("expenses", {
   type: text("type").$type<ExpenseType>().notNull(),
   date: integer("date", { mode: "timestamp" }).notNull(),
   odometer: integer("odometer").notNull(),
-  amount: integer("amount").notNull(),
+  amount: real("amount").notNull(),
   note: text("note"),
 });
 

@@ -6,6 +6,7 @@ import m0001 from './0001_foamy_storm.sql';
 import m0002 from './0002_glossy_scarlet_spider.sql';
 import m0003 from './0003_quiet_absorbing_man.sql';
 import m0004 from './0004_brief_winter_soldier.sql';
+import m0005 from './0005_amazing_stick.sql';
 
   export default {
     journal,
@@ -14,7 +15,8 @@ import m0004 from './0004_brief_winter_soldier.sql';
 m0001,
 m0002,
 m0003,
-m0004
+m0004,
+m0005
     }
   }
   
