@@ -1,5 +1,4 @@
 import { FuelIcon } from "lucide-react-native";
-import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { EmptyState } from "@/components/EmptyState";
@@ -10,12 +9,11 @@ import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useStatistics } from "@/repositories/statistics-repository";
-import { FuelForm } from "@/components/forms/FuelForm";
+import { router } from "expo-router";
 
 export default function FuelScreen() {
   const { t, isRTL } = useTranslation();
   const isDesktop = useMediaQuery({ minWidth: 768 });
-  const [editingId, setEditingId] = useState<number | null>(null);
 
   const { data: fuels } = useFuels();
   const { totalFuelCost, avgKmPerLiter } = useStatistics();
@@ -79,7 +77,10 @@ export default function FuelScreen() {
                 color={Colors.fuel}
                 rtl={isRTL}
                 onPress={(id) => {
-                  setEditingId(id);
+                  router.push({
+                    pathname: "/fuel/form",
+                    params: { id },
+                  });
                 }}
               />
             );
@@ -87,8 +88,6 @@ export default function FuelScreen() {
         )}
         <View style={{ height: 100 }} />
       </ScrollView>
-
-      <FuelForm editingId={editingId} onClose={() => setEditingId(null)} />
     </View>
   );
 }

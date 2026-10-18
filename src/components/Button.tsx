@@ -1,5 +1,4 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants/theme";
 import {
   ActivityIndicator,
   Pressable,
@@ -10,57 +9,73 @@ import {
 interface ButtonProps {
   title: string;
   onPress: () => void;
-  variant?: "primary" | "secondary" | "danger";
+  variant?: "solid" | "subtle" | "outline" | "plain";
+  color?: "gray" | "red" | "green" | "blue" | "orange";
   loading?: boolean;
   disabled?: boolean;
   style?: ViewStyle;
 }
 
+const PALETTE = {
+  gray: "#18181b",
+  blue: "#2563eb",
+  green: "#16a34a",
+  orange: "#ea580c",
+  red: "#dc2626",
+};
+
 export function Button({
   title,
   onPress,
-  variant = "primary",
+  variant = "solid",
+  color = "blue",
   loading,
   disabled,
   style,
 }: ButtonProps) {
-  const getBackgroundColor = () => {
-    if (disabled) return Colors.border;
-    switch (variant) {
-      case "secondary":
-        return Colors.surfaceAlt;
-      case "danger":
-        return Colors.danger;
-      default:
-        return Colors.primary;
-    }
-  };
+  const baseColor = PALETTE[color];
 
-  const getTextColor = () => {
-    if (disabled) return Colors.textMuted;
-    switch (variant) {
-      case "secondary":
-        return Colors.text;
-      default:
-        return "#FFFFFF";
-    }
-  };
+  const foregroundColor = variant === "solid" ? "#ffffff" : baseColor;
+
+  const variantStyles = {
+    solid: {
+      backgroundColor: baseColor,
+      borderColor: baseColor,
+      borderWidth: 1,
+    },
+    subtle: {
+      backgroundColor: `${baseColor}20`, // Appends alpha for 12% opacity
+      borderColor: "transparent",
+      borderWidth: 1,
+    },
+    outline: {
+      backgroundColor: "transparent",
+      borderColor: baseColor,
+      borderWidth: 1,
+    },
+    plain: {
+      backgroundColor: "transparent",
+      borderColor: "transparent",
+      borderWidth: 1,
+    },
+  }[variant];
 
   return (
     <Pressable
       style={({ pressed }) => [
         styles.button,
-        { backgroundColor: getBackgroundColor() },
+        variantStyles,
         pressed && !disabled && styles.pressed,
+        disabled && styles.disabled,
         style,
       ]}
       onPress={onPress}
       disabled={disabled || loading}
     >
       {loading ? (
-        <ActivityIndicator color={getTextColor()} size="small" />
+        <ActivityIndicator size="small" color={foregroundColor} />
       ) : (
-        <Text style={[styles.text, { color: getTextColor() }]}>{title}</Text>
+        <Text style={[styles.text, { color: foregroundColor }]}>{title}</Text>
       )}
     </Pressable>
   );
@@ -77,8 +92,11 @@ const styles = StyleSheet.create({
   pressed: {
     opacity: 0.8,
   },
+  disabled: {
+    opacity: 0.3,
+  },
   text: {
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: "600",
   },
 });

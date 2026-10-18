@@ -31,6 +31,7 @@ export const Colors = {
   success: "#10B981",
   warning: "#F59E0B",
   danger: "#EF4444",
+  transparent: "transparent",
 
   background: "#F8FAFC",
   surface: "#FFFFFF",
@@ -134,8 +135,13 @@ export const globalStyles = StyleSheet.create({
   modalScroll: {
     padding: 20,
   },
-  modalButtonRow: {
+  buttonRow: {
     flexDirection: "row",
+    marginTop: 8,
+    gap: 10,
+  },
+  buttonColumn: {
+    flexDirection: "column",
     marginTop: 8,
     gap: 10,
   },

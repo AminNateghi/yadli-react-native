@@ -40,7 +40,8 @@ export function ReminderDeletionModal({ editingId, onConfirm }: Props) {
     <>
       <Button
         title={t("common.delete")}
-        variant="danger"
+        variant="outline"
+        color="red"
         onPress={handleDelete}
         style={{ flex: 1 }}
       />

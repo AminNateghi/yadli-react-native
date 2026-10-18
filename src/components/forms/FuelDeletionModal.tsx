@@ -6,7 +6,7 @@ import { Toast } from "../CustomToast";
 import { useDeleteFuel } from "@/repositories/fuel-repository";
 
 type Props = {
-  editingId: number;
+  editingId: number | null;
   onConfirm: () => void;
 };
 
@@ -40,7 +40,8 @@ export function FuelDeletionModal({ editingId, onConfirm }: Props) {
     <>
       <Button
         title={t("common.delete")}
-        variant="danger"
+        variant="outline"
+        color="red"
         onPress={handleDelete}
         style={{ flex: 1 }}
       />

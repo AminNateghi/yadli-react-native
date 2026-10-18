@@ -263,7 +263,7 @@ export function ServiceForm({ editingId, onClose }: Props) {
                 )}
               />
 
-              <View style={globalStyles.modalButtonRow}>
+              <View style={globalStyles.buttonColumn}>
                 {editingId && (
                   <ServiceDeletionModal
                     editingId={editingId!}

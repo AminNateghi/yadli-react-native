@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { globalStyles } from "@/constants/theme";
@@ -16,7 +16,6 @@ import {
   type ExpenseType,
   expenseTypeOptions,
 } from "@/types/interfaces";
-import { Toast } from "@/components/CustomToast";
 import { SelectPicker } from "@/components/SelectPicker";
 import { DatePicker } from "@/components/DatePicker";
 import { Input } from "@/components/Input";
@@ -36,7 +35,6 @@ export default function ExpenseForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
   const [editMode] = useState<boolean>(Number(params.id) > 0);
-
   const { t, isRTL } = useTranslation();
 
   const { mutate: updateService, isPending: isPendingUpdate } =
@@ -96,17 +94,9 @@ export default function ExpenseForm() {
     };
 
     if (id) {
-      updateService(expense, {
-        onSuccess: () => {
-          Toast({ text: t("common.saved") });
-        },
-      });
+      updateService(expense);
     } else {
-      createService(expense, {
-        onSuccess: () => {
-          Toast({ text: t("common.saved") });
-        },
-      });
+      createService(expense);
     }
 
     handleClose();
@@ -115,11 +105,7 @@ export default function ExpenseForm() {
 
   return (
     <ScrollView
-      style={[
-        globalStyles.modalScroll,
-        styles.wrapper,
-        isRTL && { direction: "rtl" },
-      ]}
+      style={[globalStyles.modalScroll, isRTL && { direction: "rtl" }]}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
@@ -208,27 +194,22 @@ export default function ExpenseForm() {
         )}
       />
 
-      <View style={{ flexDirection: "column" }}>
-        {editMode && (
-          <ExpenseDeletionModal
-            editingId={id!}
-            onConfirm={() => handleClose()}
-          />
-        )}
+      <View style={globalStyles.buttonColumn}>
         <Button
           title={id ? t("common.update") : t("common.save")}
           onPress={handleSubmit(handleSave)}
           loading={isPendingUpdate || isPendingCreate}
           disabled={!isValid}
+          color="blue"
           style={{ flex: 1 }}
         />
+        {editMode && (
+          <ExpenseDeletionModal
+            editingId={id}
+            onConfirm={() => handleClose()}
+          />
+        )}
       </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-});

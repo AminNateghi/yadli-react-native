@@ -451,7 +451,7 @@ export function ReminderForm({ editingId, onClose }: Props) {
                 />
               )}
 
-              <View style={globalStyles.modalButtonRow}>
+              <View style={globalStyles.buttonColumn}>
                 {editingId && (
                   <ReminderDeletionModal
                     editingId={editingId!}

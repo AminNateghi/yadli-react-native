@@ -34,14 +34,16 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                 (cancelText ?? type === "Ok") ? t("common.ok") : t("common.no")
               }
               onPress={onCancel}
-              variant="secondary"
+              variant="outline"
+              color="gray"
               style={{ flex: 1 }}
             />
             {type !== "Ok" && (
               <Button
                 title={confirmText ?? t("common.yes")}
                 onPress={onConfirm}
-                variant="danger"
+                variant="outline"
+                color="red"
                 style={{ flex: 1 }}
               />
             )}
