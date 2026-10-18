@@ -51,10 +51,16 @@ export default function ExpensesLayout() {
       />
       <Stack.Screen
         name="form"
-        options={{
-          title: t("menus.expenses"),
-          headerLargeTitle: true,
-          headerTitleAlign: "center",
+        options={({ route }: any) => {
+          const isEditMode = !!route.params?.id;
+
+          return {
+            title: isEditMode
+              ? t("expenses.updateTitle")
+              : t("expenses.createTitle"),
+            headerLargeTitle: true,
+            headerTitleAlign: "center",
+          };
         }}
       />
     </Stack>

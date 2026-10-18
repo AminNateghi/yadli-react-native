@@ -34,7 +34,7 @@ const defaultValues = {
 export default function ExpenseForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
-  const [editMode] = useState<boolean>(Number(params.id) > 0);
+  const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
 
   const { mutate: updateService, isPending: isPendingUpdate } =
@@ -203,7 +203,7 @@ export default function ExpenseForm() {
           color="blue"
           style={{ flex: 1 }}
         />
-        {editMode && (
+        {isEditMode && (
           <ExpenseDeletionModal
             editingId={id}
             onConfirm={() => handleClose()}

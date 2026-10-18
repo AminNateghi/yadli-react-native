@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, useSegments } from "expo-router";
 import {
   BanknoteIcon,
   FuelIcon,
@@ -14,6 +14,9 @@ export default function TabLayout() {
   const { t, isRTL } = useTranslation();
   const fontFamily = useAppFontFamily();
 
+  const segments = useSegments() as string[];
+  const isFormScreen = segments.includes("form");
+
   return (
     <Tabs
       screenOptions={{
@@ -23,6 +26,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.textMuted,
         tabBarStyle: {
+          display: isFormScreen ? "none" : "flex", //  Hide dynamically tabs bar in forms screen
           backgroundColor: Colors.surface,
           borderTopColor: Colors.borderLight,
           paddingTop: 0,

@@ -50,10 +50,14 @@ export default function FuelLayout() {
 
       <Stack.Screen
         name="form"
-        options={{
-          title: t("menus.fuel"),
-          headerLargeTitle: true,
-          headerTitleAlign: "center",
+        options={({ route }: any) => {
+          const isEditMode = !!route.params?.id;
+
+          return {
+            title: isEditMode ? t("fuel.updateTitle") : t("fuel.createTitle"),
+            headerLargeTitle: true,
+            headerTitleAlign: "center",
+          };
         }}
       />
     </Stack>

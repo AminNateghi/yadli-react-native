@@ -34,7 +34,7 @@ const defaultValues = {
 export default function ServiceForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
-  const [editMode] = useState<boolean>(Number(params.id) > 0);
+  const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
 
   const { mutate: updateService, isPending: isPendingUpdate } =
@@ -212,7 +212,7 @@ export default function ServiceForm() {
           disabled={!isValid}
           style={{ flex: 1 }}
         />
-        {editMode && (
+        {isEditMode && (
           <ServiceDeletionModal
             editingId={id!}
             onConfirm={() => handleClose()}

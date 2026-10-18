@@ -37,7 +37,7 @@ const defaultValues = {
 export default function FuelForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
-  const [editMode] = useState<boolean>(Number(params.id) > 0);
+  const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
 
   const { mutate: updateService, isPending: isPendingUpdate } = useUpdateFuel(
@@ -272,7 +272,7 @@ export default function FuelForm() {
           disabled={!isValid}
           style={{ flex: 1 }}
         />
-        {editMode && (
+        {isEditMode && (
           <FuelDeletionModal editingId={id} onConfirm={() => handleClose()} />
         )}
       </View>

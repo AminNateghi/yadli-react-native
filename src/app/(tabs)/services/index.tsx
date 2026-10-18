@@ -21,8 +21,6 @@ export default function ServicesScreen() {
   const { data: services } = useServices();
   const { totalServiceCost } = useStatistics();
 
-  const [editingId, setEditingId] = useState<number | null>(null);
-
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
       <ScrollView
@@ -124,7 +122,10 @@ export default function ServicesScreen() {
                 color={Colors.service}
                 rtl={isRTL}
                 onPress={(id) => {
-                  setEditingId(id);
+                  router.push({
+                    pathname: "/services/form",
+                    params: { id },
+                  });
                 }}
               />
             );
