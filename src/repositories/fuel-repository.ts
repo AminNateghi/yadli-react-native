@@ -62,6 +62,6 @@ export function useGetFuel(id: number | null) {
     queryKey: fuelQueryKey.byId(id!),
     queryFn: () =>
       db.query.fuelsRecords.findFirst({ where: eq(fuelsRecords.id, id!) }),
-    enabled: id !== null,
+    enabled: !!id,
   });
 }

@@ -64,7 +64,7 @@ export function useGetReminder(id: number | null) {
       db.query.remindersRecords.findFirst({
         where: eq(remindersRecords.id, id!),
       }),
-    enabled: id !== null,
+    enabled: !!id,
   });
 }
 

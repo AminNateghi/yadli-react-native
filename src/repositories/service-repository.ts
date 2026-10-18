@@ -67,6 +67,6 @@ export function useGetService(id: number | null) {
       db.query.servicesRecords.findFirst({
         where: eq(servicesRecords.id, id!),
       }),
-    enabled: id !== null,
+    enabled: !!id,
   });
 }

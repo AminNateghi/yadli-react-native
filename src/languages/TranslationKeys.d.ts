@@ -35,6 +35,7 @@ interface Common {
   kilometer: string;
   km: string;
   priceSign: string;
+  new: string;
   save: string;
   close: string;
   delete: string;

@@ -6,7 +6,7 @@ import { Toast } from "../CustomToast";
 import { useDeleteExpense } from "@/repositories/expense-repository";
 
 type Props = {
-  editingId: number;
+  editingId: number | null;
   onConfirm: () => void;
 };
 

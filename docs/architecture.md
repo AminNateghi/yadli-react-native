@@ -5,7 +5,7 @@
 - Expo SDK ~57 (`expo: ~57.0.26`), React 19.2.3, React Native 0.86.3
 - Navigation: `expo-router ~57.0.24`, typed routes enabled (`app.json:38`)
 - Local DB: `expo-sqlite ^57.0.3` + `drizzle-orm ^0.45.3` + `drizzle-kit`
-- Server-state: `@tanstack/react-query ^5.104.0` 
+- Server-state: `@tanstack/react-query ^5.104.0`
 - Forms: `react-hook-form ^7.89.0` + `@hookform/resolvers` + `zod ^4.6.5`
 - Dates: `date-fns` + `dayjs` + `jalaliday` (for Persian calendar)
 - UI: `lucide-react-native`, `react-native-ui-datepicker`, custom `Text/Button/Input`
@@ -58,7 +58,6 @@ Flow: form → mutation → drizzle → sqlite → `invalidateQueries` → list 
 - `src/types/interfaces.ts` — DTOs (`$inferSelect`) + enums:
   `ReminderMode (OneTime|Recurring)`, `ReminderTriggerType (Odometer|Date|Either)`
 - `src/types/*-schema.ts` — zod schemas built per locale: `fuel/expense/service/reminder-schema.ts`
-
 
 ## 6. What is missing (detail in `structure.md` / `notifications.md`)
 

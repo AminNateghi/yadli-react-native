@@ -1,5 +1,4 @@
 import { BanknoteIcon } from "lucide-react-native";
-import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { EmptyState } from "@/components/EmptyState";
@@ -10,13 +9,13 @@ import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
 import { useExpenses } from "@/repositories/expense-repository";
 import { useStatistics } from "@/repositories/statistics-repository";
-import { ExpenseForm } from "@/components/forms/ExpenseForm";
 import { getExpenseTypeTitle } from "@/types/interfaces";
+import { router } from "expo-router";
+import { Button } from "@/components/Button";
 
 export default function ExpensesScreen() {
   const { t, isRTL } = useTranslation();
   const isDesktop = useMediaQuery({ minWidth: 768 });
-  const [editingId, setEditingId] = useState<number | null>(null);
 
   const { data: expenses } = useExpenses();
   const { totalExpenses } = useStatistics();
@@ -44,11 +43,19 @@ export default function ExpensesScreen() {
         )}
 
         {expenses?.length === 0 ? (
-          <EmptyState
-            icon={BanknoteIcon}
-            title={t("expenses.noExpenseYet")}
-            subtitle={t("expenses.expensesDescription")}
-          />
+          <>
+            <EmptyState
+              icon={BanknoteIcon}
+              title={t("expenses.noExpenseYet")}
+              subtitle={t("expenses.expensesDescription")}
+            />
+
+            <Button
+              title={t("common.new")}
+              onPress={() => router.push("/(tabs)/expenses/form")}
+              style={{ flex: 1 }}
+            />
+          </>
         ) : (
           expenses?.map((expense) => {
             return (
@@ -63,7 +70,10 @@ export default function ExpensesScreen() {
                 color={Colors.expense}
                 rtl={isRTL}
                 onPress={(id) => {
-                  setEditingId(id);
+                  router.push({
+                    pathname: "/expenses/form",
+                    params: { id },
+                  });
                 }}
               />
             );
@@ -71,8 +81,6 @@ export default function ExpensesScreen() {
         )}
         <View style={{ height: 100 }} />
       </ScrollView>
-
-      <ExpenseForm editingId={editingId} onClose={() => setEditingId(null)} />
     </View>
   );
 }

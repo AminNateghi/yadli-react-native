@@ -34,16 +34,16 @@ export function useCreateExpense() {
   });
 }
 
-export function useUpdateExpense(id: number) {
+export function useUpdateExpense(id: number | null) {
   return useMutation({
     mutationFn: async (values: Partial<ExpenseDto>) =>
       await db
         .update(expensesRecords)
         .set(values)
-        .where(eq(expensesRecords.id, id)),
+        .where(eq(expensesRecords.id, id!)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });
-      queryClient.invalidateQueries({ queryKey: expenseQueryKey.byId(id) });
+      queryClient.invalidateQueries({ queryKey: expenseQueryKey.byId(id!) });
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
@@ -67,6 +67,6 @@ export function useGetExpense(id: number | null) {
       db.query.expensesRecords.findFirst({
         where: eq(expensesRecords.id, id!),
       }),
-    enabled: id !== null,
+    enabled: !!id,
   });
 }
