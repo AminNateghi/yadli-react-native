@@ -1,15 +1,16 @@
 import { Colors } from "@/constants/theme";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, type ViewStyle } from "react-native";
 import type { PropsWithChildren } from "react";
 import { Text } from "./Text";
 
 interface CardProps extends PropsWithChildren {
   title?: string;
+  style?: ViewStyle;
 }
 
-export function Card({ title, children }: CardProps) {
+export function Card({ title, children, style }: CardProps) {
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, style]}>
       {title && <Text style={styles.title}>{title}</Text>}
       {children}
     </View>

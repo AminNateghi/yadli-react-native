@@ -330,7 +330,7 @@ export default function ReminderForm() {
               render={({ field: { value, onChange } }) => (
                 <DatePicker
                   label={t("reminders.startDate")}
-                  value={value ?? ""}
+                  value={value!}
                   onChange={onChange}
                   error={errors.startDate?.message}
                 />

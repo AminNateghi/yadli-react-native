@@ -255,5 +255,10 @@
     "m36": "3 years",
     "m48": "4 years",
     "m60": "5 years"
+  },
+  "resetData": {
+    "title": "Danger Zone",
+    "resetButton": "Reset All Data",
+    "confirmMessage": "This will permanently delete all fuel logs, services logs, expenses logs and all reminders from this device.\nAre you sure you want to delete all the information?"
   }
 }

@@ -18,7 +18,7 @@ dayjs.extend(jalaliday);
 
 interface DatePickerProps {
   label: string;
-  value: string;
+  value: string | null;
   error?: string;
   onChange: (date: string | null) => void;
 }
@@ -60,9 +60,17 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
         ]}
         onPress={() => setVisible(true)}
       >
-        <Text style={[styles.selectorText, !value && styles.placeholder]}>
-          {dateFormat(isRTL, value ?? "")}
-        </Text>
+        {value === null ||
+        value === undefined ||
+        value === "" ||
+        value === "null" ? (
+          <Text></Text>
+        ) : (
+          <Text style={[styles.selectorText, !value && styles.placeholder]}>
+            {dateFormat(isRTL, value ?? "")}
+          </Text>
+        )}
+
         <CalendarIcon size={20} color={Colors.textSecondary} />
       </Pressable>
       {error && <Text style={styles.error}>{error}</Text>}

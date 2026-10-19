@@ -9,8 +9,8 @@ export const expenseSchema = (
     date: z
       .string({ error: t("common.required") })
       .min(1, { error: t("common.required") }),
-    odometer: z.number(t("common.required")).positive(),
-    amount: z.coerce.number(t("common.required")).positive(),
+    odometer: z.coerce.number({ error: t("common.required") }).positive(),
+    amount: z.coerce.number({ error: t("common.required") }).positive(),
     note: z.string().nullable().optional(),
   });
 

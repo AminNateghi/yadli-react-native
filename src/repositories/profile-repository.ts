@@ -1,9 +1,19 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { profileRecords } from "@/db/schema";
+import {
+  expensesRecords,
+  fuelsRecords,
+  profileRecords,
+  remindersRecords,
+  servicesRecords,
+} from "@/db/schema";
 import type { LanguageType } from "@/types/interfaces";
 import { queryClient } from "../utils/query-client";
+import { remindersQueryKey } from "./reminder-repository";
+import { expenseQueryKey } from "./expense-repository";
+import { fuelQueryKey } from "./fuel-repository";
+import { serviceQueryKey } from "./service-repository";
 
 export const profileQueryKey = {
   profile: ["profile"],
@@ -56,6 +66,24 @@ export function useGetProfile() {
         .returning();
 
       return created;
+    },
+  });
+}
+
+export function useResetAllData() {
+  return useMutation({
+    mutationFn: async () =>
+      await db.transaction(async (tx) => {
+        await tx.delete(remindersRecords);
+        await tx.delete(expensesRecords);
+        await tx.delete(servicesRecords);
+        await tx.delete(fuelsRecords);
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
+      queryClient.invalidateQueries({ queryKey: serviceQueryKey.list });
     },
   });
 }

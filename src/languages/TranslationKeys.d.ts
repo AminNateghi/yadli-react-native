@@ -22,6 +22,7 @@ export interface TranslationKeys {
   reminderDependent: ReminderDependent;
   reminderDateInterval: ReminderDateInterval;
   reminderTriggerType: ReminderTriggerType;
+  resetData: ResetData;
 }
 
 interface App {
@@ -294,4 +295,10 @@ interface ReminderDateInterval {
   m36: string;
   m48: string;
   m60: string;
+}
+
+interface ResetData {
+  title: string;
+  resetButton: string;
+  confirmMessage: string;
 }
