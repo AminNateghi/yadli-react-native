@@ -12,6 +12,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../Input";
 import { DatePicker } from "../DatePicker";
+import { ReminderTriggerType } from "@/types/interfaces";
 
 const defaultValues = {
   date: undefined,
@@ -20,10 +21,11 @@ const defaultValues = {
 
 type Props = {
   id: number;
+  trigger: ReminderTriggerType;
   onConfirm: () => void;
 };
 
-export function CompleteReminderModal({ id, onConfirm }: Props) {
+export function CompleteReminderModal({ id, trigger, onConfirm }: Props) {
   const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -80,38 +82,48 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>{t("reminders.doneMessage")}</Text>
+            <Text style={styles.modalText}>
+              {trigger === "Either"
+                ? t("reminders.doneMessage")
+                : trigger === "Date"
+                  ? t("reminders.doneDateMessage")
+                  : t("reminders.doneOdometerMessage")}
+            </Text>
 
-            <Controller
-              control={control}
-              name="odometer"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <>
-                  <Input
-                    label={t("reminders.startOdometer")}
-                    value={value?.toString() ?? ""}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    keyboardType="numeric"
-                    placeholder={t("expenses.odometerPlaceholder")}
-                    style={{ direction: "ltr" }}
-                    error={errors?.odometer?.message}
+            {(trigger === "Either" || trigger === "Odometer") && (
+              <Controller
+                control={control}
+                name="odometer"
+                render={({ field: { value, onChange, onBlur } }) => (
+                  <>
+                    <Input
+                      label={t("reminders.startOdometer")}
+                      value={value?.toString() ?? ""}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      keyboardType="numeric"
+                      placeholder={t("expenses.odometerPlaceholder")}
+                      style={{ direction: "ltr" }}
+                      error={errors?.odometer?.message}
+                    />
+                  </>
+                )}
+              />
+            )}
+
+            {(trigger === "Either" || trigger === "Date") && (
+              <Controller
+                control={control}
+                name="date"
+                render={({ field: { value, onChange } }) => (
+                  <DatePicker
+                    label={t("reminders.startDate")}
+                    value={value ?? ""}
+                    onChange={onChange}
                   />
-                </>
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="date"
-              render={({ field: { value, onChange } }) => (
-                <DatePicker
-                  label={t("reminders.startDate")}
-                  value={value ?? ""}
-                  onChange={onChange}
-                />
-              )}
-            />
+                )}
+              />
+            )}
 
             <View style={styles.buttonContainer}>
               <Button

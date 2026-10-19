@@ -125,6 +125,9 @@ interface Reminders {
   remaining: string;
   passed: string;
   doneMessage: string;
+  doneOdometerMessage: string;
+  doneDateMessage: string;
+  doneOneTimeMessage: string;
 }
 
 interface Fuel {

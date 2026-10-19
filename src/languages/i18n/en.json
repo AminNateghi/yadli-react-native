@@ -119,7 +119,10 @@
     "dueAt": "Due at",
     "remaining": "remaining",
     "passed": "passed",
-    "doneMessage": "Enter the odometer reading or date of the completed service"
+    "doneMessage": "Enter the odometer reading or date of the completed service",
+    "doneOdometerMessage": "Enter the odometer reading of the completed service",
+    "doneDateMessage": "Enter date of the completed service",
+    "doneOneTimeMessage": "Did you do this?"
   },
   "services": {
     "totalServiceCost": "Total Service Cost",

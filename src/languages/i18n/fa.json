@@ -119,7 +119,10 @@
     "dueAt": "سررسید در",
     "remaining": "مانده",
     "passed": "گذشته",
-    "doneMessage": "کیلومتر یا تاریخ انجام سرویس را وارد کنید"
+    "doneMessage": "کیلومتر یا تاریخ انجام سرویس را وارد کنید",
+    "doneOdometerMessage": "کیلومتر انجام سرویس را وارد کنید",
+    "doneDateMessage": "تاریخ انجام سرویس را وارد کنید",
+    "doneOneTimeMessage": "آیا این مورد را انجام دادید؟"
   },
   "services": {
     "totalServiceCost": "جمع پرداختی‌ها",

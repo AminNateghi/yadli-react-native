@@ -35,6 +35,7 @@ import { CompleteReminderModal } from "@/components/forms/CompleteReminderModal"
 import { ReminderDeletionModal } from "@/components/forms/ReminderDeletionModal";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { CompleteReminderOneTimeModal } from "@/components/forms/CompleteReminderOneTimeModal";
 
 const defaultValues = {
   dependent: "Service",
@@ -143,6 +144,7 @@ export default function ReminderForm() {
   };
 
   const dependent = watch("dependent") as ReminderDependent;
+  const mode = watch("mode") as ReminderMode;
   const trigger = watch("triggerType") as ReminderTriggerType;
 
   return (
@@ -395,7 +397,18 @@ export default function ReminderForm() {
         />
         {isEditMode && (
           <View style={globalStyles.buttonRow}>
-            <CompleteReminderModal id={id} onConfirm={() => handleClose()} />
+            {mode === "OneTime" ? (
+              <CompleteReminderOneTimeModal
+                id={id}
+                onConfirm={() => handleClose()}
+              />
+            ) : (
+              <CompleteReminderModal
+                id={id}
+                trigger={trigger}
+                onConfirm={() => handleClose()}
+              />
+            )}
             <ReminderDeletionModal
               editingId={id!}
               onConfirm={() => handleClose()}

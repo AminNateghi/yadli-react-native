@@ -16,7 +16,6 @@ import {
   WrenchIcon,
 } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
-import { CompleteReminderModal } from "./forms/CompleteReminderModal";
 
 interface Props {
   reminder: ReminderCardProp;
