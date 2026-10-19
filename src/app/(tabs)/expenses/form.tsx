@@ -49,7 +49,7 @@ export default function ExpenseForm() {
     control,
     reset,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
@@ -145,9 +145,7 @@ export default function ExpenseForm() {
             label={t("expenses.odometer")}
             value={value?.toString() ?? ""}
             onBlur={onBlur}
-            onChangeText={(text) => {
-              onChange(text === "" ? undefined : Number(text));
-            }}
+            onChangeText={onChange}
             keyboardType="numeric"
             placeholder={t("expenses.odometerPlaceholder")}
             style={{ direction: "ltr" }}
@@ -164,9 +162,7 @@ export default function ExpenseForm() {
             label={t("expenses.amount")}
             value={value?.toString() ?? ""}
             onBlur={onBlur}
-            onChangeText={(text) => {
-              onChange(text === "" ? undefined : Number(text));
-            }}
+            onChangeText={onChange}
             keyboardType="decimal-pad"
             placeholder={t("expenses.amountPlaceholder")}
             style={{ direction: "ltr" }}
@@ -200,7 +196,6 @@ export default function ExpenseForm() {
           title={id ? t("common.update") : t("common.save")}
           onPress={handleSubmit(handleSave)}
           loading={isPendingUpdate || isPendingCreate}
-          disabled={!isValid}
           color="blue"
           style={{ flex: 1 }}
         />

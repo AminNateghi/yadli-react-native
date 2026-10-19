@@ -6,9 +6,11 @@ export const expenseSchema = (
 ) =>
   z.object({
     type: z.string().min(1, t("common.required")),
-    date: z.string().min(1, t("common.required")),
+    date: z
+      .string({ error: t("common.required") })
+      .min(1, { error: t("common.required") }),
     odometer: z.number(t("common.required")).positive(),
-    amount: z.number(t("common.required")).positive(),
+    amount: z.coerce.number(t("common.required")).positive(),
     note: z.string().nullable().optional(),
   });
 

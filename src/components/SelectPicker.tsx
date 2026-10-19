@@ -15,16 +15,18 @@ interface SelectPickerProps {
   label: string;
   value: string;
   options: OptionProps[];
-  onValueChange: (value: string) => void;
   placeholder?: string;
+  error?: string;
+  onValueChange: (value: string) => void;
 }
 
 export function SelectPicker({
   label,
   value,
   options,
-  onValueChange,
   placeholder,
+  error,
+  onValueChange,
 }: SelectPickerProps) {
   const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -37,6 +39,7 @@ export function SelectPicker({
         style={({ pressed }) => [
           styles.selector,
           pressed && styles.selectorPressed,
+          error && styles.borderError,
         ]}
         onPress={() => setVisible(true)}
       >
@@ -47,6 +50,7 @@ export function SelectPicker({
         </Text>
         <ChevronDownIcon size={20} color={Colors.textSecondary} />
       </Pressable>
+      {error && <Text style={styles.error}>{error}</Text>}
 
       <Modal visible={visible} transparent animationType="fade">
         <Pressable style={styles.overlay} onPress={() => setVisible(false)}>
@@ -182,5 +186,13 @@ const styles = StyleSheet.create({
   optionTextSelected: {
     color: Colors.primary,
     fontWeight: 500,
+  },
+  error: {
+    fontSize: 12,
+    color: Colors.danger,
+    marginTop: 4,
+  },
+  borderError: {
+    borderColor: Colors.danger,
   },
 });

@@ -49,7 +49,7 @@ export default function ServiceForm() {
     control,
     reset,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
@@ -136,6 +136,7 @@ export default function ServiceForm() {
               label={t("services.date")}
               value={value}
               onChange={onChange}
+              error={errors?.date?.message}
             />
           </>
         )}
@@ -150,9 +151,7 @@ export default function ServiceForm() {
               label={t("services.odometer")}
               value={value?.toString() ?? ""}
               onBlur={onBlur}
-              onChangeText={(text) => {
-                onChange(text === "" ? undefined : Number(text));
-              }}
+              onChangeText={onChange}
               keyboardType="numeric"
               placeholder={t("services.odometerPlaceholder")}
               style={{ direction: "ltr" }}
@@ -171,9 +170,7 @@ export default function ServiceForm() {
               label={t("services.cost")}
               value={value?.toString() ?? ""}
               onBlur={onBlur}
-              onChangeText={(text) => {
-                onChange(text === "" ? undefined : Number(text));
-              }}
+              onChangeText={onChange}
               keyboardType="decimal-pad"
               placeholder={t("services.costPlaceholder")}
               style={{ direction: "ltr" }}
@@ -210,7 +207,6 @@ export default function ServiceForm() {
           title={id ? t("common.update") : t("common.save")}
           onPress={handleSubmit(handleSave)}
           loading={isPendingUpdate || isPendingCreate}
-          disabled={!isValid}
           style={{ flex: 1 }}
         />
         {isEditMode && (

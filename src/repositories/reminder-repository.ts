@@ -87,10 +87,7 @@ export function useCompleteReminder() {
 
       if (reminder.mode === "OneTime") {
         return await db
-          .update(remindersRecords)
-          .set({
-            active: false,
-          })
+          .delete(remindersRecords)
           .where(eq(remindersRecords.id, props.reminderId));
       }
 
@@ -103,6 +100,9 @@ export function useCompleteReminder() {
           active: true,
         })
         .where(eq(remindersRecords.id, props.reminderId));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
 }

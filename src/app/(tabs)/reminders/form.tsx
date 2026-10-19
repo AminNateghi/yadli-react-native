@@ -70,7 +70,7 @@ export default function ReminderForm() {
     control,
     reset,
     handleSubmit,
-    formState: { isValid },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
@@ -143,7 +143,6 @@ export default function ReminderForm() {
   };
 
   const dependent = watch("dependent") as ReminderDependent;
-  const mode = watch("mode") as ReminderMode;
   const trigger = watch("triggerType") as ReminderTriggerType;
 
   return (
@@ -178,6 +177,7 @@ export default function ReminderForm() {
                 value={value ?? ""}
                 options={serviceTypeOptions(t)}
                 onValueChange={(value) => onChange(value as ServiceType)}
+                error={errors.serviceType?.message}
               />
             )}
           />
@@ -193,6 +193,7 @@ export default function ReminderForm() {
                 value={value ?? ""}
                 options={expenseTypeOptions(t)}
                 onValueChange={(value) => onChange(value as ExpenseType)}
+                error={errors.expenseType?.message}
               />
             )}
           />
@@ -238,6 +239,7 @@ export default function ReminderForm() {
                   value={String(value)}
                   options={reminderDateIntervalMonths(t)}
                   onValueChange={(value) => onChange(Number(value))}
+                  error={errors.dateIntervalMonths?.message}
                 />
               )}
             />
@@ -249,6 +251,7 @@ export default function ReminderForm() {
                   label={t("reminders.startDate")}
                   value={value ?? ""}
                   onChange={onChange}
+                  error={errors.startDate?.message}
                 />
               )}
             />
@@ -264,11 +267,10 @@ export default function ReminderForm() {
                   label={t("reminders.odometerInterval")}
                   value={value?.toString() ?? ""}
                   onBlur={onBlur}
-                  onChangeText={(text) => {
-                    onChange(text === "" ? undefined : Number(text));
-                  }}
+                  onChangeText={onChange}
                   keyboardType="numeric"
                   style={{ direction: "ltr" }}
+                  error={errors.odometerInterval?.message}
                 />
               )}
             />
@@ -280,11 +282,10 @@ export default function ReminderForm() {
                   label={t("reminders.startOdometer")}
                   value={value?.toString() ?? ""}
                   onBlur={onBlur}
-                  onChangeText={(text) => {
-                    onChange(text === "" ? undefined : Number(text));
-                  }}
+                  onChangeText={onChange}
                   keyboardType="numeric"
                   style={{ direction: "ltr" }}
+                  error={errors.startOdometer?.message}
                 />
               )}
             />
@@ -302,6 +303,7 @@ export default function ReminderForm() {
                   value={String(value)}
                   options={reminderDateIntervalMonths(t)}
                   onValueChange={(value) => onChange(Number(value))}
+                  error={errors.dateIntervalMonths?.message}
                 />
               )}
             />
@@ -313,11 +315,10 @@ export default function ReminderForm() {
                   label={t("reminders.odometerInterval")}
                   value={value?.toString() ?? ""}
                   onBlur={onBlur}
-                  onChangeText={(text) => {
-                    onChange(text === "" ? undefined : Number(text));
-                  }}
+                  onChangeText={onChange}
                   keyboardType="numeric"
                   style={{ direction: "ltr" }}
+                  error={errors.odometerInterval?.message}
                 />
               )}
             />
@@ -329,6 +330,7 @@ export default function ReminderForm() {
                   label={t("reminders.startDate")}
                   value={value ?? ""}
                   onChange={onChange}
+                  error={errors.startDate?.message}
                 />
               )}
             />
@@ -340,11 +342,10 @@ export default function ReminderForm() {
                   label={t("reminders.startOdometer")}
                   value={value?.toString() ?? ""}
                   onBlur={onBlur}
-                  onChangeText={(text) => {
-                    onChange(text === "" ? undefined : Number(text));
-                  }}
+                  onChangeText={onChange}
                   keyboardType="numeric"
                   style={{ direction: "ltr" }}
+                  error={errors.startOdometer?.message}
                 />
               )}
             />

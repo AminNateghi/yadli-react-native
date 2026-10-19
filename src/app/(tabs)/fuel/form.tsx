@@ -53,7 +53,7 @@ export default function FuelForm() {
     control,
     reset,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
@@ -139,6 +139,7 @@ export default function FuelForm() {
               label={t("fuel.date")}
               value={value}
               onChange={onChange}
+              error={errors.date?.message}
             />
           </>
         )}
@@ -153,9 +154,7 @@ export default function FuelForm() {
               label={t("fuel.odometer")}
               value={value?.toString() ?? ""}
               onBlur={onBlur}
-              onChangeText={(text) => {
-                onChange(text === "" ? undefined : Number(text));
-              }}
+              onChangeText={onChange}
               keyboardType="numeric"
               placeholder={t("fuel.odometerPlaceholder")}
               style={{ direction: "ltr" }}
@@ -174,10 +173,8 @@ export default function FuelForm() {
               label={t("fuel.liters")}
               value={value?.toString() ?? ""}
               onBlur={onBlur}
-              onChangeText={(text) => {
-                onChange(text === "" ? undefined : Number(text));
-              }}
-              keyboardType="numeric"
+              onChangeText={onChange}
+              keyboardType="decimal-pad"
               placeholder={t("fuel.litersPlaceholder")}
               style={{ direction: "ltr" }}
               error={errors?.liters?.message}
@@ -195,9 +192,7 @@ export default function FuelForm() {
               label={t("fuel.price")}
               value={value?.toString() ?? ""}
               onBlur={onBlur}
-              onChangeText={(text) => {
-                onChange(text === "" ? undefined : Number(text));
-              }}
+              onChangeText={onChange}
               keyboardType="decimal-pad"
               placeholder={t("fuel.pricePlaceholder")}
               style={{ direction: "ltr" }}
@@ -270,7 +265,6 @@ export default function FuelForm() {
           title={id ? t("common.update") : t("common.save")}
           onPress={handleSubmit(handleSave)}
           loading={isPendingUpdate || isPendingCreate}
-          disabled={!isValid}
           style={{ flex: 1 }}
         />
         {isEditMode && (

@@ -2,7 +2,6 @@ import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "../Button";
-import { Toast } from "../CustomToast";
 import { useCompleteReminder } from "@/repositories/reminder-repository";
 import { Modal, StyleSheet, View } from "react-native";
 import { Text } from "../Text";
@@ -35,7 +34,7 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
     control,
     reset,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
@@ -53,7 +52,6 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
         onSuccess: () => {
           setModalVisible(false);
           onConfirm();
-          Toast({ text: t("common.saved") });
         },
       },
     );
@@ -93,9 +91,7 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
                     label={t("reminders.startOdometer")}
                     value={value?.toString() ?? ""}
                     onBlur={onBlur}
-                    onChangeText={(text) => {
-                      onChange(text === "" ? undefined : Number(text));
-                    }}
+                    onChangeText={onChange}
                     keyboardType="numeric"
                     placeholder={t("expenses.odometerPlaceholder")}
                     style={{ direction: "ltr" }}
@@ -129,7 +125,6 @@ export function CompleteReminderModal({ id, onConfirm }: Props) {
                 title={t("common.save")}
                 onPress={handleSubmit(handleConfirm)}
                 variant="solid"
-                disabled={!isValid}
                 loading={isPending}
                 style={{ flex: 1 }}
               />

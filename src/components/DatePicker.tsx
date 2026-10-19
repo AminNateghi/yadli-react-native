@@ -19,10 +19,11 @@ dayjs.extend(jalaliday);
 interface DatePickerProps {
   label: string;
   value: string;
+  error?: string;
   onChange: (date: string | null) => void;
 }
 
-export function DatePicker({ label, value, onChange }: DatePickerProps) {
+export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
   const { t, isRTL } = useTranslation();
   const defaultStyles = useDefaultStyles();
   const [visible, setVisible] = useState(false);
@@ -55,6 +56,7 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
         style={({ pressed }) => [
           styles.selector,
           pressed && styles.selectorPressed,
+          error && styles.borderError,
         ]}
         onPress={() => setVisible(true)}
       >
@@ -63,6 +65,7 @@ export function DatePicker({ label, value, onChange }: DatePickerProps) {
         </Text>
         <CalendarIcon size={20} color={Colors.textSecondary} />
       </Pressable>
+      {error && <Text style={styles.error}>{error}</Text>}
 
       <Modal visible={visible} transparent animationType="fade">
         <View style={styles.overlay}>
@@ -200,5 +203,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     gap: 10,
+  },
+  error: {
+    fontSize: 12,
+    color: Colors.danger,
+    marginTop: 4,
+  },
+  borderError: {
+    borderColor: Colors.danger,
   },
 });

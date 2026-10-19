@@ -12,6 +12,7 @@ import { useServices } from "@/repositories/service-repository";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
 import { router } from "expo-router";
+import { Button } from "@/components/Button";
 
 export default function ServiceRemindersScreen() {
   const { t, isRTL } = useTranslation();
@@ -49,11 +50,18 @@ export default function ServiceRemindersScreen() {
         showsVerticalScrollIndicator={false}
       >
         {!reminders || reminders?.length === 0 ? (
-          <EmptyState
-            icon={TimerIcon}
-            title={t("reminders.noReminders")}
-            subtitle={t("reminders.noRemindersDescription")}
-          />
+          <>
+            <EmptyState
+              icon={TimerIcon}
+              title={t("reminders.noReminders")}
+              subtitle={t("reminders.noRemindersDescription")}
+            />
+            <Button
+              title={t("common.new")}
+              onPress={() => router.push("/reminders/form")}
+              style={{ flex: 1 }}
+            />
+          </>
         ) : (
           reminders?.map((reminder) => {
             return (

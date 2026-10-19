@@ -6,8 +6,19 @@ export const completeReminderSchema = (
 ) =>
   z
     .object({
-      date: z.string().min(1, t("common.required")).optional(),
-      odometer: z.number(t("common.required")).positive().optional(),
+      date: z.string({ error: t("common.required") }).optional(),
+      odometer: z.preprocess(
+        (value) =>
+          value === "" || value === null || value === undefined
+            ? undefined
+            : typeof value === "string"
+              ? Number(value)
+              : value,
+        z
+          .number({ error: t("common.required") })
+          .positive()
+          .optional(),
+      ),
     })
     .refine(
       (data) => !!data.date?.trim() || !!data.odometer?.toString().trim(),

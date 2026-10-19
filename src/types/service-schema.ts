@@ -6,12 +6,12 @@ export const serviceSchema = (
 ) =>
   z.object({
     type: z.string().min(1, t("common.required")),
-    date: z.string().min(1, t("common.required")),
-    odometer: z.number(t("common.required")).positive(),
-    cost: z.number(t("common.required")).positive(),
+    date: z
+      .string({ error: t("common.required") })
+      .min(1, { error: t("common.required") }),
+    odometer: z.coerce.number({ error: t("common.required") }).positive(),
+    cost: z.coerce.number(t("common.required")).positive(),
     note: z.string().nullable().optional(),
-    nextDueDate: z.string().nullable().optional(),
-    nextDueOdometer: z.number().nullable().optional(),
   });
 
 export type ServiceFormData = z.infer<ReturnType<typeof serviceSchema>>;
