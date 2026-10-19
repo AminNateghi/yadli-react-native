@@ -1,11 +1,11 @@
 import { StyleSheet, View } from "react-native";
-import { SettingsForm } from "@/components/SettingsForm";
+import { ChangeLanguageForm } from "@/components/ChangeLanguageForm";
 import { ResetAllData } from "@/components/ResetAllData";
 
 export default function ServiceRemindersScreen() {
   return (
     <View style={styles.content}>
-      <SettingsForm />
+      <ChangeLanguageForm />
       <ResetAllData />
     </View>
   );

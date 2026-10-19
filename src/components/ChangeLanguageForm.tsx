@@ -10,8 +10,9 @@ import {
   useSaveProfileLanguage,
 } from "@/repositories/profile-repository";
 import { useRouter } from "expo-router";
+import { Card } from "./Card";
 
-export function SettingsForm() {
+export function ChangeLanguageForm() {
   const { t, isRTL } = useTranslation();
   const router = useRouter();
   const [language, setLanguage] = useState<LanguageType>("fa");
@@ -32,34 +33,31 @@ export function SettingsForm() {
 
   return (
     <View style={[styles.content, isRTL && globalStyles.rtl]}>
-      <SelectPicker
-        label={t("settings.language")}
-        value={language}
-        options={LANGUAGE_TYPE}
-        onValueChange={(value) => setLanguage(value as LanguageType)}
-      />
-
-      <View style={styles.buttonRow}>
-        <Button
-          title={t("common.save")}
-          onPress={handleSave}
-          style={{ flex: 1 }}
+      <Card>
+        <SelectPicker
+          label={t("settings.language")}
+          value={language}
+          options={LANGUAGE_TYPE}
+          onValueChange={(value) => setLanguage(value as LanguageType)}
         />
-      </View>
-      <View style={{ height: 40 }} />
+
+        <View style={styles.buttonRow}>
+          <Button
+            title={t("common.save")}
+            onPress={handleSave}
+            style={{ flex: 1 }}
+          />
+        </View>
+      </Card>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    backgroundColor: Colors.surface,
-    borderRadius: 24,
-    maxHeight: "90%",
-    padding: 16,
-  },
+  content: {},
   buttonRow: {
     flexDirection: "row",
     marginTop: 8,
+    paddingBottom: 16,
   },
 });
