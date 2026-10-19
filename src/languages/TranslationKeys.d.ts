@@ -28,6 +28,7 @@ export interface TranslationKeys {
 interface App {
   name: string;
   rtl: string;
+  madeWithLove: string;
 }
 
 interface Common {

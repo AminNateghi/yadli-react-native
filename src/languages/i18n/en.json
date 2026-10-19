@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "Yadli",
-    "rtl": "false"
+    "rtl": "false",
+    "madeWithLove": "Made with ❤️ in Iran"
   },
   "common": {
     "liter": "liter",

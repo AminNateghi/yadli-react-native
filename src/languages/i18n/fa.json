@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "یادلی",
-    "rtl": "true"
+    "rtl": "true",
+    "madeWithLove": "ساخته شده با ❤️ در ایران"
   },
   "common": {
     "liter": "لیتر",
