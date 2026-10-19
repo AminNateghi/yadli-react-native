@@ -160,9 +160,9 @@ function getUrgency(
 }
 
 function getProgressColor(progress: number, overdue: boolean): string {
-  if (overdue || progress >= 1) return "#EF4444";
+  if (overdue || progress >= 1) return "#c13030";
   if (progress >= 0.85) return "#EF4444";
-  if (progress >= 0.6) return "#F59E0B";
+  if (progress >= 0.75) return "#F59E0B";
   return "#10B981";
 }
 
