@@ -26,7 +26,9 @@ export function useSaveProfileName() {
         id: 1,
         fullName,
       }),
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: profileQueryKey.profile });
+    },
   });
 }
 
@@ -43,16 +45,29 @@ export function useSaveProfileLanguage() {
   });
 }
 
+export function useCompleteOnboarding() {
+  return useMutation({
+    mutationFn: async () =>
+      await db.update(profileRecords).set({
+        id: 1,
+        onboarding: true,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: profileQueryKey.profile });
+    },
+  });
+}
+
 export function useGetProfile() {
   return useQuery({
     queryKey: profileQueryKey.profile,
     queryFn: async () => {
-      const existing = await db.query.profileRecords.findFirst({
+      const profile = await db.query.profileRecords.findFirst({
         where: eq(profileRecords.id, 1),
       });
 
-      if (existing) {
-        return existing;
+      if (profile) {
+        return profile;
       }
 
       const [created] = await db

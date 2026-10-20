@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import {
   CarIcon,
   FuelIcon,
@@ -21,10 +21,11 @@ import { useStatistics } from "@/repositories/statistics-repository";
 import { useServices } from "@/repositories/service-repository";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
+import { useGetProfile } from "@/repositories/profile-repository";
+import { useEffect } from "react";
 
 export default function DashboardScreen() {
   const { t, isRTL } = useTranslation();
-  const router = useRouter();
   const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const {
@@ -42,6 +43,15 @@ export default function DashboardScreen() {
   const { data: recentServices } = useServices();
   const { data: recentFuel } = useFuels();
   const { data: recentExpenses } = useExpenses();
+  const { data: profile } = useGetProfile();
+
+  useEffect(() => {
+    if (profile) {
+      if (!profile.onboarding) {
+        router.push("/(tabs)/(home)/onboarding");
+      }
+    }
+  }, [profile]);
 
   return (
     <View style={[styles.wrapper, isRTL && globalStyles.rtl]}>

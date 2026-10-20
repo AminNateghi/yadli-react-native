@@ -12,6 +12,9 @@ export const profileRecords = sqliteTable("profile", {
   fullName: text("full_name").default("-"),
   vehicleName: text("vehicle_name").default("-"),
   language: text("language").$type<LanguageType>().default("fa"),
+  onboarding: integer("onboarding", { mode: "boolean" })
+    .notNull()
+    .default(false),
 });
 
 export const servicesRecords = sqliteTable("services", {

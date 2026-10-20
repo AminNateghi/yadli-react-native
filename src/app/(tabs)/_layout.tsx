@@ -16,6 +16,7 @@ export default function TabLayout() {
 
   const segments = useSegments() as string[];
   const isFormScreen = segments.includes("form");
+  const isOnboardingScreen = segments.includes("onboarding");
 
   return (
     <Tabs
@@ -26,7 +27,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.textMuted,
         tabBarStyle: {
-          display: isFormScreen ? "none" : "flex", //  Hide dynamically tabs bar in forms screen
+          display: isFormScreen || isOnboardingScreen ? "none" : "flex", //  Hide dynamically tabs bar in forms/onboarding screen
           backgroundColor: Colors.surface,
           borderTopColor: Colors.borderLight,
           paddingTop: 0,

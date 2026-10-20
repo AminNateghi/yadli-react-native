@@ -1,4 +1,4 @@
-import { Stack, useRouter } from "expo-router";
+import { router, Stack } from "expo-router";
 import { Colors } from "@/constants/theme";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
@@ -7,7 +7,6 @@ import { MenuIcon } from "lucide-react-native";
 
 export default function HomeLayout() {
   const { t, isRTL } = useTranslation();
-  const router = useRouter();
   const fontFamily = useAppFontFamily();
 
   const handleGotoMenu = () => {
@@ -42,6 +41,13 @@ export default function HomeLayout() {
             ) : (
               <></>
             ),
+        }}
+      />
+
+      <Stack.Screen
+        name="onboarding"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>

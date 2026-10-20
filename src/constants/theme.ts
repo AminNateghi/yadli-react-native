@@ -25,7 +25,7 @@ export const getAppFontFamily = (
 };
 
 export const Colors = {
-  primary: "#2563EB",
+  primary: "#007AFF",
   primaryDark: "#1D4ED8",
   secondary: "#64748B",
   success: "#10B981",

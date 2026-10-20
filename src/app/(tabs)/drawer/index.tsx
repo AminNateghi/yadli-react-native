@@ -5,7 +5,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { Text } from "@/components/Text";
 
 export default function ServiceRemindersScreen() {
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.content}>

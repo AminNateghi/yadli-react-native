@@ -43,6 +43,13 @@
       "when": 1792361388420,
       "tag": "0005_amazing_stick",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1792460340287,
+      "tag": "0006_closed_human_fly",
+      "breakpoints": true
     }
   ]
 }

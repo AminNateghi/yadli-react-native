@@ -18,7 +18,7 @@ interface ButtonProps {
 
 const PALETTE = {
   gray: "#18181b",
-  blue: "#2563eb",
+  blue: "#007AFF",
   green: "#16a34a",
   orange: "#ea580c",
   red: "#dc2626",

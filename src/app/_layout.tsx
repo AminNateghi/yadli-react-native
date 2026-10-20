@@ -11,8 +11,8 @@ import { queryClient } from "@/utils/query-client";
 import { db } from "@/db";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import migrations from "@/db/migrations/migrations";
 import { KeyboardProvider } from "react-native-keyboard-controller";
+import migrations from "@/db/migrations/migrations";
 
 SplashScreen.preventAutoHideAsync();
 

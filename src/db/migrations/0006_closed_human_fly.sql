@@ -1,0 +1,1 @@
+ALTER TABLE `profile` ADD `onboarding` integer DEFAULT false NOT NULL;
