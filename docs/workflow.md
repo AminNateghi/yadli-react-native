@@ -55,16 +55,3 @@ is unused — the real gate is `_layout.tsx`. Delete or consolidate (see
   `reminders.needAttention` (referenced in `services/index.tsx:55`),
   legacy `ReminderCard` keys (`lastService/byDate/byOdometer/overdue/…`),
   `fa.json: expenseType.Registration`.
-
-## 5. Committing (you own the commits — agent never commits)
-
-```bash
-git status --short
-git add README.md docs/ src/...
-git diff --cached --stat
-npx tsc --noEmit && npx expo lint
-git commit -m "docs: add README and docs folder"
-git log --oneline -3
-```
-
-One concern per commit (docs vs. reminder fix vs. notifications).

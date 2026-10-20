@@ -58,10 +58,3 @@ Flow: form → mutation → drizzle → sqlite → `invalidateQueries` → list 
 - `src/types/interfaces.ts` — DTOs (`$inferSelect`) + enums:
   `ReminderMode (OneTime|Recurring)`, `ReminderTriggerType (Odometer|Date|Either)`
 - `src/types/*-schema.ts` — zod schemas built per locale: `fuel/expense/service/reminder-schema.ts`
-
-## 6. What is missing (detail in `structure.md` / `notifications.md`)
-
-- No `expo-notifications`, no background task, no `src/services/` layer
-- Reminder status is `active:boolean` only; due/overdue derived helpers exist
-  but are unwired (`revaluateReminders.ts`, `calculateNextThresholds.ts`)
-- No tests, no `docs/` (this folder fixes that), no seed scripts
