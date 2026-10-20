@@ -261,5 +261,17 @@
     "title": "Danger Zone",
     "resetButton": "Reset All Data",
     "confirmMessage": "This will permanently delete all fuel logs, services logs, expenses logs and all reminders from this device.\nAre you sure you want to delete all the information?"
+  },
+  "onboarding": {
+    "buttonNext": "Next",
+    "buttonGetStarted": "Get Started",
+    "slide1Title": "Log Fuel In Seconds",
+    "slide1Description": "Use quick add for odometer, quantity and cost.",
+    "slide2Title": "Dashboard Insights",
+    "slide2Description": "Track fuel economy, spending, refill behavior and trends with summary cards and charts.",
+    "slide3Title": "Maintenance Services & Expense",
+    "slide3Description": "Log service entries, get due reminders and log expense.",
+    "slide4Title": "Reminder & Offline",
+    "slide4Description": "Receive service-related reminders on time; this app does not require an internet connection and works entirely offline."
   }
 }

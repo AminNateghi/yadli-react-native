@@ -1,11 +1,9 @@
-import { useState, useRef, ReactElement } from "react";
+import { useState, useRef, type ReactElement } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
   Dimensions,
-  Image,
   type ListRenderItemInfo,
 } from "react-native";
 import { router } from "expo-router";
@@ -17,8 +15,9 @@ import {
   LayoutDashboardIcon,
   TimerIcon,
   WrenchIcon,
-  type LucideIcon,
 } from "lucide-react-native";
+import { useTranslation } from "@/languages/useTranslation";
+import { Text } from "@/components/Text";
 
 const { width } = Dimensions.get("window");
 
@@ -30,6 +29,7 @@ interface Slide {
 }
 
 export default function OnboardingScreen() {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const flatListRef = useRef<FlatList<Slide>>(null);
 
@@ -67,30 +67,29 @@ export default function OnboardingScreen() {
   const slides: Slide[] = [
     {
       id: "1",
-      title: "Log Fuel In Seconds",
-      description: "Use quick add for odometer, quantity and cost.",
+      title: t("onboarding.slide1Title"),
+      description: t("onboarding.slide1Description"),
       image: <FuelIcon width={60} height={60} color={Colors.primary} />,
     },
     {
       id: "2",
-      title: "Dashboard Insights",
-      description:
-        "Track fuel economy, spending, refill behavior and trends with summary cards and charts.",
+      title: t("onboarding.slide2Title"),
+      description: t("onboarding.slide2Description"),
+
       image: (
         <LayoutDashboardIcon width={60} height={60} color={Colors.primary} />
       ),
     },
     {
       id: "3",
-      title: "Maintenance Services & Expense",
-      description: "Log service entries, get due reminders and log expense.",
+      title: t("onboarding.slide3Title"),
+      description: t("onboarding.slide3Description"),
       image: <WrenchIcon width={60} height={60} color={Colors.primary} />,
     },
     {
       id: "4",
-      title: "Reminder & Offline",
-      description:
-        "Receive service-related reminders on time; this app does not require an internet connection and works entirely offline.",
+      title: t("onboarding.slide4Title"),
+      description: t("onboarding.slide4Description"),
       image: <TimerIcon width={60} height={60} color={Colors.primary} />,
     },
   ];
@@ -123,14 +122,14 @@ export default function OnboardingScreen() {
         <View style={styles.buttonContainer}>
           {currentIndex < slides.length - 1 ? (
             <Button
-              title="Next"
+              title={t("onboarding.buttonNext")}
               variant="outline"
               onPress={nextSlide}
               style={styles.button}
             />
           ) : (
             <Button
-              title="Get Started"
+              title={t("onboarding.buttonGetStarted")}
               onPress={completeOnboarding}
               style={styles.button}
             />
@@ -144,6 +143,7 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.background,
   },
   slide: {
     width,

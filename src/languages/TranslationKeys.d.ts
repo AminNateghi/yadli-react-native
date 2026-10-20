@@ -23,6 +23,7 @@ export interface TranslationKeys {
   reminderDateInterval: ReminderDateInterval;
   reminderTriggerType: ReminderTriggerType;
   resetData: ResetData;
+  onboarding: Onboarding;
 }
 
 interface App {
@@ -302,4 +303,17 @@ interface ResetData {
   title: string;
   resetButton: string;
   confirmMessage: string;
+}
+
+interface Onboarding {
+  buttonNext: string;
+  buttonGetStarted: string;
+  slide1Title: string;
+  slide1Description: string;
+  slide2Title: string;
+  slide2Description: string;
+  slide3Title: string;
+  slide3Description: string;
+  slide4Title: string;
+  slide4Description: string;
 }
