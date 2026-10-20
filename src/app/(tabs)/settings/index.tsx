@@ -3,13 +3,15 @@ import { ChangeLanguageForm } from "@/components/ChangeLanguageForm";
 import { ResetAllData } from "@/components/ResetAllData";
 import { useTranslation } from "@/languages/useTranslation";
 import { Text } from "@/components/Text";
+import { CheckUpdate } from "@/components/CheckUpdate";
 
-export default function ServiceRemindersScreen() {
+export default function SettingsScreen() {
   const { t } = useTranslation();
 
   return (
     <View style={styles.content}>
       <ChangeLanguageForm />
+      <CheckUpdate />
       <ResetAllData />
       <Text style={styles.text}>{t("app.madeWithLove")}</Text>
     </View>

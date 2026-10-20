@@ -273,5 +273,14 @@
     "slide3Description": "Log service entries, get due reminders and log expense.",
     "slide4Title": "Reminder & Offline",
     "slide4Description": "Receive service-related reminders on time; this app does not require an internet connection and works entirely offline."
+  },
+  "checkUpdate": {
+    "title": "Check for Update",
+    "loading": "Checking...",
+    "checkForUpdate": "Check version",
+    "buttonDownload": "Download new version",
+    "error": "Error checking the application version.",
+    "noUpdateAvailable": "No APK found in the latest GitHub release.",
+    "updateAvailable": "A new version of the application has been released."
   }
 }
