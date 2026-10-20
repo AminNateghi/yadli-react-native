@@ -71,7 +71,7 @@ export default function ServiceForm() {
     reset({
       type: data.type,
       cost: data.cost,
-      date: String(dayjs(data.date)),
+      date: dayjs(data.date).format(DATE_FORMAT),
       note: data.note,
       odometer: data.odometer,
     });
@@ -89,7 +89,7 @@ export default function ServiceForm() {
   const handleSave = async (formData: ServiceFormData) => {
     const service: Omit<ServiceDto, "id"> = {
       type: formData.type as ServiceType,
-      date: new Date(formData.date),
+      date: dayjs(formData.date).toDate(),
       odometer: formData.odometer,
       cost: formData.cost,
       note: formData.note ?? null,

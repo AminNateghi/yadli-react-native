@@ -1,12 +1,9 @@
 import dayjs from "dayjs";
 import jalaliday from "jalaliday";
 import { CalendarIcon, XIcon } from "lucide-react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Pressable, StyleSheet, View } from "react-native";
-import DateTimePicker, {
-  type DateType,
-  useDefaultStyles,
-} from "react-native-ui-datepicker";
+import DateTimePicker, { useDefaultStyles } from "react-native-ui-datepicker";
 import { Text } from "@/components/Text";
 import { Colors } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
@@ -28,24 +25,24 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
   const defaultStyles = useDefaultStyles();
   const [visible, setVisible] = useState(false);
 
-  const [date, setDate] = useState<DateType>();
+  const [displayValue, setDisplayValue] = useState<string>("");
+
+  useEffect(() => {
+    setDisplayValue(dateFormat(isRTL, value ?? ""));
+  }, [value, isRTL]);
 
   const handleDayPress = (date: string) => {
-    setDate(date);
     onChange(date);
     setVisible(false);
   };
 
   const handleClear = () => {
-    setDate(undefined);
     onChange(null);
     setVisible(false);
   };
 
   const handleToday = () => {
-    const today = new Date();
-    setDate(today);
-    onChange(today.toISOString());
+    onChange(dayjs().toDate().toISOString());
     setVisible(false);
   };
 
@@ -60,17 +57,7 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
         ]}
         onPress={() => setVisible(true)}
       >
-        {value === null ||
-        value === undefined ||
-        value === "" ||
-        value === "null" ? (
-          <Text></Text>
-        ) : (
-          <Text style={[styles.selectorText, !value && styles.placeholder]}>
-            {dateFormat(isRTL, value ?? "")}
-          </Text>
-        )}
-
+        <Text style={styles.selectorText}>{displayValue}</Text>
         <CalendarIcon size={20} color={Colors.textSecondary} />
       </Pressable>
       {error && <Text style={styles.error}>{error}</Text>}
@@ -82,39 +69,44 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
               <Text style={styles.modalTitle}>{t("common.selectDate")}</Text>
               <IconButton icon={XIcon} onPress={() => setVisible(false)} />
             </View>
-            <DateTimePicker
-              mode="single"
-              onChange={({ date }) => handleDayPress(String(date))}
-              styles={{
-                ...defaultStyles,
-                today: { borderColor: "blue", borderWidth: 1 }, // Add a border to today's date
-                selected: { backgroundColor: "blue" }, // Highlight the selected day
-                selected_label: { color: "white" }, // Highlight the selected day label
-                day_label: {
-                  fontFamily: "VazirRegular",
-                },
-                month_selector_label: {
-                  fontFamily: "VazirRegular",
-                },
-                year_selector_label: {
-                  fontFamily: "VazirRegular",
-                },
-                weekday_label: {
-                  fontFamily: "VazirRegular",
-                },
-                month_label: {
-                  fontFamily: "VazirRegular",
-                },
-              }}
-              date={date}
-              calendar={isRTL ? "jalali" : "gregory"}
-              locale={isRTL ? "fa" : "en"}
-              numerals={isRTL ? "arabext" : undefined}
-              firstDayOfWeek={isRTL ? 6 : 0}
-              weekdaysFormat="min"
-              monthsFormat="full"
-              monthCaptionFormat="full"
-            />
+            <View style={{ padding: 10 }}>
+              <DateTimePicker
+                mode="single"
+                onChange={({ date }) => handleDayPress(String(date))}
+                styles={{
+                  ...defaultStyles,
+                  today: styles.calendarToday,
+                  selected: styles.calendarSelected,
+                  selected_label: styles.calendarSelectedItem,
+                  day_label: styles.calendarFont,
+                  month_selector_label: styles.calendarMonthSelectorLabel,
+                  year_selector_label: styles.calendarYearSelectorLabel,
+                  weekday_label: styles.calendarWeekdayLabel,
+                  weekdays: styles.calendarWeekdays,
+                  month_label: styles.calendarMonthLabel,
+                  year_label: styles.calendarFont,
+                  selected_year: styles.calendarSelectedItem,
+                  selected_month: styles.calendarSelectedItem,
+                  button_next_image: {
+                    ...styles.calendarButtonNextImage,
+                    transform: isRTL ? "rotate(0deg)" : "unset",
+                  },
+                  button_prev_image: {
+                    ...styles.calendarButtonPrevImage,
+                    transform: isRTL ? "rotate(0deg)" : "unset",
+                  },
+                }}
+                date={dayjs(value).toDate()}
+                calendar={isRTL ? "jalali" : "gregory"}
+                locale={isRTL ? "fa" : "en"}
+                numerals={isRTL ? "arabext" : undefined}
+                firstDayOfWeek={isRTL ? 6 : 1}
+                weekdaysFormat="min"
+                monthsFormat="full"
+                monthCaptionFormat="full"
+                navigationPosition="around"
+              />
+            </View>
             <View style={styles.buttonRow}>
               <Button
                 title={t("common.today")}
@@ -219,5 +211,53 @@ const styles = StyleSheet.create({
   },
   borderError: {
     borderColor: Colors.danger,
+  },
+
+  calendarFont: { fontFamily: "VazirRegular" },
+  calendarToday: { borderColor: Colors.primaryDark, borderWidth: 1 },
+  calendarSelected: { backgroundColor: Colors.primaryDark, borderRadius: 12 },
+  calendarSelectedItem: {
+    backgroundColor: Colors.primaryDark,
+    color: Colors.background,
+  },
+  calendarMonthSelectorLabel: {
+    fontFamily: "VazirRegular",
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 12,
+  },
+  calendarYearSelectorLabel: {
+    fontFamily: "VazirRegular",
+    fontSize: 18,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 12,
+  },
+  calendarWeekdayLabel: {
+    fontFamily: "VazirRegular",
+  },
+  calendarWeekdays: {
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border + 30,
+  },
+  calendarMonthLabel: {
+    fontFamily: "VazirRegular",
+  },
+  calendarButtonNextImage: {
+    width: 24,
+    height: 24,
+  },
+  calendarButtonPrevImage: {
+    width: 24,
+    height: 24,
   },
 });
