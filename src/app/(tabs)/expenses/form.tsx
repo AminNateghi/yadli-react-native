@@ -22,11 +22,12 @@ import { ExpenseDeletionModal } from "@/components/forms/ExpenseDeletionModal";
 import { Button } from "@/components/Button";
 import { router, useLocalSearchParams } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { DATE_FORMAT } from "@/utils/date-format";
 import dayjs from "dayjs";
 
 const defaultValues = {
   type: "Reimbursement",
-  date: dayjs().format("yyyy-MM-dd"),
+  date: dayjs().format(DATE_FORMAT),
   amount: undefined,
   odometer: undefined,
   note: "",

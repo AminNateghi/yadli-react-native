@@ -20,10 +20,11 @@ import { SwitchToggle } from "@/components/SwitchToggle";
 import { FuelDeletionModal } from "@/components/forms/FuelDeletionModal";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { DATE_FORMAT } from "@/utils/date-format";
 import dayjs from "dayjs";
 
 const defaultValues = {
-  date: dayjs().format("yyyy-MM-dd"),
+  date: dayjs().format(DATE_FORMAT),
   fullTank: true,
   liters: undefined,
   odometer: undefined,

@@ -22,11 +22,12 @@ import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 import { ServiceDeletionModal } from "@/components/forms/ServiceDeletionModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { DATE_FORMAT } from "@/utils/date-format";
 import dayjs from "dayjs";
 
 const defaultValues = {
   type: "EngineOil",
-  date: dayjs().format("yyyy-MM-dd"),
+  date: dayjs().format(DATE_FORMAT),
   odometer: undefined,
   cost: undefined,
   note: "",
@@ -70,7 +71,7 @@ export default function ServiceForm() {
     reset({
       type: data.type,
       cost: data.cost,
-      date: String(data.date),
+      date: String(dayjs(data.date)),
       note: data.note,
       odometer: data.odometer,
     });
