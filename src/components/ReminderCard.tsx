@@ -1,7 +1,9 @@
 import { Text } from "@/components/Text";
 import { Colors } from "@/constants";
-import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
-import { useTranslation } from "@/languages/useTranslation";
+import {
+  type TranslationKey,
+  useTranslation,
+} from "@/languages/useTranslation";
 import {
   getExpenseTypeTitle,
   getServiceTypeTitle,
@@ -40,7 +42,7 @@ function ProgressBar({ progress, color }: { progress: number; color: string }) {
 
 const getTitle = (
   reminder: ReminderDto,
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ) => {
   if (reminder.serviceType) {
     return getServiceTypeTitle(reminder.serviceType, t);

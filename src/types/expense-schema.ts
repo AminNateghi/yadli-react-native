@@ -1,9 +1,7 @@
 import { z } from "zod";
-import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
+import type { TranslationKey } from "@/languages/useTranslation";
 
-export const expenseSchema = (
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
-) =>
+export const expenseSchema = (t: (key: TranslationKey) => string) =>
   z.object({
     type: z.string().min(1, t("common.required")),
     date: z

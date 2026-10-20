@@ -4,7 +4,7 @@ import type {
   remindersRecords,
   servicesRecords,
 } from "@/db/schema";
-import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
+import type { TranslationKey } from "@/languages/useTranslation";
 
 export type ServiceDto = typeof servicesRecords.$inferSelect;
 export type FuelDto = typeof fuelsRecords.$inferSelect;
@@ -129,7 +129,7 @@ export interface ReminderTriggerTypeProps {
 }
 
 export function serviceTypeOptions(
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ): ServiceOptionProps[] {
   return [
     {
@@ -228,7 +228,7 @@ export function serviceTypeOptions(
 }
 
 export function expenseTypeOptions(
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ): ExpenseOptionProps[] {
   return [
     { value: "Reimbursement", label: t("expenseType.Reimbursement") },
@@ -252,7 +252,7 @@ export function expenseTypeOptions(
 }
 
 export function reminderModeOptions(
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ): ReminderModeOptionProps[] {
   return [
     { value: "OneTime", label: t("reminderMode.OneTime") },
@@ -261,7 +261,7 @@ export function reminderModeOptions(
 }
 
 export function reminderDependentOptions(
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ): ReminderDependentOptionProps[] {
   return [
     { value: "Service", label: t("reminderDependent.Service") },
@@ -270,7 +270,7 @@ export function reminderDependentOptions(
 }
 
 export function reminderTriggerTypeOptions(
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ): ReminderTriggerTypeProps[] {
   return [
     { value: "Date", label: t("reminderTriggerType.Date") },
@@ -280,7 +280,7 @@ export function reminderTriggerTypeOptions(
 }
 
 export function reminderDateIntervalMonths(
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ): ReminderDateIntervalMonthsProps[] {
   return [
     { value: "1", label: t("reminderDateInterval.m1") },
@@ -305,10 +305,10 @@ export const LANGUAGE_TYPE: { value: LanguageType; label: string }[] = [
 
 export const getServiceTypeTitle = (
   serviceType: string,
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ) => serviceTypeOptions(t).find((s) => s.value === serviceType)?.label || "-";
 
 export const getExpenseTypeTitle = (
   expenseType: string,
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
+  t: (key: TranslationKey) => string,
 ) => expenseTypeOptions(t).find((s) => s.value === expenseType)?.label || "-";

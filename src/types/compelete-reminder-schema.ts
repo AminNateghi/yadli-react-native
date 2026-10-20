@@ -1,9 +1,7 @@
 import { z } from "zod";
-import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
+import type { TranslationKey } from "@/languages/useTranslation";
 
-export const completeReminderSchema = (
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
-) =>
+export const completeReminderSchema = (t: (key: TranslationKey) => string) =>
   z
     .object({
       date: z.string({ error: t("common.required") }).optional(),

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
+import type { TranslationKey } from "@/languages/useTranslation";
 
 // "dependent": There are two types: Service and Expense.
 // The user selects one, and the corresponding field—either `serviceType` or `expenseType`—becomes active.
@@ -8,9 +8,7 @@ import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
 // mode: There are two types: One-time and recurring
 // triggerType: There are three types: Odometer, Date, Either
 
-export const reminderSchema = (
-  t: (key: NestedKeyOf<TranslationKeys>) => string,
-) =>
+export const reminderSchema = (t: (key: TranslationKey) => string) =>
   z
     .object({
       dependent: z.string({ error: t("common.required") }),
