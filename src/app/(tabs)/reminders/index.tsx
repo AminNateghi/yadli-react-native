@@ -6,7 +6,7 @@ import { Colors } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useReminders } from "@/repositories/reminder-repository";
 import { ReminderCard } from "@/components/ReminderCard";
-import { getReminders, type ReminderCardProp } from "@/utils/serviceReminders";
+import { getReminders, type ReminderCardProp } from "@/utils/service-reminders";
 import { useServices } from "@/repositories/service-repository";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";

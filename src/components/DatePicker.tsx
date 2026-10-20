@@ -10,7 +10,7 @@ import DateTimePicker, {
 import { Text } from "@/components/Text";
 import { Colors } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
-import { dateFormat } from "@/utils/dateFormat";
+import { dateFormat } from "@/utils/date-format";
 import { IconButton } from "./IconButton";
 import { Button } from "./Button";
 

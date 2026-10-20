@@ -3,7 +3,7 @@ import { useFuels } from "./fuel-repository";
 import { useExpenses } from "./expense-repository";
 import { useEffect, useState } from "react";
 import { useReminders } from "./reminder-repository";
-import { getReminders } from "@/utils/serviceReminders";
+import { getReminders } from "@/utils/service-reminders";
 
 export function useStatistics() {
   const [maxOdometer, setMaxOdometer] = useState<number>(0);

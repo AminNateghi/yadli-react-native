@@ -9,8 +9,8 @@ import {
   getServiceTypeTitle,
   type ReminderDto,
 } from "@/types/interfaces";
-import { dateFormat } from "@/utils/dateFormat";
-import type { ReminderCardProp } from "@/utils/serviceReminders";
+import { dateFormat } from "@/utils/date-format";
+import type { ReminderCardProp } from "@/utils/service-reminders";
 import {
   BanknoteIcon,
   CalendarIcon,

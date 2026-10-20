@@ -7,7 +7,7 @@ import {
 } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
 import { PriceValue } from "./PriceValue";
-import { dateFormat } from "@/utils/dateFormat";
+import { dateFormat } from "@/utils/date-format";
 
 interface RecordCardProps {
   id: number;
