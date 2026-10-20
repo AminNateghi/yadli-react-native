@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
@@ -21,9 +20,10 @@ import { SwitchToggle } from "@/components/SwitchToggle";
 import { FuelDeletionModal } from "@/components/forms/FuelDeletionModal";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import dayjs from "dayjs";
 
 const defaultValues = {
-  date: format(new Date(), "yyyy-MM-dd"),
+  date: dayjs().format("yyyy-MM-dd"),
   fullTank: true,
   liters: undefined,
   odometer: undefined,

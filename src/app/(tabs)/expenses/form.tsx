@@ -1,6 +1,5 @@
-import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GlobalStyles } from "@/constants";
@@ -23,10 +22,11 @@ import { ExpenseDeletionModal } from "@/components/forms/ExpenseDeletionModal";
 import { Button } from "@/components/Button";
 import { router, useLocalSearchParams } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import dayjs from "dayjs";
 
 const defaultValues = {
   type: "Reimbursement",
-  date: format(new Date(), "yyyy-MM-dd"),
+  date: dayjs().format("yyyy-MM-dd"),
   amount: undefined,
   odometer: undefined,
   note: "",

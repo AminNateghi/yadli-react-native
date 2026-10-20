@@ -7,7 +7,7 @@
 - Local DB: `expo-sqlite ^57.0.3` + `drizzle-orm ^0.45.3` + `drizzle-kit`
 - Server-state: `@tanstack/react-query ^5.104.0`
 - Forms: `react-hook-form ^7.89.0` + `@hookform/resolvers` + `zod ^4.6.5`
-- Dates: `date-fns` + `dayjs` + `jalaliday` (for Persian calendar)
+- Dates: `dayjs` + `jalaliday` (for Persian calendar)
 - UI: `lucide-react-native`, `react-native-ui-datepicker`, custom `Text/Button/Input`
 
 ## 2. Routing (`src/app/`)
