@@ -282,5 +282,13 @@
     "error": "Error checking the application version.",
     "noUpdateAvailable": "No APK found in the latest GitHub release.",
     "updateAvailable": "A new version of the application has been released."
+  },
+  "about": {
+    "buttonCaption": "About App",
+    "buttonInfo": "Version info and credits",
+    "title": "Vehicle Maintenance Manager",
+    "description": "Offline-first app for log refueling, periodic services, vehicle expenses, and set odometer/date",
+    "developedBy": "Developed by",
+    "developerName": "Amin Nateghi"
   }
 }

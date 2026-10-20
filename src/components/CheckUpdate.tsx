@@ -96,6 +96,7 @@ export function CheckUpdate() {
         <Button
           title={t("checkUpdate.checkForUpdate")}
           variant="subtle"
+          color="gray"
           onPress={handleShow}
         />
       </Card>

@@ -17,7 +17,7 @@ interface ButtonProps {
 }
 
 const PALETTE = {
-  gray: "#18181b",
+  gray: "#1f1f21",
   blue: "#007AFF",
   green: "#16a34a",
   orange: "#ea580c",
@@ -39,7 +39,7 @@ export function Button({
 
   const variantStyles = {
     solid: {
-      backgroundColor: baseColor,
+      backgroundColor: baseColor + 70,
       borderColor: baseColor,
       borderWidth: 1,
     },
