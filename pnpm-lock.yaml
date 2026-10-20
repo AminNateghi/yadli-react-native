@@ -14,9 +14,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.9.1
         version: 5.9.1(@sinclair/typebox@0.27.12)(react-hook-form@7.89.0(@types/react@19.2.18)(react@19.2.3))(zod@4.6.5)
-      '@libsql/client':
-        specifier: ^0.18.0
-        version: 0.18.0
       '@nkzw/create-context-hook':
         specifier: ^1.1.0
         version: 1.1.0(react@19.2.3)
@@ -5109,10 +5106,12 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
   '@libsql/core@0.18.0':
     dependencies:
       js-base64: 3.9.4
+    optional: true
 
   '@libsql/darwin-arm64@0.5.29':
     optional: true
@@ -5127,6 +5126,7 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
   '@libsql/isomorphic-ws@0.1.5':
     dependencies:
@@ -5135,6 +5135,7 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
+    optional: true
 
   '@libsql/linux-arm-gnueabihf@0.5.29':
     optional: true
@@ -5157,7 +5158,8 @@ snapshots:
   '@libsql/win32-x64-msvc@0.5.29':
     optional: true
 
-  '@neon-rs/load@0.0.4': {}
+  '@neon-rs/load@0.0.4':
+    optional: true
 
   '@nkzw/create-context-hook@1.1.0(react@19.2.3)':
     dependencies:
@@ -5554,6 +5556,7 @@ snapshots:
   '@types/ws@8.18.2':
     dependencies:
       '@types/node': 26.6.2
+    optional: true
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -6000,7 +6003,8 @@ snapshots:
 
   destroy@1.2.0: {}
 
-  detect-libc@2.0.2: {}
+  detect-libc@2.0.2:
+    optional: true
 
   detect-libc@2.1.2: {}
 
@@ -6584,7 +6588,8 @@ snapshots:
 
   jimp-compact@0.16.1: {}
 
-  js-base64@3.9.4: {}
+  js-base64@3.9.4:
+    optional: true
 
   js-tokens@4.0.0: {}
 
@@ -6618,6 +6623,7 @@ snapshots:
       '@libsql/linux-x64-gnu': 0.5.29
       '@libsql/linux-x64-musl': 0.5.29
       '@libsql/win32-x64-msvc': 0.5.29
+    optional: true
 
   lighthouse-logger@1.4.2(supports-color@8.1.1):
     dependencies:
@@ -7386,7 +7392,8 @@ snapshots:
 
   progress@2.0.3: {}
 
-  promise-limit@2.7.0: {}
+  promise-limit@2.7.0:
+    optional: true
 
   promise@7.3.1:
     dependencies:
