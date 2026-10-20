@@ -1,5 +1,5 @@
 import rnToast from "react-native-simple-toast";
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/constants";
 
 type Props = {
   type?: "info" | "warning" | "error" | "success" | "none";

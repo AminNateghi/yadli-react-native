@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/constants";
 import type { NestedKeyOf, TranslationKeys } from "@/languages/TranslationKeys";
 import { useTranslation } from "@/languages/useTranslation";
 import {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { globalStyles } from "@/constants/theme";
+import { GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import {
   useCreateReminder,
@@ -149,7 +149,7 @@ export default function ReminderForm() {
 
   return (
     <KeyboardAwareScrollView
-      style={[globalStyles.modalScroll, isRTL && { direction: "rtl" }]}
+      style={[GlobalStyles.modalScroll, isRTL && { direction: "rtl" }]}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
@@ -388,7 +388,7 @@ export default function ReminderForm() {
         )}
       />
 
-      <View style={globalStyles.buttonColumn}>
+      <View style={GlobalStyles.buttonColumn}>
         <Button
           title={id ? t("common.update") : t("common.save")}
           onPress={handleSubmit(handleSave)}
@@ -396,7 +396,7 @@ export default function ReminderForm() {
           style={{ flex: 1 }}
         />
         {isEditMode && (
-          <View style={globalStyles.buttonRow}>
+          <View style={GlobalStyles.buttonRow}>
             {mode === "OneTime" ? (
               <CompleteReminderOneTimeModal
                 id={id}

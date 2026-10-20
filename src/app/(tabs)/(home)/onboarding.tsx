@@ -9,7 +9,7 @@ import {
 import { router } from "expo-router";
 import { useCompleteOnboarding } from "@/repositories/profile-repository";
 import { Button } from "@/components/Button";
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/constants";
 import {
   FuelIcon,
   LayoutDashboardIcon,

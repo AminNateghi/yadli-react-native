@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/constants";
 import type { LucideIcon } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 import { PriceValue } from "./PriceValue";

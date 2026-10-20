@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { EmptyState } from "@/components/EmptyState";
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useReminders } from "@/repositories/reminder-repository";
 import { ReminderCard } from "@/components/ReminderCard";

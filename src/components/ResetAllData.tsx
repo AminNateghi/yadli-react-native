@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { globalStyles } from "@/constants/theme";
+import { GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "./Button";
 import { useResetAllData } from "@/repositories/profile-repository";
@@ -36,7 +36,7 @@ export function ResetAllData() {
   };
 
   return (
-    <View style={[styles.content, isRTL && globalStyles.rtl]}>
+    <View style={[styles.content, isRTL && GlobalStyles.rtl]}>
       <Card style={{ paddingBottom: 12 }}>
         <Text>{t("resetData.title")}</Text>
         <Button

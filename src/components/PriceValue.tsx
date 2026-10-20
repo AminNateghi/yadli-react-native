@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { StyleSheet, type TextStyle, View } from "react-native";
 

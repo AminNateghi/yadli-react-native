@@ -6,9 +6,9 @@ import {
   TimerIcon,
   WrenchIcon,
 } from "lucide-react-native";
-import { Colors } from "@/constants/theme";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
+import { Colors } from "@/constants";
 
 export default function TabLayout() {
   const { t, isRTL } = useTranslation();

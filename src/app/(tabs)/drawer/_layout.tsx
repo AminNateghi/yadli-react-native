@@ -1,4 +1,4 @@
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/constants";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
 import { Stack } from "expo-router";

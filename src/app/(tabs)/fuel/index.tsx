@@ -5,7 +5,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { PriceValue } from "@/components/PriceValue";
 import { RecordCard } from "@/components/RecordCard";
 import { Text } from "@/components/Text";
-import { Colors, globalStyles } from "@/constants/theme";
+import { Colors, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useStatistics } from "@/repositories/statistics-repository";
@@ -47,13 +47,13 @@ export default function FuelScreen() {
         )} */}
 
         {totalFuelCost > 0 && (
-          <View style={globalStyles.summaryCard}>
-            <Text style={globalStyles.summaryTitle}>
+          <View style={GlobalStyles.summaryCard}>
+            <Text style={GlobalStyles.summaryTitle}>
               {t("fuel.totalFuelCost")}
             </Text>
             <PriceValue
               value={totalFuelCost?.toFixed(2)}
-              style={globalStyles.summaryValue}
+              style={GlobalStyles.summaryValue}
             />
           </View>
         )}

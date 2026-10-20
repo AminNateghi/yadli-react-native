@@ -5,7 +5,7 @@ import {
   type TextInputProps,
   type TextProps,
 } from "react-native";
-import { isBoldFontWeight } from "@/constants/theme";
+import { isBoldFontWeight } from "@/constants";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 
 function resolveTextStyle(

@@ -8,7 +8,7 @@ import DateTimePicker, {
   useDefaultStyles,
 } from "react-native-ui-datepicker";
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants/theme";
+import { Colors } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { dateFormat } from "@/utils/dateFormat";
 import { IconButton } from "./IconButton";

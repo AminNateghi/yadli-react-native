@@ -5,7 +5,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Colors, globalStyles } from "@/constants/theme";
+import { Colors, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { Input } from "@/components/Input";
 import { type FuelFormData, fuelSchema } from "@/types/fuel-schema";
@@ -124,7 +124,7 @@ export default function FuelForm() {
 
   return (
     <KeyboardAwareScrollView
-      style={[globalStyles.modalScroll, isRTL && { direction: "rtl" }]}
+      style={[GlobalStyles.modalScroll, isRTL && { direction: "rtl" }]}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
@@ -260,7 +260,7 @@ export default function FuelForm() {
         )}
       />
 
-      <View style={globalStyles.buttonColumn}>
+      <View style={GlobalStyles.buttonColumn}>
         <Button
           title={id ? t("common.update") : t("common.save")}
           onPress={handleSubmit(handleSave)}

@@ -2,7 +2,7 @@ import { WrenchIcon } from "lucide-react-native";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
-import { Colors, globalStyles } from "@/constants/theme";
+import { Colors, GlobalStyles } from "@/constants";
 import { useServices } from "@/repositories/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
 import { getServiceTypeTitle } from "@/types/interfaces";
@@ -65,13 +65,13 @@ export default function ServicesScreen() {
         )} */}
 
         {totalServiceCost > 0 && (
-          <View style={globalStyles.summaryCard}>
-            <Text style={globalStyles.summaryTitle}>
+          <View style={GlobalStyles.summaryCard}>
+            <Text style={GlobalStyles.summaryTitle}>
               {t("services.totalServiceCost")}
             </Text>
             <PriceValue
               value={totalServiceCost?.toFixed(2)}
-              style={globalStyles.summaryValue}
+              style={GlobalStyles.summaryValue}
             />
             {/* <View style={styles.categoryBreakdown}>
               {Object.entries(categoryTotals).map(([cat, total]) => (

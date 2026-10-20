@@ -12,7 +12,7 @@ import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
 import { StatCard } from "@/components/StatCard";
 import { Text } from "@/components/Text";
-import { Colors, globalStyles } from "@/constants/theme";
+import { Colors, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useStatistics } from "@/repositories/statistics-repository";
 import { useGetProfile } from "@/repositories/profile-repository";
@@ -45,7 +45,7 @@ export default function DashboardScreen() {
   }, [profile]);
 
   return (
-    <View style={[styles.wrapper, isRTL && globalStyles.rtl]}>
+    <View style={[styles.wrapper, isRTL && GlobalStyles.rtl]}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={[

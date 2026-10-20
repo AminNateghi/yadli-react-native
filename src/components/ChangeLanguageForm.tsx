@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Colors, globalStyles } from "@/constants/theme";
+import { Colors, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { LANGUAGE_TYPE, type LanguageType } from "@/types/interfaces";
 import { Button } from "./Button";
@@ -32,7 +32,7 @@ export function ChangeLanguageForm() {
   };
 
   return (
-    <View style={[styles.content, isRTL && globalStyles.rtl]}>
+    <View style={[styles.content, isRTL && GlobalStyles.rtl]}>
       <Card>
         <SelectPicker
           label={t("settings.language")}

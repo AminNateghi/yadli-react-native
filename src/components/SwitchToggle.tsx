@@ -1,6 +1,6 @@
-import { Text } from '@/components/Text';
-import { Colors } from '@/constants/theme';
-import { StyleSheet, Switch, View } from 'react-native';
+import { Text } from "@/components/Text";
+import { Colors } from "@/constants";
+import { StyleSheet, Switch, View } from "react-native";
 
 interface SwitchToggleProps {
   label: string;
@@ -9,7 +9,12 @@ interface SwitchToggleProps {
   description?: string;
 }
 
-export function SwitchToggle({ label, value, onValueChange, description }: SwitchToggleProps) {
+export function SwitchToggle({
+  label,
+  value,
+  onValueChange,
+  description,
+}: SwitchToggleProps) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -19,7 +24,7 @@ export function SwitchToggle({ label, value, onValueChange, description }: Switc
       <Switch
         value={value}
         onValueChange={onValueChange}
-        trackColor={{ false: Colors.border, true: Colors.primary + '80' }}
+        trackColor={{ false: Colors.border, true: Colors.primary + "80" }}
         thumbColor={value ? Colors.primary : Colors.surface}
         ios_backgroundColor={Colors.border}
       />
@@ -29,9 +34,9 @@ export function SwitchToggle({ label, value, onValueChange, description }: Switc
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 16,
     paddingVertical: 8,
   },
