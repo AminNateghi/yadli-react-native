@@ -2,7 +2,7 @@
   "expo": {
     "name": "Yadli",
     "slug": "yadli-app",
-    "version": "1.0.29",
+    "version": "1.0.30",
     "orientation": "portrait",
     "icon": "./assets/images/yadli-icon.png",
     "scheme": "yadli",
