@@ -1,30 +1,30 @@
+<details open>
+  <summary>English</summary>
+
 # Yadli — Offline Vehicle Maintenance Manager
 
 Offline-first React Native app for managing vehicle maintenance.
 No registration, no login, no backend. All data stays on-device in SQLite.
 
 Log refueling, periodic services, vehicle expenses, and set odometer/date
-reminders for future maintenance.
-
-> SDK: Expo ~57.0.26 (`package.json:15`) · React 19.2.3 · React Native 0.86.3 ·
-> Expo Router ~57.0.24 · `expo-sqlite` + `drizzle-orm` + `@tanstack/react-query`
 
 ## Features
 
 - **Fuel log:** date, odometer, liters, price/liter, total, full-tank flag, station
 - **Services:** type, date, odometer, cost, note
 - **Expenses:** type (insurance, registration, etc.), date, odometer, amount
-- **Reminders:** one-time / recurring, by odometer and/or date —
-  see `docs/reminders.md`
-- **Dashboard:** totals + recent records (`src/app/(tabs)/(home)/index.tsx`)
-- **Bilingual FA/EN + RTL:** language stored in `profile` table,
-  hook `src/languages/useTranslation.ts`
-- **Offline only:** `openDatabaseSync("yadli.db")` (`src/db/index.ts:1`),
-  Drizzle migrations in `src/db/migrations/`
+- **Reminders:** one-time / recurring, by odometer and/or date
+- **Dashboard:** totals + recent records
+- **Bilingual FA/EN + RTL:** language stored in `profile` table
+- **Offline only:** store all data in sqlite db
+
+# Download
+
+<a href='https://github.com/AminNateghi/yadli-react-native/releases/latest'><img height=70 alt='Get it on GitHub' src='https://raw.githubusercontent.com/AminNateghi/yadli-react-native/main/assets/github.svg'/></a>
 
 ## Requirements
 
-- Node LTS + `pnx` (pnpm: package manager)
+- Node LTS + `pnx` (pnpm: package manager) or `npm`
 - Expo Go for quick preview, or a dev build for native modules
 - No Xcode / Android Studio required unless running `expo run:ios|android`
 
@@ -43,9 +43,9 @@ pnpm start
 ```bash
 pnpm start          # dev server
 pnpm lint           # lint (Biome / Expo)
-pnpm tsc --noEmit   # typecheck — run before every commit
-pnpm expo-doctor    # diagnose deps/config
-pnpm expo install --fix   # fix SDK-incompatible versions
+pnpm typecheck      # typecheck — run before every commit
+pnx expo-doctor     # diagnose deps/config
+pnx expo install --fix   # fix SDK-incompatible versions
 pnpm db:generate    # drizzle-kit generate
 pnpm db:migrate     # drizzle-kit migrate (local tooling)
 ```
@@ -83,27 +83,40 @@ docs/                 project architecture and other documents
 ## Offline data flow
 
 No auth, no network. `query-client.ts` is a bare `new QueryClient()`.
+</details>
 
-## Building with EAS (no local native toolchain needed)
+<details open>
+  <summary>فارسی</summery>
 
-```bash
-# dev build (needed after adding native modules like expo-notifications)
-pnx eas-cli@latest build --profile development --platform all
+  <div dir="rtl">
 
-# production / submit / OTA update
-pnx eas-cli@latest build --platform all
-pnx eas-cli@latest submit
-pnx eas-cli@latest update
-```
+# یادلی - دستیار شخصی خودرو
 
-`ios/` and `android/` do not exist by design (Continuous Native Generation).
-Configure native behavior in `app.json` + config plugins — never hand-edit
-native folders.
+اپلیکشن اندرویدی دستیار مدیریت خودرو کاملا آفلاین و بدون نیاز به اینترنت و بدون نیاز به ثبت نام. تمامی داده‌های برنامه بر روی گوشی شما ذخیره می‌شود.
 
-## Docs
+ثبت سوابق سوخت‌کیری، سرویس‌ها و هزینه‌ها به همراه یادآوری دوره‌ای برای جلوگیری از هزینه‌های سنگین تعمیر خودرو.
 
-- `docs/architecture.md` — stack, routing, data layer, theming/i18n
-- `docs/workflow.md` — dev setup, DB migrations, how to add a feature
-- `docs/reminders.md` — current state audit + step-by-step completion guide
-- `docs/notifications.md` — step-by-step local-notification implementation (SDK 57)
-- `docs/structure.md` — structure review + proposed changes with reasons
+# امکانات
+
+**سوابق سوخت‌گیری** : ثیت کیلومتر طی شده به همراه میزان سوخت
+
+**سوابق سرویس‌ها** : ثبت انواع سرویس‌های دوره‌ای و نگهداری از خودرو
+
+**سوابق هزینه‌ها** : ثبت انواع هزینه‌های مربوط به خودرو
+
+**یادآوری** : نمایش یادآوری سررویس‌های دوره‌ای به همراه تاریخ و کیلومتر مانده
+
+**داشبورد** :  نمایش آماری از جمع هزینه‌ها، تعداد دفعات سوخت‌گیری
+
+**چند زبانه** : نمایش برنامه به صورت فارسی  و انگلیسی
+
+**آفلاین** : برنامه کاملا به صورت آفلاین کار می‌کند و نیازی به اینترنت ندارد
+
+**اپن-سورس** : برنامه اوپن-سورس و رایگان می‌باشد
+
+# دانلود
+
+<a href='https://github.com/AminNateghi/yadli-react-native/releases/latest'><img height=70 alt='Get it on GitHub' src='https://raw.githubusercontent.com/AminNateghi/yadli-react-native/main/assets/github.svg'/></a>
+
+  </div>
+  </details>
