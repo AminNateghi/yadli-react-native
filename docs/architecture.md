@@ -17,7 +17,7 @@ app/_layout.tsx          Root Stack (headerShown:false)
   providers: SafeAreaProvider > ThemeProvider > QueryClientProvider
   boot: useFonts(Vazir) + useMigrations(db, migrations) + SplashScreen gate
 app/index.tsx            Redirect → /(tabs)/(home)
-app/(tabs)/_layout.tsx   5-tab Tabs: (home), services, fuel, expenses, reminders + hidden drawer (href:null)
+app/(tabs)/_layout.tsx   5-tab Tabs: (home), services, fuel, expenses, reminders + hidden settings (href:null)
 app/(tabs)/(home)/       dashboard: totals + recent fuel/service/expense
 app/(tabs)/fuel|services|expenses|reminders/  each: _layout.tsx (Stack) + index.tsx (list + form modal)
 app/+not-found.tsx

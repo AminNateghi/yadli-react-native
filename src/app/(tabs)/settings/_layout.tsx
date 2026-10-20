@@ -20,7 +20,7 @@ export default function ServicesLayout() {
       <Stack.Screen
         name="index"
         options={{
-          title: t("menus.drawer"),
+          title: t("menus.settings"),
           headerLargeTitle: true,
           headerTitleAlign: "center",
         }}

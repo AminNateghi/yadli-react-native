@@ -1,6 +1,5 @@
 import { FuelIcon } from "lucide-react-native";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { useMediaQuery } from "react-responsive";
 import { EmptyState } from "@/components/EmptyState";
 import { PriceValue } from "@/components/PriceValue";
 import { RecordCard } from "@/components/RecordCard";
@@ -14,7 +13,6 @@ import { Button } from "@/components/Button";
 
 export default function FuelScreen() {
   const { t, isRTL } = useTranslation();
-  const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const { data: fuels } = useFuels();
   const { totalFuelCost, avgKmPerLiter } = useStatistics();
@@ -23,10 +21,7 @@ export default function FuelScreen() {
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={[
-          styles.content,
-          isDesktop && styles.contentDesktop,
-        ]}
+        contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
         {/* // TODO: if more than 10 liter red else green */}
@@ -110,10 +105,5 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-  },
-  contentDesktop: {
-    maxWidth: 1024,
-    alignSelf: "center",
-    width: "100%",
   },
 });

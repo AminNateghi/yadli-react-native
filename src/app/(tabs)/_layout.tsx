@@ -93,7 +93,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="drawer"
+        name="settings"
         options={{
           href: null,
         }}

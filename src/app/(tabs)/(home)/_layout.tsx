@@ -10,7 +10,7 @@ export default function HomeLayout() {
   const fontFamily = useAppFontFamily();
 
   const handleGotoMenu = () => {
-    router.push("/drawer");
+    router.push("/settings");
   };
 
   return (

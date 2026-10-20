@@ -1,7 +1,5 @@
 import { WrenchIcon } from "lucide-react-native";
-import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { useMediaQuery } from "react-responsive";
 import { Colors, GlobalStyles } from "@/constants";
 import { useServices } from "@/repositories/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
@@ -16,7 +14,6 @@ import { router } from "expo-router";
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
-  const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const { data: services } = useServices();
   const { totalServiceCost } = useStatistics();
@@ -25,10 +22,7 @@ export default function ServicesScreen() {
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={[
-          styles.content,
-          isDesktop && styles.contentDesktop,
-        ]}
+        contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
         {/* {reminders.length > 0 && (
@@ -147,10 +141,5 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-  },
-  contentDesktop: {
-    maxWidth: 1024,
-    alignSelf: "center",
-    width: "100%",
   },
 });

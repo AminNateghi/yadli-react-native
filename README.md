@@ -59,13 +59,13 @@ pnpm db:migrate     # drizzle-kit migrate (local tooling)
 src/
   app/                Expo Router screens — every file is a route
     index.tsx         → Redirect to /(tabs)/(home)
-    (tabs)/           5 tabs + hidden drawer
+    (tabs)/           5 tabs + settings screen
       (home)/         dashboard
       fuel/           fuel page
       services/       services page
       expenses/       expense page
       reminders/      reminders page
-      drawer/         app drawer (hidden in bottom-bar)
+      settings/       app settings (hidden in bottom-bar)
   components/         presentational UI (Button, Input, Text, …)
   components/forms/   all project forms
   repositories/       TanStack Query hooks per entity (*-repository.ts)
@@ -107,4 +107,3 @@ native folders.
 - `docs/reminders.md` — current state audit + step-by-step completion guide
 - `docs/notifications.md` — step-by-step local-notification implementation (SDK 57)
 - `docs/structure.md` — structure review + proposed changes with reasons
-

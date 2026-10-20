@@ -38,7 +38,7 @@
     "services": "Services",
     "expenses": "Expenses",
     "reminders": "Reminders",
-    "drawer": "Settings"
+    "settings": "Settings"
   },
   "dashboard": {
     "myVehicle": "My Vehicle",

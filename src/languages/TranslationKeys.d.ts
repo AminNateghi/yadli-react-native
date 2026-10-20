@@ -67,7 +67,7 @@ interface Menus {
   services: string;
   expenses: string;
   reminders: string;
-  drawer: string;
+  settings: string;
 }
 
 interface Dashboard {

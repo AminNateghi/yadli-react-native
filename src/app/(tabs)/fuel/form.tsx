@@ -1,8 +1,6 @@
 import { format } from "date-fns";
-import { PlusIcon, XIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import { useMediaQuery } from "react-responsive";
+import { StyleSheet, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Colors, GlobalStyles } from "@/constants";

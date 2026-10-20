@@ -1,7 +1,6 @@
 import { TimerIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { useMediaQuery } from "react-responsive";
 import { EmptyState } from "@/components/EmptyState";
 import { Colors } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
@@ -16,7 +15,6 @@ import { Button } from "@/components/Button";
 
 export default function ServiceRemindersScreen() {
   const { t, isRTL } = useTranslation();
-  const isDesktop = useMediaQuery({ minWidth: 768 });
   const [reminders, setReminders] = useState<ReminderCardProp[]>([]);
 
   const { data } = useReminders();
@@ -43,10 +41,7 @@ export default function ServiceRemindersScreen() {
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={[
-          styles.content,
-          isDesktop && styles.contentDesktop,
-        ]}
+        contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
         {!reminders || reminders?.length === 0 ? (
@@ -94,10 +89,5 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-  },
-  contentDesktop: {
-    maxWidth: 1024,
-    alignSelf: "center",
-    width: "100%",
   },
 });

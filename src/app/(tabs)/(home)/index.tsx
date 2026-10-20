@@ -9,7 +9,6 @@ import {
   ChevronRightIcon,
 } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
-import { useMediaQuery } from "react-responsive";
 import { StatCard } from "@/components/StatCard";
 import { Text } from "@/components/Text";
 import { Colors, GlobalStyles } from "@/constants";
@@ -20,7 +19,6 @@ import { useEffect } from "react";
 
 export default function DashboardScreen() {
   const { t, isRTL } = useTranslation();
-  const isDesktop = useMediaQuery({ minWidth: 768 });
 
   const {
     totalFuelCost,
@@ -48,10 +46,7 @@ export default function DashboardScreen() {
     <View style={[styles.wrapper, isRTL && GlobalStyles.rtl]}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={[
-          styles.content,
-          isDesktop && styles.contentDesktop,
-        ]}
+        contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
@@ -82,7 +77,7 @@ export default function DashboardScreen() {
           )}
         </View>
 
-        <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
+        <View style={styles.statsGrid}>
           <StatCard
             title={t("dashboard.totalSpent")}
             value={`${totalSpent.toFixed(0)}`}
@@ -99,7 +94,7 @@ export default function DashboardScreen() {
           />
         </View>
 
-        <View style={[styles.statsGrid, isDesktop && styles.statsGridDesktop]}>
+        <View style={styles.statsGrid}>
           <StatCard
             title={t("dashboard.serviceCosts")}
             value={`${totalServiceCost.toFixed(0)}`}
@@ -132,11 +127,6 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
-  },
-  contentDesktop: {
-    maxWidth: 1024,
-    alignSelf: "center",
-    width: "100%",
   },
   header: {
     flexDirection: "row",
@@ -184,8 +174,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 12,
     marginBottom: 12,
-  },
-  statsGridDesktop: {
-    maxWidth: 600,
   },
 });
