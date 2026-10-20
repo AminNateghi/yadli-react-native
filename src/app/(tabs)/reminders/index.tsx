@@ -13,7 +13,7 @@ import { useExpenses } from "@/repositories/expense-repository";
 import { router } from "expo-router";
 import { Button } from "@/components/Button";
 
-export default function ServiceRemindersScreen() {
+export default function RemindersScreen() {
   const { t, isRTL } = useTranslation();
   const [reminders, setReminders] = useState<ReminderCardProp[]>([]);
 

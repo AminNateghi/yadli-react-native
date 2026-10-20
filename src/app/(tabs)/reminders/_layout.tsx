@@ -5,7 +5,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { router, Stack } from "expo-router";
 import { PlusIcon } from "lucide-react-native";
 
-export default function ServicesLayout() {
+export default function RemindersLayout() {
   const { t, isRTL } = useTranslation();
   const fontFamily = useAppFontFamily();
 
