@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Colors, GlobalStyles } from "@/constants";
+import { View } from "react-native";
+import { GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { LANGUAGE_TYPE, type LanguageType } from "@/types/interfaces";
-import { Button } from "./Button";
 import { SelectPicker } from "./SelectPicker";
 import {
   useGetProfile,
@@ -26,38 +25,19 @@ export function ChangeLanguageForm() {
     }
   }, [data]);
 
-  const handleSave = () => {
-    saveLanguage(language);
-    router.back();
-  };
-
   return (
-    <View style={[styles.content, isRTL && GlobalStyles.rtl]}>
+    <View style={[isRTL && GlobalStyles.rtl]}>
       <Card>
         <SelectPicker
           label={t("settings.language")}
           value={language}
           options={LANGUAGE_TYPE}
-          onValueChange={(value) => setLanguage(value as LanguageType)}
+          onValueChange={(value) => {
+            saveLanguage(value as LanguageType);
+            router.back();
+          }}
         />
-
-        <View style={styles.buttonRow}>
-          <Button
-            title={t("common.save")}
-            onPress={handleSave}
-            style={{ flex: 1 }}
-          />
-        </View>
       </Card>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  content: {},
-  buttonRow: {
-    flexDirection: "row",
-    marginTop: 8,
-    paddingBottom: 16,
-  },
-});
