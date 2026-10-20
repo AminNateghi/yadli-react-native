@@ -11,15 +11,11 @@ export const fuelQueryKey = {
   byId: (id: number) => ["fuel-get", id],
 };
 
-export function useFuels(limit?: number) {
+export function useFuels() {
   return useQuery({
     queryKey: fuelQueryKey.list,
     queryFn: async () =>
-      db
-        .select()
-        .from(fuelsRecords)
-        .orderBy(desc(fuelsRecords.date))
-        .limit(limit ?? 1000),
+      db.select().from(fuelsRecords).orderBy(desc(fuelsRecords.date)),
   });
 }
 

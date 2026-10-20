@@ -11,15 +11,14 @@ export const serviceQueryKey = {
   byId: (id: number) => ["service-get", id],
 };
 
-export function useServices(limit?: number) {
+export function useServices() {
   return useQuery<ServiceDto[]>({
     queryKey: serviceQueryKey.list,
     queryFn: async () =>
       await db
         .select()
         .from(servicesRecords)
-        .orderBy(desc(servicesRecords.date))
-        .limit(limit ?? 1000),
+        .orderBy(desc(servicesRecords.date)),
   });
 }
 

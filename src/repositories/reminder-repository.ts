@@ -10,15 +10,11 @@ export const remindersQueryKey = {
   byId: (id: number) => ["reminder-get", id],
 };
 
-export function useReminders(limit?: number) {
+export function useReminders() {
   return useQuery({
     queryKey: remindersQueryKey.list,
     queryFn: async () =>
-      db
-        .select()
-        .from(remindersRecords)
-        .orderBy(desc(remindersRecords.id))
-        .limit(limit ?? 1000),
+      db.select().from(remindersRecords).orderBy(desc(remindersRecords.id)),
   });
 }
 

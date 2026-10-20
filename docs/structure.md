@@ -1,24 +1,5 @@
 # Project structure review + proposed changes
 
-## Must-fix (correctness)
-
-1. **`useCompleteReminder` missing invalidation** (`reminder-repository.ts:77-127`).
-   Reason: all other mutations invalidate `["reminder-list"]`; without it the
-   list goes stale after Complete.
-   Change: add `onSuccess: invalidate reminder-list + byId`, normalize
-   `undefined → null`. Commit with reminders Step 4.
-
-2. **Query keys ignore `limit`** (`["fuel-list"]` etc.).
-   Reason: `useFuels(5)` (home) and `useFuels(1000)` (list) collide in cache.
-   Change: `list: (limit?) => ["fuel-list", limit ?? "all"]` per entity.
-   Commit: `fix(query): scope list keys by limit`.
-
-3. **No cross-entity invalidation for statistics.**
-   Reason: fuel/service/expense mutations never invalidate the statistics key,
-   dashboard totals go stale.
-   Change: invalidate statistics key in those three mutations.
-   Commit with #3.
-
 ## Should-fix (maintainability)
 
 1. **Duplicate hooks `useAppFontFamily.ts` vs `use-font-family.ts`** (byte-identical,

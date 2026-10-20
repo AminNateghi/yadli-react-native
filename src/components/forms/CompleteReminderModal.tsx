@@ -12,7 +12,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../Input";
 import { DatePicker } from "../DatePicker";
-import { ReminderTriggerType } from "@/types/interfaces";
+import type { ReminderTriggerType } from "@/types/interfaces";
 
 const defaultValues = {
   date: undefined,

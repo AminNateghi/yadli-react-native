@@ -10,17 +10,11 @@ import {
 } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useMediaQuery } from "react-responsive";
-import { EmptyState } from "@/components/EmptyState";
-import { RecordCard } from "@/components/RecordCard";
 import { StatCard } from "@/components/StatCard";
 import { Text } from "@/components/Text";
 import { Colors, globalStyles } from "@/constants/theme";
 import { useTranslation } from "@/languages/useTranslation";
-import { getExpenseTypeTitle, getServiceTypeTitle } from "@/types/interfaces";
 import { useStatistics } from "@/repositories/statistics-repository";
-import { useServices } from "@/repositories/service-repository";
-import { useFuels } from "@/repositories/fuel-repository";
-import { useExpenses } from "@/repositories/expense-repository";
 import { useGetProfile } from "@/repositories/profile-repository";
 import { useEffect } from "react";
 
@@ -40,9 +34,6 @@ export default function DashboardScreen() {
     serviceRecordsLength,
   } = useStatistics();
 
-  const { data: recentServices } = useServices();
-  const { data: recentFuel } = useFuels();
-  const { data: recentExpenses } = useExpenses();
   const { data: profile } = useGetProfile();
 
   useEffect(() => {
@@ -125,99 +116,6 @@ export default function DashboardScreen() {
           />
         </View>
 
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              {t("dashboard.recentFillUps")}
-            </Text>
-            <Pressable onPress={() => router.push("/fuel")}>
-              <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
-            </Pressable>
-          </View>
-          {recentFuel?.length === 0 ? (
-            <EmptyState icon={FuelIcon} title={t("fuel.noFuelRecords")} />
-          ) : (
-            recentFuel
-              ?.slice(0, 2)
-              .map((fuel) => (
-                <RecordCard
-                  id={fuel.id}
-                  key={fuel.id}
-                  title={`${fuel.liters?.toFixed(1)} ${t("common.liter")}`}
-                  date={fuel.date}
-                  amount={fuel.totalCost}
-                  icon={FuelIcon}
-                  color={Colors.fuel}
-                  rtl={isRTL}
-                  onPress={() => router.push(`/fuel?edit=${fuel.id}`)}
-                />
-              ))
-          )}
-        </View>
-
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              {t("dashboard.recentServices")}
-            </Text>
-            <Pressable onPress={() => router.push("/services")}>
-              <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
-            </Pressable>
-          </View>
-          {recentServices?.length === 0 ? (
-            <EmptyState icon={WrenchIcon} title={t("services.noServicesYet")} />
-          ) : (
-            recentServices
-              ?.slice(0, 2)
-              .map((service) => (
-                <RecordCard
-                  id={service.id}
-                  key={service.id}
-                  title={getServiceTypeTitle(service.type, t)}
-                  date={service.date}
-                  amount={service.cost}
-                  icon={WrenchIcon}
-                  color={Colors.service}
-                  rtl={isRTL}
-                  onPress={() => router.push(`/services?edit=${service.id}`)}
-                />
-              ))
-          )}
-        </View>
-
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>
-              {t("dashboard.recentExpenses")}
-            </Text>
-            <Pressable onPress={() => router.push("/expenses")}>
-              <Text style={styles.seeAll}>{t("dashboard.seeAll")}</Text>
-            </Pressable>
-          </View>
-          {recentExpenses?.length === 0 ? (
-            <EmptyState
-              icon={BanknoteIcon}
-              title={t("expenses.noExpenseYet")}
-            />
-          ) : (
-            recentExpenses
-              ?.slice(0, 2)
-              .map((expense) => (
-                <RecordCard
-                  id={expense.id}
-                  key={expense.id}
-                  title={getExpenseTypeTitle(expense.type, t)}
-                  date={expense.date}
-                  amount={expense.amount}
-                  icon={BanknoteIcon}
-                  color={Colors.expense}
-                  rtl={isRTL}
-                  onPress={() => router.push(`/expenses?edit=${expense.id}`)}
-                />
-              ))
-          )}
-        </View>
-
         <View style={{ height: 32 }} />
       </ScrollView>
     </View>
@@ -289,24 +187,5 @@ const styles = StyleSheet.create({
   },
   statsGridDesktop: {
     maxWidth: 600,
-  },
-  section: {
-    marginTop: 36,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 600,
-    color: Colors.text,
-  },
-  seeAll: {
-    fontSize: 14,
-    color: Colors.primary,
-    fontWeight: 500,
   },
 });

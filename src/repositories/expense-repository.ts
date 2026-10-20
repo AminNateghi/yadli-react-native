@@ -11,15 +11,11 @@ export const expenseQueryKey = {
   byId: (id: number) => ["expense-get", id],
 };
 
-export function useExpenses(limit?: number) {
+export function useExpenses() {
   return useQuery({
     queryKey: expenseQueryKey.list,
     queryFn: async () =>
-      db
-        .select()
-        .from(expensesRecords)
-        .orderBy(desc(expensesRecords.date))
-        .limit(limit ?? 1000),
+      db.select().from(expensesRecords).orderBy(desc(expensesRecords.date)),
   });
 }
 
