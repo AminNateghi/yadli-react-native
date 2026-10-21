@@ -8,6 +8,8 @@ No registration, no login, no backend. All data stays on-device in SQLite.
 
 Log refueling, periodic services, vehicle expenses, and set odometer/date
 
+<img alt='yadli banner' src='https://raw.githubusercontent.com/AminNateghi/yadli-react-native/refs/heads/main/assets/yadli-banner-en.png'/>
+
 ## Features
 
 - **Fuel log:** date, odometer, liters, price/liter, total, full-tank flag, station
@@ -95,6 +97,8 @@ No auth, no network. `query-client.ts` is a bare `new QueryClient()`.
 اپلیکشن اندرویدی دستیار مدیریت خودرو کاملا آفلاین و بدون نیاز به اینترنت و بدون نیاز به ثبت نام. تمامی داده‌های برنامه بر روی گوشی شما ذخیره می‌شود.
 
 ثبت سوابق سوخت‌گیری، سرویس‌ها و هزینه‌ها به همراه یادآوری دوره‌ای برای جلوگیری از هزینه‌های سنگین تعمیر خودرو.
+
+<img alt='yadli banner' src='https://raw.githubusercontent.com/AminNateghi/yadli-react-native/refs/heads/main/assets/yadli-banner-fa.png'/>
 
 # امکانات
 
