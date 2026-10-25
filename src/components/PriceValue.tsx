@@ -9,8 +9,13 @@ interface Props {
 }
 
 const REGEX_SEPARATE_NUMBER = /\B(?=(\d{3})+(?!\d))/g;
-export const separateNumber = (value?: number): string => {
-  return value ? value.toString().replace(REGEX_SEPARATE_NUMBER, ",") : "0";
+
+const separateNumber = (isRTL: boolean, value?: number): string => {
+  if (isRTL)
+    return value ? value.toString().replace(REGEX_SEPARATE_NUMBER, ",") : "0";
+  return value
+    ? Number(value.toString().replace(REGEX_SEPARATE_NUMBER, ",")).toFixed(2)
+    : "0,00";
 };
 
 export function PriceValue({ value, style }: Props) {
@@ -20,7 +25,9 @@ export function PriceValue({ value, style }: Props) {
     <View style={styles.valuesContainer}>
       {!isRTL && <Text style={styles.signMedium}>{t("common.priceSign")}</Text>}
       <Text style={[styles.value, style]}>
-        {isRTL ? separateNumber(Number(value)) : separateNumber(Number(value))}
+        {isRTL
+          ? separateNumber(isRTL, Number(value))
+          : separateNumber(isRTL, Number(value))}
       </Text>
       {isRTL && <Text style={styles.signSmall}>{t("common.priceSign")}</Text>}
     </View>
