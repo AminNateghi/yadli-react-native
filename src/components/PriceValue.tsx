@@ -14,7 +14,7 @@ const separateNumber = (isRTL: boolean, value?: number): string => {
   if (isRTL)
     return value ? value.toString().replace(REGEX_SEPARATE_NUMBER, ",") : "0";
   return value
-    ? Number(value.toString().replace(REGEX_SEPARATE_NUMBER, ",")).toFixed(2)
+    ? value.toFixed(2).toString().replace(REGEX_SEPARATE_NUMBER, ",")
     : "0,00";
 };
 
