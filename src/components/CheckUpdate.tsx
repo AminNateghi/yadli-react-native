@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Linking, Modal, StyleSheet, View } from "react-native";
-import { GlobalStyles } from "@/constants";
+import { Linking, StyleSheet, View } from "react-native";
 import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "./Button";
-import { Card } from "./Card";
 import { Text } from "./Text";
+import { RocketIcon } from "lucide-react-native";
 import Constants from "expo-constants";
+import MenuItem from "./MenuItem";
+import Modal from "./Modal";
+import { Colors } from "@/constants";
 
 export function CheckUpdate() {
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [updateAvailable, setUpdateAvailable] = useState<boolean>(false);
@@ -90,69 +92,48 @@ export function CheckUpdate() {
   };
 
   return (
-    <View style={[styles.content, isRTL && GlobalStyles.rtl]}>
-      <Card style={{ paddingBottom: 12 }}>
-        <Text>{t("checkUpdate.title")}</Text>
-        <Button
-          title={t("checkUpdate.checkForUpdate")}
-          variant="subtle"
-          color="gray"
-          onPress={handleShow}
-        />
-      </Card>
+    <>
+      <MenuItem
+        icon={<RocketIcon size={21} color={Colors.warning} />}
+        title={t("drawer.itemUpdate")}
+        description={t("drawer.subitemUpdate")}
+        onPress={handleShow}
+      />
 
-      <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>{message}</Text>
-            <View style={styles.buttonContainer}>
-              <Button
-                title={t("common.close")}
-                onPress={handleClose}
-                variant="outline"
-                color="gray"
-              />
+      <Modal
+        title={t("checkUpdate.title")}
+        visible={modalVisible}
+        onClose={handleClose}
+      >
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>{message}</Text>
+          <View style={styles.buttonContainer}>
+            <Button
+              title={t("common.close")}
+              onPress={handleClose}
+              variant="outline"
+              color="gray"
+            />
 
-              <Button
-                title={t("checkUpdate.buttonDownload")}
-                onPress={handleConfirm}
-                variant={updateAvailable ? "solid" : "outline"}
-                color="blue"
-                disabled={!updateAvailable}
-                style={{ flex: 1 }}
-              />
-            </View>
+            <Button
+              title={t("checkUpdate.buttonDownload")}
+              onPress={handleConfirm}
+              variant={updateAvailable ? "solid" : "outline"}
+              color="blue"
+              disabled={!updateAvailable}
+              style={{ flex: 1 }}
+            />
           </View>
         </View>
       </Modal>
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  content: {
-    paddingBottom: 16,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.7)",
-  },
   modalView: {
-    margin: 20,
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 25,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    padding: 20,
+    paddingBottom: 0,
   },
   modalText: {
     marginBottom: 25,

@@ -1,6 +1,7 @@
 {
   "app": {
     "name": "یادلی",
+    "description": "دستیار شخصی خودرو",
     "rtl": "true",
     "madeWithLove": "ساخته شده با ❤️ در ایران"
   },
@@ -30,7 +31,8 @@
     "inactive": "غیرفعال",
     "done": "انجام شد",
     "today": "امروز",
-    "clear": "پاک کردن"
+    "clear": "پاک کردن",
+    "chooseLanguage": "انتخاب زبان"
   },
   "menus": {
     "dashboard": "داشبورد",
@@ -39,6 +41,19 @@
     "expenses": "هزینه‌ها",
     "reminders": "یادآوری‌ها",
     "settings": "تنظیمات"
+  },
+  "drawer": {
+    "closeDrawer": "بستن منو",
+    "sectionSettings": "تنظیمات",
+    "sectionApplication": "برنامه",
+    "itemLanguage": "زبان (Language)",
+    "subitemLanguage": "تغییر زبان برنامه",
+    "itemAbout": "معرفی",
+    "subitemAbout": "توضیحی درمورد برنامه",
+    "itemUpdate": "نسخه برنامه",
+    "subitemUpdate": "بررسی و دانلود آخرین نسخه",
+    "itemResetAllData": "حذف سوابق",
+    "subitemResetAllData": "حذف تمامی اطلاعات"
   },
   "dashboard": {
     "myVehicle": "خودرو من",
@@ -57,10 +72,6 @@
     "seeAll": "همه موارد",
     "recentExpenses": "آخرین هزینه‌ها",
     "recentFillUps": "آخرین سوخت‌گیری‌ها"
-  },
-  "settings": {
-    "title": "تنظیمات",
-    "language": "زبان (Language)"
   },
   "fuel": {
     "totalFuelCost": "جمع پرداختی‌ها",
@@ -260,6 +271,7 @@
   },
   "resetData": {
     "title": "حذف تمامی سوابق",
+    "description": "در این بخش میتوانید تمای اطلاعات وارد شده در برنامه را پاک کنید",
     "resetButton": "همه سوابق حذف شود",
     "confirmMessage": "این کار تمام سوابق سوخت‌گیری، سرویس‌ها، هزینه‌ها و تمامی یادآوری‌ها را به‌طور دائمی از این دستگاه حذف خواهد کرد.\nآیا از انجام این کار مطمئن هستید؟"
   },
@@ -285,11 +297,10 @@
     "updateAvailable": "نسخه جدید از برنامه منتشر شده است."
   },
   "about": {
-    "buttonCaption": "معرفی برنامه",
-    "buttonInfo": "نگارش برنامه و توضیحات",
-    "title": "یادلی - دستیار شخصی خودرو",
     "description": "اپلیکشن دستیار شخصی خودرو کاملا آفلاین و بدون نیاز به اینترنت و بدون نیاز به ثبت‌نام. تمامی داده‌های برنامه بر روی گوشی شما ذخیره می‌شود.",
     "developedBy": "توسعه توسط",
-    "developerName": "امین ناطقی"
+    "developerName": "امین ناطقی",
+    "sourceOn": "سورس‌کد در",
+    "github": "گیت‌هاب"
   }
 }
