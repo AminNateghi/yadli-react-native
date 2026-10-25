@@ -62,6 +62,7 @@ export type ServiceType =
   | "ElectricalRepair"
   | "Battery"
   | "Alternator"
+  | "AlternatorBelt"
   | "Lamp"
   | "VideoSound"
   | "Tuning";
@@ -214,6 +215,7 @@ export function serviceTypeOptions(
     },
     { value: "Battery", label: t("serviceType.Battery") },
     { value: "Alternator", label: t("serviceType.Alternator") },
+    { value: "AlternatorBelt", label: t("serviceType.AlternatorBelt") },
     { value: "Lamp", label: t("serviceType.Lamp") },
     { value: "VideoSound", label: t("serviceType.VideoSound") },
 

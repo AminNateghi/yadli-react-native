@@ -178,7 +178,7 @@
     "Other": "سایر موارد",
     "EngineRepair": "تعمیرات موتور",
     "EngineOil": "روغن موتور",
-    "TimingBelt": "تسمه تایم و دینام",
+    "TimingBelt": "تسمه تایم",
     "CylinderHeadGasket": "واشر سرسیلندر",
     "SparkPlug": "شمع و وایر",
     "GearboxRepair": "تعمیرات گیربکس",
@@ -215,6 +215,7 @@
     "ElectricalRepair": "تعمیرات برقی",
     "Battery": "باتری",
     "Alternator": "دینام",
+    "AlternatorBelt": "تسمه دینام",
     "Lamp": "لامپ و هدلایت",
     "VideoSound": "صوتی تصویری",
     "Tuning": "تیونینگ"

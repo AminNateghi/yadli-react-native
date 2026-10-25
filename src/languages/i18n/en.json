@@ -215,6 +215,7 @@
     "ElectricalRepair": "Electrical Repair",
     "Battery": "Battery",
     "Alternator": "Alternator",
+    "AlternatorBelt": "Alternator Belt",
     "Lamp": "Lamp",
     "VideoSound": "MultiMedia/Sound",
     "Tuning": "Tuning"
