@@ -31,7 +31,7 @@ export default function ExpensesScreen() {
               {t("fuel.totalFuelCost")}
             </Text>
             <PriceValue
-              value={totalExpenses?.toFixed(2)}
+              value={totalExpenses}
               style={GlobalStyles.summaryValue}
             />
           </View>

@@ -6,7 +6,7 @@ import { PriceValue } from "./PriceValue";
 
 interface StatCardProps {
   title: string;
-  value: string;
+  value: number;
   valueWithSpan?: boolean;
   subtitle?: string;
   icon: LucideIcon;

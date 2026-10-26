@@ -48,7 +48,7 @@ export default function FuelScreen() {
               {t("fuel.totalFuelCost")}
             </Text>
             <PriceValue
-              value={totalFuelCost?.toFixed(2)}
+              value={totalFuelCost}
               style={GlobalStyles.summaryValue}
             />
           </View>

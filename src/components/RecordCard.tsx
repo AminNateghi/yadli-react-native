@@ -45,12 +45,12 @@ export function RecordCard({
           {title}
         </Text>
         <Text style={styles.date}>
-          {dateFormat(rtl, date)}
+          {dateFormat(rtl, date.toISOString())}
           {subtitle && ` • ${subtitle}`}
         </Text>
       </View>
       <View style={styles.rightContent}>
-        <PriceValue value={String(amount)} style={styles.amount} />
+        <PriceValue value={amount} style={styles.amount} />
         {rtl ? (
           <ChevronLeftIcon size={18} color={Colors.textMuted} />
         ) : (

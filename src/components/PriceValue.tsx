@@ -4,7 +4,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { StyleSheet, type TextStyle, View } from "react-native";
 
 interface Props {
-  value: string;
+  value: number;
   style?: TextStyle;
 }
 
@@ -12,9 +12,11 @@ const REGEX_SEPARATE_NUMBER = /\B(?=(\d{3})+(?!\d))/g;
 
 const separateNumber = (isRTL: boolean, value?: number): string => {
   if (isRTL)
-    return value ? value.toString().replace(REGEX_SEPARATE_NUMBER, ",") : "0";
+    return value
+      ? Number(value).toString().replace(REGEX_SEPARATE_NUMBER, ",")
+      : "0";
   return value
-    ? value.toFixed(2).toString().replace(REGEX_SEPARATE_NUMBER, ",")
+    ? Number(value).toFixed(2).toString().replace(REGEX_SEPARATE_NUMBER, ",")
     : "0,00";
 };
 
@@ -25,9 +27,7 @@ export function PriceValue({ value, style }: Props) {
     <View style={styles.valuesContainer}>
       {!isRTL && <Text style={styles.signMedium}>{t("common.priceSign")}</Text>}
       <Text style={[styles.value, style]}>
-        {isRTL
-          ? separateNumber(isRTL, Number(value))
-          : separateNumber(isRTL, Number(value))}
+        {value ? separateNumber(isRTL, value) : "0"}
       </Text>
       {isRTL && <Text style={styles.signSmall}>{t("common.priceSign")}</Text>}
     </View>

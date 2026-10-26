@@ -64,7 +64,7 @@ export default function ServicesScreen() {
               {t("services.totalServiceCost")}
             </Text>
             <PriceValue
-              value={totalServiceCost?.toFixed(2)}
+              value={totalServiceCost}
               style={GlobalStyles.summaryValue}
             />
             {/* <View style={styles.categoryBreakdown}>

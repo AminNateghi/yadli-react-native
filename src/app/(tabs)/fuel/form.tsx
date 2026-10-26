@@ -121,8 +121,8 @@ export default function FuelForm() {
   const pricePerLiter = watch("pricePerLiter");
   const totalCost =
     liters && pricePerLiter
-      ? (Number(liters) * Number(pricePerLiter)).toFixed(2)
-      : "0.00";
+      ? (Number(liters) * Number(pricePerLiter))
+      : 0;
 
   return (
     <KeyboardAwareScrollView
