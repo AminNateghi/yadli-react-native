@@ -22,6 +22,7 @@ import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 import { ServiceDeletionModal } from "@/components/forms/ServiceDeletionModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { useStatistics } from "@/repositories/statistics-repository";
 import { DATE_FORMAT } from "@/utils/date-format";
 import dayjs from "dayjs";
 
@@ -38,6 +39,8 @@ export default function ServiceForm() {
   const [id] = useState<number>(Number(params.id));
   const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
+
+  const { latestOdometer } = useStatistics();
 
   const { mutate: updateService, isPending: isPendingUpdate } =
     useUpdateService(id!);
@@ -157,6 +160,7 @@ export default function ServiceForm() {
               placeholder={t("services.odometerPlaceholder")}
               style={{ direction: "ltr" }}
               error={errors?.odometer?.message}
+              help={`${t("dashboard.latestOdometer")} ${latestOdometer}`}
             />
           </>
         )}

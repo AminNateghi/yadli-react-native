@@ -5,9 +5,10 @@ import { Colors } from "@/constants";
 interface InputProps extends TextInputProps {
   label: string;
   error?: string;
+  help?: string;
 }
 
-export function Input({ label, error, style, ...props }: InputProps) {
+export function Input({ label, error, help, style, ...props }: InputProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -16,6 +17,7 @@ export function Input({ label, error, style, ...props }: InputProps) {
         placeholderTextColor={Colors.textMuted}
         {...props}
       />
+      {help && <Text style={styles.help}>{help}</Text>}
       {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
@@ -48,5 +50,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Colors.danger,
     marginTop: 4,
+  },
+  help: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    marginLeft: 5,
+    marginRight: 5,
   },
 });

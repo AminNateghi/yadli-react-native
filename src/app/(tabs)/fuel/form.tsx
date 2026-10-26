@@ -20,6 +20,7 @@ import { SwitchToggle } from "@/components/SwitchToggle";
 import { FuelDeletionModal } from "@/components/forms/FuelDeletionModal";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import { useStatistics } from "@/repositories/statistics-repository";
 import { DATE_FORMAT } from "@/utils/date-format";
 import dayjs from "dayjs";
 
@@ -39,6 +40,8 @@ export default function FuelForm() {
   const [id] = useState<number>(Number(params.id));
   const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
+
+  const { latestOdometer } = useStatistics();
 
   const { mutate: updateService, isPending: isPendingUpdate } = useUpdateFuel(
     id!,
@@ -158,6 +161,7 @@ export default function FuelForm() {
               placeholder={t("fuel.odometerPlaceholder")}
               style={{ direction: "ltr" }}
               error={errors?.odometer?.message}
+              help={`${t("dashboard.latestOdometer")} ${latestOdometer}`}
             />
           </>
         )}

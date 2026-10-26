@@ -72,7 +72,8 @@
     "seeAll": "See All",
     "recentExpenses": "Recent Expenses",
     "recentFillUps": "Recent Fill-ups",
-    "totalDistance": "Total distance"
+    "totalDistance": "Total distance",
+    "latestOdometer": "Latest odometer"
   },
   "fuel": {
     "totalFuelCost": "Total Fuel Cost",
