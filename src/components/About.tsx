@@ -50,7 +50,7 @@ export function About() {
               style={styles.icon}
             />
           </View>
-          <Text style={styles.modalTitle}>{t("app.name")}</Text>
+          <Text style={styles.appName}>{t("app.name")}</Text>
           <Text style={styles.modalTitle}>{t("app.description")}</Text>
           <Text style={styles.version}>{currentVersion}</Text>
           <Text style={styles.modalText}>{t("about.description")}</Text>
@@ -103,12 +103,18 @@ const styles = StyleSheet.create({
   },
   modalView: {
     padding: 20,
+    paddingTop: 30,
     paddingBottom: 0,
     justifyContent: "center",
     alignItems: "center",
   },
+  appName: {
+    fontSize: 24,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "center",
     fontWeight: "bold",
   },
