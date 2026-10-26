@@ -1,4 +1,4 @@
-import { FuelIcon } from "lucide-react-native";
+import { FuelIcon, LeafIcon } from "lucide-react-native";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { EmptyState } from "@/components/EmptyState";
 import { PriceValue } from "@/components/PriceValue";
@@ -14,8 +14,10 @@ import { Button } from "@/components/Button";
 export default function FuelScreen() {
   const { t, isRTL } = useTranslation();
 
+  const { averageLiterPerKm } = useStatistics();
+
   const { data: fuels } = useFuels();
-  const { totalFuelCost, avgKmPerLiter } = useStatistics();
+  const { totalFuelCost } = useStatistics();
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
@@ -24,22 +26,21 @@ export default function FuelScreen() {
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
-        {/* // TODO: if more than 10 liter red else green */}
-        {/* {avgKmPerLiter > 0 && (
+        {averageLiterPerKm > 0 && (
           <View style={styles.disPerLiterCard}>
             <View style={styles.disPerLiterIconContainer}>
-              <TrendingUpIcon size={20} color={Colors.success} />
+              <LeafIcon size={20} color={Colors.success} />
             </View>
             <View>
               <Text style={styles.disPerLiterValue}>
-                {avgKmPerLiter.toFixed(1)} {t("fuel.kmPerLiter")}
+                {averageLiterPerKm.toFixed(1)} {t("fuel.kmPerLiter")}
               </Text>
               <Text style={styles.disPerLiterLabel}>
                 {t("fuel.averageFuelEconomy")}
               </Text>
             </View>
           </View>
-        )} */}
+        )}
 
         {totalFuelCost > 0 && (
           <View style={GlobalStyles.summaryCard}>
@@ -105,5 +106,32 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  disPerLiterCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.success + 15,
+    borderRadius: 14,
+    padding: 16,
+    gap: 10,
+    marginBottom: 16,
+  },
+  disPerLiterIconContainer: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: Colors.success + 25,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  disPerLiterValue: {
+    fontSize: 20,
+    fontWeight: 700,
+    color: Colors.success,
+  },
+  disPerLiterLabel: {
+    fontSize: 13,
+    color: Colors.textSecondary,
+    marginTop: 2,
   },
 });

@@ -7,6 +7,7 @@ import {
   WalletIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  LeafIcon,
 } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { StatCard } from "@/components/StatCard";
@@ -22,14 +23,16 @@ export default function DashboardScreen() {
 
   const {
     totalFuelCost,
+    totalDistanceKm,
     totalExpenses,
-    totalKm,
+    latestOdometer,
     totalServiceCost,
     totalSpent,
     totalReminders,
     expenseRecordsLength,
     fuelRecordsLength,
     serviceRecordsLength,
+    averageLiterPerKm,
   } = useStatistics();
 
   const { data: profile } = useGetProfile();
@@ -57,7 +60,7 @@ export default function DashboardScreen() {
             <View>
               <Text style={styles.carTitle}>{t("dashboard.myVehicle")}</Text>
               <Text style={styles.carSubtitle}>
-                {totalKm?.toLocaleString()} {t("common.kilometer")}
+                {latestOdometer?.toLocaleString()} {t("common.kilometer")}
               </Text>
             </View>
           </View>
@@ -86,14 +89,32 @@ export default function DashboardScreen() {
             color={Colors.primary}
           />
           <StatCard
+            title={t("dashboard.totalDistance")}
+            value={`${totalDistanceKm.toFixed(0)} `}
+            subtitle={`${t("common.kilometer")}`}
+            valueWithSpan={false}
+            icon={CarIcon}
+            color={Colors.primary}
+          />
+        </View>
+
+        <View style={styles.statsGrid}>
+          <StatCard
             title={t("dashboard.fuelCosts")}
             value={`${totalFuelCost.toFixed(0)}`}
             subtitle={`${fuelRecordsLength} ${t("dashboard.fillUps")}`}
             icon={FuelIcon}
             color={Colors.fuel}
           />
+          <StatCard
+            title={t("dashboard.avgPerKm")}
+            value={`${averageLiterPerKm.toFixed(1)}`}
+            subtitle={`${t("common.liter")}`}
+            valueWithSpan={false}
+            icon={LeafIcon}
+            color={Colors.success}
+          />
         </View>
-
         <View style={styles.statsGrid}>
           <StatCard
             title={t("dashboard.serviceCosts")}

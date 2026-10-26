@@ -7,6 +7,7 @@
 - Add float to PriceValue component
 - Migrate Expo SDK 57 to 58
 - Add Drawer menu
+- Add average liter per kilometer
 
 </details>
 
@@ -18,6 +19,7 @@
 - اضافه کردن اعشار به قیمت‌ها در زبان انگلیسی
 - آپدیت Expo SDK از نسخه ۵۷ به ۵۸
 - اضافه شدن منو به برنامه
+- اضافه شدن میانگین مصرف سوخت
 
   </div>
 </details>

@@ -71,7 +71,8 @@
     "expenses": "هزینه‌ها",
     "seeAll": "همه موارد",
     "recentExpenses": "آخرین هزینه‌ها",
-    "recentFillUps": "آخرین سوخت‌گیری‌ها"
+    "recentFillUps": "آخرین سوخت‌گیری‌ها",
+    "totalDistance": "مسافت طی شده"
   },
   "fuel": {
     "totalFuelCost": "جمع پرداختی‌ها",

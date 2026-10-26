@@ -6,7 +6,8 @@ import { useReminders } from "./reminder-repository";
 import { getReminders } from "@/utils/service-reminders";
 
 export function useStatistics() {
-  const [maxOdometer, setMaxOdometer] = useState<number>(0);
+  const [latestOdometer, setLatestOdometer] = useState<number>(0);
+  const [totalDistanceKm, setTotalDistanceKm] = useState<number>(0);
   const [averageLiterPerKm, setAverageLiterPerKm] = useState<number>(0);
   const [totalFuelCost, setTotalFuelCost] = useState<number>(0);
   const [totalServiceCost, setTotalServiceCost] = useState<number>(0);
@@ -59,8 +60,10 @@ export function useStatistics() {
 
       // ====== Maximum Odometer
       const flat = [...objServices, ...objFuels, ...objExpenses];
+      const minOdo = flat.length > 0 ? Math.min(...flat) : 0;
       const maxOdo = flat.length > 0 ? Math.max(...flat) : 0;
-      setMaxOdometer(maxOdo);
+      setTotalDistanceKm(maxOdo - minOdo);
+      setLatestOdometer(maxOdo);
 
       // ====== Average Liter/Km
       let avgLiterPerKm = 0;
@@ -104,8 +107,9 @@ export function useStatistics() {
   }, [totalFuelCost, totalServiceCost, totalExpenses]);
 
   return {
-    totalKm: maxOdometer,
-    avgKmPerLiter: averageLiterPerKm,
+    latestOdometer,
+    totalDistanceKm,
+    averageLiterPerKm,
     totalFuelCost,
     totalServiceCost,
     totalExpenses,
