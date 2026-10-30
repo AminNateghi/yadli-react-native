@@ -22,13 +22,12 @@ import { ExpenseDeletionModal } from "@/components/forms/ExpenseDeletionModal";
 import { Button } from "@/components/Button";
 import { router, useLocalSearchParams } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { useStatistics } from "@/repositories/statistics-repository";
-import { DATE_FORMAT } from "@/utils/date-format";
+import { useStatistics } from "@/repositories/statistics";
 import dayjs from "dayjs";
 
 const defaultValues = {
   type: "Reimbursement",
-  date: dayjs().format(DATE_FORMAT),
+  date: dayjs().toISOString(),
   amount: undefined,
   odometer: undefined,
   note: "",
@@ -40,7 +39,7 @@ export default function ExpenseForm() {
   const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
 
-  const { latestOdometer } = useStatistics();
+  const { statistics } = useStatistics();
 
   const { mutate: updateService, isPending: isPendingUpdate } =
     useUpdateExpense(id!);
@@ -154,7 +153,7 @@ export default function ExpenseForm() {
             placeholder={t("expenses.odometerPlaceholder")}
             style={{ direction: "ltr" }}
             error={errors?.odometer?.message}
-            help={`${t("dashboard.latestOdometer")} ${latestOdometer}`}
+            help={`${t("dashboard.latestOdometer")} ${statistics.distance.latestOdometer}`}
           />
         )}
       />

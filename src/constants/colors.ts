@@ -19,7 +19,7 @@ export const Colors = {
   borderLight: "#F1F5F9",
 
   fuel: "#F59E0B",
-  service: "#10B981",
+  service: "#b96210",
   expense: "#8B5CF6",
   reminder: "#8d0d49",
 };

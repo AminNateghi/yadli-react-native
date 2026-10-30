@@ -15,17 +15,16 @@ import type { FuelDto } from "@/types/interfaces";
 import { router, useLocalSearchParams } from "expo-router";
 import { DatePicker } from "@/components/DatePicker";
 import { Text } from "@/components/Text";
-import { PriceValue } from "@/components/PriceValue";
+import { ValueWithHelp } from "@/components/ValueWithHelp";
 import { SwitchToggle } from "@/components/SwitchToggle";
 import { FuelDeletionModal } from "@/components/forms/FuelDeletionModal";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { useStatistics } from "@/repositories/statistics-repository";
-import { DATE_FORMAT } from "@/utils/date-format";
+import { useStatistics } from "@/repositories/statistics";
 import dayjs from "dayjs";
 
 const defaultValues = {
-  date: dayjs().format(DATE_FORMAT),
+  date: dayjs().toISOString(),
   fullTank: true,
   liters: undefined,
   odometer: undefined,
@@ -41,7 +40,7 @@ export default function FuelForm() {
   const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
 
-  const { latestOdometer } = useStatistics();
+  const { statistics } = useStatistics();
 
   const { mutate: updateService, isPending: isPendingUpdate } = useUpdateFuel(
     id!,
@@ -120,9 +119,7 @@ export default function FuelForm() {
   const liters = watch("liters");
   const pricePerLiter = watch("pricePerLiter");
   const totalCost =
-    liters && pricePerLiter
-      ? (Number(liters) * Number(pricePerLiter))
-      : 0;
+    liters && pricePerLiter ? Number(liters) * Number(pricePerLiter) : 0;
 
   return (
     <KeyboardAwareScrollView
@@ -161,7 +158,7 @@ export default function FuelForm() {
               placeholder={t("fuel.odometerPlaceholder")}
               style={{ direction: "ltr" }}
               error={errors?.odometer?.message}
-              help={`${t("dashboard.latestOdometer")} ${latestOdometer}`}
+              help={`${t("dashboard.latestOdometer")} ${statistics.distance.latestOdometer}`}
             />
           </>
         )}
@@ -207,7 +204,7 @@ export default function FuelForm() {
 
       <View style={styles.totalRow}>
         <Text style={styles.totalLabel}>{t("fuel.totalCost")}</Text>
-        <PriceValue value={totalCost} />
+        <ValueWithHelp value={totalCost} help={t("common.priceSign")} />
       </View>
 
       <Controller

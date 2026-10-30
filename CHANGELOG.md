@@ -1,3 +1,25 @@
+# v1.2.0
+
+<details open>
+  <summary>English</summary>
+
+- Add Reports
+- Change Dashboard layout
+- Fix some styles
+
+</details>
+
+<details open>
+  <summary>فارسی</summary>
+  <div dir="rtl">
+
+- اضافه شدن گزارش‌ها
+- تغییر قالب صفحه داشبورد
+- اصلاح برخی از مشکلات
+
+  </div>
+</details>
+
 # v1.1.0
 
 <details open>

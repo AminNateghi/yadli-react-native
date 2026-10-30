@@ -50,8 +50,8 @@ export default function AppDrawer({ visible, onClose }: Props) {
           <View style={styles.separator} />
 
           <Language />
-          <About />
           <CheckUpdate />
+          <About />
           <ResetAllData />
 
           <View style={styles.footer}>

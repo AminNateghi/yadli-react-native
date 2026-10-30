@@ -6,7 +6,7 @@ import {
   type LucideIcon,
 } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
-import { PriceValue } from "./PriceValue";
+import { ValueWithHelp } from "./ValueWithHelp";
 import { dateFormat } from "@/utils/date-format";
 
 interface RecordCardProps {
@@ -18,6 +18,7 @@ interface RecordCardProps {
   icon: LucideIcon;
   color: string;
   rtl: boolean;
+  help: string;
   onPress?: (id: number) => void;
 }
 
@@ -30,6 +31,7 @@ export function RecordCard({
   icon: Icon,
   color,
   rtl,
+  help,
   onPress,
 }: RecordCardProps) {
   return (
@@ -44,13 +46,11 @@ export function RecordCard({
         <Text style={styles.title} numberOfLines={1}>
           {title}
         </Text>
-        <Text style={styles.date}>
-          {dateFormat(rtl, date.toISOString())}
-          {subtitle && ` • ${subtitle}`}
-        </Text>
+        <Text style={styles.date}>{dateFormat(rtl, date.toISOString())}</Text>
+        {subtitle && <Text style={styles.date}>{subtitle}</Text>}
       </View>
       <View style={styles.rightContent}>
-        <PriceValue value={amount} style={styles.amount} />
+        <ValueWithHelp value={amount} help={help} style={styles.amount} />
         {rtl ? (
           <ChevronLeftIcon size={18} color={Colors.textMuted} />
         ) : (

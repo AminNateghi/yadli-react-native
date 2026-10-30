@@ -106,7 +106,7 @@ export function ReminderCard({ reminder, onPress }: Props) {
             <CalendarIcon size={14} color={Colors.textSecondary} />
             <Text style={styles.progressLabel}>
               {t("reminders.dueOn")}{" "}
-              {dateFormat(isRTL, reminder.dateProgress.dueDate)}
+              {dateFormat(isRTL, reminder.dateProgress.dueDate.toISOString())}
             </Text>
             <Text
               style={[
@@ -142,7 +142,7 @@ export function ReminderCard({ reminder, onPress }: Props) {
             <Text style={styles.progressLabel}>
               {t("reminders.dueAt")}{" "}
               {reminder.odometerProgress.dueOdometer.toLocaleString()}{" "}
-              {t("common.km")}
+              {t("common.kilometer")}
             </Text>
             <Text
               style={[

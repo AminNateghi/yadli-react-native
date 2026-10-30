@@ -56,6 +56,15 @@ export default function HomeLayout() {
         />
 
         <Stack.Screen
+          name="reports"
+          options={{
+            title: t("reports.title"),
+            headerLargeTitle: true,
+            headerTitleAlign: "center",
+          }}
+        />
+
+        <Stack.Screen
           name="onboarding"
           options={{
             headerShown: false,

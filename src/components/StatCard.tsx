@@ -2,13 +2,12 @@ import { Text } from "@/components/Text";
 import { Colors } from "@/constants";
 import type { LucideIcon } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
-import { PriceValue } from "./PriceValue";
+import { ValueWithHelp } from "./ValueWithHelp";
 
 interface StatCardProps {
   title: string;
   value: number;
-  valueWithSpan?: boolean;
-  subtitle?: string;
+  help?: string;
   icon: LucideIcon;
   color: string;
 }
@@ -16,24 +15,19 @@ interface StatCardProps {
 export function StatCard({
   title,
   value,
-  subtitle,
   icon: Icon,
   color,
-  valueWithSpan = true,
+  help,
 }: StatCardProps) {
   return (
     <View style={styles.card}>
-      <View style={[styles.iconContainer, { backgroundColor: color + 15 }]}>
-        <Icon size={22} color={color} />
+      <View style={styles.rowTitle}>
+        <View style={[styles.iconContainer, { backgroundColor: color + 15 }]}>
+          <Icon size={20} color={color} />
+        </View>
+        <Text style={styles.title}>{title}</Text>
       </View>
-      <Text style={styles.title}>{title}</Text>
-
-      {valueWithSpan ? (
-        <PriceValue value={value} />
-      ) : (
-        <Text style={styles.value}>{value}</Text>
-      )}
-      {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+      {help && <ValueWithHelp value={value} help={help} />}
     </View>
   );
 }
@@ -46,9 +40,14 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 140,
   },
+  rowTitle: {
+    flexDirection: "row",
+    gap: 5,
+    alignItems: "center",
+  },
   iconContainer: {
-    width: 44,
-    height: 44,
+    width: 40,
+    height: 40,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
@@ -58,15 +57,5 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.textSecondary,
     marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 12,
-    color: Colors.textMuted,
-    marginTop: 2,
-  },
-  value: {
-    fontSize: 20,
-    fontWeight: 700,
-    color: Colors.text,
   },
 });

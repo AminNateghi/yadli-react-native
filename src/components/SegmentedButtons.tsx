@@ -15,6 +15,7 @@ export type SegmentedButtonOption = {
 interface BaseProps {
   buttons: SegmentedButtonOption[];
   containerStyle?: ViewStyle;
+  size?: "default" | "small";
 }
 
 interface SingleSelectProps extends BaseProps {
@@ -54,7 +55,13 @@ export const SegmentedButtons: React.FC<SegmentedButtonsProps> = (props) => {
   return (
     <>
       {props.label && <Text style={styles.label}>{props.label}</Text>}
-      <View style={[styles.container, containerStyle]}>
+      <View
+        style={[
+          styles.container,
+          containerStyle,
+          props.size === "small" && styles.containerSmall,
+        ]}
+      >
         {buttons.map((button, index) => {
           const isSelected = multiSelect
             ? (value as string[]).includes(button.value)
@@ -70,13 +77,20 @@ export const SegmentedButtons: React.FC<SegmentedButtonsProps> = (props) => {
               onPress={() => handlePress(button.value)}
               style={[
                 styles.button,
+                props.size === "small" && styles.buttonSmall,
                 isFirst && styles.firstButton,
                 isLast && styles.lastButton,
                 !isFirst && styles.middleButton,
                 isSelected && styles.buttonActive,
               ]}
             >
-              <Text style={[styles.text, isSelected && styles.textActive]}>
+              <Text
+                style={[
+                  styles.text,
+                  isSelected && styles.textActive,
+                  props.size === "small" && styles.textSmall,
+                ]}
+              >
                 {button.label}
               </Text>
             </TouchableOpacity>
@@ -96,6 +110,10 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 16,
   },
+  containerSmall: {
+    height: 35,
+    padding: 3,
+  },
   label: {
     fontSize: 14,
     fontWeight: 500,
@@ -111,6 +129,10 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
+  },
+  buttonSmall: {
+    paddingVertical: 2,
+    paddingHorizontal: 8,
   },
   firstButton: {
     borderTopLeftRadius: 12,
@@ -129,6 +151,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
+  },
+  textSmall: {
+    fontSize: 14,
   },
   textActive: {
     color: Colors.primary,
