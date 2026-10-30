@@ -7,33 +7,22 @@ import {
   WalletIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  LeafIcon,
+  GaugeIcon,
 } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { StatCard } from "@/components/StatCard";
 import { Text } from "@/components/Text";
 import { Colors, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
-import { useStatistics } from "@/repositories/statistics-repository";
+import { useStatistics } from "@/repositories/statistics";
 import { useGetProfile } from "@/repositories/profile-repository";
 import { useEffect } from "react";
+import { numberFormat } from "@/utils/number-format";
+import { Button } from "@/components/Button";
 
 export default function DashboardScreen() {
   const { t, isRTL } = useTranslation();
-
-  const {
-    totalFuelCost,
-    totalDistanceKm,
-    totalExpenses,
-    latestOdometer,
-    totalServiceCost,
-    totalSpent,
-    totalReminders,
-    expenseRecordsLength,
-    fuelRecordsLength,
-    serviceRecordsLength,
-    averageLiterPerKm,
-  } = useStatistics();
+  const { totalReminders, statistics } = useStatistics();
 
   const { data: profile } = useGetProfile();
 
@@ -60,7 +49,11 @@ export default function DashboardScreen() {
             <View>
               <Text style={styles.carTitle}>{t("dashboard.myVehicle")}</Text>
               <Text style={styles.carSubtitle}>
-                {latestOdometer?.toLocaleString()} {t("common.kilometer")}
+                {t("dashboard.latestOdometer")}
+                {": "}
+                {numberFormat(statistics.distance.latestOdometer, {
+                  isRTL,
+                })}{" "}
               </Text>
             </View>
           </View>
@@ -83,16 +76,15 @@ export default function DashboardScreen() {
         <View style={styles.statsGrid}>
           <StatCard
             title={t("dashboard.totalSpent")}
-            value={`${totalSpent.toFixed(0)}`}
-            subtitle={t("dashboard.allTime")}
+            value={statistics.general.totalSpent}
+            help={t("common.priceSign")}
             icon={WalletIcon}
             color={Colors.primary}
           />
           <StatCard
             title={t("dashboard.totalDistance")}
-            value={`${totalDistanceKm.toFixed(0)} `}
-            subtitle={`${t("common.kilometer")}`}
-            valueWithSpan={false}
+            value={statistics.distance.totalDistanceKm}
+            help={t("common.kilometer")}
             icon={CarIcon}
             color={Colors.primary}
           />
@@ -101,36 +93,42 @@ export default function DashboardScreen() {
         <View style={styles.statsGrid}>
           <StatCard
             title={t("dashboard.fuelCosts")}
-            value={`${totalFuelCost.toFixed(0)}`}
-            subtitle={`${fuelRecordsLength} ${t("dashboard.fillUps")}`}
+            value={statistics.refueling.totalFuelCost}
+            help={t("common.priceSign")}
             icon={FuelIcon}
             color={Colors.fuel}
           />
           <StatCard
             title={t("dashboard.avgPerKm")}
-            value={`${averageLiterPerKm.toFixed(1)}`}
-            subtitle={`${t("common.liter")}`}
-            valueWithSpan={false}
-            icon={LeafIcon}
+            value={statistics.refueling.averageLiterPerKm}
+            help={t("common.liter")}
+            icon={GaugeIcon}
             color={Colors.success}
           />
         </View>
         <View style={styles.statsGrid}>
           <StatCard
             title={t("dashboard.serviceCosts")}
-            value={`${totalServiceCost.toFixed(0)}`}
-            subtitle={`${serviceRecordsLength} ${t("dashboard.servicesCount")}`}
+            value={statistics.services.totalServiceCost}
+            help={t("common.priceSign")}
             icon={WrenchIcon}
             color={Colors.service}
           />
           <StatCard
             title={t("dashboard.expenses")}
-            value={`${totalExpenses.toFixed(0)}`}
-            subtitle={`${expenseRecordsLength} ${t("dashboard.records")}`}
+            value={statistics.expenses.totalExpenses}
+            help={t("common.priceSign")}
             icon={BanknoteIcon}
             color={Colors.expense}
           />
         </View>
+
+        <Button
+          title={`${t("reports.title")}...`}
+          variant="plain"
+          color="blue"
+          onPress={() => router.push("/(tabs)/(home)/reports")}
+        />
 
         <View style={{ height: 32 }} />
       </ScrollView>
@@ -164,7 +162,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 14,
-    backgroundColor: Colors.primary + "15",
+    backgroundColor: Colors.primary + 15,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -181,7 +179,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    backgroundColor: Colors.danger + "15",
+    backgroundColor: Colors.danger + 15,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,

@@ -1,4 +1,4 @@
-import { TimerIcon } from "lucide-react-native";
+import { PlusIcon, TimerIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { EmptyState } from "@/components/EmptyState";
@@ -12,6 +12,7 @@ import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
 import { router } from "expo-router";
 import { Button } from "@/components/Button";
+import { FloatButton } from "@/components/FloatButton";
 
 export default function RemindersScreen() {
   const { t, isRTL } = useTranslation();
@@ -39,6 +40,13 @@ export default function RemindersScreen() {
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
+      <FloatButton
+        icon={PlusIcon}
+        text={t("reminders.createTitle")}
+        color="green"
+        placement={isRTL ? "left" : "right"}
+        onPress={() => router.push("/reminders/form")}
+      />
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.content}
