@@ -1,12 +1,10 @@
-import { router, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { Colors } from "@/constants";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
-import { IconButton } from "@/components/IconButton";
-import { PlusIcon } from "lucide-react-native";
 
 export default function ServicesLayout() {
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
   const fontFamily = useAppFontFamily();
 
   return (
@@ -25,26 +23,6 @@ export default function ServicesLayout() {
           title: t("menus.services"),
           headerLargeTitle: false,
           headerTitleAlign: "center",
-          headerLeft: () =>
-            isRTL ? (
-              <></>
-            ) : (
-              <IconButton
-                icon={PlusIcon}
-                variant="bordered"
-                onPress={() => router.push("/services/form")}
-              />
-            ),
-          headerRight: () =>
-            isRTL ? (
-              <IconButton
-                icon={PlusIcon}
-                variant="bordered"
-                onPress={() => router.push("/services/form")}
-              />
-            ) : (
-              <></>
-            ),
         }}
       />
 

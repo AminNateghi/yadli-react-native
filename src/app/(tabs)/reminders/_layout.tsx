@@ -1,12 +1,10 @@
-import { IconButton } from "@/components/IconButton";
 import { Colors } from "@/constants";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
-import { router, Stack } from "expo-router";
-import { PlusIcon } from "lucide-react-native";
+import { Stack } from "expo-router";
 
 export default function RemindersLayout() {
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
   const fontFamily = useAppFontFamily();
 
   return (
@@ -25,26 +23,6 @@ export default function RemindersLayout() {
           title: t("menus.reminders"),
           headerLargeTitle: true,
           headerTitleAlign: "center",
-          headerLeft: () =>
-            isRTL ? (
-              <></>
-            ) : (
-              <IconButton
-                icon={PlusIcon}
-                variant="bordered"
-                onPress={() => router.push("/reminders/form")}
-              />
-            ),
-          headerRight: () =>
-            isRTL ? (
-              <IconButton
-                icon={PlusIcon}
-                variant="bordered"
-                onPress={() => router.push("/reminders/form")}
-              />
-            ) : (
-              <></>
-            ),
         }}
       />
 

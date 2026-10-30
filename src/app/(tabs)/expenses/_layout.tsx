@@ -1,13 +1,10 @@
-import { IconButton } from "@/components/IconButton";
 import { Colors } from "@/constants";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
-import { Stack, useRouter } from "expo-router";
-import { PlusIcon } from "lucide-react-native";
+import { Stack } from "expo-router";
 
 export default function ExpensesLayout() {
-  const router = useRouter();
-  const { t, isRTL } = useTranslation();
+  const { t } = useTranslation();
   const fontFamily = useAppFontFamily();
 
   return (
@@ -27,26 +24,6 @@ export default function ExpensesLayout() {
           title: t("menus.expenses"),
           headerLargeTitle: true,
           headerTitleAlign: "center",
-          headerLeft: () =>
-            isRTL ? (
-              <></>
-            ) : (
-              <IconButton
-                icon={PlusIcon}
-                variant="bordered"
-                onPress={() => router.push("/expenses/form")}
-              />
-            ),
-          headerRight: () =>
-            isRTL ? (
-              <IconButton
-                icon={PlusIcon}
-                variant="bordered"
-                onPress={() => router.push("/expenses/form")}
-              />
-            ) : (
-              <></>
-            ),
         }}
       />
       <Stack.Screen
