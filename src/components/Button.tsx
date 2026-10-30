@@ -39,7 +39,7 @@ export function Button({
 
   const variantStyles = {
     solid: {
-      backgroundColor: baseColor + 70,
+      backgroundColor: baseColor,
       borderColor: baseColor,
       borderWidth: 1,
     },
