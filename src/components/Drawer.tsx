@@ -3,7 +3,7 @@ import { XIcon } from "lucide-react-native";
 import { useTranslation } from "@/languages/useTranslation";
 import { CheckUpdate } from "./CheckUpdate";
 import { Text } from "./Text";
-import { Colors, GlobalStyles } from "@/constants";
+import { Theme, GlobalStyles } from "@/constants";
 import { About } from "./About";
 import Language from "./Language";
 import { ResetAllData } from "./ResetAllData";
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     width: "82%",
     maxWidth: 340,
     height: "100%",
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
     paddingTop: 60,
     paddingHorizontal: 20,
     paddingBottom: 24,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   appName: {
     fontSize: 25,
     fontWeight: "700",
-    color: Colors.text,
+    color: Theme.text,
   },
   subtitle: {
     fontSize: 13,
@@ -98,18 +98,18 @@ const styles = StyleSheet.create({
   closeButton: {
     padding: 8,
     borderRadius: 10,
-    backgroundColor: Colors.border + 20,
+    backgroundColor: Theme.border + 20,
   },
   separator: {
     height: 1,
-    backgroundColor: Colors.border + 20,
+    backgroundColor: Theme.border + 20,
     marginBottom: 24,
   },
   footer: {
     marginTop: "auto",
     paddingTop: 20,
     borderTopWidth: 1,
-    borderTopColor: Colors.border + 20,
+    borderTopColor: Theme.border + 20,
     flexDirection: "row",
     justifyContent: "center",
   },

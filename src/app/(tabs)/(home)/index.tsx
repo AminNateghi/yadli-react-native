@@ -12,7 +12,7 @@ import {
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { StatCard } from "@/components/StatCard";
 import { Text } from "@/components/Text";
-import { Colors, GlobalStyles } from "@/constants";
+import { Theme, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useStatistics } from "@/repositories/statistics";
 import { useGetProfile } from "@/repositories/profile-repository";
@@ -44,7 +44,7 @@ export default function DashboardScreen() {
         <View style={styles.header}>
           <View style={styles.carInfo}>
             <View style={styles.carIconContainer}>
-              <CarIcon size={24} color={Colors.primary} />
+              <CarIcon size={24} color={Theme.primary} />
             </View>
             <View>
               <Text style={styles.carTitle}>{t("dashboard.myVehicle")}</Text>
@@ -64,9 +64,9 @@ export default function DashboardScreen() {
                   {t("reminders.overdue")}
                 </Text>
                 {isRTL ? (
-                  <ChevronLeftIcon size={14} color={Colors.danger} />
+                  <ChevronLeftIcon size={14} color={Theme.danger} />
                 ) : (
-                  <ChevronRightIcon size={14} color={Colors.danger} />
+                  <ChevronRightIcon size={14} color={Theme.danger} />
                 )}
               </View>
             </Pressable>
@@ -79,14 +79,14 @@ export default function DashboardScreen() {
             value={statistics.general.totalSpent}
             help={t("common.priceSign")}
             icon={WalletIcon}
-            color={Colors.primary}
+            color={Theme.primary}
           />
           <StatCard
             title={t("dashboard.totalDistance")}
             value={statistics.distance.totalDistanceKm}
             help={t("common.kilometer")}
             icon={CarIcon}
-            color={Colors.primary}
+            color={Theme.primary}
           />
         </View>
 
@@ -96,14 +96,14 @@ export default function DashboardScreen() {
             value={statistics.refueling.totalFuelCost}
             help={t("common.priceSign")}
             icon={FuelIcon}
-            color={Colors.fuel}
+            color={Theme.fuel}
           />
           <StatCard
             title={t("dashboard.avgPerKm")}
             value={statistics.refueling.averageLiterPerKm}
             help={t("common.liter")}
             icon={GaugeIcon}
-            color={Colors.success}
+            color={Theme.success}
           />
         </View>
         <View style={styles.statsGrid}>
@@ -112,14 +112,14 @@ export default function DashboardScreen() {
             value={statistics.services.totalServiceCost}
             help={t("common.priceSign")}
             icon={WrenchIcon}
-            color={Colors.service}
+            color={Theme.service}
           />
           <StatCard
             title={t("dashboard.expenses")}
             value={statistics.expenses.totalExpenses}
             help={t("common.priceSign")}
             icon={BanknoteIcon}
-            color={Colors.expense}
+            color={Theme.expense}
           />
         </View>
 
@@ -139,7 +139,7 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
   },
   container: {
     flex: 1,
@@ -162,24 +162,24 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 14,
-    backgroundColor: Colors.primary + 15,
+    backgroundColor: Theme.primary + 15,
     alignItems: "center",
     justifyContent: "center",
   },
   carTitle: {
     fontSize: 18,
     fontWeight: 700,
-    color: Colors.text,
+    color: Theme.text,
   },
   carSubtitle: {
     fontSize: 14,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
   nextService: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    backgroundColor: Colors.danger + 15,
+    backgroundColor: Theme.danger + 15,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   reminderText: {
     fontSize: 11,
     fontWeight: 600,
-    color: Colors.danger,
+    color: Theme.danger,
   },
   statsGrid: {
     flexDirection: "row",

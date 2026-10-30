@@ -1,4 +1,4 @@
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { StyleSheet, View, type ViewStyle } from "react-native";
 import type { PropsWithChildren } from "react";
 import { Text } from "./Text";
@@ -19,14 +19,14 @@ export function Card({ title, children, style }: CardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.surfaceAlt,
-    borderRadius: 10,
+    backgroundColor: Theme.surfaceAlt,
+    borderRadius: Theme.borderRadius,
     padding: 12,
     paddingBottom: 0,
     marginBottom: 10,
   },
   title: {
-    color: Colors.text,
+    color: Theme.text,
     fontSize: 12,
     paddingBottom: 5,
   },

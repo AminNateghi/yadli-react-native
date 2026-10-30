@@ -1,4 +1,4 @@
-import { Colors, ReportStyles } from "@/constants";
+import { Theme, ReportStyles } from "@/constants";
 import { BanknoteIcon, ListOrderedIcon } from "lucide-react-native";
 import { View } from "react-native";
 import { DoubleLabel } from "../DoubleLabel";
@@ -18,10 +18,10 @@ export default function ReportExpense() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <BanknoteIcon size={22} color={Colors.text} />
+            <BanknoteIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.totalExpenses")}
@@ -105,10 +105,10 @@ export default function ReportExpense() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <ListOrderedIcon size={22} color={Colors.text} />
+            <ListOrderedIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.expenseLength")}
@@ -187,10 +187,10 @@ export default function ReportExpense() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <BanknoteIcon size={22} color={Colors.text} />
+            <BanknoteIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.averageCostPerMonth")}

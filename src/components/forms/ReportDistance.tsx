@@ -1,4 +1,4 @@
-import { Colors, ReportStyles } from "@/constants";
+import { Theme, ReportStyles } from "@/constants";
 import { BinaryIcon, GaugeCircleIcon } from "lucide-react-native";
 import { View } from "react-native";
 import { DoubleLabel } from "../DoubleLabel";
@@ -18,10 +18,10 @@ export default function ReportDistance() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <BinaryIcon size={22} color={Colors.text} />
+            <BinaryIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.totalDistanceKm")}
@@ -41,10 +41,10 @@ export default function ReportDistance() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <GaugeCircleIcon size={22} color={Colors.text} />
+            <GaugeCircleIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.latestOdometer")}

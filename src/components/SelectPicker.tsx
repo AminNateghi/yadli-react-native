@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { CheckIcon, ChevronDownIcon } from "lucide-react-native";
 import { useState } from "react";
@@ -48,7 +48,7 @@ export function SelectPicker({
         >
           {selectedLabel || placeholder || t("common.select")}
         </Text>
-        <ChevronDownIcon size={20} color={Colors.textSecondary} />
+        <ChevronDownIcon size={20} color={Theme.textSecondary} />
       </Pressable>
       {error && <Text style={styles.error}>{error}</Text>}
 
@@ -80,7 +80,7 @@ export function SelectPicker({
                     {option.label}
                   </Text>
                   {option.value === value && (
-                    <CheckIcon size={20} color={Colors.primary} />
+                    <CheckIcon size={20} color={Theme.primary} />
                   )}
                 </Pressable>
               ))}
@@ -99,29 +99,29 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: 500,
-    color: Colors.text,
+    color: Theme.text,
     marginBottom: 8,
   },
   selector: {
-    height: 50,
+    height: Theme.height,
     borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 12,
+    borderColor: Theme.border,
+    borderRadius: Theme.borderRadius,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
   },
   selectorPressed: {
-    borderColor: Colors.primary,
+    borderColor: Theme.primary,
   },
   selectorText: {
-    fontSize: 16,
-    color: Colors.text,
+    fontSize: Theme.fontSize,
+    color: Theme.text,
   },
   placeholder: {
-    color: Colors.textMuted,
+    color: Theme.textMuted,
   },
   overlay: {
     flex: 1,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   modal: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
     borderRadius: 20,
     width: "100%",
     maxWidth: 400,
@@ -141,10 +141,10 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: 600,
-    color: Colors.text,
+    color: Theme.text,
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
+    borderBottomColor: Theme.borderLight,
   },
   optionsList: {
     maxHeight: 300,
@@ -157,42 +157,42 @@ const styles = StyleSheet.create({
     paddingRight: 24,
     paddingLeft: 24,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
+    borderBottomColor: Theme.borderLight,
   },
   optionPressed: {
-    backgroundColor: Colors.surfaceAlt,
+    backgroundColor: Theme.surfaceAlt,
   },
   optionSelected: {
-    backgroundColor: Colors.primary + "10",
+    backgroundColor: Theme.primary + "10",
   },
   optionIsGroup: {
     flexDirection: "row",
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
-    color: Colors.secondary,
+    color: Theme.secondary,
     paddingRight: 15,
     paddingLeft: 15,
     paddingTop: 5,
     paddingBottom: 5,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
-    backgroundColor: Colors.secondary + 20,
+    borderBottomColor: Theme.borderLight,
+    backgroundColor: Theme.secondary + 20,
   },
   optionText: {
-    fontSize: 16,
-    color: Colors.text,
+    fontSize: Theme.fontSize,
+    color: Theme.text,
   },
   optionTextSelected: {
-    color: Colors.primary,
+    color: Theme.primary,
     fontWeight: 500,
   },
   error: {
     fontSize: 12,
-    color: Colors.danger,
+    color: Theme.danger,
     marginTop: 4,
   },
   borderError: {
-    borderColor: Colors.danger,
+    borderColor: Theme.danger,
   },
 });

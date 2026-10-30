@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../Input";
 import { DatePicker } from "../DatePicker";
 import type { ReminderTriggerType } from "@/types/interfaces";
+import { Theme } from "@/constants";
 
 const defaultValues = {
   date: undefined,
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 25,
-    fontSize: 16,
+    fontSize: Theme.fontSize,
     textAlign: "center",
   },
   buttonContainer: {

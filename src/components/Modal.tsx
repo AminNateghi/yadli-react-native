@@ -5,7 +5,7 @@ import {
   View,
 } from "react-native";
 import { Text } from "./Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { XIcon } from "lucide-react-native";
 import { type PropsWithChildren, useEffect, useState } from "react";
 
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 380,
     borderRadius: 20,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
     elevation: 12,
     paddingBottom: 20,
   },
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   dialogTitle: {
     fontSize: 20,
     fontWeight: "700",
-    color: Colors.text,
+    color: Theme.text,
     flex: 1,
     marginRight: 12,
   },

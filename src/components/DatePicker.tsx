@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Modal, Pressable, StyleSheet, View } from "react-native";
 import DateTimePicker, { useDefaultStyles } from "react-native-ui-datepicker";
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { dateFormat } from "@/utils/date-format";
 import { IconButton } from "./IconButton";
@@ -58,7 +58,7 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
         onPress={() => setVisible(true)}
       >
         <Text style={styles.selectorText}>{displayValue}</Text>
-        <CalendarIcon size={20} color={Colors.textSecondary} />
+        <CalendarIcon size={20} color={Theme.textSecondary} />
       </Pressable>
       {error && <Text style={styles.error}>{error}</Text>}
 
@@ -137,29 +137,29 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: 500,
-    color: Colors.text,
+    color: Theme.text,
     marginBottom: 8,
   },
   selector: {
-    height: 50,
+    height: Theme.height,
     borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 12,
+    borderColor: Theme.border,
+    borderRadius: Theme.borderRadius,
     paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
   },
   selectorPressed: {
-    borderColor: Colors.primary,
+    borderColor: Theme.primary,
   },
   selectorText: {
-    fontSize: 16,
-    color: Colors.text,
+    fontSize: Theme.fontSize,
+    color: Theme.text,
   },
   placeholder: {
-    color: Colors.textMuted,
+    color: Theme.textMuted,
   },
   overlay: {
     flex: 1,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   modal: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
     borderRadius: 20,
     width: "100%",
     maxWidth: 400,
@@ -184,10 +184,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
+    borderBottomColor: Theme.borderLight,
   },
   modalTitle: {
-    color: Colors.text,
+    color: Theme.text,
   },
   button: {
     height: 45,
@@ -206,48 +206,48 @@ const styles = StyleSheet.create({
   },
   error: {
     fontSize: 12,
-    color: Colors.danger,
+    color: Theme.danger,
     marginTop: 4,
   },
   borderError: {
-    borderColor: Colors.danger,
+    borderColor: Theme.danger,
   },
 
   calendarFont: { fontFamily: "VazirRegular" },
-  calendarToday: { borderColor: Colors.primaryDark, borderWidth: 1 },
-  calendarSelected: { backgroundColor: Colors.primaryDark, borderRadius: 12 },
+  calendarToday: { borderColor: Theme.primaryDark, borderWidth: 1 },
+  calendarSelected: { backgroundColor: Theme.primaryDark, borderRadius: 12 },
   calendarSelectedItem: {
-    backgroundColor: Colors.primaryDark,
-    color: Colors.background,
+    backgroundColor: Theme.primaryDark,
+    color: Theme.background,
   },
   calendarMonthSelectorLabel: {
     fontFamily: "VazirRegular",
     fontSize: 18,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Theme.border,
     paddingTop: 2,
     paddingBottom: 2,
     paddingLeft: 10,
     paddingRight: 10,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
   },
   calendarYearSelectorLabel: {
     fontFamily: "VazirRegular",
     fontSize: 18,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Theme.border,
     paddingTop: 2,
     paddingBottom: 2,
     paddingLeft: 10,
     paddingRight: 10,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
   },
   calendarWeekdayLabel: {
     fontFamily: "VazirRegular",
   },
   calendarWeekdays: {
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border + 30,
+    borderBottomColor: Theme.border + 30,
   },
   calendarMonthLabel: {
     fontFamily: "VazirRegular",

@@ -1,4 +1,4 @@
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import type { LucideIcon } from "lucide-react-native";
 import { Pressable, StyleSheet, type ViewStyle } from "react-native";
 import { Text } from "./Text";
@@ -21,8 +21,8 @@ export function IconButton({
   style,
 }: ButtonProps) {
   const getBackgroundColor = () => {
-    if (disabled) return Colors.border;
-    return Colors.background + 10;
+    if (disabled) return Theme.border;
+    return Theme.background + 10;
   };
 
   const getVariant = () => {
@@ -38,12 +38,12 @@ export function IconButton({
   const styles = StyleSheet.create({
     button: {
       height: 32,
-      borderRadius: 12,
+      borderRadius: Theme.borderRadius,
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
       gap: 4,
-      fontSize: 16,
+      fontSize: Theme.fontSize,
     },
     pressed: {
       opacity: 0.8,
@@ -52,7 +52,7 @@ export function IconButton({
       backgroundColor: getBackgroundColor(),
     },
     bordered: {
-      borderColor: Colors.border,
+      borderColor: Theme.border,
       borderWidth: 1,
       paddingTop: 5,
       paddingBottom: 5,

@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import type { LucideIcon } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 import { ValueWithHelp } from "./ValueWithHelp";
@@ -34,7 +34,7 @@ export function StatCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
     borderRadius: 16,
     padding: 16,
     flex: 1,
@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 40,
     height: 40,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 12,
   },
   title: {
     fontSize: 13,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
     marginBottom: 4,
   },
 });

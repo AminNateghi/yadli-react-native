@@ -7,7 +7,7 @@ import { RocketIcon } from "lucide-react-native";
 import Constants from "expo-constants";
 import MenuItem from "./MenuItem";
 import Modal from "./Modal";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 
 export function CheckUpdate() {
   const { t } = useTranslation();
@@ -94,7 +94,7 @@ export function CheckUpdate() {
   return (
     <>
       <MenuItem
-        icon={<RocketIcon size={21} color={Colors.warning} />}
+        icon={<RocketIcon size={21} color={Theme.warning} />}
         title={t("drawer.itemUpdate")}
         description={t("drawer.subitemUpdate")}
         onPress={handleShow}
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 25,
-    fontSize: 16,
+    fontSize: Theme.fontSize,
     textAlign: "center",
   },
   buttonContainer: {

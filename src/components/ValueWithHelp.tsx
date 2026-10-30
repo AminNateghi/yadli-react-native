@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { numberFormat } from "@/utils/number-format";
 import { StyleSheet, type TextStyle, View } from "react-native";
@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 20,
     fontWeight: 700,
-    color: Colors.text,
+    color: Theme.text,
   },
   span: {
     fontSize: 12,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
 });

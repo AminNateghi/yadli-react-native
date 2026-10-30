@@ -1,4 +1,4 @@
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { BanknoteIcon, ListOrderedIcon } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 import { DoubleLabel } from "../DoubleLabel";
@@ -16,12 +16,9 @@ export default function ReportServices() {
       <View style={styles.card}>
         <View style={styles.rowTitle}>
           <View
-            style={[
-              styles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
-            ]}
+            style={[styles.iconContainer, { backgroundColor: Theme.text + 15 }]}
           >
-            <BanknoteIcon size={22} color={Colors.text} />
+            <BanknoteIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.totalServiceCost")}
@@ -103,12 +100,9 @@ export default function ReportServices() {
       <View style={styles.card}>
         <View style={styles.rowTitle}>
           <View
-            style={[
-              styles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
-            ]}
+            style={[styles.iconContainer, { backgroundColor: Theme.text + 15 }]}
           >
-            <ListOrderedIcon size={22} color={Colors.text} />
+            <ListOrderedIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.serviceLength")}
@@ -185,12 +179,9 @@ export default function ReportServices() {
       <View style={styles.card}>
         <View style={styles.rowTitle}>
           <View
-            style={[
-              styles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
-            ]}
+            style={[styles.iconContainer, { backgroundColor: Theme.text + 15 }]}
           >
-            <BanknoteIcon size={22} color={Colors.text} />
+            <BanknoteIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.averageCostPerMonth")}
@@ -278,12 +269,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     height: 1,
-    backgroundColor: Colors.borderLight,
+    backgroundColor: Theme.borderLight,
   },
   iconContainer: {
     width: 44,
     height: 44,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 12,
@@ -305,7 +296,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   card: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
     borderRadius: 16,
     padding: 16,
     flex: 1,

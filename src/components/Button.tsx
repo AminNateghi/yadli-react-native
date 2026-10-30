@@ -1,4 +1,5 @@
 import { Text } from "@/components/Text";
+import { Palette, Theme } from "@/constants";
 import {
   ActivityIndicator,
   Pressable,
@@ -16,14 +17,6 @@ interface ButtonProps {
   style?: ViewStyle;
 }
 
-const PALETTE = {
-  gray: "#1f1f21",
-  blue: "#007AFF",
-  green: "#16a34a",
-  orange: "#ea580c",
-  red: "#dc2626",
-};
-
 export function Button({
   title,
   onPress,
@@ -33,7 +26,7 @@ export function Button({
   disabled,
   style,
 }: ButtonProps) {
-  const baseColor = PALETTE[color];
+  const baseColor = Palette[color];
 
   const foregroundColor = variant === "solid" ? "#ffffff" : baseColor;
 
@@ -83,8 +76,8 @@ export function Button({
 
 const styles = StyleSheet.create({
   button: {
-    height: 50,
-    borderRadius: 12,
+    height: Theme.height,
+    borderRadius: Theme.borderRadius,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
@@ -96,7 +89,7 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   text: {
-    fontSize: 16,
+    fontSize: Theme.fontSize,
     fontWeight: "600",
   },
 });

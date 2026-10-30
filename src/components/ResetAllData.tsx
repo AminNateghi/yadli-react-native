@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "./Button";
 import { useResetAllData } from "@/repositories/profile-repository";
@@ -46,7 +46,7 @@ export function ResetAllData() {
   return (
     <>
       <MenuItem
-        icon={<TrashIcon size={21} color={Colors.danger} />}
+        icon={<TrashIcon size={21} color={Theme.danger} />}
         title={t("drawer.itemResetAllData")}
         description={t("drawer.subitemResetAllData")}
         onPress={() => setModalVisible(true)}

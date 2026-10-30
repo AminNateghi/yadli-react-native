@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -52,9 +52,9 @@ export function RecordCard({
       <View style={styles.rightContent}>
         <ValueWithHelp value={amount} help={help} style={styles.amount} />
         {rtl ? (
-          <ChevronLeftIcon size={18} color={Colors.textMuted} />
+          <ChevronLeftIcon size={18} color={Theme.textMuted} />
         ) : (
-          <ChevronRightIcon size={18} color={Colors.textMuted} />
+          <ChevronRightIcon size={18} color={Theme.textMuted} />
         )}
       </View>
     </Pressable>
@@ -63,7 +63,7 @@ export function RecordCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
     borderRadius: 14,
     padding: 14,
     flexDirection: "row",
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 42,
     height: 42,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -88,12 +88,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 15,
     fontWeight: 600,
-    color: Colors.text,
+    color: Theme.text,
     marginBottom: 2,
   },
   date: {
     fontSize: 13,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
   rightContent: {
     flexDirection: "row",
@@ -103,6 +103,6 @@ const styles = StyleSheet.create({
   amount: {
     fontSize: 15,
     fontWeight: 600,
-    color: Colors.text,
+    color: Theme.text,
   },
 });

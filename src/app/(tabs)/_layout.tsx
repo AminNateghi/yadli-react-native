@@ -8,7 +8,7 @@ import {
 } from "lucide-react-native";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 
 export default function TabLayout() {
   const { t, isRTL } = useTranslation();
@@ -24,12 +24,12 @@ export default function TabLayout() {
         headerShown: false,
         animation: "fade",
 
-        tabBarActiveTintColor: Colors.primary,
-        tabBarInactiveTintColor: Colors.textMuted,
+        tabBarActiveTintColor: Theme.primary,
+        tabBarInactiveTintColor: Theme.textMuted,
         tabBarStyle: {
           display: isFormScreen || isOnboardingScreen ? "none" : "flex", //  Hide dynamically tabs bar in forms/onboarding screen
-          backgroundColor: Colors.surface,
-          borderTopColor: Colors.borderLight,
+          backgroundColor: Theme.surface,
+          borderTopColor: Theme.borderLight,
           paddingTop: 0,
           marginBottom: 0,
           height: 60,

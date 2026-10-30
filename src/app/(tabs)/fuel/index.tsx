@@ -4,7 +4,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { ValueWithHelp } from "@/components/ValueWithHelp";
 import { RecordCard } from "@/components/RecordCard";
 import { Text } from "@/components/Text";
-import { Colors, GlobalStyles } from "@/constants";
+import { Theme, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useStatistics } from "@/repositories/statistics";
@@ -36,7 +36,7 @@ export default function FuelScreen() {
         {statistics.refueling.averageLiterPerKm > 0 && (
           <View style={styles.disPerLiterCard}>
             <View style={styles.disPerLiterIconContainer}>
-              <GaugeIcon size={20} color={Colors.success} />
+              <GaugeIcon size={20} color={Theme.success} />
             </View>
             <View>
               <Text style={styles.disPerLiterValue}>
@@ -90,7 +90,7 @@ export default function FuelScreen() {
                 help={t("common.priceSign")}
                 subtitle={`${numberFormat(fuel.odometer, { isRTL })} ${t("common.odometer")}`}
                 icon={FuelIcon}
-                color={Colors.fuel}
+                color={Theme.fuel}
                 rtl={isRTL}
                 onPress={(id) => {
                   router.push({
@@ -111,7 +111,7 @@ export default function FuelScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
   },
   container: {
     flex: 1,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   disPerLiterCard: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Colors.success + 15,
+    backgroundColor: Theme.success + 15,
     borderRadius: 14,
     padding: 16,
     gap: 10,
@@ -131,19 +131,19 @@ const styles = StyleSheet.create({
   disPerLiterIconContainer: {
     width: 44,
     height: 44,
-    borderRadius: 12,
-    backgroundColor: Colors.success + 25,
+    borderRadius: Theme.borderRadius,
+    backgroundColor: Theme.success + 25,
     alignItems: "center",
     justifyContent: "center",
   },
   disPerLiterValue: {
     fontSize: 20,
     fontWeight: 700,
-    color: Colors.success,
+    color: Theme.success,
   },
   disPerLiterLabel: {
     fontSize: 13,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
     marginTop: 2,
   },
 });

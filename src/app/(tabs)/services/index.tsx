@@ -1,6 +1,6 @@
 import { PlusIcon, WrenchIcon } from "lucide-react-native";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Colors, GlobalStyles } from "@/constants";
+import { Theme, GlobalStyles } from "@/constants";
 import { useServices } from "@/repositories/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
 import { getServiceTypeTitle } from "@/types/interfaces";
@@ -72,7 +72,7 @@ export default function ServicesScreen() {
                 help={t("common.priceSign")}
                 subtitle={`${numberFormat(service.odometer, { isRTL })} ${t("common.odometer")}`}
                 icon={WrenchIcon}
-                color={Colors.service}
+                color={Theme.service}
                 rtl={isRTL}
                 onPress={(id) => {
                   router.push({
@@ -93,7 +93,7 @@ export default function ServicesScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
   },
   container: {
     flex: 1,

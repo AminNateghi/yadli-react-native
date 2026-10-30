@@ -1,5 +1,5 @@
 import rnToast from "react-native-simple-toast";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 
 type Props = {
   type?: "info" | "warning" | "error" | "success" | "none";
@@ -14,29 +14,29 @@ export function Toast({ text, type = "none", duration = 4 }: Props) {
 
   if (type === "error") {
     rnToast.show(text, duration, {
-      backgroundColor: Colors.danger,
-      textColor: Colors.border,
+      backgroundColor: Theme.danger,
+      textColor: Theme.border,
     });
   }
 
   if (type === "info") {
     rnToast.show(text, duration, {
-      backgroundColor: Colors.primary,
-      textColor: Colors.border,
+      backgroundColor: Theme.primary,
+      textColor: Theme.border,
     });
   }
 
   if (type === "success") {
     rnToast.show(text, duration, {
-      backgroundColor: Colors.success,
-      textColor: Colors.border,
+      backgroundColor: Theme.success,
+      textColor: Theme.border,
     });
   }
 
   if (type === "warning") {
     rnToast.show(text, duration, {
-      backgroundColor: Colors.warning,
-      textColor: Colors.border,
+      backgroundColor: Theme.warning,
+      textColor: Theme.border,
     });
   }
 }

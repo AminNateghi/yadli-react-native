@@ -8,7 +8,7 @@ import {
 } from "@/repositories/profile-repository";
 import { useTranslation } from "@/languages/useTranslation";
 import { Text } from "./Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import MenuItem from "./MenuItem";
 import Modal from "./Modal";
 
@@ -38,7 +38,7 @@ export default function Language() {
   return (
     <>
       <MenuItem
-        icon={<Languages size={21} color={Colors.primary} />}
+        icon={<Languages size={21} color={Theme.primary} />}
         title={t("drawer.itemLanguage")}
         description={t("drawer.subitemLanguage")}
         onPress={() => setModalVisible(true)}
@@ -64,7 +64,7 @@ export default function Language() {
           >
             <Text>{language.label}</Text>
             {currentLanguage === language.value && (
-              <CheckIcon size={20} color={Colors.primary} />
+              <CheckIcon size={20} color={Theme.primary} />
             )}
           </Pressable>
         ))}
@@ -80,9 +80,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.borderLight,
+    borderBottomColor: Theme.borderLight,
   },
   optionSelected: {
-    backgroundColor: Colors.primary + 10,
+    backgroundColor: Theme.primary + 10,
   },
 });

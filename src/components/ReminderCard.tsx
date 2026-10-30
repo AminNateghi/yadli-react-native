@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import {
   type TranslationKey,
   useTranslation,
@@ -92,8 +92,8 @@ export function ReminderCard({ reminder, onPress }: Props) {
           </Text>
         </View>
         {primaryProgress?.overdue && (
-          <View style={[styles.badge, { backgroundColor: Colors.danger + 15 }]}>
-            <Text style={[styles.badgeText, { color: Colors.danger }]}>
+          <View style={[styles.badge, { backgroundColor: Theme.danger + 15 }]}>
+            <Text style={[styles.badgeText, { color: Theme.danger }]}>
               {t("reminders.overdue")}
             </Text>
           </View>
@@ -103,7 +103,7 @@ export function ReminderCard({ reminder, onPress }: Props) {
       {reminder.dateProgress && (
         <View style={styles.progressSection}>
           <View style={styles.progressHeader}>
-            <CalendarIcon size={14} color={Colors.textSecondary} />
+            <CalendarIcon size={14} color={Theme.textSecondary} />
             <Text style={styles.progressLabel}>
               {t("reminders.dueOn")}{" "}
               {dateFormat(isRTL, reminder.dateProgress.dueDate.toISOString())}
@@ -138,7 +138,7 @@ export function ReminderCard({ reminder, onPress }: Props) {
           ]}
         >
           <View style={styles.progressHeader}>
-            <GaugeIcon size={14} color={Colors.textSecondary} />
+            <GaugeIcon size={14} color={Theme.textSecondary} />
             <Text style={styles.progressLabel}>
               {t("reminders.dueAt")}{" "}
               {reminder.odometerProgress.dueOdometer.toLocaleString()}{" "}
@@ -169,7 +169,7 @@ export function ReminderCard({ reminder, onPress }: Props) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
     borderRadius: 16,
     padding: 16,
     marginBottom: 12,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 42,
     height: 42,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -197,19 +197,19 @@ const styles = StyleSheet.create({
     marginStart: 12,
   },
   title: {
-    fontSize: 16,
+    fontSize: Theme.fontSize,
     fontWeight: 600,
-    color: Colors.text,
+    color: Theme.text,
     marginBottom: 2,
   },
   subtitle: {
     fontSize: 13,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
   badge: {
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
   },
   badgeText: {
     fontSize: 11,
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   progressLabel: {
     flex: 1,
     fontSize: 13,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
     fontWeight: 500,
   },
   progressValue: {
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   progressTrack: {
     height: 4,
-    backgroundColor: Colors.surfaceAlt,
+    backgroundColor: Theme.surfaceAlt,
     borderRadius: 4,
     overflow: "hidden",
   },

@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react-native";
 import { useTranslation } from "@/languages/useTranslation";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { Text } from "./Text";
 
 export default function MenuItem({
@@ -30,9 +30,9 @@ export default function MenuItem({
       </View>
 
       {isRTL ? (
-        <ChevronLeftIcon size={19} color={Colors.border} />
+        <ChevronLeftIcon size={19} color={Theme.border} />
       ) : (
-        <ChevronRightIcon size={19} color={Colors.border} />
+        <ChevronRightIcon size={19} color={Theme.border} />
       )}
     </Pressable>
   );
@@ -44,16 +44,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 15,
     gap: 12,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
   },
   pressed: {
-    backgroundColor: Colors.border + 20,
+    backgroundColor: Theme.border + 20,
   },
   iconContainer: {
     width: 42,
     height: 42,
-    borderRadius: 12,
-    backgroundColor: Colors.border + 20,
+    borderRadius: Theme.borderRadius,
+    backgroundColor: Theme.border + 20,
     alignItems: "center",
     justifyContent: "center",
   },

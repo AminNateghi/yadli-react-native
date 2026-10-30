@@ -1,4 +1,4 @@
-import { Colors, ReportStyles } from "@/constants";
+import { Theme, ReportStyles } from "@/constants";
 import {
   BanknoteIcon,
   DropletIcon,
@@ -23,10 +23,10 @@ export default function ReportFuel() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <BanknoteIcon size={22} color={Colors.text} />
+            <BanknoteIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.totalFuelCost")}
@@ -105,10 +105,10 @@ export default function ReportFuel() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <ListOrderedIcon size={22} color={Colors.text} />
+            <ListOrderedIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.fillUps")}
@@ -186,10 +186,10 @@ export default function ReportFuel() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <DropletIcon size={22} color={Colors.text} />
+            <DropletIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("reports.gas")}
@@ -284,10 +284,10 @@ export default function ReportFuel() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <GaugeIcon size={22} color={Colors.text} />
+            <GaugeIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("dashboard.avgPerKm")}

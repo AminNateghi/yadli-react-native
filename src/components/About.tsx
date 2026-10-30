@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Image, Linking, Pressable, StyleSheet, View } from "react-native";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "./Button";
 import { Text } from "./Text";
@@ -34,7 +34,7 @@ export function About() {
   return (
     <>
       <MenuItem
-        icon={<BoxIcon size={21} color={Colors.success} />}
+        icon={<BoxIcon size={21} color={Theme.success} />}
         title={t("drawer.itemAbout")}
         description={t("drawer.subitemAbout")}
         onPress={handleShow}
@@ -59,7 +59,7 @@ export function About() {
             <Pressable onPress={handleMyWebSite}>
               <Text style={styles.link}>
                 {t("about.developerName")}
-                <ShareIcon color={Colors.primary} size={14} />
+                <ShareIcon color={Theme.primary} size={14} />
               </Text>
             </Pressable>
           </View>
@@ -68,7 +68,7 @@ export function About() {
             <Pressable onPress={handleSourceCode}>
               <Text style={styles.link}>
                 {t("about.github")}
-                <ShareIcon color={Colors.primary} size={14} />
+                <ShareIcon color={Theme.primary} size={14} />
               </Text>
             </Pressable>
           </View>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   link: {
-    color: Colors.primary,
+    color: Theme.primary,
   },
   modalView: {
     padding: 20,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   modalText: {
     marginTop: 25,
     marginBottom: 25,
-    fontSize: 16,
+    fontSize: Theme.fontSize,
     textAlign: "center",
   },
   buttonContainer: {

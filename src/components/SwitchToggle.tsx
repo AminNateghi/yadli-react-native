@@ -1,5 +1,5 @@
 import { Text } from "@/components/Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { StyleSheet, Switch, View } from "react-native";
 
 interface SwitchToggleProps {
@@ -24,9 +24,9 @@ export function SwitchToggle({
       <Switch
         value={value}
         onValueChange={onValueChange}
-        trackColor={{ false: Colors.border, true: Colors.primary + "80" }}
-        thumbColor={value ? Colors.primary : Colors.surface}
-        ios_backgroundColor={Colors.border}
+        trackColor={{ false: Theme.border, true: Theme.primary + "80" }}
+        thumbColor={value ? Theme.primary : Theme.surface}
+        ios_backgroundColor={Theme.border}
       />
     </View>
   );
@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: 500,
-    color: Colors.text,
+    color: Theme.text,
   },
   description: {
     fontSize: 12,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
     marginTop: 2,
   },
 });

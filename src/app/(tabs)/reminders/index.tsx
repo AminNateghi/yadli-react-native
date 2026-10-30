@@ -2,7 +2,7 @@ import { PlusIcon, TimerIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { EmptyState } from "@/components/EmptyState";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useReminders } from "@/repositories/reminder-repository";
 import { ReminderCard } from "@/components/ReminderCard";
@@ -90,7 +90,7 @@ export default function RemindersScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
   },
   container: {
     flex: 1,

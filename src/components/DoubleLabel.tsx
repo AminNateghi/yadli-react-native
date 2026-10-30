@@ -1,4 +1,4 @@
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { StyleSheet, View } from "react-native";
 import { Text } from "./Text";
 
@@ -59,12 +59,12 @@ const styles = StyleSheet.create({
   bottomLabel: {
     fontSize: 12,
     fontWeight: 300,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
   topLabelLarge: {
     fontSize: 13,
     fontWeight: 300,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
   bottomLabelLarge: {
     fontSize: 22,
@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
   spanLabel: {
     fontSize: 11,
     fontWeight: 300,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
 });

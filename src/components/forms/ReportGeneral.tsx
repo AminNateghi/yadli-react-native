@@ -1,4 +1,4 @@
-import { Colors, ReportStyles } from "@/constants";
+import { Theme, ReportStyles } from "@/constants";
 import { WalletIcon } from "lucide-react-native";
 import { View } from "react-native";
 import { DoubleLabel } from "../DoubleLabel";
@@ -18,10 +18,10 @@ export default function ReportGeneral() {
           <View
             style={[
               ReportStyles.iconContainer,
-              { backgroundColor: Colors.text + 15 },
+              { backgroundColor: Theme.text + 15 },
             ]}
           >
-            <WalletIcon size={22} color={Colors.text} />
+            <WalletIcon size={22} color={Theme.text} />
           </View>
           <DoubleLabel
             topLabel={t("dashboard.totalSpent")}

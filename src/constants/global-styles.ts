@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "./colors";
+import { Theme } from "./theme";
 
 export const GlobalStyles = StyleSheet.create({
   rtl: {
@@ -22,19 +22,19 @@ export const GlobalStyles = StyleSheet.create({
 
   // summery card
   summaryCard: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
     borderRadius: 16,
     padding: 20,
     marginBottom: 20,
   },
   summaryTitle: {
     fontSize: 14,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
   summaryValue: {
     fontSize: 28,
     fontWeight: "700",
-    color: Colors.text,
+    color: Theme.text,
     marginTop: 4,
   },
 });
@@ -42,7 +42,7 @@ export const GlobalStyles = StyleSheet.create({
 export const ReportStyles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
     paddingLeft: 10,
     paddingRight: 10,
   },
@@ -58,12 +58,12 @@ export const ReportStyles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
     height: 1,
-    backgroundColor: Colors.borderLight,
+    backgroundColor: Theme.borderLight,
   },
   iconContainer: {
     width: 44,
     height: 44,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 12,
@@ -85,7 +85,7 @@ export const ReportStyles = StyleSheet.create({
     gap: 10,
   },
   card: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Theme.surface,
     borderRadius: 16,
     padding: 16,
     flex: 1,

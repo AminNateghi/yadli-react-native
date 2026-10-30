@@ -1,4 +1,4 @@
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import {
   View,
   TouchableOpacity,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    height: 50,
+    height: Theme.height,
     marginBottom: 16,
   },
   containerSmall: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: 500,
-    color: Colors.text,
+    color: Theme.text,
     marginBottom: 8,
   },
   button: {
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: Colors.border,
+    borderColor: Theme.border,
     backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
@@ -146,16 +146,16 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
   },
   buttonActive: {
-    backgroundColor: Colors.primary + 35,
-    borderColor: Colors.primary + 35,
+    backgroundColor: Theme.primary + 35,
+    borderColor: Theme.primary + 35,
   },
   text: {
-    fontSize: 16,
+    fontSize: Theme.fontSize,
   },
   textSmall: {
     fontSize: 14,
   },
   textActive: {
-    color: Colors.primary,
+    color: Theme.primary,
   },
 });

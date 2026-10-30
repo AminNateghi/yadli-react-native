@@ -9,7 +9,7 @@ import {
 import { router } from "expo-router";
 import { useCompleteOnboarding } from "@/repositories/profile-repository";
 import { Button } from "@/components/Button";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import {
   FuelIcon,
   LayoutDashboardIcon,
@@ -69,7 +69,7 @@ export default function OnboardingScreen() {
       id: "1",
       title: t("onboarding.slide1Title"),
       description: t("onboarding.slide1Description"),
-      image: <FuelIcon width={60} height={60} color={Colors.primary} />,
+      image: <FuelIcon width={60} height={60} color={Theme.primary} />,
     },
     {
       id: "2",
@@ -77,20 +77,20 @@ export default function OnboardingScreen() {
       description: t("onboarding.slide2Description"),
 
       image: (
-        <LayoutDashboardIcon width={60} height={60} color={Colors.primary} />
+        <LayoutDashboardIcon width={60} height={60} color={Theme.primary} />
       ),
     },
     {
       id: "3",
       title: t("onboarding.slide3Title"),
       description: t("onboarding.slide3Description"),
-      image: <WrenchIcon width={60} height={60} color={Colors.primary} />,
+      image: <WrenchIcon width={60} height={60} color={Theme.primary} />,
     },
     {
       id: "4",
       title: t("onboarding.slide4Title"),
       description: t("onboarding.slide4Description"),
-      image: <TimerIcon width={60} height={60} color={Colors.primary} />,
+      image: <TimerIcon width={60} height={60} color={Theme.primary} />,
     },
   ];
 
@@ -143,7 +143,7 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
   },
   slide: {
     width,
@@ -157,19 +157,19 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.primary + 30,
+    backgroundColor: Theme.primary + 30,
     marginBottom: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: Colors.text,
+    color: Theme.text,
     marginBottom: 15,
     textAlign: "center",
   },
   description: {
-    fontSize: 16,
-    color: Colors.textSecondary,
+    fontSize: Theme.fontSize,
+    color: Theme.textSecondary,
     textAlign: "center",
     lineHeight: 24,
     paddingHorizontal: 20,
@@ -187,11 +187,11 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: Colors.border,
+    backgroundColor: Theme.border,
     marginHorizontal: 5,
   },
   activeDot: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Theme.primary,
     width: 30,
   },
   buttonContainer: {

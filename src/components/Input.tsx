@@ -1,6 +1,6 @@
 import { StyleSheet, type TextInputProps, View } from "react-native";
 import { Text, TextInput } from "@/components/Text";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 
 interface InputProps extends TextInputProps {
   label: string;
@@ -14,7 +14,7 @@ export function Input({ label, error, help, style, ...props }: InputProps) {
       <Text style={styles.label}>{label}</Text>
       <TextInput
         style={[styles.input, error && styles.inputError, style]}
-        placeholderTextColor={Colors.textMuted}
+        placeholderTextColor={Theme.textMuted}
         {...props}
       />
       {help && <Text style={styles.help}>{help}</Text>}
@@ -30,30 +30,30 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: 500,
-    color: Colors.text,
+    color: Theme.text,
     marginBottom: 8,
   },
   input: {
-    height: 50,
+    height: Theme.height,
     borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 12,
+    borderColor: Theme.border,
+    borderRadius: Theme.borderRadius,
     paddingHorizontal: 16,
-    fontSize: 16,
-    color: Colors.text,
-    backgroundColor: Colors.surface,
+    fontSize: Theme.fontSize,
+    color: Theme.text,
+    backgroundColor: Theme.surface,
   },
   inputError: {
-    borderColor: Colors.danger,
+    borderColor: Theme.danger,
   },
   error: {
     fontSize: 12,
-    color: Colors.danger,
+    color: Theme.danger,
     marginTop: 4,
   },
   help: {
     fontSize: 13,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
     marginLeft: 5,
     marginRight: 5,
   },

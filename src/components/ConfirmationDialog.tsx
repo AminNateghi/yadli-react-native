@@ -2,6 +2,7 @@ import { Text } from "@/components/Text";
 import { useTranslation } from "@/languages/useTranslation";
 import { Modal, StyleSheet, View } from "react-native";
 import { Button } from "./Button";
+import { Theme } from "@/constants";
 
 type ConfirmationDialogProps = {
   visible: boolean;
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 25,
-    fontSize: 16,
+    fontSize: Theme.fontSize,
     textAlign: "center",
   },
   buttonContainer: {

@@ -4,7 +4,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { ValueWithHelp } from "@/components/ValueWithHelp";
 import { RecordCard } from "@/components/RecordCard";
 import { Text } from "@/components/Text";
-import { Colors, GlobalStyles } from "@/constants";
+import { Theme, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useExpenses } from "@/repositories/expense-repository";
 import { useStatistics } from "@/repositories/statistics";
@@ -71,7 +71,7 @@ export default function ExpensesScreen() {
                 amount={expense.amount}
                 help={t("common.priceSign")}
                 icon={BanknoteIcon}
-                color={Colors.expense}
+                color={Theme.expense}
                 rtl={isRTL}
                 onPress={(id) => {
                   router.push({
@@ -92,7 +92,7 @@ export default function ExpensesScreen() {
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Theme.background,
   },
   container: {
     flex: 1,

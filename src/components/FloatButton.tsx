@@ -1,4 +1,5 @@
 import { Text } from "@/components/Text";
+import { Theme } from "@/constants";
 import type { LucideIcon } from "lucide-react-native";
 import { Pressable, StyleSheet, type ViewStyle } from "react-native";
 
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   text: {
-    fontSize: 16,
+    fontSize: Theme.fontSize,
     fontWeight: "600",
   },
 });

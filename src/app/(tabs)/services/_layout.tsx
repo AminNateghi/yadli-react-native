@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { Colors } from "@/constants";
+import { Theme } from "@/constants";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
 
@@ -10,10 +10,10 @@ export default function ServicesLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.background },
+        headerStyle: { backgroundColor: Theme.background },
         headerShadowVisible: false,
-        headerTintColor: Colors.text,
-        contentStyle: { backgroundColor: Colors.background },
+        headerTintColor: Theme.text,
+        contentStyle: { backgroundColor: Theme.background },
         headerTitleStyle: { ...(fontFamily ? { fontFamily } : {}) },
       }}
     >

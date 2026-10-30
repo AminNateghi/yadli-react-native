@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Colors, GlobalStyles } from "@/constants";
+import { Theme, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { Input } from "@/components/Input";
 import { type FuelFormData, fuelSchema } from "@/types/fuel-schema";
@@ -282,13 +282,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: Colors.surfaceAlt,
-    borderRadius: 12,
+    backgroundColor: Theme.surfaceAlt,
+    borderRadius: Theme.borderRadius,
     padding: 16,
     marginBottom: 16,
   },
   totalLabel: {
     fontSize: 14,
-    color: Colors.textSecondary,
+    color: Theme.textSecondary,
   },
 });
