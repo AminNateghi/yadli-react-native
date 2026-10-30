@@ -10,7 +10,6 @@ import { useExpenses } from "@/repositories/expense-repository";
 import { useStatistics } from "@/repositories/statistics";
 import { getExpenseTypeTitle } from "@/types/interfaces";
 import { router } from "expo-router";
-import { Button } from "@/components/Button";
 import { FloatButton } from "@/components/FloatButton";
 
 export default function ExpensesScreen() {
@@ -24,7 +23,7 @@ export default function ExpensesScreen() {
       <FloatButton
         icon={PlusIcon}
         text={t("expenses.createTitle")}
-        color="green"
+        color={Theme.violet}
         placement={isRTL ? "left" : "right"}
         onPress={() => router.push("/expenses/form")}
       />
@@ -47,19 +46,11 @@ export default function ExpensesScreen() {
         )}
 
         {expenses?.length === 0 ? (
-          <>
-            <EmptyState
-              icon={BanknoteIcon}
-              title={t("expenses.noExpenseYet")}
-              subtitle={t("expenses.expensesDescription")}
-            />
-
-            <Button
-              title={t("common.new")}
-              onPress={() => router.push("/(tabs)/expenses/form")}
-              style={{ flex: 1 }}
-            />
-          </>
+          <EmptyState
+            icon={BanknoteIcon}
+            title={t("expenses.noExpenseYet")}
+            subtitle={t("expenses.expensesDescription")}
+          />
         ) : (
           expenses?.map((expense) => {
             return (
@@ -71,7 +62,7 @@ export default function ExpensesScreen() {
                 amount={expense.amount}
                 help={t("common.priceSign")}
                 icon={BanknoteIcon}
-                color={Theme.expense}
+                color={Theme.violet}
                 rtl={isRTL}
                 onPress={(id) => {
                   router.push({

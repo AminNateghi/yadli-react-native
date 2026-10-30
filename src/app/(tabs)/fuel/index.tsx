@@ -9,7 +9,6 @@ import { useTranslation } from "@/languages/useTranslation";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useStatistics } from "@/repositories/statistics";
 import { router } from "expo-router";
-import { Button } from "@/components/Button";
 import { numberFormat } from "@/utils/number-format";
 import { FloatButton } from "@/components/FloatButton";
 
@@ -24,7 +23,7 @@ export default function FuelScreen() {
       <FloatButton
         icon={PlusIcon}
         text={t("fuel.createTitle")}
-        color="green"
+        color={Theme.orange}
         placement={isRTL ? "left" : "right"}
         onPress={() => router.push("/fuel/form")}
       />
@@ -66,18 +65,11 @@ export default function FuelScreen() {
         )}
 
         {fuels?.length === 0 ? (
-          <>
-            <EmptyState
-              icon={FuelIcon}
-              title={t("fuel.noFuelRecords")}
-              subtitle={t("fuel.fuelDescription")}
-            />
-            <Button
-              title={t("common.new")}
-              onPress={() => router.push("/fuel/form")}
-              style={{ flex: 1 }}
-            />
-          </>
+          <EmptyState
+            icon={FuelIcon}
+            title={t("fuel.noFuelRecords")}
+            subtitle={t("fuel.fuelDescription")}
+          />
         ) : (
           fuels?.map((fuel) => {
             return (
@@ -90,7 +82,7 @@ export default function FuelScreen() {
                 help={t("common.priceSign")}
                 subtitle={`${numberFormat(fuel.odometer, { isRTL })} ${t("common.odometer")}`}
                 icon={FuelIcon}
-                color={Theme.fuel}
+                color={Theme.orange}
                 rtl={isRTL}
                 onPress={(id) => {
                   router.push({

@@ -9,7 +9,6 @@ import { RecordCard } from "@/components/RecordCard";
 import { useStatistics } from "@/repositories/statistics";
 import { Text } from "@/components/Text";
 import { ValueWithHelp } from "@/components/ValueWithHelp";
-import { Button } from "@/components/Button";
 import { router } from "expo-router";
 import { numberFormat } from "@/utils/number-format";
 import { FloatButton } from "@/components/FloatButton";
@@ -25,7 +24,7 @@ export default function ServicesScreen() {
       <FloatButton
         icon={PlusIcon}
         text={t("services.createTitle")}
-        color="green"
+        color={Theme.mulberry}
         placement={isRTL ? "left" : "right"}
         onPress={() => router.push("/services/form")}
       />
@@ -48,18 +47,11 @@ export default function ServicesScreen() {
         )}
 
         {services?.length === 0 ? (
-          <>
-            <EmptyState
-              icon={WrenchIcon}
-              title={t("services.noServicesYet")}
-              subtitle={t("services.servicesDescription")}
-            />
-            <Button
-              title={t("common.new")}
-              onPress={() => router.push("/services/form")}
-              style={{ flex: 1 }}
-            />
-          </>
+          <EmptyState
+            icon={WrenchIcon}
+            title={t("services.noServicesYet")}
+            subtitle={t("services.servicesDescription")}
+          />
         ) : (
           services?.map((service) => {
             return (
@@ -72,7 +64,7 @@ export default function ServicesScreen() {
                 help={t("common.priceSign")}
                 subtitle={`${numberFormat(service.odometer, { isRTL })} ${t("common.odometer")}`}
                 icon={WrenchIcon}
-                color={Theme.service}
+                color={Theme.mulberry}
                 rtl={isRTL}
                 onPress={(id) => {
                   router.push({

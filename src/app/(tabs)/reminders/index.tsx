@@ -11,7 +11,6 @@ import { useServices } from "@/repositories/service-repository";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
 import { router } from "expo-router";
-import { Button } from "@/components/Button";
 import { FloatButton } from "@/components/FloatButton";
 
 export default function RemindersScreen() {
@@ -43,7 +42,7 @@ export default function RemindersScreen() {
       <FloatButton
         icon={PlusIcon}
         text={t("reminders.createTitle")}
-        color="green"
+        color={Theme.blue}
         placement={isRTL ? "left" : "right"}
         onPress={() => router.push("/reminders/form")}
       />
@@ -53,18 +52,11 @@ export default function RemindersScreen() {
         showsVerticalScrollIndicator={false}
       >
         {!reminders || reminders?.length === 0 ? (
-          <>
-            <EmptyState
-              icon={TimerIcon}
-              title={t("reminders.noReminders")}
-              subtitle={t("reminders.noRemindersDescription")}
-            />
-            <Button
-              title={t("common.new")}
-              onPress={() => router.push("/reminders/form")}
-              style={{ flex: 1 }}
-            />
-          </>
+          <EmptyState
+            icon={TimerIcon}
+            title={t("reminders.noReminders")}
+            subtitle={t("reminders.noRemindersDescription")}
+          />
         ) : (
           reminders?.map((reminder) => {
             return (

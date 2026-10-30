@@ -96,7 +96,7 @@ export default function DashboardScreen() {
             value={statistics.refueling.totalFuelCost}
             help={t("common.priceSign")}
             icon={FuelIcon}
-            color={Theme.fuel}
+            color={Theme.orange}
           />
           <StatCard
             title={t("dashboard.avgPerKm")}
@@ -112,14 +112,14 @@ export default function DashboardScreen() {
             value={statistics.services.totalServiceCost}
             help={t("common.priceSign")}
             icon={WrenchIcon}
-            color={Theme.service}
+            color={Theme.mulberry}
           />
           <StatCard
             title={t("dashboard.expenses")}
             value={statistics.expenses.totalExpenses}
             help={t("common.priceSign")}
             icon={BanknoteIcon}
-            color={Theme.expense}
+            color={Theme.violet}
           />
         </View>
 

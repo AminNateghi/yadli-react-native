@@ -20,16 +20,15 @@ export const Theme = {
   border: "#b1b1b1",
   borderLight: "#F1F5F9",
 
-  fuel: "#F59E0B",
-  service: "#b96210",
-  expense: "#8B5CF6",
-  reminder: "#8d0d49",
-
+  violet: "#8B5CF6",
   gray: "#1f1f21",
   blue: "#007AFF",
   green: "#16a34a",
+
+  strongAmbZer: "#F59E0B",
   orange: "#ea580c",
   red: "#dc2626",
+  mulberry: "#8d0d49",
 
   borderRadius: 12,
   height: 50,

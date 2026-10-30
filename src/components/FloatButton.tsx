@@ -6,37 +6,28 @@ import { Pressable, StyleSheet, type ViewStyle } from "react-native";
 interface FloatButton {
   icon: LucideIcon;
   text?: string;
-  color?: "gray" | "red" | "green" | "blue" | "orange";
+  color?: string;
   placement?: "left" | "right";
   style?: ViewStyle;
   onPress: () => void;
 }
 
-const PALETTE = {
-  gray: "#1f1f21",
-  blue: "#007AFF",
-  green: "#16a34a",
-  orange: "#ea580c",
-  red: "#dc2626",
-};
 const foregroundColor = "#ffffff";
 
 export function FloatButton({
   text,
-  color = "blue",
+  color = Theme.primary,
   placement = "left",
   style,
   icon: Icon,
   onPress,
 }: FloatButton) {
-  const baseColor = PALETTE[color];
-
   return (
     <Pressable
       style={({ pressed }) => [
         {
-          backgroundColor: baseColor,
-          borderColor: baseColor,
+          backgroundColor: color,
+          borderColor: color,
         },
 
         text ? styles.buttonWithText : styles.button,
