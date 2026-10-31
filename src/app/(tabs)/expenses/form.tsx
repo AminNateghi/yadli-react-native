@@ -23,6 +23,7 @@ import { Button } from "@/components/Button";
 import { router, useLocalSearchParams } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useStatistics } from "@/repositories/statistics";
+import { numberFormat } from "@/utils/number-format";
 import dayjs from "dayjs";
 
 const defaultValues = {
@@ -153,7 +154,7 @@ export default function ExpenseForm() {
             placeholder={t("expenses.odometerPlaceholder")}
             style={{ direction: "ltr" }}
             error={errors?.odometer?.message}
-            help={`${t("dashboard.latestOdometer")} ${statistics.distance.latestOdometer}`}
+            help={`${t("dashboard.latestOdometer")} ${numberFormat(statistics.distance.latestOdometer, { isRTL })}`}
           />
         )}
       />

@@ -125,6 +125,7 @@
     "totalCost": "Total Cost",
     "fullTank": "Full Tank",
     "fullTankPlaceholder": "Was the tank filled completely?",
+    "explanationOfAverageFuelConsumption": "Note: The average fuel consumption will be calculated based on a full tank only.",
     "station": "Station (optional)",
     "stationPlaceHolder": "e.g. Shell, Costco",
     "kmPerLiter": "km/L",

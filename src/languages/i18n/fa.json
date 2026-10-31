@@ -125,6 +125,7 @@
     "totalCost": "مبلغ پرداختی",
     "fullTank": "باک پر شد",
     "fullTankPlaceholder": "آیا باک خودرو پر شده است؟",
+    "explanationOfAverageFuelConsumption": "نکته: محاسبه میانگین مصرف سوخت فقط برای باک پر شده، خواهد بود.",
     "station": "محل سوخت‌گیری (اختیاری)",
     "stationPlaceHolder": "مثال اتوبان رشت",
     "kmPerLiter": "",

@@ -24,6 +24,7 @@ import { ServiceDeletionModal } from "@/components/forms/ServiceDeletionModal";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useStatistics } from "@/repositories/statistics";
 import { DATE_FORMAT } from "@/utils/date-format";
+import { numberFormat } from "@/utils/number-format";
 import dayjs from "dayjs";
 
 const defaultValues = {
@@ -160,7 +161,7 @@ export default function ServiceForm() {
               placeholder={t("services.odometerPlaceholder")}
               style={{ direction: "ltr" }}
               error={errors?.odometer?.message}
-              help={`${t("dashboard.latestOdometer")} ${statistics.distance.latestOdometer}`}
+              help={`${t("dashboard.latestOdometer")} ${numberFormat(statistics.distance.latestOdometer, { isRTL })}`}
             />
           </>
         )}

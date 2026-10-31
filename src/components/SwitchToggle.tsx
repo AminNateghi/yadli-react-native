@@ -24,7 +24,7 @@ export function SwitchToggle({
       <Switch
         value={value}
         onValueChange={onValueChange}
-        trackColor={{ false: Theme.border, true: Theme.primary + "80" }}
+        trackColor={{ false: Theme.border, true: Theme.primary + 80 }}
         thumbColor={value ? Theme.primary : Theme.surface}
         ios_backgroundColor={Theme.border}
       />

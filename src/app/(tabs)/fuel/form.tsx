@@ -21,6 +21,7 @@ import { FuelDeletionModal } from "@/components/forms/FuelDeletionModal";
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useStatistics } from "@/repositories/statistics";
+import { numberFormat } from "@/utils/number-format";
 import dayjs from "dayjs";
 
 const defaultValues = {
@@ -158,7 +159,7 @@ export default function FuelForm() {
               placeholder={t("fuel.odometerPlaceholder")}
               style={{ direction: "ltr" }}
               error={errors?.odometer?.message}
-              help={`${t("dashboard.latestOdometer")} ${statistics.distance.latestOdometer}`}
+              help={`${t("dashboard.latestOdometer")} ${numberFormat(statistics.distance.latestOdometer, { isRTL })}`}
             />
           </>
         )}
@@ -211,14 +212,12 @@ export default function FuelForm() {
         control={control}
         name="fullTank"
         render={({ field: { value, onChange } }) => (
-          <>
-            <SwitchToggle
-              label={t("fuel.fullTank")}
-              value={value ?? false}
-              onValueChange={(value) => onChange(value)}
-              description={t("fuel.fullTankPlaceholder")}
-            />
-          </>
+          <SwitchToggle
+            label={t("fuel.fullTank")}
+            value={value ?? false}
+            onValueChange={(value) => onChange(value)}
+            description={t("fuel.explanationOfAverageFuelConsumption")}
+          />
         )}
       />
 
@@ -226,15 +225,13 @@ export default function FuelForm() {
         control={control}
         name="station"
         render={({ field: { value, onChange, onBlur } }) => (
-          <>
-            <Input
-              label={t("fuel.station")}
-              value={value?.toString() ?? ""}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              placeholder={t("fuel.stationPlaceHolder")}
-            />
-          </>
+          <Input
+            label={t("fuel.station")}
+            value={value?.toString() ?? ""}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            placeholder={t("fuel.stationPlaceHolder")}
+          />
         )}
       />
 
@@ -242,21 +239,19 @@ export default function FuelForm() {
         control={control}
         name="note"
         render={({ field: { value, onChange, onBlur } }) => (
-          <>
-            <Input
-              label={t("fuel.note")}
-              value={value ?? ""}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              placeholder={t("fuel.notePlaceholder")}
-              multiline
-              style={{
-                height: 80,
-                textAlignVertical: "top",
-                paddingTop: 12,
-              }}
-            />
-          </>
+          <Input
+            label={t("fuel.note")}
+            value={value ?? ""}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            placeholder={t("fuel.notePlaceholder")}
+            multiline
+            style={{
+              height: 80,
+              textAlignVertical: "top",
+              paddingTop: 12,
+            }}
+          />
         )}
       />
 
