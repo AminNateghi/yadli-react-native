@@ -14,6 +14,7 @@ import { Input } from "../Input";
 import { DatePicker } from "../DatePicker";
 import type { ReminderTriggerType } from "@/types/interfaces";
 import { Theme } from "@/constants";
+import { Toast } from "../CustomToast";
 
 const defaultValues = {
   date: undefined,
@@ -52,9 +53,18 @@ export function CompleteReminderModal({ id, trigger, onConfirm }: Props) {
         actualDate: formData.date ? new Date(formData.date!) : null,
       },
       {
-        onSuccess: () => {
+        onSuccess: (notificationPermissionGranted) => {
+          if (!notificationPermissionGranted) {
+            Toast({
+              text: t("reminders.notificationPermissionDenied"),
+              type: "warning",
+            });
+          }
           setModalVisible(false);
           onConfirm();
+        },
+        onError: () => {
+          Toast({ text: t("reminders.notificationError"), type: "error" });
         },
       },
     );

@@ -5,7 +5,9 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
+import * as Notifications from "expo-notifications";
+import { router } from "expo-router";
 import { Text } from "@/components/Text";
 import { queryClient } from "@/utils/query-client";
 import { db } from "@/db";
@@ -15,6 +17,17 @@ import { KeyboardProvider } from "react-native-keyboard-controller";
 import migrations from "@/db/migrations/migrations";
 
 SplashScreen.preventAutoHideAsync();
+
+if (Platform.OS !== "web") {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldPlaySound: true,
+      shouldSetBadge: false,
+      shouldShowBanner: true,
+      shouldShowList: true,
+    }),
+  });
+}
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -31,6 +44,40 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
+
+  useEffect(() => {
+    if (!loaded || !success || Platform.OS === "web") return;
+
+    let lastHandledResponse: string | null = null;
+    const handleNotificationResponse = (
+      response: Notifications.NotificationResponse,
+    ) => {
+      const { notification, actionIdentifier } = response;
+      const reminderId = Number(notification.request.content.data?.reminderId);
+      if (!Number.isInteger(reminderId) || reminderId <= 0) return;
+
+      const responseId = `${notification.request.identifier}:${actionIdentifier}`;
+      if (lastHandledResponse === responseId) return;
+      lastHandledResponse = responseId;
+
+      router.push({
+        pathname: "/reminders/form",
+        params: { id: String(reminderId) },
+      });
+      Notifications.clearLastNotificationResponse();
+    };
+
+    const lastResponse = Notifications.getLastNotificationResponse();
+    if (lastResponse) {
+      handleNotificationResponse(lastResponse);
+    }
+
+    const responseSubscription =
+      Notifications.addNotificationResponseReceivedListener(
+        handleNotificationResponse,
+      );
+    return () => responseSubscription.remove();
+  }, [loaded, success]);
 
   if (!loaded) {
     return null;

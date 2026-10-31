@@ -24,6 +24,9 @@ export function ReminderDeletionModal({ editingId, onConfirm }: Props) {
         onConfirm();
         Toast({ text: t("common.deleted") });
       },
+      onError: () => {
+        Toast({ text: t("reminders.notificationError"), type: "error" });
+      },
     });
   };
 

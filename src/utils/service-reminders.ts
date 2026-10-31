@@ -194,6 +194,10 @@ function calculateNextThresholds(reminder: ReminderDto): ReminderThresholds {
   };
 }
 
+export function getReminderDueDate(reminder: ReminderDto): Date | null {
+  return calculateNextThresholds(reminder).nextDate;
+}
+
 export async function getReminders(
   reminders: ReminderDto[],
   inputData: {

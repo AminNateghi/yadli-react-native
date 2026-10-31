@@ -14,6 +14,7 @@ import { remindersQueryKey } from "./reminder-repository";
 import { expenseQueryKey } from "./expense-repository";
 import { fuelQueryKey } from "./fuel-repository";
 import { serviceQueryKey } from "./service-repository";
+import { removeAllReminderNotifications } from "@/utils/reminder-notifications";
 
 export const profileQueryKey = {
   profile: ["profile"],
@@ -87,13 +88,15 @@ export function useGetProfile() {
 
 export function useResetAllData() {
   return useMutation({
-    mutationFn: async () =>
+    mutationFn: async () => {
       await db.transaction(async (tx) => {
         await tx.delete(remindersRecords);
         await tx.delete(expensesRecords);
         await tx.delete(servicesRecords);
         await tx.delete(fuelsRecords);
-      }),
+      });
+      await removeAllReminderNotifications();
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });

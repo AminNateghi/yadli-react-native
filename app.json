@@ -2,7 +2,7 @@
   "expo": {
     "name": "Yadli",
     "slug": "yadli-app",
-    "version": "1.2.1",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/images/yadli-icon.png",
     "scheme": "yadli",
@@ -41,7 +41,8 @@
       "expo-font",
       "expo-image",
       "expo-status-bar",
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-notifications"
     ],
     "experiments": {
       "typedRoutes": true,

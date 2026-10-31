@@ -4,6 +4,10 @@ import { db } from "@/db";
 import { queryClient } from "../utils/query-client";
 import { remindersRecords } from "@/db/schema";
 import type { ReminderDto } from "@/types/interfaces";
+import {
+  removeReminderNotification,
+  syncReminderNotification,
+} from "@/utils/reminder-notifications";
 
 export const remindersQueryKey = {
   list: ["reminder-list"],
@@ -20,8 +24,18 @@ export function useReminders() {
 
 export function useCreateReminder() {
   return useMutation({
-    mutationFn: async (values: Omit<ReminderDto, "id">) =>
-      await db.insert(remindersRecords).values(values),
+    mutationFn: async (values: Omit<ReminderDto, "id">) => {
+      const [reminder] = await db
+        .insert(remindersRecords)
+        .values(values)
+        .returning();
+      if (!reminder) {
+        throw new Error("Created reminder could not be read");
+      }
+      const notificationPermissionGranted =
+        await syncReminderNotification(reminder);
+      return { reminder, notificationPermissionGranted };
+    },
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
@@ -31,11 +45,19 @@ export function useCreateReminder() {
 
 export function useUpdateReminder(id: number) {
   return useMutation({
-    mutationFn: async (values: Partial<ReminderDto>) =>
-      await db
+    mutationFn: async (values: Partial<ReminderDto>) => {
+      const [reminder] = await db
         .update(remindersRecords)
         .set(values)
-        .where(eq(remindersRecords.id, id)),
+        .where(eq(remindersRecords.id, id))
+        .returning();
+      if (!reminder) {
+        throw new Error("Reminder not found");
+      }
+      const notificationPermissionGranted =
+        await syncReminderNotification(reminder);
+      return { reminder, notificationPermissionGranted };
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.byId(id) });
@@ -45,8 +67,10 @@ export function useUpdateReminder(id: number) {
 
 export function useDeleteReminder() {
   return useMutation({
-    mutationFn: (id: number) =>
-      db.delete(remindersRecords).where(eq(remindersRecords.id, id)),
+    mutationFn: async (id: number) => {
+      await db.delete(remindersRecords).where(eq(remindersRecords.id, id));
+      await removeReminderNotification(id);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
@@ -82,12 +106,14 @@ export function useCompleteReminder() {
       }
 
       if (reminder.mode === "OneTime") {
-        return await db
+        await db
           .delete(remindersRecords)
           .where(eq(remindersRecords.id, props.reminderId));
+        await removeReminderNotification(reminder.id);
+        return true;
       }
 
-      await db
+      const [updatedReminder] = await db
         .update(remindersRecords)
         .set({
           startOdometer: props.actualOdometer,
@@ -95,7 +121,12 @@ export function useCompleteReminder() {
 
           active: true,
         })
-        .where(eq(remindersRecords.id, props.reminderId));
+        .where(eq(remindersRecords.id, props.reminderId))
+        .returning();
+      if (!updatedReminder) {
+        throw new Error("Reminder not found");
+      }
+      return await syncReminderNotification(updatedReminder);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });

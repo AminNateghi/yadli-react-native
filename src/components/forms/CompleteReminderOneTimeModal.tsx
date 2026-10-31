@@ -3,6 +3,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "../Button";
 import { useDeleteReminder } from "@/repositories/reminder-repository";
 import { ConfirmationDialog } from "../ConfirmationDialog";
+import { Toast } from "../CustomToast";
 
 type Props = {
   id: number;
@@ -21,6 +22,9 @@ export function CompleteReminderOneTimeModal({ id, onConfirm }: Props) {
       onSuccess: () => {
         setModalVisible(false);
         onConfirm();
+      },
+      onError: () => {
+        Toast({ text: t("reminders.notificationError"), type: "error" });
       },
     });
   };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GlobalStyles } from "@/constants";
@@ -36,6 +36,7 @@ import { ReminderDeletionModal } from "@/components/forms/ReminderDeletionModal"
 import { Button } from "@/components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { CompleteReminderOneTimeModal } from "@/components/forms/CompleteReminderOneTimeModal";
+import { Toast } from "@/components/CustomToast";
 
 const defaultValues = {
   dependent: "Service",
@@ -113,7 +114,7 @@ export default function ReminderForm() {
     router.back();
   };
 
-  const handleSave = async (formData: ReminderFormData) => {
+  const handleSave = (formData: ReminderFormData) => {
     const reminder: Omit<ReminderDto, "id"> = {
       mode: formData.mode as ReminderMode,
       note: formData.note ?? null,
@@ -133,14 +134,27 @@ export default function ReminderForm() {
       active: formData.active,
     };
 
-    if (id) {
-      updateService(reminder);
-    } else {
-      createService(reminder);
-    }
+    const callbacks = {
+      onSuccess: (result: { notificationPermissionGranted: boolean }) => {
+        if (!result.notificationPermissionGranted) {
+          Toast({
+            text: t("reminders.notificationPermissionDenied"),
+            type: "warning",
+          });
+        }
+        handleClose();
+        handleResetForm();
+      },
+      onError: () => {
+        Toast({ text: t("reminders.notificationError"), type: "error" });
+      },
+    };
 
-    handleClose();
-    handleResetForm();
+    if (id) {
+      updateService(reminder, callbacks);
+    } else {
+      createService(reminder, callbacks);
+    }
   };
 
   const dependent = watch("dependent") as ReminderDependent;

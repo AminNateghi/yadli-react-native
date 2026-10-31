@@ -26,6 +26,9 @@ export function ResetAllData() {
         setConfirmVisible(false);
         Toast({ text: t("common.deleted") });
       },
+      onError: () => {
+        Toast({ text: t("reminders.notificationError"), type: "error" });
+      },
     });
     router.back();
   };

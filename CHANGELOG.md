@@ -1,3 +1,21 @@
+# v1.3.0
+
+<details open>
+  <summary>English</summary>
+
+- Add Notifications
+
+</details>
+
+<details open>
+  <summary>فارسی</summary>
+  <div dir="rtl">
+
+- اضافه شدن اعلان‌ها (نوتیفیکیشن)
+
+  </div>
+</details>
+
 # v1.2.1
 
 <details open>
@@ -68,7 +86,7 @@
 
 # v1.0.34
 
-<details>
+<details open>
   <summary>English</summary>
 
 The first version of the app with the following features:
@@ -80,7 +98,7 @@ The first version of the app with the following features:
 
 </details>
 
-<details>
+<details open>
   <summary>فارسی</summary>
   <div dir="rtl">
 
