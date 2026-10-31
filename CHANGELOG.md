@@ -1,3 +1,21 @@
+# v1.2.1
+
+<details open>
+  <summary>English</summary>
+
+- Remove permission android.permission.SYSTEM_ALERT_WINDOW
+
+</details>
+
+<details open>
+  <summary>فارسی</summary>
+  <div dir="rtl">
+
+- حذف دسترسی android.permission.SYSTEM_ALERT_WINDOW
+
+  </div>
+</details>
+
 # v1.2.0
 
 <details open>
