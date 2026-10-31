@@ -12,10 +12,12 @@ import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
 import { router } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
+import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 
 export default function RemindersScreen() {
   const { t, isRTL } = useTranslation();
   const [reminders, setReminders] = useState<ReminderCardProp[]>([]);
+  const navigateOnce = useNavigationGuard();
 
   const { data } = useReminders();
   const { data: services } = useServices();
@@ -44,7 +46,7 @@ export default function RemindersScreen() {
         text={t("reminders.createTitle")}
         color={Theme.blue}
         placement={isRTL ? "left" : "right"}
-        onPress={() => router.push("/reminders/form")}
+        onPress={() => navigateOnce(() => router.push("/reminders/form"))}
       />
       <ScrollView
         style={styles.container}
@@ -64,10 +66,12 @@ export default function RemindersScreen() {
                 key={reminder?.data?.id}
                 reminder={reminder}
                 onPress={(id) => {
-                  router.push({
-                    pathname: "/reminders/form",
-                    params: { id },
-                  });
+                  navigateOnce(() =>
+                    router.push({
+                      pathname: "/reminders/form",
+                      params: { id },
+                    }),
+                  );
                 }}
               />
             );

@@ -11,9 +11,11 @@ import { useStatistics } from "@/repositories/statistics";
 import { router } from "expo-router";
 import { numberFormat } from "@/utils/number-format";
 import { FloatButton } from "@/components/FloatButton";
+import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 
 export default function FuelScreen() {
   const { t, isRTL } = useTranslation();
+  const navigateOnce = useNavigationGuard();
 
   const { data: fuels } = useFuels();
   const { statistics } = useStatistics();
@@ -25,7 +27,7 @@ export default function FuelScreen() {
         text={t("fuel.createTitle")}
         color={Theme.orange}
         placement={isRTL ? "left" : "right"}
-        onPress={() => router.push("/fuel/form")}
+        onPress={() => navigateOnce(() => router.push("/fuel/form"))}
       />
       <ScrollView
         style={styles.container}
@@ -85,10 +87,12 @@ export default function FuelScreen() {
                 color={Theme.orange}
                 rtl={isRTL}
                 onPress={(id) => {
-                  router.push({
-                    pathname: "/fuel/form",
-                    params: { id },
-                  });
+                  navigateOnce(() =>
+                    router.push({
+                      pathname: "/fuel/form",
+                      params: { id },
+                    }),
+                  );
                 }}
               />
             );

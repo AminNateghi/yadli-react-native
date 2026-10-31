@@ -12,9 +12,11 @@ import { ValueWithHelp } from "@/components/ValueWithHelp";
 import { router } from "expo-router";
 import { numberFormat } from "@/utils/number-format";
 import { FloatButton } from "@/components/FloatButton";
+import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
+  const navigateOnce = useNavigationGuard();
 
   const { data: services } = useServices();
   const { statistics } = useStatistics();
@@ -26,7 +28,7 @@ export default function ServicesScreen() {
         text={t("services.createTitle")}
         color={Theme.mulberry}
         placement={isRTL ? "left" : "right"}
-        onPress={() => router.push("/services/form")}
+        onPress={() => navigateOnce(() => router.push("/services/form"))}
       />
       <ScrollView
         style={styles.container}
@@ -67,10 +69,12 @@ export default function ServicesScreen() {
                 color={Theme.mulberry}
                 rtl={isRTL}
                 onPress={(id) => {
-                  router.push({
-                    pathname: "/services/form",
-                    params: { id },
-                  });
+                  navigateOnce(() =>
+                    router.push({
+                      pathname: "/services/form",
+                      params: { id },
+                    }),
+                  );
                 }}
               />
             );

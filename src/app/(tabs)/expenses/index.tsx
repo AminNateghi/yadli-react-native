@@ -11,9 +11,11 @@ import { useStatistics } from "@/repositories/statistics";
 import { getExpenseTypeTitle } from "@/types/interfaces";
 import { router } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
+import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 
 export default function ExpensesScreen() {
   const { t, isRTL } = useTranslation();
+  const navigateOnce = useNavigationGuard();
 
   const { data: expenses } = useExpenses();
   const { statistics } = useStatistics();
@@ -25,7 +27,7 @@ export default function ExpensesScreen() {
         text={t("expenses.createTitle")}
         color={Theme.violet}
         placement={isRTL ? "left" : "right"}
-        onPress={() => router.push("/expenses/form")}
+        onPress={() => navigateOnce(() => router.push("/expenses/form"))}
       />
       <ScrollView
         style={styles.container}
@@ -65,10 +67,12 @@ export default function ExpensesScreen() {
                 color={Theme.violet}
                 rtl={isRTL}
                 onPress={(id) => {
-                  router.push({
-                    pathname: "/expenses/form",
-                    params: { id },
-                  });
+                  navigateOnce(() =>
+                    router.push({
+                      pathname: "/expenses/form",
+                      params: { id },
+                    }),
+                  );
                 }}
               />
             );

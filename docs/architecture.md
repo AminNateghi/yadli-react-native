@@ -10,6 +10,9 @@
 - Dates: `dayjs` + `jalaliday` (for Persian calendar)
 - UI: `lucide-react-native`, `react-native-ui-datepicker`, custom `Text/Button/Input`
 
+- Package Manager: pnpm / pnx
+- Project only develop for Android device.
+
 ## 2. Routing (`src/app/`)
 
 ```
