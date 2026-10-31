@@ -15,6 +15,7 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import migrations from "@/db/migrations/migrations";
+import { UpdateCheckProvider } from "@/contexts/UpdateCheckContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -105,8 +106,10 @@ export default function RootLayout() {
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <QueryClientProvider client={queryClient}>
-            <Stack screenOptions={{ headerShown: false }} />
-            <StatusBar style="auto" animated />
+            <UpdateCheckProvider>
+              <Stack screenOptions={{ headerShown: false }} />
+              <StatusBar style="auto" animated />
+            </UpdateCheckProvider>
           </QueryClientProvider>
         </ThemeProvider>
       </SafeAreaProvider>

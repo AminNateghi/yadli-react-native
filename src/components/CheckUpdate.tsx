@@ -1,90 +1,51 @@
 import { useState } from "react";
-import { Linking, StyleSheet, View } from "react-native";
+import { Linking, Pressable, StyleSheet, View } from "react-native";
 import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "./Button";
 import { Text } from "./Text";
 import { RocketIcon } from "lucide-react-native";
-import Constants from "expo-constants";
+import { GlobalStyles, Theme } from "@/constants";
+import { useUpdateCheck } from "@/contexts/UpdateCheckContext";
 import MenuItem from "./MenuItem";
 import Modal from "./Modal";
-import { Theme } from "@/constants";
 
-export function CheckUpdate() {
-  const { t } = useTranslation();
+interface Props {
+  type?: "icon" | "menu-item";
+}
+
+export function CheckUpdate({ type = "menu-item" }: Props) {
+  const { t, isRTL } = useTranslation();
+  const { checkNow } = useUpdateCheck();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
   const [updateAvailable, setUpdateAvailable] = useState<boolean>(false);
   const [downloadUrl, setDownloadUrl] = useState<string>("");
 
   const handleConfirm = async () => {
-    Linking.openURL(downloadUrl);
+    await Linking.openURL(downloadUrl);
   };
-
-  function compareVersions(a: string, b: string) {
-    const parse = (v: string) => v.split(".").map((part) => Number(part));
-
-    const va = parse(a);
-    const vb = parse(b);
-
-    for (let i = 0; i < Math.max(va.length, vb.length); i++) {
-      const difference = (va[i] ?? 0) - (vb[i] ?? 0);
-
-      if (difference !== 0) {
-        return difference > 0 ? 1 : -1;
-      }
-    }
-
-    return 0;
-  }
 
   const handleShow = async () => {
     setModalVisible(true);
     setUpdateAvailable(false);
     setMessage(t("checkUpdate.loading"));
 
-    const response = await fetch(
-      `https://api.github.com/repos/AminNateghi/yadli-react-native/releases/latest`,
-      {
-        headers: {
-          Accept: "application/vnd.github+json",
-        },
-      },
-    );
+    try {
+      const result = await checkNow();
+      if (!result.available) {
+        setMessage(t("checkUpdate.noUpdateAvailable"));
+        setUpdateAvailable(false);
+        return;
+      }
 
-    if (!response.ok) {
-      setMessage(t("checkUpdate.error"));
-    }
-
-    const release = await response.json();
-
-    // Ignore draft releases and prereleases
-    if (release.draft || release.prerelease) {
-      return null;
-    }
-
-    const latestVersion = release.tag_name.replace(/^v/, "");
-    const currentVersion = Constants.expoConfig?.version ?? "0.0.0";
-    const isNewVersion = compareVersions(latestVersion, currentVersion) > 0;
-
-    const apk = release.assets.find((asset: { name: string }) =>
-      asset.name.toLowerCase().endsWith(".apk"),
-    );
-
-    if (!apk?.browser_download_url) {
+      setDownloadUrl(result.downloadUrl);
+      setMessage(t("checkUpdate.updateAvailable"));
+      setUpdateAvailable(true);
+    } catch (error) {
+      console.error("Manual update check failed:", error);
       setMessage(t("checkUpdate.error"));
       setUpdateAvailable(false);
-      return;
     }
-
-    if (!isNewVersion) {
-      setMessage(t("checkUpdate.noUpdateAvailable"));
-      setUpdateAvailable(false);
-      return;
-    }
-
-    setDownloadUrl(apk?.browser_download_url);
-    setMessage(t("checkUpdate.updateAvailable"));
-    setUpdateAvailable(true);
   };
 
   const handleClose = () => {
@@ -92,13 +53,29 @@ export function CheckUpdate() {
   };
 
   return (
-    <>
-      <MenuItem
-        icon={<RocketIcon size={21} color={Theme.warning} />}
-        title={t("drawer.itemUpdate")}
-        description={t("drawer.subitemUpdate")}
-        onPress={handleShow}
-      />
+    <View style={[isRTL && GlobalStyles.rtl]}>
+      {type === "menu-item" && (
+        <MenuItem
+          icon={<RocketIcon size={21} color={Theme.warning} />}
+          title={t("drawer.itemUpdate")}
+          description={t("drawer.subitemUpdate")}
+          onPress={handleShow}
+        />
+      )}
+      {type === "icon" && (
+        <Pressable onPress={handleShow}>
+          <View style={styles.updateButton}>
+            {isRTL ? (
+              <RocketIcon size={14} color={Theme.warning} />
+            ) : (
+              <RocketIcon size={14} color={Theme.warning} />
+            )}
+            <Text style={styles.updateCaption}>
+              {t("checkUpdate.newVersion")}
+            </Text>
+          </View>
+        </Pressable>
+      )}
 
       <Modal
         title={t("checkUpdate.title")}
@@ -126,7 +103,7 @@ export function CheckUpdate() {
           </View>
         </View>
       </Modal>
-    </>
+    </View>
   );
 }
 
@@ -145,5 +122,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     width: "100%",
     gap: 10,
+  },
+  updateButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: Theme.warning + 15,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  updateCaption: {
+    fontSize: 11,
+    fontWeight: 600,
+    color: Theme.warning,
   },
 });

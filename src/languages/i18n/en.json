@@ -329,6 +329,7 @@
   "checkUpdate": {
     "title": "Check for Update",
     "loading": "Checking...",
+    "newVersion": "New Version",
     "checkForUpdate": "Check version",
     "buttonDownload": "Download new version",
     "error": "Error checking the application version.",

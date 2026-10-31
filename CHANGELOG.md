@@ -4,6 +4,7 @@
   <summary>English</summary>
 
 - Add Notifications
+- Add Check update on start-up app
 
 </details>
 
@@ -12,6 +13,7 @@
   <div dir="rtl">
 
 - اضافه شدن اعلان‌ها (نوتیفیکیشن)
+- بررسی نسخه برنامه در زمان اجرای برنامه
 
   </div>
 </details>

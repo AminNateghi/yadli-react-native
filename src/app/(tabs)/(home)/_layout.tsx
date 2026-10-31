@@ -5,11 +5,14 @@ import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
 import { IconButton } from "@/components/IconButton";
 import { MenuIcon } from "lucide-react-native";
+import { useUpdateCheck } from "@/contexts/UpdateCheckContext";
+import { CheckUpdate } from "@/components/CheckUpdate";
 import AppDrawer from "@/components/Drawer";
 
 export default function HomeLayout() {
   const { t, isRTL } = useTranslation();
   const fontFamily = useAppFontFamily();
+  const { updateAvailable } = useUpdateCheck();
 
   const [drawerVisible, setDrawerVisible] = useState(false);
 
@@ -36,7 +39,7 @@ export default function HomeLayout() {
             headerLargeTitle: true,
             headerLeft: () =>
               isRTL ? (
-                <></>
+                updateAvailable && <CheckUpdate type="icon" />
               ) : (
                 <IconButton
                   icon={MenuIcon}
@@ -50,7 +53,7 @@ export default function HomeLayout() {
                   onPress={() => handleShowDrawer()}
                 />
               ) : (
-                <></>
+                updateAvailable && <CheckUpdate type="icon" />
               ),
           }}
         />

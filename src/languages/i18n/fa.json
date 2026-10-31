@@ -329,6 +329,7 @@
   "checkUpdate": {
     "title": "بررسی نسخه برنامه",
     "loading": "درحال بررسی...",
+    "newVersion": "نسخه جدید",
     "checkForUpdate": "بررسی نسخه",
     "buttonDownload": "دانلود آخرین نسخه",
     "error": "خطا در بررسی نسخه برنامه!",
