@@ -43,7 +43,7 @@ export default function ExpenseForm() {
   const { statistics } = useStatistics();
 
   const { mutate: updateService, isPending: isPendingUpdate } =
-    useUpdateExpense(id!);
+    useUpdateExpense(id);
   const { mutate: createService, isPending: isPendingCreate } =
     useCreateExpense();
   const { data } = useGetExpense(id);

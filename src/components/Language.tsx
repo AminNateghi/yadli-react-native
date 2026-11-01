@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { CheckIcon, Languages } from "lucide-react-native";
 import { LANGUAGE_TYPE, type LanguageType } from "@/types/interfaces";
 import {

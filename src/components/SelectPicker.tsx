@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.surfaceAlt,
   },
   optionSelected: {
-    backgroundColor: Theme.primary + "10",
+    backgroundColor: Theme.primary + 10,
   },
   optionIsGroup: {
     flexDirection: "row",

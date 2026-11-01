@@ -30,16 +30,16 @@ export function useCreateExpense() {
   });
 }
 
-export function useUpdateExpense(id: number | null) {
+export function useUpdateExpense(id: number) {
   return useMutation({
     mutationFn: async (values: Partial<ExpenseDto>) =>
       await db
         .update(expensesRecords)
         .set(values)
-        .where(eq(expensesRecords.id, id!)),
+        .where(eq(expensesRecords.id, id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });
-      queryClient.invalidateQueries({ queryKey: expenseQueryKey.byId(id!) });
+      queryClient.invalidateQueries({ queryKey: expenseQueryKey.byId(id) });
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
     },
   });
