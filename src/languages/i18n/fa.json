@@ -50,6 +50,8 @@
     "sectionApplication": "برنامه",
     "itemLanguage": "زبان (Language)",
     "subitemLanguage": "تغییر زبان برنامه",
+    "itemRecentChanges": "تغییرات اخیر",
+    "subitemRecentChanges": "مشاهده آخرین تغییرات برنامه",
     "itemAbout": "معرفی",
     "subitemAbout": "توضیحی درمورد برنامه",
     "itemUpdate": "نسخه برنامه",

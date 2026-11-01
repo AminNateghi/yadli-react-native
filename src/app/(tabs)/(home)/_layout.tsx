@@ -68,6 +68,15 @@ export default function HomeLayout() {
         />
 
         <Stack.Screen
+          name="recent-changes"
+          options={{
+            title: t("drawer.itemRecentChanges"),
+            headerLargeTitle: true,
+            headerTitleAlign: "center",
+          }}
+        />
+
+        <Stack.Screen
           name="onboarding"
           options={{
             headerShown: false,

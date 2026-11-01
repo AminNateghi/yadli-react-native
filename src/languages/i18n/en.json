@@ -50,6 +50,8 @@
     "sectionApplication": "Application",
     "itemLanguage": "Language",
     "subitemLanguage": "Change app language",
+    "itemRecentChanges": "Recent changes",
+    "subitemRecentChanges": "See the latest app updates",
     "itemAbout": "About",
     "subitemAbout": "Learn about the app",
     "itemUpdate": "App Version",

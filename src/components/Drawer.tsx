@@ -1,5 +1,6 @@
 import { Modal, Pressable, StyleSheet, View } from "react-native";
-import { XIcon } from "lucide-react-native";
+import { HistoryIcon, XIcon } from "lucide-react-native";
+import { router } from "expo-router";
 import { useTranslation } from "@/languages/useTranslation";
 import { CheckUpdate } from "./CheckUpdate";
 import { Text } from "./Text";
@@ -7,6 +8,7 @@ import { Theme, GlobalStyles } from "@/constants";
 import { About } from "./About";
 import Language from "./Language";
 import { ResetAllData } from "./ResetAllData";
+import MenuItem from "./MenuItem";
 
 type Props = {
   visible: boolean;
@@ -15,6 +17,11 @@ type Props = {
 
 export default function AppDrawer({ visible, onClose }: Props) {
   const { t, isRTL } = useTranslation();
+
+  const handleShowRecentChanges = () => {
+    onClose();
+    router.push("/(tabs)/(home)/recent-changes");
+  };
 
   return (
     <Modal
@@ -52,6 +59,12 @@ export default function AppDrawer({ visible, onClose }: Props) {
           <Language />
           <CheckUpdate />
           <About />
+          <MenuItem
+            icon={<HistoryIcon size={21} color={Theme.primary} />}
+            title={t("drawer.itemRecentChanges")}
+            description={t("drawer.subitemRecentChanges")}
+            onPress={handleShowRecentChanges}
+          />
           <ResetAllData />
 
           <View style={styles.footer}>
