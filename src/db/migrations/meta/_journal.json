@@ -50,6 +50,13 @@
       "when": 1792460340287,
       "tag": "0006_closed_human_fly",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1793554881444,
+      "tag": "0007_multi_service_types",
+      "breakpoints": true
     }
   ]
 }

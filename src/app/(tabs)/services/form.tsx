@@ -16,7 +16,7 @@ import {
 } from "@/types/interfaces";
 import { router, useLocalSearchParams } from "expo-router";
 import { type ServiceFormData, serviceSchema } from "@/types/service-schema";
-import { SelectPicker } from "@/components/SelectPicker";
+import { MultiSelectPicker } from "@/components/MultiSelectPicker";
 import { DatePicker } from "@/components/DatePicker";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
@@ -28,7 +28,7 @@ import { numberFormat } from "@/utils/number-format";
 import dayjs from "dayjs";
 
 const defaultValues = {
-  type: "EngineOil",
+  type: ["EngineOil"],
   date: dayjs().toISOString(),
   odometer: undefined,
   cost: undefined,
@@ -92,7 +92,7 @@ export default function ServiceForm() {
 
   const handleSave = async (formData: ServiceFormData) => {
     const service: Omit<ServiceDto, "id"> = {
-      type: formData.type as ServiceType,
+      type: formData.type as ServiceType[],
       date: dayjs(formData.date).toDate(),
       odometer: formData.odometer,
       cost: formData.cost,
@@ -122,11 +122,12 @@ export default function ServiceForm() {
         name="type"
         render={({ field: { value, onChange } }) => (
           <>
-            <SelectPicker
+            <MultiSelectPicker
               label={t("services.serviceType")}
               value={value}
               options={serviceTypeOptions(t)}
-              onValueChange={(value) => onChange(value as ServiceType)}
+              onValueChange={onChange}
+              error={errors?.type?.message}
             />
           </>
         )}

@@ -306,9 +306,18 @@ export const LANGUAGE_TYPE: { value: LanguageType; label: string }[] = [
 ];
 
 export const getServiceTypeTitle = (
-  serviceType: string,
+  serviceType: string | string[],
   t: (key: TranslationKey) => string,
-) => serviceTypeOptions(t).find((s) => s.value === serviceType)?.label || "-";
+) => {
+  const options = serviceTypeOptions(t);
+  const serviceTypes = Array.isArray(serviceType) ? serviceType : [serviceType];
+  return (
+    serviceTypes
+      .map((type) => options.find((option) => option.value === type)?.label)
+      .filter((label): label is string => !!label)
+      .join(", ") || "-"
+  );
+};
 
 export const getExpenseTypeTitle = (
   expenseType: string,

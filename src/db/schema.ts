@@ -21,7 +21,7 @@ export const servicesRecords = sqliteTable("services", {
   id: integer("id").primaryKey({
     autoIncrement: true,
   }),
-  type: text("type").$type<ServiceType>().notNull(),
+  type: text("type", { mode: "json" }).$type<ServiceType[]>().notNull(),
   date: integer("date", { mode: "timestamp" }).notNull(),
   odometer: integer("odometer").notNull(),
   cost: real("cost").notNull(),

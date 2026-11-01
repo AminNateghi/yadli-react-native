@@ -1,3 +1,21 @@
+# v1.4.0
+
+<details open>
+  <summary>English</summary>
+
+- Add Multi Select Service Type
+
+</details>
+
+<details open>
+  <summary>فارسی</summary>
+  <div dir="rtl">
+
+- اضافه شدن انتخاب چندتایی برای نوع سرویس‌ها
+
+  </div>
+</details>
+
 # v1.3.0
 
 <details open>
