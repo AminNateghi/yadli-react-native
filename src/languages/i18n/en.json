@@ -34,6 +34,9 @@
     "done": "Done",
     "today": "Today",
     "clear": "Clear",
+    "year": "Year",
+    "month": "Month",
+    "day": "Day",
     "chooseLanguage": "Choose Language"
   },
   "menus": {

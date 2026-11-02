@@ -1,17 +1,14 @@
 import dayjs from "dayjs";
-import jalaliday from "jalaliday";
 import { CalendarIcon, XIcon } from "lucide-react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal, Pressable, StyleSheet, View } from "react-native";
-import DateTimePicker, { useDefaultStyles } from "react-native-ui-datepicker";
 import { Text } from "@/components/Text";
 import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { dateFormat } from "@/utils/date-format";
 import { IconButton } from "./IconButton";
 import { Button } from "./Button";
-
-dayjs.extend(jalaliday);
+import { WheelDatePicker } from "./WheelDatePicker";
 
 interface DatePickerProps {
   label: string;
@@ -22,19 +19,10 @@ interface DatePickerProps {
 
 export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
   const { t, isRTL } = useTranslation();
-  const defaultStyles = useDefaultStyles();
   const [visible, setVisible] = useState(false);
-
-  const [displayValue, setDisplayValue] = useState<string>("");
-
-  useEffect(() => {
-    setDisplayValue(dateFormat(isRTL, value ?? ""));
-  }, [value, isRTL]);
-
-  const handleDayPress = (date: string) => {
-    onChange(date);
-    setVisible(false);
-  };
+  const [draftDate, setDraftDate] = useState(
+    value ? new Date(value) : dayjs().toDate(),
+  );
 
   const handleClear = () => {
     onChange(null);
@@ -55,9 +43,14 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
           pressed && styles.selectorPressed,
           error && styles.borderError,
         ]}
-        onPress={() => setVisible(true)}
+        onPress={() => {
+          setDraftDate(value ? new Date(value) : dayjs().toDate());
+          setVisible(true);
+        }}
       >
-        <Text style={styles.selectorText}>{displayValue}</Text>
+        <Text style={styles.selectorText}>
+          {dateFormat(isRTL, value ?? "")}
+        </Text>
         <CalendarIcon size={20} color={Theme.textSecondary} />
       </Pressable>
       {error && <Text style={styles.error}>{error}</Text>}
@@ -69,58 +62,35 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
               <Text style={styles.modalTitle}>{t("common.selectDate")}</Text>
               <IconButton icon={XIcon} onPress={() => setVisible(false)} />
             </View>
-            <View style={{ padding: 10 }}>
-              <DateTimePicker
-                mode="single"
-                onChange={({ date }) => handleDayPress(String(date))}
-                styles={{
-                  ...defaultStyles,
-                  today: styles.calendarToday,
-                  selected: styles.calendarSelected,
-                  selected_label: styles.calendarSelectedItem,
-                  day_label: styles.calendarFont,
-                  month_selector_label: styles.calendarMonthSelectorLabel,
-                  year_selector_label: styles.calendarYearSelectorLabel,
-                  weekday_label: styles.calendarWeekdayLabel,
-                  weekdays: styles.calendarWeekdays,
-                  month_label: styles.calendarMonthLabel,
-                  year_label: styles.calendarFont,
-                  selected_year: styles.calendarSelectedItem,
-                  selected_month: styles.calendarSelectedItem,
-                  button_next_image: {
-                    ...styles.calendarButtonNextImage,
-                    transform: isRTL ? "rotate(0deg)" : "unset",
-                  },
-                  button_prev_image: {
-                    ...styles.calendarButtonPrevImage,
-                    transform: isRTL ? "rotate(0deg)" : "unset",
-                  },
-                }}
-                date={value ? dayjs(value).toDate() : dayjs().toDate()}
-                calendar={isRTL ? "jalali" : "gregory"}
-                locale={isRTL ? "fa" : "en"}
-                numerals={isRTL ? "arabext" : undefined}
-                firstDayOfWeek={isRTL ? 6 : 1}
-                weekdaysFormat="min"
-                monthsFormat="full"
-                monthCaptionFormat="full"
-                navigationPosition="around"
-              />
-            </View>
+            <WheelDatePicker
+              value={draftDate}
+              isRTL={isRTL}
+              onChange={setDraftDate}
+            />
             <View style={styles.buttonRow}>
               <Button
                 title={t("common.today")}
                 style={styles.button}
-                variant="outline"
+                variant="plain"
                 color="gray"
                 onPress={() => handleToday()}
               />
               <Button
                 title={t("common.clear")}
                 style={styles.button}
-                variant="outline"
+                variant="plain"
                 color="gray"
                 onPress={() => handleClear()}
+              />
+              <Button
+                title={t("common.ok")}
+                style={styles.button}
+                variant="subtle"
+                color="blue"
+                onPress={() => {
+                  onChange(draftDate.toISOString());
+                  setVisible(false);
+                }}
               />
             </View>
           </View>
@@ -158,9 +128,7 @@ const styles = StyleSheet.create({
     fontSize: Theme.fontSize,
     color: Theme.text,
   },
-  placeholder: {
-    color: Theme.textMuted,
-  },
+
   overlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -175,9 +143,6 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     overflow: "hidden",
   },
-  calendar: {
-    borderRadius: 20,
-  },
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -190,6 +155,7 @@ const styles = StyleSheet.create({
     color: Theme.text,
   },
   button: {
+    flex: 1,
     height: 45,
     fontSize: 12,
     fontWeight: 400,
@@ -211,53 +177,5 @@ const styles = StyleSheet.create({
   },
   borderError: {
     borderColor: Theme.danger,
-  },
-
-  calendarFont: { fontFamily: "VazirRegular" },
-  calendarToday: { borderColor: Theme.primaryDark, borderWidth: 1 },
-  calendarSelected: { backgroundColor: Theme.primaryDark, borderRadius: 12 },
-  calendarSelectedItem: {
-    backgroundColor: Theme.primaryDark,
-    color: Theme.background,
-  },
-  calendarMonthSelectorLabel: {
-    fontFamily: "VazirRegular",
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: Theme.border,
-    paddingTop: 2,
-    paddingBottom: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: Theme.borderRadius,
-  },
-  calendarYearSelectorLabel: {
-    fontFamily: "VazirRegular",
-    fontSize: 18,
-    borderWidth: 1,
-    borderColor: Theme.border,
-    paddingTop: 2,
-    paddingBottom: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderRadius: Theme.borderRadius,
-  },
-  calendarWeekdayLabel: {
-    fontFamily: "VazirRegular",
-  },
-  calendarWeekdays: {
-    borderBottomWidth: 1,
-    borderBottomColor: Theme.border + 30,
-  },
-  calendarMonthLabel: {
-    fontFamily: "VazirRegular",
-  },
-  calendarButtonNextImage: {
-    width: 24,
-    height: 24,
-  },
-  calendarButtonPrevImage: {
-    width: 24,
-    height: 24,
   },
 });

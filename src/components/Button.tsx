@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     borderRadius: Theme.borderRadius,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
   },
   pressed: {
     opacity: 0.8,

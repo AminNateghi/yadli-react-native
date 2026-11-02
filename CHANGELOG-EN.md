@@ -1,3 +1,8 @@
+# v1.5.0
+
+- Add Wheel Date Picker
+- Improve performance
+
 # v1.4.0
 
 - Add Multi Select Service Type
