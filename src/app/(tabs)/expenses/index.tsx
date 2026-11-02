@@ -1,5 +1,5 @@
 import { BanknoteIcon, PlusIcon } from "lucide-react-native";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { EmptyState } from "@/components/EmptyState";
 import { ValueWithHelp } from "@/components/ValueWithHelp";
 import { RecordCard } from "@/components/RecordCard";
@@ -29,57 +29,57 @@ export default function ExpensesScreen() {
         placement={isRTL ? "left" : "right"}
         onPress={() => navigateOnce(() => router.push("/expenses/form"))}
       />
-      <ScrollView
+      <FlatList
         style={styles.container}
+        data={expenses ?? []}
+        keyExtractor={(expense) => String(expense.id)}
+        renderItem={({ item: expense }) => (
+          <RecordCard
+            id={expense.id}
+            title={getExpenseTypeTitle(expense.type, t)}
+            date={expense.date}
+            amount={expense.amount}
+            help={t("common.priceSign")}
+            icon={BanknoteIcon}
+            color={Theme.violet}
+            rtl={isRTL}
+            onPress={(id) => {
+              navigateOnce(() =>
+                router.push({
+                  pathname: "/expenses/form",
+                  params: { id },
+                }),
+              );
+            }}
+          />
+        )}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
-      >
-        {statistics.expenses.totalExpenses > 0 && (
-          <View style={GlobalStyles.summaryCard}>
-            <Text style={GlobalStyles.summaryTitle}>
-              {t("fuel.totalFuelCost")}
-            </Text>
-            <ValueWithHelp
-              value={statistics.expenses.totalExpenses}
-              help={t("common.priceSign")}
-              style={GlobalStyles.summaryValue}
-            />
-          </View>
-        )}
-
-        {expenses?.length === 0 ? (
-          <EmptyState
-            icon={BanknoteIcon}
-            title={t("expenses.noExpenseYet")}
-            subtitle={t("expenses.expensesDescription")}
-          />
-        ) : (
-          expenses?.map((expense) => {
-            return (
-              <RecordCard
-                id={expense.id}
-                key={expense.id}
-                title={getExpenseTypeTitle(expense.type, t)}
-                date={expense.date}
-                amount={expense.amount}
+        ListHeaderComponent={
+          statistics.expenses.totalExpenses > 0 ? (
+            <View style={GlobalStyles.summaryCard}>
+              <Text style={GlobalStyles.summaryTitle}>
+                {t("fuel.totalFuelCost")}
+              </Text>
+              <ValueWithHelp
+                value={statistics.expenses.totalExpenses}
                 help={t("common.priceSign")}
-                icon={BanknoteIcon}
-                color={Theme.violet}
-                rtl={isRTL}
-                onPress={(id) => {
-                  navigateOnce(() =>
-                    router.push({
-                      pathname: "/expenses/form",
-                      params: { id },
-                    }),
-                  );
-                }}
+                style={GlobalStyles.summaryValue}
               />
-            );
-          })
-        )}
-        <View style={{ height: 100 }} />
-      </ScrollView>
+            </View>
+          ) : undefined
+        }
+        ListEmptyComponent={
+          expenses?.length === 0 ? (
+            <EmptyState
+              icon={BanknoteIcon}
+              title={t("expenses.noExpenseYet")}
+              subtitle={t("expenses.expensesDescription")}
+            />
+          ) : undefined
+        }
+        ListFooterComponent={<View style={styles.listFooter} />}
+      />
     </View>
   );
 }
@@ -94,5 +94,8 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  listFooter: {
+    height: 100,
   },
 });

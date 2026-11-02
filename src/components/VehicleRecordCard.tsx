@@ -64,7 +64,6 @@ export function VehicleRecordCard({
         {vehicle?.makeModel && (
           <Text style={styles.date}>{vehicle.makeModel}</Text>
         )}
-        {vehicle?.year && <Text style={styles.date}>{vehicle.year}</Text>}
       </View>
       <View style={styles.rightContent}>
         {rtl ? (

@@ -1,12 +1,12 @@
 import { PlusIcon, TimerIcon } from "lucide-react-native";
-import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { useMemo } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
 import { EmptyState } from "@/components/EmptyState";
 import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useReminders } from "@/repositories/reminder-repository";
 import { ReminderCard } from "@/components/ReminderCard";
-import { getReminders, type ReminderCardProp } from "@/utils/service-reminders";
+import { getReminders } from "@/utils/service-reminders";
 import { useServices } from "@/repositories/service-repository";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
@@ -16,7 +16,6 @@ import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 
 export default function RemindersScreen() {
   const { t, isRTL } = useTranslation();
-  const [reminders, setReminders] = useState<ReminderCardProp[]>([]);
   const navigateOnce = useNavigationGuard();
 
   const { data } = useReminders();
@@ -24,19 +23,14 @@ export default function RemindersScreen() {
   const { data: fuels } = useFuels();
   const { data: expenses } = useExpenses();
 
-  useEffect(() => {
-    const loadReminders = async () => {
-      if (!data || !services || !fuels || !expenses) return;
+  const reminders = useMemo(() => {
+    if (!data || !services || !fuels || !expenses) return [];
 
-      const result = await getReminders(data, {
-        services: services || [],
-        fuels: fuels || [],
-        expense: expenses || [],
-      });
-      setReminders(result);
-    };
-
-    loadReminders();
+    return getReminders(data, {
+      services,
+      fuels,
+      expense: expenses,
+    });
   }, [data, services, fuels, expenses]);
 
   return (
@@ -48,37 +42,34 @@ export default function RemindersScreen() {
         placement={isRTL ? "left" : "right"}
         onPress={() => navigateOnce(() => router.push("/reminders/form"))}
       />
-      <ScrollView
+      <FlatList
         style={styles.container}
+        data={reminders}
+        keyExtractor={(reminder) => String(reminder.data.id)}
+        renderItem={({ item: reminder }) => (
+          <ReminderCard
+            reminder={reminder}
+            onPress={(id) => {
+              navigateOnce(() =>
+                router.push({
+                  pathname: "/reminders/form",
+                  params: { id },
+                }),
+              );
+            }}
+          />
+        )}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
-      >
-        {!reminders || reminders?.length === 0 ? (
+        ListEmptyComponent={
           <EmptyState
             icon={TimerIcon}
             title={t("reminders.noReminders")}
             subtitle={t("reminders.noRemindersDescription")}
           />
-        ) : (
-          reminders?.map((reminder) => {
-            return (
-              <ReminderCard
-                key={reminder?.data?.id}
-                reminder={reminder}
-                onPress={(id) => {
-                  navigateOnce(() =>
-                    router.push({
-                      pathname: "/reminders/form",
-                      params: { id },
-                    }),
-                  );
-                }}
-              />
-            );
-          })
-        )}
-        <View style={{ height: 100 }} />
-      </ScrollView>
+        }
+        ListFooterComponent={<View style={styles.listFooter} />}
+      />
     </View>
   );
 }
@@ -93,5 +84,8 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  listFooter: {
+    height: 100,
   },
 });

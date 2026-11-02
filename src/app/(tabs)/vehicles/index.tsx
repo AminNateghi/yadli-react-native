@@ -1,5 +1,5 @@
 import { PlusIcon, WrenchIcon } from "lucide-react-native";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { EmptyState } from "@/components/EmptyState";
@@ -30,40 +30,37 @@ export default function VehiclesScreen() {
         placement={isRTL ? "left" : "right"}
         onPress={() => navigateOnce(() => router.push("/vehicles/form"))}
       />
-      <ScrollView
+      <FlatList
         style={styles.container}
+        data={vehicles}
+        keyExtractor={(vehicle) => String(vehicle.id)}
+        renderItem={({ item: vehicle }) => (
+          <VehicleRecordCard
+            id={vehicle.id}
+            vehicle={vehicle}
+            rtl={isRTL}
+            active={vehicle.id === activeVehicle?.id}
+            onPress={(id) => {
+              navigateOnce(() =>
+                router.push({
+                  pathname: "/vehicles/form",
+                  params: { id },
+                }),
+              );
+            }}
+          />
+        )}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
-      >
-        {vehicles?.length === 0 ? (
+        ListEmptyComponent={
           <EmptyState
             icon={WrenchIcon}
             title={t("services.noServicesYet")}
             subtitle={t("services.servicesDescription")}
           />
-        ) : (
-          vehicles?.map((vehicle) => {
-            return (
-              <VehicleRecordCard
-                id={vehicle.id}
-                key={vehicle.id}
-                vehicle={vehicle}
-                rtl={isRTL}
-                active={vehicle.id === activeVehicle?.id}
-                onPress={(id) => {
-                  navigateOnce(() =>
-                    router.push({
-                      pathname: "/vehicles/form",
-                      params: { id },
-                    }),
-                  );
-                }}
-              />
-            );
-          })
-        )}
-        <View style={{ height: 100 }} />
-      </ScrollView>
+        }
+        ListFooterComponent={<View style={styles.listFooter} />}
+      />
     </View>
   );
 }
@@ -78,5 +75,8 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  listFooter: {
+    height: 100,
   },
 });

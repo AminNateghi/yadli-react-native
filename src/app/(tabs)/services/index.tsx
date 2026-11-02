@@ -1,5 +1,5 @@
 import { PlusIcon, WrenchIcon } from "lucide-react-native";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { Theme, GlobalStyles } from "@/constants";
 import { useServices } from "@/repositories/service-repository";
 import { useTranslation } from "@/languages/useTranslation";
@@ -30,58 +30,58 @@ export default function ServicesScreen() {
         placement={isRTL ? "left" : "right"}
         onPress={() => navigateOnce(() => router.push("/services/form"))}
       />
-      <ScrollView
+      <FlatList
         style={styles.container}
+        data={services ?? []}
+        keyExtractor={(service) => String(service.id)}
+        renderItem={({ item: service }) => (
+          <RecordCard
+            id={service.id}
+            title={getServiceTypeTitle(service.type, t)}
+            date={service.date}
+            amount={service.cost}
+            help={t("common.priceSign")}
+            subtitle={`${numberFormat(service.odometer, { isRTL })} ${t("common.odometer")}`}
+            icon={WrenchIcon}
+            color={Theme.mulberry}
+            rtl={isRTL}
+            onPress={(id) => {
+              navigateOnce(() =>
+                router.push({
+                  pathname: "/services/form",
+                  params: { id },
+                }),
+              );
+            }}
+          />
+        )}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
-      >
-        {statistics.services.totalServiceCost > 0 && (
-          <View style={GlobalStyles.summaryCard}>
-            <Text style={GlobalStyles.summaryTitle}>
-              {t("services.totalServiceCost")}
-            </Text>
-            <ValueWithHelp
-              value={statistics.services.totalServiceCost}
-              help={t("common.priceSign")}
-              style={GlobalStyles.summaryValue}
-            />
-          </View>
-        )}
-
-        {services?.length === 0 ? (
-          <EmptyState
-            icon={WrenchIcon}
-            title={t("services.noServicesYet")}
-            subtitle={t("services.servicesDescription")}
-          />
-        ) : (
-          services?.map((service) => {
-            return (
-              <RecordCard
-                id={service.id}
-                key={service.id}
-                title={getServiceTypeTitle(service.type, t)}
-                date={service.date}
-                amount={service.cost}
+        ListHeaderComponent={
+          statistics.services.totalServiceCost > 0 ? (
+            <View style={GlobalStyles.summaryCard}>
+              <Text style={GlobalStyles.summaryTitle}>
+                {t("services.totalServiceCost")}
+              </Text>
+              <ValueWithHelp
+                value={statistics.services.totalServiceCost}
                 help={t("common.priceSign")}
-                subtitle={`${numberFormat(service.odometer, { isRTL })} ${t("common.odometer")}`}
-                icon={WrenchIcon}
-                color={Theme.mulberry}
-                rtl={isRTL}
-                onPress={(id) => {
-                  navigateOnce(() =>
-                    router.push({
-                      pathname: "/services/form",
-                      params: { id },
-                    }),
-                  );
-                }}
+                style={GlobalStyles.summaryValue}
               />
-            );
-          })
-        )}
-        <View style={{ height: 100 }} />
-      </ScrollView>
+            </View>
+          ) : undefined
+        }
+        ListEmptyComponent={
+          services?.length === 0 ? (
+            <EmptyState
+              icon={WrenchIcon}
+              title={t("services.noServicesYet")}
+              subtitle={t("services.servicesDescription")}
+            />
+          ) : undefined
+        }
+        ListFooterComponent={<View style={styles.listFooter} />}
+      />
     </View>
   );
 }
@@ -96,5 +96,8 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  listFooter: {
+    height: 100,
   },
 });

@@ -1,5 +1,5 @@
 import { FuelIcon, GaugeIcon, PlusIcon } from "lucide-react-native";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { EmptyState } from "@/components/EmptyState";
 import { ValueWithHelp } from "@/components/ValueWithHelp";
 import { RecordCard } from "@/components/RecordCard";
@@ -29,77 +29,79 @@ export default function FuelScreen() {
         placement={isRTL ? "left" : "right"}
         onPress={() => navigateOnce(() => router.push("/fuel/form"))}
       />
-      <ScrollView
+      <FlatList
         style={styles.container}
+        data={fuels ?? []}
+        keyExtractor={(fuel) => String(fuel.id)}
+        renderItem={({ item: fuel }) => (
+          <RecordCard
+            id={fuel.id}
+            title={`${numberFormat(fuel.liters, { isRTL })} ${t("common.liter")}`}
+            date={fuel.date}
+            amount={fuel.totalCost}
+            help={t("common.priceSign")}
+            subtitle={`${numberFormat(fuel.odometer, { isRTL })} ${t("common.odometer")}`}
+            icon={FuelIcon}
+            color={Theme.orange}
+            rtl={isRTL}
+            onPress={(id) => {
+              navigateOnce(() =>
+                router.push({
+                  pathname: "/fuel/form",
+                  params: { id },
+                }),
+              );
+            }}
+          />
+        )}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
-      >
-        {statistics.refueling.averageLiterPerKm > 0 && (
-          <View style={styles.disPerLiterCard}>
-            <View style={styles.disPerLiterIconContainer}>
-              <GaugeIcon size={20} color={Theme.success} />
-            </View>
-            <View>
-              <Text style={styles.disPerLiterValue}>
-                {numberFormat(statistics.refueling.averageLiterPerKm, {
-                  isRTL,
-                })}{" "}
-                {t("fuel.kmPerLiter")}
-              </Text>
-              <Text style={styles.disPerLiterLabel}>
-                {t("fuel.averageFuelEconomy")}
-              </Text>
-            </View>
-          </View>
-        )}
+        ListHeaderComponent={
+          <>
+            {statistics.refueling.averageLiterPerKm > 0 && (
+              <View style={styles.disPerLiterCard}>
+                <View style={styles.disPerLiterIconContainer}>
+                  <GaugeIcon size={20} color={Theme.success} />
+                </View>
+                <View>
+                  <Text style={styles.disPerLiterValue}>
+                    {numberFormat(statistics.refueling.averageLiterPerKm, {
+                      isRTL,
+                    })}{" "}
+                    {t("common.liter")}
+                  </Text>
+                  <Text style={styles.disPerLiterLabel}>
+                    {t("fuel.averageFuelEconomy")}
+                  </Text>
+                </View>
+              </View>
+            )}
 
-        {statistics.refueling.totalFuelCost > 0 && (
-          <View style={GlobalStyles.summaryCard}>
-            <Text style={GlobalStyles.summaryTitle}>
-              {t("fuel.totalFuelCost")}
-            </Text>
-            <ValueWithHelp
-              value={statistics.refueling.totalFuelCost}
-              help={t("common.priceSign")}
-              style={GlobalStyles.summaryValue}
+            {statistics.refueling.totalFuelCost > 0 && (
+              <View style={GlobalStyles.summaryCard}>
+                <Text style={GlobalStyles.summaryTitle}>
+                  {t("fuel.totalFuelCost")}
+                </Text>
+                <ValueWithHelp
+                  value={statistics.refueling.totalFuelCost}
+                  help={t("common.priceSign")}
+                  style={GlobalStyles.summaryValue}
+                />
+              </View>
+            )}
+          </>
+        }
+        ListEmptyComponent={
+          fuels?.length === 0 ? (
+            <EmptyState
+              icon={FuelIcon}
+              title={t("fuel.noFuelRecords")}
+              subtitle={t("fuel.fuelDescription")}
             />
-          </View>
-        )}
-
-        {fuels?.length === 0 ? (
-          <EmptyState
-            icon={FuelIcon}
-            title={t("fuel.noFuelRecords")}
-            subtitle={t("fuel.fuelDescription")}
-          />
-        ) : (
-          fuels?.map((fuel) => {
-            return (
-              <RecordCard
-                id={fuel.id}
-                key={fuel.id}
-                title={`${numberFormat(fuel.liters, { isRTL })} ${t("common.liter")}`}
-                date={fuel.date}
-                amount={fuel.totalCost}
-                help={t("common.priceSign")}
-                subtitle={`${numberFormat(fuel.odometer, { isRTL })} ${t("common.odometer")}`}
-                icon={FuelIcon}
-                color={Theme.orange}
-                rtl={isRTL}
-                onPress={(id) => {
-                  navigateOnce(() =>
-                    router.push({
-                      pathname: "/fuel/form",
-                      params: { id },
-                    }),
-                  );
-                }}
-              />
-            );
-          })
-        )}
-        <View style={{ height: 100 }} />
-      </ScrollView>
+          ) : undefined
+        }
+        ListFooterComponent={<View style={styles.listFooter} />}
+      />
     </View>
   );
 }
@@ -114,6 +116,9 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 16,
+  },
+  listFooter: {
+    height: 100,
   },
   disPerLiterCard: {
     flexDirection: "row",

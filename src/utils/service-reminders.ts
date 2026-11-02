@@ -45,41 +45,48 @@ function clampProgress(value: number): number {
   return Math.min(1, Math.max(0, value));
 }
 
-async function getLatestOdometerAndDate(
+function getLatestOdometerAndDate(
   services: ServiceDto[],
   fuels: FuelDto[],
   expense: ExpenseDto[],
-) {
-  const servicesList = services.sort((a, b) => b.odometer - a.odometer).at(0);
-  const fuelsList = fuels.sort((a, b) => b.odometer - a.odometer).at(0);
-  const expensesList = expense.sort((a, b) => b.odometer - a.odometer).at(0);
+): LatestData {
+  const getHighestOdometerRecord = (
+    records: { odometer: number; date: Date }[],
+  ) => {
+    let highestRecord: (typeof records)[number] | undefined;
+    for (const record of records) {
+      if (!highestRecord || record.odometer > highestRecord.odometer) {
+        highestRecord = record;
+      }
+    }
+    return highestRecord;
+  };
 
-  // ====== Maximum Odometer / Date
-  const flatOdometer = [
-    servicesList?.odometer,
-    fuelsList?.odometer,
-    expensesList?.odometer,
-  ].filter((v): v is number => !!v);
-  const maxOdometer = flatOdometer.length > 0 ? Math.max(...flatOdometer) : 0;
+  const highestOdometerRecords = [
+    getHighestOdometerRecord(services),
+    getHighestOdometerRecord(fuels),
+    getHighestOdometerRecord(expense),
+  ];
+  let maxOdometer = 0;
+  let maxDate: Date | null = null;
 
-  const flatDate = [
-    servicesList?.date,
-    fuelsList?.date,
-    expensesList?.date,
-  ].filter((v): v is Date => !!v);
-  const maxDate =
-    flatDate.length > 0
-      ? new Date(Math.max(...flatDate.map((d) => d.getTime())))
-      : null;
+  for (const record of highestOdometerRecords) {
+    if (record?.odometer && record.odometer > maxOdometer) {
+      maxOdometer = record.odometer;
+    }
+    if (record && (!maxDate || record.date > maxDate)) {
+      maxDate = record.date;
+    }
+  }
 
   return { maxOdometer, maxDate };
 }
 
 // compute the progress of a reminder based on its trigger type and the latest data
-async function getDateReminderProgress(
+function getDateReminderProgress(
   reminder: ReminderDto,
   latest: LatestData,
-): Promise<DateReminderProgress | undefined> {
+): DateReminderProgress | undefined {
   if (!reminder.startDate) return undefined;
 
   const startDate = reminder.startDate ? dayjs(reminder.startDate) : null;
@@ -110,10 +117,10 @@ async function getDateReminderProgress(
   };
 }
 
-async function getOdometerReminderProgress(
+function getOdometerReminderProgress(
   reminder: ReminderDto,
   latest: LatestData,
-): Promise<OdometerReminderProgress | undefined> {
+): OdometerReminderProgress | undefined {
   if (!reminder.startOdometer) return undefined;
 
   const latestOdometer = latest.maxOdometer;
@@ -198,15 +205,15 @@ export function getReminderDueDate(reminder: ReminderDto): Date | null {
   return calculateNextThresholds(reminder).nextDate;
 }
 
-export async function getReminders(
+export function getReminders(
   reminders: ReminderDto[],
   inputData: {
     services: ServiceDto[];
     fuels: FuelDto[];
     expense: ExpenseDto[];
   },
-): Promise<ReminderCardProp[]> {
-  const latest = await getLatestOdometerAndDate(
+): ReminderCardProp[] {
+  const latest = getLatestOdometerAndDate(
     inputData.services,
     inputData.fuels,
     inputData.expense,
@@ -215,12 +222,8 @@ export async function getReminders(
   const result: ReminderCardProp[] = [];
 
   for (const reminder of reminders) {
-    const dateProgress = await getDateReminderProgress(reminder, latest);
-
-    const odometerProgress = await getOdometerReminderProgress(
-      reminder,
-      latest,
-    );
+    const dateProgress = getDateReminderProgress(reminder, latest);
+    const odometerProgress = getOdometerReminderProgress(reminder, latest);
 
     if (!dateProgress && !odometerProgress) continue;
 

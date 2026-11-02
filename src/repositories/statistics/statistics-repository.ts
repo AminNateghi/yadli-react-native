@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useServices } from "../service-repository";
 import { useFuels } from "../fuel-repository";
 import { useExpenses } from "../expense-repository";
@@ -26,36 +26,26 @@ export function useStatistics(): {
   persianStatistics: PersianStatistics;
   totalReminders: number;
 } {
-  const [totalReminders, setTotalReminders] = useState(0);
   const { data: listOfServices } = useServices();
   const { data: listOfFuels } = useFuels();
   const { data: listOfExpenses } = useExpenses();
   const { data: listOfReminders } = useReminders();
 
-  useEffect(() => {
-    let cancelled = false;
+  const totalReminders = useMemo(() => {
+    if (
+      !listOfReminders ||
+      !listOfServices ||
+      !listOfFuels ||
+      !listOfExpenses
+    ) {
+      return 0;
+    }
 
-    const loadReminders = async () => {
-      if (!listOfReminders || !listOfServices || !listOfFuels || !listOfExpenses) {
-        setTotalReminders(0);
-        return;
-      }
-
-      const result = await getReminders(listOfReminders, {
-        services: listOfServices,
-        fuels: listOfFuels,
-        expense: listOfExpenses,
-      });
-
-      if (!cancelled) {
-        setTotalReminders(result.filter((reminder) => reminder.urgency >= 0.8).length);
-      }
-    };
-
-    void loadReminders();
-    return () => {
-      cancelled = true;
-    };
+    return getReminders(listOfReminders, {
+      services: listOfServices,
+      fuels: listOfFuels,
+      expense: listOfExpenses,
+    }).filter((reminder) => reminder.urgency >= 0.8).length;
   }, [listOfReminders, listOfServices, listOfFuels, listOfExpenses]);
 
   const { statistics, persianStatistics } = useMemo(() => {
