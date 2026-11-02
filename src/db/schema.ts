@@ -3,18 +3,33 @@ import type {
   ReminderMode,
   ReminderTriggerType,
   ExpenseType,
+  FuelType,
   LanguageType,
   ServiceType,
+  VehicleType,
 } from "@/types/interfaces";
 
 export const profileRecords = sqliteTable("profile", {
   id: integer("id").primaryKey(),
   fullName: text("full_name").default("-"),
-  vehicleName: text("vehicle_name").default("-"),
+  activeVehicleId: integer("active_vehicle_id").notNull().default(1),
   language: text("language").$type<LanguageType>().default("fa"),
   onboarding: integer("onboarding", { mode: "boolean" })
     .notNull()
     .default(false),
+});
+
+export const vehiclesRecords = sqliteTable("vehicles", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  customName: text("custom_name").notNull(),
+  makeModel: text("make_model"),
+  year: integer("year"),
+  purchaseDate: integer("purchase_date", { mode: "timestamp" }),
+  purchasePrice: real("purchase_price"),
+  purchaseOdometer: integer("purchase_odometer"),
+  type: text("type").$type<VehicleType>(),
+  fuelType: text("fuel_type").$type<FuelType>().notNull().default("Gasoline"),
+  capacity: real("capacity"),
 });
 
 export const servicesRecords = sqliteTable("services", {
@@ -26,6 +41,7 @@ export const servicesRecords = sqliteTable("services", {
   odometer: integer("odometer").notNull(),
   cost: real("cost").notNull(),
   note: text("note"),
+  vehicleId: integer("vehicle_id").notNull().default(1),
 });
 
 export const fuelsRecords = sqliteTable("fuels", {
@@ -40,6 +56,7 @@ export const fuelsRecords = sqliteTable("fuels", {
   fullTank: integer("full_tank", { mode: "boolean" }).notNull(),
   station: text("station"),
   note: text("note"),
+  vehicleId: integer("vehicle_id").notNull().default(1),
 });
 
 export const expensesRecords = sqliteTable("expenses", {
@@ -51,6 +68,7 @@ export const expensesRecords = sqliteTable("expenses", {
   odometer: integer("odometer").notNull(),
   amount: real("amount").notNull(),
   note: text("note"),
+  vehicleId: integer("vehicle_id").notNull().default(1),
 });
 
 export const remindersRecords = sqliteTable("reminders", {
@@ -90,4 +108,5 @@ export const remindersRecords = sqliteTable("reminders", {
     .default(true),
 
   note: text("note"),
+  vehicleId: integer("vehicle_id").notNull().default(1),
 });

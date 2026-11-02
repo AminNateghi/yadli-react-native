@@ -1,6 +1,6 @@
 import type { ReminderDto } from "@/types/interfaces";
 
-export const reminderTemplate: Omit<ReminderDto, "id">[] = [
+export const reminderTemplate: Omit<ReminderDto, "id" | "vehicleId">[] = [
   {
     serviceType: "EngineOil",
     mode: "Recurring",

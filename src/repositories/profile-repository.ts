@@ -77,7 +77,7 @@ export function useGetProfile() {
           id: 1,
           fullName: "بدون اسم",
           language: "fa",
-          vehicleName: "خودرو من",
+          activeVehicleId: 1,
         })
         .returning();
 

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { queryClient } from "../utils/query-client";
 import { remindersRecords } from "@/db/schema";
@@ -8,6 +8,7 @@ import {
   removeReminderNotification,
   syncReminderNotification,
 } from "@/utils/reminder-notifications";
+import { getActiveVehicleId, useActiveVehicleId } from "./active-vehicle";
 
 export const remindersQueryKey = {
   list: ["reminder-list"],
@@ -15,19 +16,25 @@ export const remindersQueryKey = {
 };
 
 export function useReminders() {
+  const { data: vehicleId } = useActiveVehicleId();
   return useQuery({
-    queryKey: remindersQueryKey.list,
+    queryKey: [...remindersQueryKey.list, vehicleId],
     queryFn: async () =>
-      db.select().from(remindersRecords).orderBy(desc(remindersRecords.id)),
+      db
+        .select()
+        .from(remindersRecords)
+        .where(eq(remindersRecords.vehicleId, vehicleId ?? 1))
+        .orderBy(desc(remindersRecords.id)),
+    enabled: vehicleId !== undefined,
   });
 }
 
 export function useCreateReminder() {
   return useMutation({
-    mutationFn: async (values: Omit<ReminderDto, "id">) => {
+    mutationFn: async (values: Omit<ReminderDto, "id" | "vehicleId">) => {
       const [reminder] = await db
         .insert(remindersRecords)
-        .values(values)
+        .values({ ...values, vehicleId: await getActiveVehicleId() })
         .returning();
       if (!reminder) {
         throw new Error("Created reminder could not be read");
@@ -44,12 +51,20 @@ export function useCreateReminder() {
 }
 
 export function useUpdateReminder(id: number) {
+  const { data: vehicleId } = useActiveVehicleId();
   return useMutation({
-    mutationFn: async (values: Partial<ReminderDto>) => {
+    mutationFn: async (
+      values: Partial<Omit<ReminderDto, "id" | "vehicleId">>,
+    ) => {
       const [reminder] = await db
         .update(remindersRecords)
         .set(values)
-        .where(eq(remindersRecords.id, id))
+        .where(
+          and(
+            eq(remindersRecords.id, id),
+            eq(remindersRecords.vehicleId, vehicleId ?? 1),
+          ),
+        )
         .returning();
       if (!reminder) {
         throw new Error("Reminder not found");
@@ -66,10 +81,21 @@ export function useUpdateReminder(id: number) {
 }
 
 export function useDeleteReminder() {
+  const { data: vehicleId } = useActiveVehicleId();
   return useMutation({
     mutationFn: async (id: number) => {
-      await db.delete(remindersRecords).where(eq(remindersRecords.id, id));
-      await removeReminderNotification(id);
+      const [deleted] = await db
+        .delete(remindersRecords)
+        .where(
+          and(
+            eq(remindersRecords.id, id),
+            eq(remindersRecords.vehicleId, vehicleId ?? 1),
+          ),
+        )
+        .returning();
+      if (deleted) {
+        await removeReminderNotification(id);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
@@ -78,13 +104,19 @@ export function useDeleteReminder() {
 }
 
 export function useGetReminder(id: number | null) {
+  const { data: vehicleId } = useActiveVehicleId();
   return useQuery({
-    queryKey: remindersQueryKey.byId(id!),
-    queryFn: () =>
-      db.query.remindersRecords.findFirst({
-        where: eq(remindersRecords.id, id!),
-      }),
-    enabled: !!id,
+    queryKey: [...remindersQueryKey.byId(id ?? 0), vehicleId],
+    queryFn: () => {
+      if (id === null) return undefined;
+      return db.query.remindersRecords.findFirst({
+        where: and(
+          eq(remindersRecords.id, id),
+          eq(remindersRecords.vehicleId, vehicleId ?? 1),
+        ),
+      });
+    },
+    enabled: !!id && vehicleId !== undefined,
   });
 }
 
@@ -97,8 +129,12 @@ interface CompleteReminderProps {
 export function useCompleteReminder() {
   return useMutation({
     mutationFn: async (props: CompleteReminderProps) => {
+      const vehicleId = await getActiveVehicleId();
       const reminder = await db.query.remindersRecords.findFirst({
-        where: eq(remindersRecords.id, props.reminderId!),
+        where: and(
+          eq(remindersRecords.id, props.reminderId),
+          eq(remindersRecords.vehicleId, vehicleId),
+        ),
       });
 
       if (!reminder) {
@@ -108,7 +144,12 @@ export function useCompleteReminder() {
       if (reminder.mode === "OneTime") {
         await db
           .delete(remindersRecords)
-          .where(eq(remindersRecords.id, props.reminderId));
+          .where(
+            and(
+              eq(remindersRecords.id, props.reminderId),
+              eq(remindersRecords.vehicleId, vehicleId),
+            ),
+          );
         await removeReminderNotification(reminder.id);
         return true;
       }
@@ -121,7 +162,12 @@ export function useCompleteReminder() {
 
           active: true,
         })
-        .where(eq(remindersRecords.id, props.reminderId))
+        .where(
+          and(
+            eq(remindersRecords.id, props.reminderId),
+            eq(remindersRecords.vehicleId, vehicleId),
+          ),
+        )
         .returning();
       if (!updatedReminder) {
         throw new Error("Reminder not found");

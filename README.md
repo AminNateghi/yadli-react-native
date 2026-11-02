@@ -16,6 +16,7 @@ Log refueling, periodic services, vehicle expenses, and set odometer/date
 - **Services:** type, date, odometer, cost, note
 - **Expenses:** type (insurance, registration, etc.), date, odometer, amount
 - **Reminders:** one-time / recurring, by odometer and/or date
+- **Multiple vehicles:** register vehicles with fuel type and optional vehicle details; switch between them from the dashboard or drawer
 - **Dashboard:** totals + recent records
 - **Bilingual FA/EN + RTL:** language stored in `profile` table
 - **Offline only:** store all data in sqlite db
@@ -107,6 +108,8 @@ No auth, no network. `query-client.ts` is a bare `new QueryClient()`.
 **سوابق سرویس‌ها** : ثبت انواع سرویس‌های دوره‌ای و نگهداری از خودرو
 
 **سوابق هزینه‌ها** : ثبت انواع هزینه‌های مربوط به خودرو
+
+**چند خودرو** : ثبت چند وسیله نقلیه با نوع سوخت و جزئیات دلخواه و جابه‌جایی بین آن‌ها
 
 **یادآوری** : نمایش یادآوری سررویس‌های دوره‌ای به همراه تاریخ و کیلومتر مانده
 

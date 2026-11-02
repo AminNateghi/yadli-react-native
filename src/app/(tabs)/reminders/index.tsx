@@ -44,7 +44,7 @@ export default function RemindersScreen() {
       <FloatButton
         icon={PlusIcon}
         text={t("reminders.createTitle")}
-        color={Theme.blue}
+        color={Theme.green}
         placement={isRTL ? "left" : "right"}
         onPress={() => navigateOnce(() => router.push("/reminders/form"))}
       />

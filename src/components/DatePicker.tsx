@@ -96,7 +96,7 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
                     transform: isRTL ? "rotate(0deg)" : "unset",
                   },
                 }}
-                date={dayjs(value).toDate()}
+                date={value ? dayjs(value).toDate() : dayjs().toDate()}
                 calendar={isRTL ? "jalali" : "gregory"}
                 locale={isRTL ? "fa" : "en"}
                 numerals={isRTL ? "arabext" : undefined}

@@ -96,7 +96,7 @@ export default function FuelForm() {
   };
 
   const handleSave = async (formData: FuelFormData) => {
-    const fuel: Omit<FuelDto, "id"> = {
+    const fuel: Omit<FuelDto, "id" | "vehicleId"> = {
       date: new Date(formData.date),
       odometer: formData.odometer,
       note: formData.note ?? null,

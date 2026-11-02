@@ -57,6 +57,13 @@
       "when": 1793554881444,
       "tag": "0007_multi_service_types",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1793563471931,
+      "tag": "0008_multiple_vehicles",
+      "breakpoints": true
     }
   ]
 }

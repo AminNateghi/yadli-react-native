@@ -1,13 +1,13 @@
-import { Modal, Pressable, StyleSheet, View } from "react-native";
-import { HistoryIcon, XIcon } from "lucide-react-native";
+import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { CarIcon, HistoryIcon, XIcon } from "lucide-react-native";
 import { router } from "expo-router";
 import { useTranslation } from "@/languages/useTranslation";
 import { CheckUpdate } from "./CheckUpdate";
 import { Text } from "./Text";
 import { Theme, GlobalStyles } from "@/constants";
 import { About } from "./About";
-import Language from "./Language";
 import { ResetAllData } from "./ResetAllData";
+import Language from "./Language";
 import MenuItem from "./MenuItem";
 
 type Props = {
@@ -21,6 +21,11 @@ export default function AppDrawer({ visible, onClose }: Props) {
   const handleShowRecentChanges = () => {
     onClose();
     router.push("/(tabs)/(home)/recent-changes");
+  };
+
+  const handleVehicles = () => {
+    onClose();
+    router.navigate("/vehicles");
   };
 
   return (
@@ -56,16 +61,28 @@ export default function AppDrawer({ visible, onClose }: Props) {
 
           <View style={styles.separator} />
 
-          <Language />
-          <CheckUpdate />
-          <About />
-          <MenuItem
-            icon={<HistoryIcon size={21} color={Theme.primary} />}
-            title={t("drawer.itemRecentChanges")}
-            description={t("drawer.subitemRecentChanges")}
-            onPress={handleShowRecentChanges}
-          />
-          <ResetAllData />
+          <ScrollView
+            style={styles.drawerContent}
+            showsVerticalScrollIndicator={false}
+          >
+            <MenuItem
+              icon={<CarIcon size={21} color={Theme.primary} />}
+              title={t("drawer.vehicles")}
+              description={t("drawer.subitemVehicle")}
+              onPress={handleVehicles}
+            />
+            <View style={styles.separator} />
+            <Language />
+            <CheckUpdate />
+            <About />
+            <MenuItem
+              icon={<HistoryIcon size={21} color={Theme.primary} />}
+              title={t("drawer.itemRecentChanges")}
+              description={t("drawer.subitemRecentChanges")}
+              onPress={handleShowRecentChanges}
+            />
+            <ResetAllData />
+          </ScrollView>
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>{t("app.madeWithLove")}</Text>
@@ -117,6 +134,9 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: Theme.border + 20,
     marginBottom: 24,
+  },
+  drawerContent: {
+    flex: 1,
   },
   footer: {
     marginTop: "auto",

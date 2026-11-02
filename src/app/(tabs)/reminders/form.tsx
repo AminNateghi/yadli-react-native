@@ -115,7 +115,7 @@ export default function ReminderForm() {
   };
 
   const handleSave = (formData: ReminderFormData) => {
-    const reminder: Omit<ReminderDto, "id"> = {
+    const reminder: Omit<ReminderDto, "id" | "vehicleId"> = {
       mode: formData.mode as ReminderMode,
       note: formData.note ?? null,
       serviceType:

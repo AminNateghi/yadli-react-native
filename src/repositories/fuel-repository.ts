@@ -1,10 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { desc, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { fuelsRecords } from "@/db/schema";
 import type { FuelDto } from "@/types/interfaces";
 import { queryClient } from "../utils/query-client";
 import { remindersQueryKey } from "./reminder-repository";
+import { getActiveVehicleId, useActiveVehicleId } from "./active-vehicle";
 
 export const fuelQueryKey = {
   list: ["fuel-list"],
@@ -12,17 +13,25 @@ export const fuelQueryKey = {
 };
 
 export function useFuels() {
+  const { data: vehicleId } = useActiveVehicleId();
   return useQuery({
-    queryKey: fuelQueryKey.list,
+    queryKey: [...fuelQueryKey.list, vehicleId],
     queryFn: async () =>
-      db.select().from(fuelsRecords).orderBy(desc(fuelsRecords.date)),
+      db
+        .select()
+        .from(fuelsRecords)
+        .where(eq(fuelsRecords.vehicleId, vehicleId ?? 1))
+        .orderBy(desc(fuelsRecords.date)),
+    enabled: vehicleId !== undefined,
   });
 }
 
 export function useCreateFuel() {
   return useMutation({
-    mutationFn: async (values: Omit<FuelDto, "id">) =>
-      await db.insert(fuelsRecords).values(values),
+    mutationFn: async (values: Omit<FuelDto, "id" | "vehicleId">) =>
+      await db
+        .insert(fuelsRecords)
+        .values({ ...values, vehicleId: await getActiveVehicleId() }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
@@ -31,9 +40,18 @@ export function useCreateFuel() {
 }
 
 export function useUpdateFuel(id: number) {
+  const { data: vehicleId } = useActiveVehicleId();
   return useMutation({
-    mutationFn: async (values: Partial<FuelDto>) =>
-      await db.update(fuelsRecords).set(values).where(eq(fuelsRecords.id, id)),
+    mutationFn: async (values: Partial<Omit<FuelDto, "id" | "vehicleId">>) =>
+      await db
+        .update(fuelsRecords)
+        .set(values)
+        .where(
+          and(
+            eq(fuelsRecords.id, id),
+            eq(fuelsRecords.vehicleId, vehicleId ?? 1),
+          ),
+        ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.byId(id) });
@@ -43,9 +61,17 @@ export function useUpdateFuel(id: number) {
 }
 
 export function useDeleteFuel() {
+  const { data: vehicleId } = useActiveVehicleId();
   return useMutation({
     mutationFn: (id: number) =>
-      db.delete(fuelsRecords).where(eq(fuelsRecords.id, id)),
+      db
+        .delete(fuelsRecords)
+        .where(
+          and(
+            eq(fuelsRecords.id, id),
+            eq(fuelsRecords.vehicleId, vehicleId ?? 1),
+          ),
+        ),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
@@ -54,10 +80,18 @@ export function useDeleteFuel() {
 }
 
 export function useGetFuel(id: number | null) {
+  const { data: vehicleId } = useActiveVehicleId();
   return useQuery({
-    queryKey: fuelQueryKey.byId(id!),
-    queryFn: () =>
-      db.query.fuelsRecords.findFirst({ where: eq(fuelsRecords.id, id!) }),
-    enabled: !!id,
+    queryKey: [...fuelQueryKey.byId(id ?? 0), vehicleId],
+    queryFn: () => {
+      if (id === null) return undefined;
+      return db.query.fuelsRecords.findFirst({
+        where: and(
+          eq(fuelsRecords.id, id),
+          eq(fuelsRecords.vehicleId, vehicleId ?? 1),
+        ),
+      });
+    },
+    enabled: !!id && vehicleId !== undefined,
   });
 }

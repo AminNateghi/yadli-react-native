@@ -17,8 +17,8 @@ import { useTranslation } from "@/languages/useTranslation";
 import { useStatistics } from "@/repositories/statistics";
 import { useGetProfile } from "@/repositories/profile-repository";
 import { useEffect } from "react";
-import { numberFormat } from "@/utils/number-format";
 import { Button } from "@/components/Button";
+import { SelectVehicle } from "@/components/SelectVehicle";
 
 export default function DashboardScreen() {
   const { t, isRTL } = useTranslation();
@@ -42,21 +42,7 @@ export default function DashboardScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <View style={styles.carInfo}>
-            <View style={styles.carIconContainer}>
-              <CarIcon size={24} color={Theme.primary} />
-            </View>
-            <View>
-              <Text style={styles.carTitle}>{t("dashboard.myVehicle")}</Text>
-              <Text style={styles.carSubtitle}>
-                {t("dashboard.latestOdometer")}
-                {": "}
-                {numberFormat(statistics.distance.latestOdometer, {
-                  isRTL,
-                })}{" "}
-              </Text>
-            </View>
-          </View>
+          <SelectVehicle />
           {totalReminders > 0 && (
             <Pressable onPress={() => router.push("/reminders")}>
               <View style={styles.nextService}>
@@ -151,29 +137,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
-  },
-  carInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  carIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    backgroundColor: Theme.primary + 15,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  carTitle: {
-    fontSize: 18,
-    fontWeight: 700,
-    color: Theme.text,
-  },
-  carSubtitle: {
-    fontSize: 14,
-    color: Theme.textSecondary,
+    marginBottom: 15,
+    gap: 10,
   },
   nextService: {
     flexDirection: "row",

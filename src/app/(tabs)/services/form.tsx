@@ -91,7 +91,7 @@ export default function ServiceForm() {
   };
 
   const handleSave = async (formData: ServiceFormData) => {
-    const service: Omit<ServiceDto, "id"> = {
+    const service: Omit<ServiceDto, "id" | "vehicleId"> = {
       type: formData.type as ServiceType[],
       date: dayjs(formData.date).toDate(),
       odometer: formData.odometer,

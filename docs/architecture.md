@@ -21,18 +21,20 @@ app/_layout.tsx          Root Stack (headerShown:false)
   boot: useFonts(Vazir) + useMigrations(db, migrations) + SplashScreen gate
 app/index.tsx            Redirect → /(tabs)/(home)
 app/(tabs)/_layout.tsx   5-tab Tabs: (home), services, fuel, expenses, reminders + hidden settings (href:null)
-app/(tabs)/(home)/       dashboard: totals + recent fuel/service/expense
+app/(tabs)/(home)/       dashboard: totals + reports + vehicle registration
 app/(tabs)/fuel|services|expenses|reminders/  each: _layout.tsx (Stack) + index.tsx (list + form modal)
 app/+not-found.tsx
 ```
 
-All CRUD is in-place `Modal` inside `components/forms/*Form.tsx` — no
-separate create/edit routes.
+Record CRUD uses in-place modals. Vehicle registration has a dedicated
+screen; the dashboard and navigation drawer switch the active vehicle.
 
 ## 3. Data layer
 
 - Client: `src/db/index.ts` — `openDatabaseSync("yadli.db")` + `drizzle(sqlite, {schema})`
-- Schema: `src/db/schema.ts` — 5 tables: `profile`, `services`, `fuels`, `expenses`, `reminders`
+- Schema: `src/db/schema.ts` — `profile`, `vehicles`, `services`, `fuels`,
+  `expenses`, and `reminders`. Log and reminder records are scoped to a
+  vehicle; the active vehicle is stored in `profile`.
 - Config: `drizzle.config.ts` — `dialect:sqlite, driver:expo, schema:./src/db/schema.ts`
 - Migrations: bundled `src/db/migrations/migrations.js`, applied via
   `useMigrations(db, migrations)` in `app/_layout.tsx:27`

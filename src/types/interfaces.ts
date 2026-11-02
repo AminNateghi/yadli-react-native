@@ -3,6 +3,7 @@ import type {
   fuelsRecords,
   remindersRecords,
   servicesRecords,
+  vehiclesRecords,
 } from "@/db/schema";
 import type { TranslationKey } from "@/languages/useTranslation";
 
@@ -10,6 +11,7 @@ export type ServiceDto = typeof servicesRecords.$inferSelect;
 export type FuelDto = typeof fuelsRecords.$inferSelect;
 export type ExpenseDto = typeof expensesRecords.$inferSelect;
 export type ReminderDto = typeof remindersRecords.$inferSelect;
+export type VehicleDto = typeof vehiclesRecords.$inferSelect;
 
 export type ServiceType =
   | "Other"
@@ -83,6 +85,20 @@ export type ExpenseType =
 export type ReminderDependent = "Service" | "Expense";
 export type ReminderMode = "OneTime" | "Recurring";
 export type ReminderTriggerType = "Odometer" | "Date" | "Either";
+export type FuelType =
+  | "Gasoline"
+  | "Diesel"
+  | "CNG/LPG"
+  | "Electric"
+  | "Hybrid"
+  | "Other";
+export type VehicleType =
+  | "Car"
+  | "Motorcycle"
+  | "Truck"
+  | "Bus"
+  | "Tractor"
+  | "Other";
 
 export interface CarStats {
   totalKm: number;
@@ -125,6 +141,18 @@ export interface ReminderDateIntervalMonthsProps {
 
 export interface ReminderTriggerTypeProps {
   value: ReminderTriggerType;
+  label: string;
+  isGroup?: boolean;
+}
+
+export interface VehicleFuelOptionProps {
+  value: FuelType;
+  label: string;
+  isGroup?: boolean;
+}
+
+export interface VehicleTypeOptionProps {
+  value: VehicleType;
   label: string;
   isGroup?: boolean;
 }
@@ -295,6 +323,32 @@ export function reminderDateIntervalMonths(
     { value: "36", label: t("reminderDateInterval.m36") },
     { value: "48", label: t("reminderDateInterval.m48") },
     { value: "60", label: t("reminderDateInterval.m60") },
+  ];
+}
+
+export function vehicleFuelTypeOptions(
+  t: (key: TranslationKey) => string,
+): VehicleFuelOptionProps[] {
+  return [
+    { value: "Gasoline", label: t("vehicles.gasoline") },
+    { value: "Diesel", label: t("vehicles.diesel") },
+    { value: "CNG/LPG", label: t("vehicles.cng-lpg") },
+    { value: "Electric", label: t("vehicles.electric") },
+    { value: "Hybrid", label: t("vehicles.hybrid") },
+    { value: "Other", label: t("vehicles.otherFuel") },
+  ];
+}
+
+export function vehicleTypeOptions(
+  t: (key: TranslationKey) => string,
+): VehicleTypeOptionProps[] {
+  return [
+    { value: "Car", label: t("vehicles.car") },
+    { value: "Motorcycle", label: t("vehicles.motorcycle") },
+    { value: "Truck", label: t("vehicles.truck") },
+    { value: "Bus", label: t("vehicles.bus") },
+    { value: "Tractor", label: t("vehicles.tractor") },
+    { value: "Other", label: t("vehicles.otherVehicle") },
   ];
 }
 

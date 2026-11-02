@@ -1,6 +1,7 @@
 import { Tabs, useSegments } from "expo-router";
 import {
   BanknoteIcon,
+  CarIcon,
   FuelIcon,
   LayoutDashboardIcon,
   TimerIcon,
@@ -23,7 +24,6 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         animation: "fade",
-
         tabBarActiveTintColor: Theme.primary,
         tabBarInactiveTintColor: Theme.textMuted,
         tabBarStyle: {
@@ -36,7 +36,7 @@ export default function TabLayout() {
           direction: isRTL ? "rtl" : "ltr",
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 10,
           fontWeight: 500,
           ...(fontFamily ? { fontFamily } : {}),
         },
@@ -88,6 +88,16 @@ export default function TabLayout() {
           title: t("menus.reminders"),
           tabBarIcon: ({ color, size }) => (
             <TimerIcon size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="vehicles"
+        options={{
+          title: t("menus.vehicles"),
+          tabBarIcon: ({ color, size }) => (
+            <CarIcon size={size} color={color} />
           ),
         }}
       />

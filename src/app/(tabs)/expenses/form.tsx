@@ -90,7 +90,7 @@ export default function ExpenseForm() {
   };
 
   const handleSave = async (formData: ExpenseFormData) => {
-    const expense: Omit<ExpenseDto, "id"> = {
+    const expense: Omit<ExpenseDto, "id" | "vehicleId"> = {
       type: formData.type as ExpenseType,
       date: new Date(formData.date),
       odometer: formData.odometer,
