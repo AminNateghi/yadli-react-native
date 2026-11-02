@@ -19,10 +19,21 @@ export function VehicleDeletionModal({ editingId, onConfirm }: Props) {
   const handleDeleteConfirm = async () => {
     if (!editingId) return;
     deleteItem(editingId, {
-      onSuccess: () => {
+      onSuccess: ({ notificationCleanupFailed }) => {
         setModalVisible(false);
         onConfirm();
-        Toast({ text: t("common.deleted") });
+        Toast({
+          text: notificationCleanupFailed
+            ? t("vehicles.deleteNotificationWarning")
+            : t("common.deleted"),
+          type: notificationCleanupFailed ? "warning" : "none",
+        });
+      },
+      onError: (error) => {
+        Toast({
+          text: `${t("vehicles.deleteFailed")}: ${error.message}`,
+          type: "error",
+        });
       },
     });
   };

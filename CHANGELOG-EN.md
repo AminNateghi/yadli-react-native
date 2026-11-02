@@ -2,6 +2,7 @@
 
 - Add Multi Select Service Type
 - Add Recent Changes Page
+- Add Multiple Vehicles
 
 # v1.3.0
 

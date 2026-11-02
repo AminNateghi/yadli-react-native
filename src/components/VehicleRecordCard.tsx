@@ -55,9 +55,7 @@ export function VehicleRecordCard({
         {vehicle?.type === "Other" && (
           <CircleDotIcon size={20} color={Theme.primary} />
         )}
-        {vehicle?.type === undefined && (
-          <CircleSlashIcon size={20} color={Theme.primary} />
-        )}
+        {!vehicle?.type && <CircleSlashIcon size={20} color={Theme.primary} />}
       </View>
       <View style={[styles.content]}>
         <Text style={styles.title} numberOfLines={1}>

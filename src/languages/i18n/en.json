@@ -63,7 +63,7 @@
     "subitemResetAllData": "Permanently delete all logs"
   },
   "dashboard": {
-    "myVehicle": "My Vehicle",
+    "myVehicle": "Default Vehicle",
     "selectVehicle": "Select a vehicle",
     "serviceDue": "Service due",
     "totalSpent": "Total Spent",
@@ -115,7 +115,9 @@
     "bus": "Bus",
     "tractor": "Tractor",
     "otherVehicle": "Other",
-    "deleteVehicleMessage": "Are you sure you want to delete this vehicle? All fuel logs, services, expenses, and reminders related to this vehicle will also be deleted."
+    "deleteVehicleMessage": "Are you sure you want to delete this vehicle? All fuel logs, services, expenses, and reminders related to this vehicle will also be deleted. If it is your last vehicle, a new empty default vehicle will be created.",
+    "deleteFailed": "Could not delete the vehicle",
+    "deleteNotificationWarning": "Vehicle and logs were deleted, but some reminder notifications could not be cleared."
   },
   "reports": {
     "title": "Reports",
