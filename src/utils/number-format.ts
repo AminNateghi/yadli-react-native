@@ -9,8 +9,8 @@ export function numberFormat(value: number, options: Props) {
   }).format(value);
 }
 
-// function convertEnglishNumberToPersian(input: string) {
-//   return input.replace(/\d/g, (digit) => {
-//     return new Intl.NumberFormat("fa-IR").format(Number(digit));
-//   });
-// }
+export function convertEnglishNumberToPersian(input: string) {
+  return input.replace(/\d/g, (digit) => {
+    return new Intl.NumberFormat("fa-IR").format(Number(digit));
+  });
+}
