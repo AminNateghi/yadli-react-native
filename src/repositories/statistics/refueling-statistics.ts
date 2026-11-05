@@ -6,6 +6,7 @@ import type {
   StatisticsPeriods,
 } from "./statistics-types";
 import {
+  DAY_MS,
   dateOf,
   isPersianMonth,
   isPersianYear,
@@ -17,15 +18,32 @@ export function calculateRefuelingStatistics(
   fuels: FuelRecord[],
   periods: StatisticsPeriods,
 ): RefuelingStatistics {
-  const sortedFuels = [...fuels].sort(
-    (a, b) => dateOf(a.date).getTime() - dateOf(b.date).getTime(),
-  );
+  const sortedFuels = fuels
+    .filter((record) => Number.isFinite(dateOf(record.date).getTime()))
+    .sort((a, b) => dateOf(a.date).getTime() - dateOf(b.date).getTime());
   const consumptionRecords: FuelConsumptionRecord[] = [];
+  const refuelingIntervals: RefuelingStatistics["refuelingIntervals"] = [];
 
   for (let index = 1; index < sortedFuels.length; index++) {
     const previous = sortedFuels[index - 1];
     const current = sortedFuels[index];
     const distanceKm = current.odometer - previous.odometer;
+    const previousDate = dateOf(previous.date);
+    const currentDate = dateOf(current.date);
+
+    if (Number.isFinite(distanceKm) && distanceKm > 0) {
+      refuelingIntervals.push({
+        fromDate: previousDate,
+        toDate: currentDate,
+        fromOdometer: previous.odometer,
+        toOdometer: current.odometer,
+        distanceKm,
+        fuelConsumptionLPer100Km:
+          previous.fullTank && current.fullTank && current.liters > 0
+            ? Number(((current.liters / distanceKm) * 100).toFixed(2))
+            : null,
+      });
+    }
 
     if (
       previous.fullTank &&
@@ -34,14 +52,41 @@ export function calculateRefuelingStatistics(
       current.liters > 0
     ) {
       consumptionRecords.push({
-        fromDate: dateOf(previous.date),
-        toDate: dateOf(current.date),
+        fromDate: previousDate,
+        toDate: currentDate,
         distanceKm,
         liters: current.liters,
         kmPerLiter: distanceKm / current.liters,
       });
     }
   }
+
+  const datedFuels = sortedFuels;
+  const refuelingGaps = datedFuels
+    .slice(1)
+    .map((record, index) => {
+      const previousDate = dateOf(datedFuels[index].date);
+      const currentDate = dateOf(record.date);
+      return calendarDay(currentDate) - calendarDay(previousDate);
+    })
+    .filter((days) => days > 0);
+  const averageRefuelingGap =
+    refuelingGaps.length > 0
+      ? sum(refuelingGaps, (days) => days) / refuelingGaps.length
+      : null;
+  const lastRefuelingDate = datedFuels.length
+    ? dateOf(datedFuels[datedFuels.length - 1].date)
+    : null;
+  const daysUntilNextRefueling =
+    averageRefuelingGap !== null && lastRefuelingDate
+      ? Math.max(
+          0,
+          Math.ceil(
+            averageRefuelingGap -
+              (calendarDay(periods.now) - calendarDay(lastRefuelingDate)),
+          ),
+        )
+      : null;
 
   const totalConsumptionDistance = sum(
     consumptionRecords,
@@ -112,7 +157,13 @@ export function calculateRefuelingStatistics(
     worstFuelConsumption: consumptionValues.length
       ? Number(Math.max(...consumptionValues).toFixed(2))
       : 0,
+    refuelingIntervals,
+    daysUntilNextRefueling,
   };
+}
+
+function calendarDay(date: Date): number {
+  return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / DAY_MS;
 }
 
 export function calculatePersianRefuelingStatistics(

@@ -29,6 +29,15 @@ export type FuelConsumptionRecord = {
   kmPerLiter: number;
 };
 
+export type RefuelingInterval = {
+  fromDate: Date;
+  toDate: Date;
+  fromOdometer: number;
+  toOdometer: number;
+  distanceKm: number;
+  fuelConsumptionLPer100Km: number | null;
+};
+
 export type Period = { start: Date; end: Date };
 
 export type StatisticsPeriods = {
@@ -78,6 +87,8 @@ export type RefuelingStatistics = {
   averageLiterPerKm: number;
   bestFuelConsumption: number;
   worstFuelConsumption: number;
+  refuelingIntervals: RefuelingInterval[];
+  daysUntilNextRefueling: number | null;
 };
 
 export type ServicesStatistics = {
@@ -224,6 +235,8 @@ export const EMPTY_STATISTICS: Statistics = {
     averageLiterPerKm: 0,
     bestFuelConsumption: 0,
     worstFuelConsumption: 0,
+    refuelingIntervals: [],
+    daysUntilNextRefueling: null,
   },
   services: {
     totalServiceCost: 0,

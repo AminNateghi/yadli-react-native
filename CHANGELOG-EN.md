@@ -1,3 +1,9 @@
+# v1.6.0
+
+- Add Consumption Between Refuels
+- Add Distance Since Previous
+- Bug Fixes and Improvements
+
 # v1.5.0
 
 - Add Wheel Date Picker

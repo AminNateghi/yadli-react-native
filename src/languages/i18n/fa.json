@@ -37,6 +37,7 @@
     "year": "سال",
     "month": "ماه",
     "day": "روز",
+    "days": "روز",
     "chooseLanguage": "انتخاب زبان"
   },
   "menus": {
@@ -169,8 +170,10 @@
     "explanationOfAverageFuelConsumption": "نکته: محاسبه میانگین مصرف سوخت فقط برای باک پر شده، خواهد بود.",
     "station": "محل سوخت‌گیری (اختیاری)",
     "stationPlaceHolder": "مثال اتوبان رشت",
-    "kmPerLiter": "",
     "averageFuelEconomy": "مصرف در هر ۱۰۰ کیلومتر",
+    "distanceSincePrevious": "مسافت:",
+    "consumptionBetweenRefuels": "مصرف:",
+    "nextRefuelingPrediction": "پیش‌بینی سوخت‌گیری آینده",
     "note": "یادداشت (اختیاری)",
     "notePlaceholder": "یادداشتی برای این سوخت‌گیری"
   },

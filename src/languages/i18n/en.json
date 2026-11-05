@@ -37,6 +37,7 @@
     "year": "Year",
     "month": "Month",
     "day": "Day",
+    "days": "days",
     "chooseLanguage": "Choose Language"
   },
   "menus": {
@@ -169,8 +170,10 @@
     "explanationOfAverageFuelConsumption": "Note: The average fuel consumption will be calculated based on a full tank only.",
     "station": "Station (optional)",
     "stationPlaceHolder": "e.g. Shell, Costco",
-    "kmPerLiter": "km/L",
     "averageFuelEconomy": "Average fuel economy",
+    "distanceSincePrevious": "Distance:",
+    "consumptionBetweenRefuels": "Consumption:",
+    "nextRefuelingPrediction": "Next refuel",
     "note": "Note (optional)",
     "notePlaceholder": "Any additional notes..."
   },
