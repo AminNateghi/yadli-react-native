@@ -1,5 +1,14 @@
 import { StyleSheet } from "react-native";
 import { Theme } from "./theme";
+import { Fonts } from "./fonts";
+
+export const ScreenStyle = {
+  headerStyle: { backgroundColor: Theme.background },
+  headerShadowVisible: false,
+  headerTintColor: Theme.text,
+  contentStyle: { backgroundColor: Theme.background },
+  headerTitleStyle: { fontFamily: Fonts.vazirRegular },
+};
 
 export const GlobalStyles = StyleSheet.create({
   rtl: {
@@ -36,6 +45,12 @@ export const GlobalStyles = StyleSheet.create({
     fontWeight: "700",
     color: Theme.text,
     marginTop: 4,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: Theme.border + 20,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
 

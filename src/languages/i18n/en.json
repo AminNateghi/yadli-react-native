@@ -61,9 +61,7 @@
     "itemAbout": "About",
     "subitemAbout": "Learn about the app",
     "itemUpdate": "App Version",
-    "subitemUpdate": "Check application version",
-    "itemResetAllData": "Reset all data",
-    "subitemResetAllData": "Permanently delete all logs"
+    "subitemUpdate": "Check application version"
   },
   "dashboard": {
     "myVehicle": "Default Vehicle",
@@ -349,12 +347,6 @@
     "m36": "3 years",
     "m48": "4 years",
     "m60": "5 years"
-  },
-  "resetData": {
-    "title": "Danger Zone",
-    "description": "In this section, you can delete all the information entered into the application.",
-    "resetButton": "Reset All Data",
-    "confirmMessage": "This will permanently delete all fuel logs, services logs, expenses logs and all reminders from this device.\nAre you sure you want to delete all the information?"
   },
   "onboarding": {
     "buttonNext": "Next",

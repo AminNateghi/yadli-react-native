@@ -1,5 +1,3 @@
-import { Fonts } from "./fonts";
-
 export const Theme = {
   primary: "#007AFF",
   primaryDark: "#1D4ED8",
@@ -43,12 +41,4 @@ export const Palette = {
   green: Theme.green,
   orange: Theme.orange,
   red: Theme.red,
-};
-
-export const ScreenStyle = {
-  headerStyle: { backgroundColor: Theme.background },
-  headerShadowVisible: false,
-  headerTintColor: Theme.text,
-  contentStyle: { backgroundColor: Theme.background },
-  headerTitleStyle: { fontFamily: Fonts.vazirRegular },
 };

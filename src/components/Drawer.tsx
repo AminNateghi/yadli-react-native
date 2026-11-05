@@ -6,7 +6,6 @@ import { CheckUpdate } from "./CheckUpdate";
 import { Text } from "./Text";
 import { Theme, GlobalStyles } from "@/constants";
 import { About } from "./About";
-import { ResetAllData } from "./ResetAllData";
 import Language from "./Language";
 import MenuItem from "./MenuItem";
 
@@ -81,8 +80,6 @@ export default function AppDrawer({ visible, onClose }: Props) {
               onPress={handleShowRecentChanges}
             />
             <Language />
-            <View style={styles.separator} />
-            <ResetAllData onConfirm={() => onClose()} />
             <View style={styles.separator} />
           </ScrollView>
 

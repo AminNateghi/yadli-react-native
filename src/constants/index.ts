@@ -1,3 +1,3 @@
 export * from "./theme";
-export * from "./global-styles";
+export * from "./styles";
 export * from "./fonts";

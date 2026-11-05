@@ -40,7 +40,7 @@ export function ServiceDeletionModal({ editingId, onConfirm }: Props) {
     <>
       <Button
         title={t("common.delete")}
-        variant="outline"
+        variant="subtle"
         color="red"
         onPress={handleDelete}
         style={{ flex: 1 }}
