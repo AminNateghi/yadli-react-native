@@ -1,5 +1,5 @@
 import { PlusIcon, TimerIcon } from "lucide-react-native";
-import { useMemo } from "react";
+import { useLayoutEffect, useMemo } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { EmptyState } from "@/components/EmptyState";
 import { Theme } from "@/constants";
@@ -10,18 +10,27 @@ import { getReminders } from "@/utils/service-reminders";
 import { useServices } from "@/repositories/service-repository";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useExpenses } from "@/repositories/expense-repository";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 
 export default function RemindersScreen() {
   const { t, isRTL } = useTranslation();
   const navigateOnce = useNavigationGuard();
+  const navigation = useNavigation();
 
   const { data } = useReminders();
   const { data: services } = useServices();
   const { data: fuels } = useFuels();
   const { data: expenses } = useExpenses();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t("menus.reminders"),
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t]);
 
   const reminders = useMemo(() => {
     if (!data || !services || !fuels || !expenses) return [];

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +12,7 @@ import {
   useUpdateFuel,
 } from "@/repositories/fuel-repository";
 import type { FuelDto } from "@/types/interfaces";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { DatePicker } from "@/components/DatePicker";
 import { Text } from "@/components/Text";
 import { ValueWithHelp } from "@/components/ValueWithHelp";
@@ -38,14 +38,13 @@ const defaultValues = {
 export default function FuelForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
-  const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
-
   const { statistics } = useStatistics();
+  const navigation = useNavigation();
+  const isEditMode = !!id;
 
-  const { mutate: updateService, isPending: isPendingUpdate } = useUpdateFuel(
-    id!,
-  );
+  const { mutate: updateService, isPending: isPendingUpdate } =
+    useUpdateFuel(id);
   const { mutate: createService, isPending: isPendingCreate } = useCreateFuel();
   const { data } = useGetFuel(id);
 
@@ -60,6 +59,14 @@ export default function FuelForm() {
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+      title: isEditMode ? t("fuel.updateTitle") : t("fuel.createTitle"),
+    });
+  }, [navigation, t, isEditMode]);
 
   useEffect(() => {
     if (!id) {

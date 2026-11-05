@@ -3,16 +3,18 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { EmptyState } from "@/components/EmptyState";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 import { useVehicles } from "@/repositories/vehicle-repository";
 import { VehicleRecordCard } from "@/components/VehicleRecordCard";
 import { useGetProfile } from "@/repositories/profile-repository";
+import { useLayoutEffect } from "react";
 
 export default function VehiclesScreen() {
   const { t, isRTL } = useTranslation();
   const navigateOnce = useNavigationGuard();
+  const navigation = useNavigation();
 
   const { data: vehicles = [] } = useVehicles();
   const { data: profile } = useGetProfile();
@@ -20,6 +22,14 @@ export default function VehiclesScreen() {
   const activeVehicle = vehicles.find(
     (vehicle) => vehicle.id === profile?.activeVehicleId,
   );
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t("menus.vehicles"),
+      headerLargeTitle: false,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t]);
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>

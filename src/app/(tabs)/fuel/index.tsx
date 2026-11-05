@@ -8,17 +8,27 @@ import { Theme, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useFuels } from "@/repositories/fuel-repository";
 import { useStatistics } from "@/repositories/statistics";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { numberFormat } from "@/utils/number-format";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
+import { useLayoutEffect } from "react";
 
 export default function FuelScreen() {
   const { t, isRTL } = useTranslation();
   const navigateOnce = useNavigationGuard();
+  const navigation = useNavigation();
 
   const { data: fuels } = useFuels();
   const { statistics } = useStatistics();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t("menus.fuel"),
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+    });
+  });
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>

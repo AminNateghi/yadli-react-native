@@ -9,17 +9,27 @@ import { RecordCard } from "@/components/RecordCard";
 import { useStatistics } from "@/repositories/statistics";
 import { Text } from "@/components/Text";
 import { ValueWithHelp } from "@/components/ValueWithHelp";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { numberFormat } from "@/utils/number-format";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
+import { useLayoutEffect } from "react";
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
   const navigateOnce = useNavigationGuard();
+  const navigation = useNavigation();
 
   const { data: services } = useServices();
   const { statistics } = useStatistics();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t("menus.services"),
+      headerLargeTitle: false,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t]);
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>

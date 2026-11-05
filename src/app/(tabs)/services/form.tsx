@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +14,7 @@ import {
   type ServiceType,
   serviceTypeOptions,
 } from "@/types/interfaces";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { type ServiceFormData, serviceSchema } from "@/types/service-schema";
 import { MultiSelectPicker } from "@/components/MultiSelectPicker";
 import { DatePicker } from "@/components/DatePicker";
@@ -38,13 +38,13 @@ const defaultValues = {
 export default function ServiceForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
-  const [isEditMode] = useState<boolean>(Number(params.id) > 0);
+  const navigation = useNavigation();
   const { t, isRTL } = useTranslation();
-
   const { statistics } = useStatistics();
+  const isEditMode = !!id;
 
   const { mutate: updateService, isPending: isPendingUpdate } =
-    useUpdateService(id!);
+    useUpdateService(id);
   const { mutate: createService, isPending: isPendingCreate } =
     useCreateService();
   const { data } = useGetService(id);
@@ -59,6 +59,14 @@ export default function ServiceForm() {
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: isEditMode ? t("services.updateTitle") : t("services.createTitle"),
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t, isEditMode]);
 
   useEffect(() => {
     if (!id) {
@@ -218,7 +226,7 @@ export default function ServiceForm() {
         />
         {isEditMode && (
           <ServiceDeletionModal
-            editingId={id!}
+            editingId={id}
             onConfirm={() => handleClose()}
           />
         )}

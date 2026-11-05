@@ -36,7 +36,7 @@ export default function AppDrawer({ visible, onClose }: Props) {
       onRequestClose={onClose}
       statusBarTranslucent
     >
-      <View style={[styles.overlay, isRTL && GlobalStyles.rtl]}>
+      <View style={[isRTL && GlobalStyles.rtl]}>
         <Pressable
           onPress={onClose}
           accessibilityLabel={t("drawer.closeDrawer")}
@@ -72,16 +72,18 @@ export default function AppDrawer({ visible, onClose }: Props) {
               onPress={handleVehicles}
             />
             <View style={styles.separator} />
-            <Language />
-            <CheckUpdate />
             <About />
+            <CheckUpdate />
             <MenuItem
               icon={<HistoryIcon size={21} color={Theme.primary} />}
               title={t("drawer.itemRecentChanges")}
               description={t("drawer.subitemRecentChanges")}
               onPress={handleShowRecentChanges}
             />
-            <ResetAllData />
+            <Language />
+            <View style={styles.separator} />
+            <ResetAllData onConfirm={() => onClose()} />
+            <View style={styles.separator} />
           </ScrollView>
 
           <View style={styles.footer}>
@@ -94,14 +96,8 @@ export default function AppDrawer({ visible, onClose }: Props) {
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "rgba(0,0,0,0.45)",
-  },
   drawer: {
-    width: "82%",
-    maxWidth: 340,
+    width: "100%",
     height: "100%",
     backgroundColor: Theme.background,
     paddingTop: 60,
@@ -133,7 +129,8 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: Theme.border + 20,
-    marginBottom: 24,
+    marginTop: 5,
+    marginBottom: 5,
   },
   drawerContent: {
     flex: 1,

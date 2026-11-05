@@ -4,7 +4,6 @@ import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { Button } from "./Button";
 import { useResetAllData } from "@/repositories/profile-repository";
-import { useRouter } from "expo-router";
 import { Text } from "./Text";
 import { ConfirmationDialog } from "./ConfirmationDialog";
 import { Toast } from "./CustomToast";
@@ -12,9 +11,12 @@ import { TrashIcon } from "lucide-react-native";
 import MenuItem from "./MenuItem";
 import Modal from "./Modal";
 
-export function ResetAllData() {
+interface Props {
+  onConfirm: () => void;
+}
+
+export function ResetAllData({ onConfirm }: Props) {
   const { t } = useTranslation();
-  const router = useRouter();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [confirmVisible, setConfirmVisible] = useState<boolean>(false);
 
@@ -24,13 +26,14 @@ export function ResetAllData() {
     resetData(undefined, {
       onSuccess: () => {
         setConfirmVisible(false);
+        setModalVisible(false);
         Toast({ text: t("common.deleted") });
+        onConfirm();
       },
       onError: () => {
         Toast({ text: t("reminders.notificationError"), type: "error" });
       },
     });
-    router.back();
   };
 
   const handleClose = () => {

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { router } from "expo-router";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { router, useNavigation } from "expo-router";
 import { ScrollView, View } from "react-native";
 import { useTranslation } from "@/languages/useTranslation";
 import { useGetProfile } from "@/repositories/profile-repository";
@@ -14,8 +14,8 @@ import ReportDistance from "@/components/forms/ReportDistance";
 type ReportType = "general" | "fuel" | "services" | "expense" | "distance";
 
 export default function ReportsScreen() {
+  const navigation = useNavigation();
   const { t, isRTL } = useTranslation();
-
   const { data: profile } = useGetProfile();
 
   const reportOptions = [
@@ -26,6 +26,14 @@ export default function ReportsScreen() {
     { value: "distance", label: t("reports.distance") },
   ];
   const [currentSegment, setCurrentSegment] = useState<ReportType>("general");
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t("reports.title"),
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t]);
 
   useEffect(() => {
     if (profile) {

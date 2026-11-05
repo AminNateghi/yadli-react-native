@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { View } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { Button } from "@/components/Button";
 import { DatePicker } from "@/components/DatePicker";
 import { Input } from "@/components/Input";
@@ -46,11 +46,12 @@ function optionalNumber(value: string): number | null {
 export default function VehicleFormScreen() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
-  const [isEditMode] = useState<boolean>(Number(params.id) > 0);
+  const navigation = useNavigation();
   const { t, isRTL } = useTranslation();
+  const isEditMode = !!id;
 
   const { mutate: updateVehicle, isPending: isPendingUpdate } =
-    useUpdateVehicle(id!);
+    useUpdateVehicle(id);
   const { mutate: createVehicle, isPending: isPendingCreate } =
     useCreateVehicle();
   const { data } = useGetVehicle(isEditMode ? Number(id) : null);
@@ -66,6 +67,14 @@ export default function VehicleFormScreen() {
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: isEditMode ? t("vehicles.updateTitle") : t("vehicles.createTitle"),
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t, isEditMode]);
 
   useEffect(() => {
     if (!id) {
@@ -281,7 +290,7 @@ export default function VehicleFormScreen() {
         />
         {isEditMode && (
           <VehicleDeletionModal
-            editingId={id!}
+            editingId={id}
             onConfirm={() => handleClose()}
           />
         )}

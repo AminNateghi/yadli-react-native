@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,7 +24,7 @@ import {
   type ServiceType,
   serviceTypeOptions,
 } from "@/types/interfaces";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { Card } from "@/components/Card";
 import { SelectPicker } from "@/components/SelectPicker";
 import { SegmentedButtons } from "@/components/SegmentedButtons";
@@ -57,11 +57,12 @@ const defaultValues = {
 export default function ReminderForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
-  const [isEditMode] = useState<boolean>(Number(params.id) > 0);
   const { t, isRTL } = useTranslation();
+  const navigation = useNavigation();
+  const isEditMode = !!id;
 
   const { mutate: updateService, isPending: isPendingUpdate } =
-    useUpdateReminder(id!);
+    useUpdateReminder(id);
   const { mutate: createService, isPending: isPendingCreate } =
     useCreateReminder();
   const { data } = useGetReminder(id);
@@ -77,6 +78,16 @@ export default function ReminderForm() {
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: isEditMode
+        ? t("reminders.updateTitle")
+        : t("reminders.createTitle"),
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t, isEditMode]);
 
   useEffect(() => {
     if (!id) {
@@ -120,11 +131,11 @@ export default function ReminderForm() {
       note: formData.note ?? null,
       serviceType:
         formData.dependent === "Service"
-          ? (formData.serviceType! as ServiceType)
+          ? (formData.serviceType as ServiceType)
           : null,
       expenseType:
         formData.dependent === "Expense"
-          ? (formData.expenseType! as ExpenseType)
+          ? (formData.expenseType as ExpenseType)
           : null,
       triggerType: formData.triggerType as ReminderTriggerType,
       startOdometer: formData.startOdometer ?? null,
@@ -424,7 +435,7 @@ export default function ReminderForm() {
               />
             )}
             <ReminderDeletionModal
-              editingId={id!}
+              editingId={id}
               onConfirm={() => handleClose()}
             />
           </View>

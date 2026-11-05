@@ -9,16 +9,26 @@ import { useTranslation } from "@/languages/useTranslation";
 import { useExpenses } from "@/repositories/expense-repository";
 import { useStatistics } from "@/repositories/statistics";
 import { getExpenseTypeTitle } from "@/types/interfaces";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
+import { useLayoutEffect } from "react";
 
 export default function ExpensesScreen() {
   const { t, isRTL } = useTranslation();
   const navigateOnce = useNavigationGuard();
+  const navigation = useNavigation();
 
   const { data: expenses } = useExpenses();
   const { statistics } = useStatistics();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t("menus.expenses"),
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t]);
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>

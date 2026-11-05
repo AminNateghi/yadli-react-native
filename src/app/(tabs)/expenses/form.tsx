@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +20,7 @@ import { DatePicker } from "@/components/DatePicker";
 import { Input } from "@/components/Input";
 import { ExpenseDeletionModal } from "@/components/forms/ExpenseDeletionModal";
 import { Button } from "@/components/Button";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useStatistics } from "@/repositories/statistics";
 import { numberFormat } from "@/utils/number-format";
@@ -35,9 +35,11 @@ const defaultValues = {
 };
 
 export default function ExpenseForm() {
-  const params = useLocalSearchParams<{ id: string }>();
+  const params = useLocalSearchParams<{ id?: string }>();
   const [id] = useState<number>(Number(params.id));
-  const [isEditMode] = useState<boolean>(Number(params.id) > 0);
+  const navigation = useNavigation();
+  const isEditMode = !!id;
+
   const { t, isRTL } = useTranslation();
 
   const { statistics } = useStatistics();
@@ -58,6 +60,14 @@ export default function ExpenseForm() {
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+      title: isEditMode ? t("expenses.updateTitle") : t("expenses.createTitle"),
+    });
+  }, [navigation, t, isEditMode]);
 
   useEffect(() => {
     if (!id) {

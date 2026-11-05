@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import {
   CarIcon,
   FuelIcon,
@@ -8,6 +8,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   GaugeIcon,
+  MenuIcon,
 } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { StatCard } from "@/components/StatCard";
@@ -16,15 +17,46 @@ import { Theme, GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import { useStatistics } from "@/repositories/statistics";
 import { useGetProfile } from "@/repositories/profile-repository";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { SelectVehicle } from "@/components/SelectVehicle";
+import { useUpdateCheck } from "@/contexts/UpdateCheckContext";
+import { CheckUpdate } from "@/components/CheckUpdate";
+import { IconButton } from "@/components/IconButton";
+import AppDrawer from "@/components/Drawer";
 
 export default function DashboardScreen() {
   const { t, isRTL } = useTranslation();
   const { totalReminders, statistics } = useStatistics();
+  const { updateAvailable } = useUpdateCheck();
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const navigation = useNavigation();
 
   const { data: profile } = useGetProfile();
+
+  useLayoutEffect(() => {
+    const handleShowDrawer = () => {
+      setDrawerVisible(true);
+    };
+
+    navigation.setOptions({
+      title: t("menus.dashboard"),
+      headerTitleAlign: "center",
+      headerLargeTitle: true,
+      headerLeft: () =>
+        isRTL ? (
+          updateAvailable && <CheckUpdate type="icon" />
+        ) : (
+          <IconButton icon={MenuIcon} onPress={() => handleShowDrawer()} />
+        ),
+      headerRight: () =>
+        isRTL ? (
+          <IconButton icon={MenuIcon} onPress={() => handleShowDrawer()} />
+        ) : (
+          updateAvailable && <CheckUpdate type="icon" />
+        ),
+    });
+  }, [navigation, t, isRTL, updateAvailable]);
 
   useEffect(() => {
     if (profile) {
@@ -35,90 +67,97 @@ export default function DashboardScreen() {
   }, [profile]);
 
   return (
-    <View style={[styles.wrapper, isRTL && GlobalStyles.rtl]}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.content}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.header}>
-          <SelectVehicle />
-          {totalReminders > 0 && (
-            <Pressable onPress={() => router.push("/reminders")}>
-              <View style={styles.nextService}>
-                <Text style={styles.reminderText}>
-                  {t("reminders.overdue")}
-                </Text>
-                {isRTL ? (
-                  <ChevronLeftIcon size={14} color={Theme.danger} />
-                ) : (
-                  <ChevronRightIcon size={14} color={Theme.danger} />
-                )}
-              </View>
-            </Pressable>
-          )}
-        </View>
+    <>
+      <View style={[styles.wrapper, isRTL && GlobalStyles.rtl]}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.header}>
+            <SelectVehicle />
+            {totalReminders > 0 && (
+              <Pressable onPress={() => router.push("/reminders")}>
+                <View style={styles.nextService}>
+                  <Text style={styles.reminderText}>
+                    {t("reminders.overdue")}
+                  </Text>
+                  {isRTL ? (
+                    <ChevronLeftIcon size={14} color={Theme.danger} />
+                  ) : (
+                    <ChevronRightIcon size={14} color={Theme.danger} />
+                  )}
+                </View>
+              </Pressable>
+            )}
+          </View>
 
-        <View style={styles.statsGrid}>
-          <StatCard
-            title={t("dashboard.totalSpent")}
-            value={statistics.general.totalSpent}
-            help={t("common.priceSign")}
-            icon={WalletIcon}
-            color={Theme.primary}
-          />
-          <StatCard
-            title={t("dashboard.totalDistance")}
-            value={statistics.distance.totalDistanceKm}
-            help={t("common.kilometer")}
-            icon={CarIcon}
-            color={Theme.primary}
-          />
-        </View>
+          <View style={styles.statsGrid}>
+            <StatCard
+              title={t("dashboard.totalSpent")}
+              value={statistics.general.totalSpent}
+              help={t("common.priceSign")}
+              icon={WalletIcon}
+              color={Theme.primary}
+            />
+            <StatCard
+              title={t("dashboard.totalDistance")}
+              value={statistics.distance.totalDistanceKm}
+              help={t("common.kilometer")}
+              icon={CarIcon}
+              color={Theme.primary}
+            />
+          </View>
 
-        <View style={styles.statsGrid}>
-          <StatCard
-            title={t("dashboard.fuelCosts")}
-            value={statistics.refueling.totalFuelCost}
-            help={t("common.priceSign")}
-            icon={FuelIcon}
-            color={Theme.orange}
-          />
-          <StatCard
-            title={t("dashboard.avgPerKm")}
-            value={statistics.refueling.averageLiterPerKm}
-            help={t("common.liter")}
-            icon={GaugeIcon}
-            color={Theme.success}
-          />
-        </View>
-        <View style={styles.statsGrid}>
-          <StatCard
-            title={t("dashboard.serviceCosts")}
-            value={statistics.services.totalServiceCost}
-            help={t("common.priceSign")}
-            icon={WrenchIcon}
-            color={Theme.mulberry}
-          />
-          <StatCard
-            title={t("dashboard.expenses")}
-            value={statistics.expenses.totalExpenses}
-            help={t("common.priceSign")}
-            icon={BanknoteIcon}
-            color={Theme.violet}
-          />
-        </View>
+          <View style={styles.statsGrid}>
+            <StatCard
+              title={t("dashboard.fuelCosts")}
+              value={statistics.refueling.totalFuelCost}
+              help={t("common.priceSign")}
+              icon={FuelIcon}
+              color={Theme.orange}
+            />
+            <StatCard
+              title={t("dashboard.avgPerKm")}
+              value={statistics.refueling.averageLiterPerKm}
+              help={t("common.liter")}
+              icon={GaugeIcon}
+              color={Theme.success}
+            />
+          </View>
+          <View style={styles.statsGrid}>
+            <StatCard
+              title={t("dashboard.serviceCosts")}
+              value={statistics.services.totalServiceCost}
+              help={t("common.priceSign")}
+              icon={WrenchIcon}
+              color={Theme.mulberry}
+            />
+            <StatCard
+              title={t("dashboard.expenses")}
+              value={statistics.expenses.totalExpenses}
+              help={t("common.priceSign")}
+              icon={BanknoteIcon}
+              color={Theme.violet}
+            />
+          </View>
 
-        <Button
-          title={`${t("reports.title")}...`}
-          variant="plain"
-          color="blue"
-          onPress={() => router.push("/(tabs)/(home)/reports")}
-        />
+          <Button
+            title={`${t("reports.title")}...`}
+            variant="plain"
+            color="blue"
+            onPress={() => router.push("/(tabs)/(home)/reports")}
+          />
 
-        <View style={{ height: 32 }} />
-      </ScrollView>
-    </View>
+          <View style={{ height: 32 }} />
+        </ScrollView>
+      </View>
+
+      <AppDrawer
+        visible={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
+      />
+    </>
   );
 }
 

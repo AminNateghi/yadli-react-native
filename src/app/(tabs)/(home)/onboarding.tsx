@@ -1,12 +1,13 @@
-import { useState, useRef, type ReactElement } from "react";
+import { useState, useRef, type ReactElement, useLayoutEffect } from "react";
 import {
   View,
   StyleSheet,
   FlatList,
   Dimensions,
   type ListRenderItemInfo,
+  type ScrollEvent,
 } from "react-native";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { useCompleteOnboarding } from "@/repositories/profile-repository";
 import { Button } from "@/components/Button";
 import { Theme } from "@/constants";
@@ -32,8 +33,15 @@ export default function OnboardingScreen() {
   const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const flatListRef = useRef<FlatList<Slide>>(null);
+  const navigation = useNavigation();
 
   const { mutateAsync: saveCompleteOnboarding } = useCompleteOnboarding();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
 
   const completeOnboarding = async () => {
     await saveCompleteOnboarding();
@@ -51,7 +59,7 @@ export default function OnboardingScreen() {
     }
   };
 
-  const handleMomentumScrollEnd = (event: any) => {
+  const handleMomentumScrollEnd = (event: ScrollEvent) => {
     const index = Math.round(event.nativeEvent.contentOffset.x / width);
     setCurrentIndex(index);
   };

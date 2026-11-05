@@ -4,6 +4,8 @@ import changelogFa from "../../../../CHANGELOG-FA.md";
 import { Text } from "@/components/Text";
 import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
+import { useNavigation } from "expo-router";
+import { useLayoutEffect } from "react";
 
 type ChangelogEntry = {
   key: string;
@@ -44,8 +46,17 @@ const parseChangelog = (changelog: string) =>
   });
 
 export default function ChangelogScreen() {
-  const { isRTL } = useTranslation();
+  const { t, isRTL } = useTranslation();
   const entries = parseChangelog(isRTL ? changelogFa : changelogEn);
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: t("drawer.itemRecentChanges"),
+      headerLargeTitle: true,
+      headerTitleAlign: "center",
+    });
+  }, [navigation, t]);
 
   return (
     <ScrollView
