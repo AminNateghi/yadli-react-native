@@ -61,8 +61,7 @@
     "itemAbout": "معرفی",
     "subitemAbout": "توضیحی درمورد برنامه",
     "itemUpdate": "نسخه برنامه",
-    "subitemUpdate": "بررسی و دانلود آخرین نسخه",
-    "itemResetAllData": "حذف سوابق"
+    "subitemUpdate": "بررسی و دانلود آخرین نسخه"
   },
   "dashboard": {
     "myVehicle": "خودرو پیشفرض",
@@ -272,6 +271,9 @@
     "TimingBelt": "تسمه تایم",
     "CylinderHeadGasket": "واشر سرسیلندر",
     "SparkPlug": "شمع و وایر",
+    "AirFilter": "فیلتر هوا",
+    "FuelFilter": "فیلتر سوخت",
+    "CabinFilter": "فیلتر کابین",
     "GearboxRepair": "تعمیرات گیربکس",
     "GearboxOil": "روغن گیربکس",
     "ClutchPlate": "صفحه کلاچ",
@@ -300,7 +302,7 @@
     "HydraulicOil": "روغن هیدرولیک فرمان",
     "RadiatorRepair": "تعمیرات رادیاتور",
     "AirConditioning": "تعمیرات کولر و بخاری",
-    "Coolant": "ضد یخ",
+    "Coolant": "کولانت/ضدیخ",
     "Thermostat": "ترموستات",
     "GasCharging": "شارژ گاز کولر",
     "ElectricalRepair": "تعمیرات برقی",

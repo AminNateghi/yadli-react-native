@@ -30,6 +30,9 @@ export type ServiceType =
   | "TimingBelt"
   | "CylinderHeadGasket"
   | "SparkPlug"
+  | "AirFilter"
+  | "FuelFilter"
+  | "CabinFilter"
   | "GearboxRepair"
   | "GearboxOil"
   | "ClutchPlate"
@@ -173,6 +176,10 @@ export function serviceTypeOptions(
     { value: "SparkPlug", label: t("serviceType.SparkPlug") },
     { value: "FuelAdditive", label: t("serviceType.FuelAdditive") },
 
+    { value: "AirFilter", label: t("serviceType.AirFilter") },
+    { value: "FuelFilter", label: t("serviceType.FuelFilter") },
+    { value: "CabinFilter", label: t("serviceType.CabinFilter") },
+
     {
       value: "GroupGearbox",
       label: t("serviceType.GroupGearbox"),
@@ -237,7 +244,7 @@ export function serviceTypeOptions(
     { value: "Ring", label: t("serviceType.Ring") },
 
     {
-      value: "ElectricalRepair",
+      value: "GroupElectrical",
       label: t("serviceType.GroupElectrical"),
       isGroup: true,
     },
@@ -246,6 +253,7 @@ export function serviceTypeOptions(
     { value: "AlternatorBelt", label: t("serviceType.AlternatorBelt") },
     { value: "Lamp", label: t("serviceType.Lamp") },
     { value: "VideoSound", label: t("serviceType.VideoSound") },
+    { value: "ElectricalRepair", label: t("serviceType.ElectricalRepair") },
 
     {
       value: "GroupOthers",
