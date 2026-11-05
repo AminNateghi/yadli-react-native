@@ -1,4 +1,4 @@
-import { Theme, ReportStyles } from "@/constants";
+import { Theme, ReportStyles, GlobalStyles } from "@/constants";
 import { BanknoteIcon, ListOrderedIcon } from "lucide-react-native";
 import { View } from "react-native";
 import { DoubleLabel } from "../DoubleLabel";
@@ -32,7 +32,7 @@ export default function ReportExpense() {
             bottomSpanLabel={t("common.priceSign")}
           />
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={ReportStyles.row}>
           <View style={[ReportStyles.col, ReportStyles.container]}>
             <DoubleLabel
@@ -115,7 +115,7 @@ export default function ReportExpense() {
             bottomSpanLabel={t("common.times")}
           />
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={ReportStyles.row}>
           <View style={[ReportStyles.col, ReportStyles.container]}>
             <DoubleLabel
@@ -196,7 +196,7 @@ export default function ReportExpense() {
             bottomSpanLabel={t("common.priceSign")}
           />
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={ReportStyles.row}>
           <View style={[ReportStyles.col, ReportStyles.container]}>
             <DoubleLabel

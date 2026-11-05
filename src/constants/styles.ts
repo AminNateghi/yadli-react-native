@@ -48,7 +48,7 @@ export const GlobalStyles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: Theme.border + 20,
+    backgroundColor: Theme.borderLight,
     marginTop: 5,
     marginBottom: 5,
   },
@@ -64,16 +64,8 @@ export const ReportStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
   content: {
     padding: 16,
-  },
-
-  separator: {
-    marginTop: 5,
-    marginBottom: 5,
-    height: 1,
-    backgroundColor: Theme.borderLight,
   },
   iconContainer: {
     width: 44,
@@ -83,7 +75,6 @@ export const ReportStyles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 12,
   },
-
   row: {
     flexDirection: "row",
     alignItems: "baseline",

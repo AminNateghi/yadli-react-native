@@ -5,12 +5,31 @@ import { useExpenses } from "../expense-repository";
 import { useReminders } from "../reminder-repository";
 import { getReminders } from "@/utils/service-reminders";
 
-import { calculateGeneralStatistics, calculatePersianGeneralStatistics } from "./general-statistics";
-import { calculateRefuelingStatistics, calculatePersianRefuelingStatistics } from "./refueling-statistics";
-import { calculatePersianServicesStatistics, calculateServicesStatistics } from "./services-statistics";
-import { calculateExpensesStatistics, calculatePersianExpensesStatistics } from "./expenses-statistics";
-import { calculateDistanceStatistics, calculatePersianDistanceStatistics } from "./distance-statistics";
-import { createAllCostRecords, createStatisticsPeriods, dateOf } from "./statistics-utils";
+import {
+  calculateGeneralStatistics,
+  calculatePersianGeneralStatistics,
+} from "./general-statistics";
+import {
+  calculateRefuelingStatistics,
+  calculatePersianRefuelingStatistics,
+} from "./refueling-statistics";
+import {
+  calculatePersianServicesStatistics,
+  calculateServicesStatistics,
+} from "./services-statistics";
+import {
+  calculateExpensesStatistics,
+  calculatePersianExpensesStatistics,
+} from "./expenses-statistics";
+import {
+  calculateDistanceStatistics,
+  calculatePersianDistanceStatistics,
+} from "./distance-statistics";
+import {
+  createAllCostRecords,
+  createStatisticsPeriods,
+  dateOf,
+} from "./statistics-utils";
 import {
   EMPTY_PERSIAN_STATISTICS,
   EMPTY_STATISTICS,
@@ -64,7 +83,12 @@ export function useStatistics(): {
     const periods = createStatisticsPeriods();
 
     const refueling = calculateRefuelingStatistics(fuels, periods);
-    const distance = calculateDistanceStatistics(fuels, services, expenses, periods);
+    const distance = calculateDistanceStatistics(
+      fuels,
+      services,
+      expenses,
+      periods,
+    );
     const allCosts = createAllCostRecords(fuels, services, expenses);
 
     const datedRecords = [
@@ -72,11 +96,19 @@ export function useStatistics(): {
       ...services.map((record) => ({ date: dateOf(record.date) })),
       ...expenses.map((record) => ({ date: dateOf(record.date) })),
     ].filter((record) => Number.isFinite(record.date.getTime()));
-    const firstDate = datedRecords.length ? datedRecords.reduce((a, b) => a.date < b.date ? a : b).date : null;
-    const lastDate = datedRecords.length ? datedRecords.reduce((a, b) => a.date > b.date ? a : b).date : null;
-    const elapsedDays = firstDate && lastDate
-      ? Math.max(1, (lastDate.getTime() - firstDate.getTime()) / (24 * 60 * 60 * 1000))
-      : 0;
+    const firstDate = datedRecords.length
+      ? datedRecords.reduce((a, b) => (a.date < b.date ? a : b)).date
+      : null;
+    const lastDate = datedRecords.length
+      ? datedRecords.reduce((a, b) => (a.date > b.date ? a : b)).date
+      : null;
+    const elapsedDays =
+      firstDate && lastDate
+        ? Math.max(
+            1,
+            (lastDate.getTime() - firstDate.getTime()) / (24 * 60 * 60 * 1000),
+          )
+        : 0;
 
     const general = calculateGeneralStatistics(
       allCosts,
@@ -121,7 +153,12 @@ export function useStatistics(): {
           distance.totalDistanceKm,
           elapsedDays,
         ),
-        distance: calculatePersianDistanceStatistics(fuels, services, expenses, periods),
+        distance: calculatePersianDistanceStatistics(
+          fuels,
+          services,
+          expenses,
+          periods,
+        ),
       },
     };
   }, [listOfExpenses, listOfFuels, listOfServices, totalReminders]);

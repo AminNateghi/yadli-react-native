@@ -58,7 +58,7 @@ export default function AppDrawer({ visible, onClose }: Props) {
             </Pressable>
           </View>
 
-          <View style={styles.separator} />
+          <View style={GlobalStyles.separator} />
 
           <ScrollView
             style={styles.drawerContent}
@@ -70,7 +70,7 @@ export default function AppDrawer({ visible, onClose }: Props) {
               description={t("drawer.subitemVehicle")}
               onPress={handleVehicles}
             />
-            <View style={styles.separator} />
+            <View style={GlobalStyles.separator} />
             <About />
             <CheckUpdate />
             <MenuItem
@@ -80,7 +80,6 @@ export default function AppDrawer({ visible, onClose }: Props) {
               onPress={handleShowRecentChanges}
             />
             <Language />
-            <View style={styles.separator} />
           </ScrollView>
 
           <View style={styles.footer}>
@@ -122,12 +121,6 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 10,
     backgroundColor: Theme.border + 20,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: Theme.border + 20,
-    marginTop: 5,
-    marginBottom: 5,
   },
   drawerContent: {
     flex: 1,

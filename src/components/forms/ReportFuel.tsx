@@ -1,4 +1,4 @@
-import { Theme, ReportStyles } from "@/constants";
+import { Theme, ReportStyles, GlobalStyles } from "@/constants";
 import {
   BanknoteIcon,
   DropletIcon,
@@ -37,7 +37,7 @@ export default function ReportFuel() {
             bottomSpanLabel={t("common.priceSign")}
           />
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={ReportStyles.row}>
           <View style={[ReportStyles.col, ReportStyles.container]}>
             <DoubleLabel
@@ -119,7 +119,7 @@ export default function ReportFuel() {
             bottomSpanLabel={t("common.times")}
           />
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={ReportStyles.row}>
           <View style={[ReportStyles.col, ReportStyles.container]}>
             <DoubleLabel
@@ -198,7 +198,7 @@ export default function ReportFuel() {
             bottomSpanLabel={t("common.liter")}
           />
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={ReportStyles.row}>
           <View style={[ReportStyles.col, ReportStyles.container]}>
             <DoubleLabel
@@ -257,7 +257,7 @@ export default function ReportFuel() {
             />
           </View>
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={[ReportStyles.row, ReportStyles.container]}>
           <DoubleLabel
             topLabel={numberFormat(statistics.refueling.minFillUpLiter, {
@@ -298,7 +298,7 @@ export default function ReportFuel() {
             bottomSpanLabel={t("common.liter")}
           />
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={[ReportStyles.row, ReportStyles.container]}>
           <DoubleLabel
             topLabel={numberFormat(statistics.refueling.bestFuelConsumption, {

@@ -1,4 +1,4 @@
-import { Theme } from "@/constants";
+import { GlobalStyles, Theme } from "@/constants";
 import { BanknoteIcon, ListOrderedIcon } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 import { DoubleLabel } from "../DoubleLabel";
@@ -24,13 +24,12 @@ export default function ReportServices() {
             topLabel={t("reports.totalServiceCost")}
             bottomLabel={numberFormat(statistics.services.totalServiceCost, {
               isRTL,
-              
             })}
             size="large"
             bottomSpanLabel={t("common.priceSign")}
           />
         </View>
-        <View style={styles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={styles.row}>
           <View style={[styles.col, styles.container]}>
             <DoubleLabel
@@ -40,7 +39,6 @@ export default function ReportServices() {
                   : statistics.services.serviceCostThisYear,
                 {
                   isRTL,
-              
                 },
               )}
               bottomLabel={t("dashboard.thisYear")}
@@ -54,7 +52,6 @@ export default function ReportServices() {
                   : statistics.services.serviceCostPreviousYear,
                 {
                   isRTL,
-              
                 },
               )}
               bottomLabel={t("dashboard.previousYear")}
@@ -71,7 +68,6 @@ export default function ReportServices() {
                   : statistics.services.serviceCostThisMonth,
                 {
                   isRTL,
-              
                 },
               )}
               bottomLabel={t("dashboard.thisMonth")}
@@ -85,7 +81,6 @@ export default function ReportServices() {
                   : statistics.services.serviceCostPreviousMonth,
                 {
                   isRTL,
-              
                 },
               )}
               bottomLabel={t("dashboard.previousMonth")}
@@ -114,7 +109,7 @@ export default function ReportServices() {
             bottomSpanLabel={t("common.times")}
           />
         </View>
-        <View style={styles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={styles.row}>
           <View style={[styles.col, styles.container]}>
             <DoubleLabel
@@ -192,7 +187,7 @@ export default function ReportServices() {
             bottomSpanLabel={t("common.priceSign")}
           />
         </View>
-        <View style={styles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={styles.row}>
           <View style={[styles.col, styles.container]}>
             <DoubleLabel
@@ -259,12 +254,6 @@ export default function ReportServices() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  separator: {
-    marginTop: 5,
-    marginBottom: 5,
-    height: 1,
-    backgroundColor: Theme.borderLight,
   },
   iconContainer: {
     width: 44,

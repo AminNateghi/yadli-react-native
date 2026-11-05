@@ -1,4 +1,4 @@
-import { Theme, ReportStyles } from "@/constants";
+import { Theme, ReportStyles, GlobalStyles } from "@/constants";
 import { WalletIcon } from "lucide-react-native";
 import { View } from "react-native";
 import { DoubleLabel } from "../DoubleLabel";
@@ -30,7 +30,7 @@ export default function ReportGeneral() {
             bottomSpanLabel={t("common.priceSign")}
           />
         </View>
-        <View style={ReportStyles.separator} />
+        <View style={GlobalStyles.separator} />
         <View style={ReportStyles.row}>
           <View style={[ReportStyles.col, ReportStyles.container]}>
             <DoubleLabel

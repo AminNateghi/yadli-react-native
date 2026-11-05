@@ -5,7 +5,13 @@ import type {
   RefuelingStatistics,
   StatisticsPeriods,
 } from "./statistics-types";
-import { dateOf, isPersianMonth, isPersianYear, inPeriod, sum } from "./statistics-utils";
+import {
+  dateOf,
+  isPersianMonth,
+  isPersianYear,
+  inPeriod,
+  sum,
+} from "./statistics-utils";
 
 export function calculateRefuelingStatistics(
   fuels: FuelRecord[],
@@ -21,7 +27,12 @@ export function calculateRefuelingStatistics(
     const current = sortedFuels[index];
     const distanceKm = current.odometer - previous.odometer;
 
-    if (previous.fullTank && current.fullTank && distanceKm > 0 && current.liters > 0) {
+    if (
+      previous.fullTank &&
+      current.fullTank &&
+      distanceKm > 0 &&
+      current.liters > 0
+    ) {
       consumptionRecords.push({
         fromDate: dateOf(previous.date),
         toDate: dateOf(current.date),
@@ -32,17 +43,28 @@ export function calculateRefuelingStatistics(
     }
   }
 
-  const totalConsumptionDistance = sum(consumptionRecords, (record) => record.distanceKm);
-  const totalConsumptionLiters = sum(consumptionRecords, (record) => record.liters);
-  const averageLiterPerKm = totalConsumptionLiters > 0
-    ? Number((totalConsumptionDistance / totalConsumptionLiters).toFixed(2))
-    : 0;
+  const totalConsumptionDistance = sum(
+    consumptionRecords,
+    (record) => record.distanceKm,
+  );
+  const totalConsumptionLiters = sum(
+    consumptionRecords,
+    (record) => record.liters,
+  );
+  const averageLiterPerKm =
+    totalConsumptionLiters > 0
+      ? Number((totalConsumptionDistance / totalConsumptionLiters).toFixed(2))
+      : 0;
 
-  const consumptionValues = consumptionRecords.map((record) => record.kmPerLiter);
+  const consumptionValues = consumptionRecords.map(
+    (record) => record.kmPerLiter,
+  );
   const liters = fuels.map((record) => record.liters);
   const prices = fuels.map((record) => record.pricePerLiter);
   const fuelsIn = (period: { start: Date; end: Date }) =>
-    fuels.filter((record) => inPeriod(dateOf(record.date), period.start, period.end));
+    fuels.filter((record) =>
+      inPeriod(dateOf(record.date), period.start, period.end),
+    );
   const thisYear = fuelsIn(periods.thisYear);
   const previousYear = fuelsIn(periods.previousYear);
   const thisMonth = fuelsIn(periods.thisMonth);
@@ -62,18 +84,34 @@ export function calculateRefuelingStatistics(
     gasPreviousMonth: sum(previousMonth, (record) => record.liters),
     // These four fields preserve the original implementation: they are total
     // fuel spend for the period (liters multiplied by unit price), not averages.
-    gasPriceThisYear: sum(thisYear, (record) => record.liters * record.pricePerLiter),
-    gasPricePreviousYear: sum(previousYear, (record) => record.liters * record.pricePerLiter),
-    gasPriceThisMonth: sum(thisMonth, (record) => record.liters * record.pricePerLiter),
-    gasPricePreviousMonth: sum(previousMonth, (record) => record.liters * record.pricePerLiter),
+    gasPriceThisYear: sum(
+      thisYear,
+      (record) => record.liters * record.pricePerLiter,
+    ),
+    gasPricePreviousYear: sum(
+      previousYear,
+      (record) => record.liters * record.pricePerLiter,
+    ),
+    gasPriceThisMonth: sum(
+      thisMonth,
+      (record) => record.liters * record.pricePerLiter,
+    ),
+    gasPricePreviousMonth: sum(
+      previousMonth,
+      (record) => record.liters * record.pricePerLiter,
+    ),
     minFillUpLiter: fuels.length ? Math.min(...liters) : 0,
     maxFillUpLiter: fuels.length ? Math.max(...liters) : 0,
     bestGasPrice: fuels.length ? Math.min(...prices) : 0,
     worstGasPrice: fuels.length ? Math.max(...prices) : 0,
     averageLiterPerKm,
     // Preserved exactly from the existing implementation.
-    bestFuelConsumption: consumptionValues.length ? Number(Math.min(...consumptionValues).toFixed(2)) : 0,
-    worstFuelConsumption: consumptionValues.length ? Number(Math.max(...consumptionValues).toFixed(2)) : 0,
+    bestFuelConsumption: consumptionValues.length
+      ? Number(Math.min(...consumptionValues).toFixed(2))
+      : 0,
+    worstFuelConsumption: consumptionValues.length
+      ? Number(Math.max(...consumptionValues).toFixed(2))
+      : 0,
   };
 }
 
@@ -83,13 +121,19 @@ export function calculatePersianRefuelingStatistics(
 ): PersianRefuelingStatistics {
   const { year, month } = periods.persian;
   const previous = periods.previousPersianMonth;
-  const inYear = (record: FuelRecord, targetYear: number) => isPersianYear(dateOf(record.date), targetYear);
-  const inMonth = (record: FuelRecord, targetYear: number, targetMonth: number) =>
-    isPersianMonth(dateOf(record.date), targetYear, targetMonth);
+  const inYear = (record: FuelRecord, targetYear: number) =>
+    isPersianYear(dateOf(record.date), targetYear);
+  const inMonth = (
+    record: FuelRecord,
+    targetYear: number,
+    targetMonth: number,
+  ) => isPersianMonth(dateOf(record.date), targetYear, targetMonth);
   const thisYear = fuels.filter((record) => inYear(record, year));
   const previousYear = fuels.filter((record) => inYear(record, year - 1));
   const thisMonth = fuels.filter((record) => inMonth(record, year, month));
-  const previousMonth = fuels.filter((record) => inMonth(record, previous.year, previous.month));
+  const previousMonth = fuels.filter((record) =>
+    inMonth(record, previous.year, previous.month),
+  );
 
   return {
     year,
@@ -102,9 +146,21 @@ export function calculatePersianRefuelingStatistics(
     gasPreviousYear: sum(previousYear, (record) => record.liters),
     gasThisMonth: sum(thisMonth, (record) => record.liters),
     gasPreviousMonth: sum(previousMonth, (record) => record.liters),
-    gasPriceThisMonth: sum(thisMonth, (record) => record.liters * record.pricePerLiter),
-    gasPricePreviousMonth: sum(previousMonth, (record) => record.liters * record.pricePerLiter),
-    gasPriceThisYear: sum(thisYear, (record) => record.liters * record.pricePerLiter),
-    gasPricePreviousYear: sum(previousYear, (record) => record.liters * record.pricePerLiter),
+    gasPriceThisMonth: sum(
+      thisMonth,
+      (record) => record.liters * record.pricePerLiter,
+    ),
+    gasPricePreviousMonth: sum(
+      previousMonth,
+      (record) => record.liters * record.pricePerLiter,
+    ),
+    gasPriceThisYear: sum(
+      thisYear,
+      (record) => record.liters * record.pricePerLiter,
+    ),
+    gasPricePreviousYear: sum(
+      previousYear,
+      (record) => record.liters * record.pricePerLiter,
+    ),
   };
 }

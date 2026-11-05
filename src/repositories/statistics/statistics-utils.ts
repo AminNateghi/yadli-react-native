@@ -14,18 +14,20 @@ export function dateOf(value: DateValue): Date {
 }
 
 export function periodBounds(year: number, month?: number): Period {
-  const start = month === undefined
-    ? new Date(year, 0, 1)
-    : new Date(year, month, 1);
-  const end = month === undefined
-    ? new Date(year + 1, 0, 1)
-    : new Date(year, month + 1, 1);
+  const start =
+    month === undefined ? new Date(year, 0, 1) : new Date(year, month, 1);
+  const end =
+    month === undefined
+      ? new Date(year + 1, 0, 1)
+      : new Date(year, month + 1, 1);
   return { start, end };
 }
 
 export function inPeriod(date: Date, start: Date, end: Date): boolean {
   const time = date.getTime();
-  return Number.isFinite(time) && time >= start.getTime() && time < end.getTime();
+  return (
+    Number.isFinite(time) && time >= start.getTime() && time < end.getTime()
+  );
 }
 
 export function sum<T>(items: T[], value: (item: T) => number): number {
@@ -49,13 +51,19 @@ export function isPersianYear(date: Date, year: number): boolean {
   return persianYearMonth(date).year === year;
 }
 
-export function isPersianMonth(date: Date, year: number, month: number): boolean {
+export function isPersianMonth(
+  date: Date,
+  year: number,
+  month: number,
+): boolean {
   const parts = persianYearMonth(date);
   return parts.year === year && parts.month === month;
 }
 
 export function previousPersianMonth(year: number, month: number) {
-  return month === 1 ? { year: year - 1, month: 12 } : { year, month: month - 1 };
+  return month === 1
+    ? { year: year - 1, month: 12 }
+    : { year, month: month - 1 };
 }
 
 export function createStatisticsPeriods(now = new Date()): StatisticsPeriods {
@@ -83,9 +91,18 @@ export function createAllCostRecords(
   expenses: ExpenseRecord[],
 ): AllCostRecord[] {
   return [
-    ...fuels.map((record) => ({ date: dateOf(record.date), cost: record.totalCost })),
-    ...services.map((record) => ({ date: dateOf(record.date), cost: record.cost })),
-    ...expenses.map((record) => ({ date: dateOf(record.date), cost: record.amount })),
+    ...fuels.map((record) => ({
+      date: dateOf(record.date),
+      cost: record.totalCost,
+    })),
+    ...services.map((record) => ({
+      date: dateOf(record.date),
+      cost: record.cost,
+    })),
+    ...expenses.map((record) => ({
+      date: dateOf(record.date),
+      cost: record.amount,
+    })),
   ];
 }
 
@@ -94,12 +111,18 @@ export function sumCostsInPeriod(
   start: Date,
   end: Date,
 ): number {
-  return sum(records.filter((record) => inPeriod(record.date, start, end)), (record) => record.cost);
+  return sum(
+    records.filter((record) => inPeriod(record.date, start, end)),
+    (record) => record.cost,
+  );
 }
 
 export function sumPersianCosts(
   records: AllCostRecord[],
   predicate: (date: Date) => boolean,
 ): number {
-  return sum(records.filter((record) => predicate(record.date)), (record) => record.cost);
+  return sum(
+    records.filter((record) => predicate(record.date)),
+    (record) => record.cost,
+  );
 }
