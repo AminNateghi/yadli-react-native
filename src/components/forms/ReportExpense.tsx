@@ -27,7 +27,6 @@ export default function ReportExpense() {
             topLabel={t("reports.totalExpenses")}
             bottomLabel={numberFormat(statistics.expenses.totalExpenses, {
               isRTL,
-              type: "decimal",
             })}
             size="large"
             bottomSpanLabel={t("common.priceSign")}
@@ -43,7 +42,6 @@ export default function ReportExpense() {
                   : statistics.expenses.expenseCostThisYear,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("dashboard.thisYear")}
@@ -57,7 +55,6 @@ export default function ReportExpense() {
                   : statistics.expenses.expenseCostPreviousYear,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("dashboard.previousYear")}
@@ -74,7 +71,6 @@ export default function ReportExpense() {
                   : statistics.expenses.expenseCostThisMonth,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("dashboard.thisMonth")}
@@ -88,7 +84,6 @@ export default function ReportExpense() {
                   : statistics.expenses.expenseCostPreviousMonth,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("dashboard.previousMonth")}
@@ -196,7 +191,6 @@ export default function ReportExpense() {
             topLabel={t("reports.averageCostPerMonth")}
             bottomLabel={numberFormat(statistics.expenses.averageCostPerMonth, {
               isRTL,
-              type: "decimal",
             })}
             size="large"
             bottomSpanLabel={t("common.priceSign")}
@@ -212,7 +206,6 @@ export default function ReportExpense() {
                   : statistics.expenses.averageCostPerDay,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.averageCostPerDay")}
@@ -226,7 +219,6 @@ export default function ReportExpense() {
                   : statistics.expenses.averageCostPerKilometer,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.averageCostPerKilometer")}
@@ -242,7 +234,6 @@ export default function ReportExpense() {
                   : statistics.expenses.maxExpenseAmount,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.maxServiceAmount")}
@@ -256,7 +247,6 @@ export default function ReportExpense() {
                   : statistics.expenses.minExpenseAmount,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.minServiceAmount")}

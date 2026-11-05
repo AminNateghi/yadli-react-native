@@ -99,7 +99,6 @@ export default function ReportGeneral() {
             <DoubleLabel
               topLabel={numberFormat(statistics.general.averageCostPerMonth, {
                 isRTL,
-                type: "decimal",
               })}
               bottomLabel={t("reports.averageCostPerMonth")}
               topSpanLabel={t("common.priceSign")}
@@ -108,7 +107,6 @@ export default function ReportGeneral() {
             <DoubleLabel
               topLabel={numberFormat(statistics.general.averageCostPerDay, {
                 isRTL,
-                type: "decimal",
               })}
               bottomLabel={t("reports.averageCostPerDay")}
               topSpanLabel={t("common.priceSign")}
@@ -119,7 +117,6 @@ export default function ReportGeneral() {
                 statistics.general.averageCostPerKilometer,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.averageCostPerKilometer")}

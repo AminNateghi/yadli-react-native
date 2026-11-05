@@ -50,7 +50,7 @@ export function CompleteReminderModal({ id, trigger, onConfirm }: Props) {
       {
         reminderId: id,
         actualOdometer: formData.odometer ? Number(formData.odometer) : null,
-        actualDate: formData.date ? new Date(formData.date!) : null,
+        actualDate: formData.date ? new Date(formData.date) : null,
       },
       {
         onSuccess: (notificationPermissionGranted) => {

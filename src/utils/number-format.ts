@@ -1,11 +1,10 @@
 interface Props {
   isRTL: boolean;
-  type?: "number" | "decimal";
 }
 
 export function numberFormat(value: number, options: Props) {
   return Intl.NumberFormat(options.isRTL ? "fa-IR" : "en-GB", {
-    maximumSignificantDigits: options.type === "decimal" ? 2 : undefined,
+    minimumFractionDigits: options.isRTL ? 0 : 2,
   }).format(value);
 }
 

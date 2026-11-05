@@ -24,7 +24,7 @@ export default function ReportServices() {
             topLabel={t("reports.totalServiceCost")}
             bottomLabel={numberFormat(statistics.services.totalServiceCost, {
               isRTL,
-              type: "decimal",
+              
             })}
             size="large"
             bottomSpanLabel={t("common.priceSign")}
@@ -40,7 +40,7 @@ export default function ReportServices() {
                   : statistics.services.serviceCostThisYear,
                 {
                   isRTL,
-                  type: "decimal",
+              
                 },
               )}
               bottomLabel={t("dashboard.thisYear")}
@@ -54,7 +54,7 @@ export default function ReportServices() {
                   : statistics.services.serviceCostPreviousYear,
                 {
                   isRTL,
-                  type: "decimal",
+              
                 },
               )}
               bottomLabel={t("dashboard.previousYear")}
@@ -71,7 +71,7 @@ export default function ReportServices() {
                   : statistics.services.serviceCostThisMonth,
                 {
                   isRTL,
-                  type: "decimal",
+              
                 },
               )}
               bottomLabel={t("dashboard.thisMonth")}
@@ -85,7 +85,7 @@ export default function ReportServices() {
                   : statistics.services.serviceCostPreviousMonth,
                 {
                   isRTL,
-                  type: "decimal",
+              
                 },
               )}
               bottomLabel={t("dashboard.previousMonth")}
@@ -187,7 +187,6 @@ export default function ReportServices() {
             topLabel={t("reports.averageCostPerMonth")}
             bottomLabel={numberFormat(statistics.services.averageCostPerMonth, {
               isRTL,
-              type: "decimal",
             })}
             size="large"
             bottomSpanLabel={t("common.priceSign")}
@@ -203,7 +202,6 @@ export default function ReportServices() {
                   : statistics.services.averageCostPerDay,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.averageCostPerDay")}
@@ -217,7 +215,6 @@ export default function ReportServices() {
                   : statistics.services.averageCostPerKilometer,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.averageCostPerKilometer")}
@@ -233,7 +230,6 @@ export default function ReportServices() {
                   : statistics.services.maxServiceAmount,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.maxServiceAmount")}
@@ -247,7 +243,6 @@ export default function ReportServices() {
                   : statistics.services.minServiceAmount,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.minServiceAmount")}

@@ -27,7 +27,6 @@ export default function ReportDistance() {
             topLabel={t("reports.totalDistanceKm")}
             bottomLabel={numberFormat(statistics.distance.totalDistanceKm, {
               isRTL,
-              type: "decimal",
             })}
             size="large"
             bottomSpanLabel={t("common.kilometer")}
@@ -124,7 +123,6 @@ export default function ReportDistance() {
                 statistics.distance.averageMileagePerYear,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.averageMileagePerYear")}
@@ -136,7 +134,6 @@ export default function ReportDistance() {
                 statistics.distance.averageMileagePerMonth,
                 {
                   isRTL,
-                  type: "decimal",
                 },
               )}
               bottomLabel={t("reports.averageMileagePerMonth")}
@@ -148,7 +145,6 @@ export default function ReportDistance() {
             <DoubleLabel
               topLabel={numberFormat(statistics.distance.averageMileagePerDay, {
                 isRTL,
-                type: "decimal",
               })}
               bottomLabel={t("reports.averageMileagePerDay")}
               topSpanLabel={t("common.kilometer")}
