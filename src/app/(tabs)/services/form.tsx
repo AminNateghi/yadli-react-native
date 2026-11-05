@@ -129,15 +129,13 @@ export default function ServiceForm() {
         control={control}
         name="type"
         render={({ field: { value, onChange } }) => (
-          <>
-            <MultiSelectPicker
-              label={t("services.serviceType")}
-              value={value}
-              options={serviceTypeOptions(t)}
-              onValueChange={onChange}
-              error={errors?.type?.message}
-            />
-          </>
+          <MultiSelectPicker
+            label={t("services.serviceType")}
+            value={value}
+            options={serviceTypeOptions(t)}
+            onValueChange={onChange}
+            error={errors?.type?.message}
+          />
         )}
       />
 
@@ -145,14 +143,12 @@ export default function ServiceForm() {
         control={control}
         name="date"
         render={({ field: { value, onChange } }) => (
-          <>
-            <DatePicker
-              label={t("services.date")}
-              value={value}
-              onChange={onChange}
-              error={errors?.date?.message}
-            />
-          </>
+          <DatePicker
+            label={t("services.date")}
+            value={value}
+            onChange={onChange}
+            error={errors?.date?.message}
+          />
         )}
       />
 
@@ -160,19 +156,17 @@ export default function ServiceForm() {
         control={control}
         name="odometer"
         render={({ field: { value, onChange, onBlur } }) => (
-          <>
-            <Input
-              label={t("services.odometer")}
-              value={value?.toString() ?? ""}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              keyboardType="numeric"
-              placeholder={t("services.odometerPlaceholder")}
-              style={{ direction: "ltr" }}
-              error={errors?.odometer?.message}
-              help={`${t("dashboard.latestOdometer")} ${numberFormat(statistics.distance.latestOdometer, { isRTL })}`}
-            />
-          </>
+          <Input
+            label={t("services.odometer")}
+            value={value?.toString() ?? ""}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            keyboardType="numeric"
+            placeholder={t("services.odometerPlaceholder")}
+            style={{ direction: "ltr" }}
+            error={errors?.odometer?.message}
+            help={`${t("dashboard.latestOdometer")} ${numberFormat(statistics.distance.latestOdometer, { isRTL })}`}
+          />
         )}
       />
 
@@ -180,18 +174,16 @@ export default function ServiceForm() {
         control={control}
         name="cost"
         render={({ field: { value, onChange, onBlur } }) => (
-          <>
-            <Input
-              label={t("services.cost")}
-              value={value?.toString() ?? ""}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              keyboardType="decimal-pad"
-              placeholder={t("services.costPlaceholder")}
-              style={{ direction: "ltr" }}
-              error={errors?.cost?.message}
-            />
-          </>
+          <Input
+            label={t("services.cost")}
+            value={value?.toString() ?? ""}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            keyboardType="decimal-pad"
+            placeholder={t("services.costPlaceholder")}
+            style={{ direction: "ltr" }}
+            error={errors?.cost?.message}
+          />
         )}
       />
 
@@ -199,21 +191,19 @@ export default function ServiceForm() {
         control={control}
         name="note"
         render={({ field: { value, onChange, onBlur } }) => (
-          <>
-            <Input
-              label={t("services.note")}
-              value={value ?? ""}
-              onBlur={onBlur}
-              onChangeText={onChange}
-              placeholder={t("services.notePlaceholder")}
-              multiline
-              style={{
-                height: 80,
-                textAlignVertical: "top",
-                paddingTop: 12,
-              }}
-            />
-          </>
+          <Input
+            label={t("services.note")}
+            value={value ?? ""}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            placeholder={t("services.notePlaceholder")}
+            multiline
+            style={{
+              height: 80,
+              textAlignVertical: "top",
+              paddingTop: 12,
+            }}
+          />
         )}
       />
 

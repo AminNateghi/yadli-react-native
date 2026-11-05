@@ -122,6 +122,7 @@
   },
   "reports": {
     "title": "Reports",
+    "reportFor": "Report for:",
     "general": "General",
     "fuel": "Gas",
     "distance": "Distance",

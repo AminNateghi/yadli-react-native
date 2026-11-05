@@ -1,10 +1,13 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { router, useNavigation } from "expo-router";
-import { ScrollView, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { useTranslation } from "@/languages/useTranslation";
 import { useGetProfile } from "@/repositories/profile-repository";
 import { GlobalStyles, ReportStyles } from "@/constants";
 import { SegmentedButtons } from "@/components/SegmentedButtons";
+import { Text } from "@/components/Text";
+import { useVehicles } from "@/repositories/vehicle-repository";
+import { Card } from "@/components/Card";
 import ReportGeneral from "@/components/forms/ReportGeneral";
 import ReportFuel from "@/components/forms/ReportFuel";
 import ReportServices from "@/components/forms/ReportServices";
@@ -17,6 +20,11 @@ export default function ReportsScreen() {
   const navigation = useNavigation();
   const { t, isRTL } = useTranslation();
   const { data: profile } = useGetProfile();
+  const { data: vehicles = [] } = useVehicles();
+
+  const activeVehicle = vehicles.find(
+    (vehicle) => vehicle.id === profile?.activeVehicleId,
+  );
 
   const reportOptions = [
     { value: "general", label: t("reports.general") },
@@ -45,12 +53,17 @@ export default function ReportsScreen() {
 
   return (
     <View style={[ReportStyles.wrapper, isRTL && GlobalStyles.rtl]}>
+      <Card style={styles.card}>
+        <Text>{t("reports.reportFor")}</Text>
+        <Text style={styles.title}>{activeVehicle?.customName}</Text>
+      </Card>
       <SegmentedButtons
         buttons={reportOptions}
         value={currentSegment}
         size="small"
         onValueChange={(value) => setCurrentSegment(value as ReportType)}
       />
+
       <ScrollView
         style={ReportStyles.container}
         contentContainerStyle={ReportStyles.content}
@@ -67,3 +80,17 @@ export default function ReportsScreen() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    height: 45,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 5,
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: 600,
+    marginBottom: 10,
+  },
+});

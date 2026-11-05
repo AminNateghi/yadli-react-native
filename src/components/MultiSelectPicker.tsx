@@ -4,6 +4,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { CheckIcon, ChevronDownIcon } from "lucide-react-native";
 import { useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Button } from "./Button";
 
 interface MultiSelectOption {
   value: string;
@@ -125,16 +126,14 @@ export function MultiSelectPicker({
                 );
               })}
             </ScrollView>
-            <Pressable
-              style={({ pressed }) => [
-                styles.doneButton,
-                pressed && styles.optionPressed,
-              ]}
-              onPress={() => setVisible(false)}
-              accessibilityRole="button"
-            >
-              <Text style={styles.doneText}>{t("common.ok")}</Text>
-            </Pressable>
+
+            <View style={{ padding: 10 }}>
+              <Button
+                variant="subtle"
+                title={t("common.ok")}
+                onPress={() => setVisible(false)}
+              />
+            </View>
           </View>
         </View>
       </Modal>
@@ -200,7 +199,7 @@ const styles = StyleSheet.create({
     borderBottomColor: Theme.borderLight,
   },
   optionsList: {
-    maxHeight: 300,
+    maxHeight: 400,
   },
   option: {
     minHeight: 56,
@@ -246,17 +245,6 @@ const styles = StyleSheet.create({
   checkboxSelected: {
     borderColor: Theme.primary,
     backgroundColor: Theme.primary,
-  },
-  doneButton: {
-    alignItems: "center",
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: Theme.borderLight,
-  },
-  doneText: {
-    color: Theme.primary,
-    fontSize: Theme.fontSize,
-    fontWeight: 600,
   },
   error: {
     fontSize: 12,

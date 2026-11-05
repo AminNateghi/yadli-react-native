@@ -122,6 +122,7 @@
   },
   "reports": {
     "title": "گزارش‌ها",
+    "reportFor": "گزارشات خودرو:",
     "general": "کلی",
     "fuel": "سوخت",
     "distance": "مسافت",
