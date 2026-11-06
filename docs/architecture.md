@@ -34,7 +34,10 @@ screen; the dashboard and navigation drawer switch the active vehicle.
 - Client: `src/db/index.ts` — `openDatabaseSync("yadli.db")` + `drizzle(sqlite, {schema})`
 - Schema: `src/db/schema.ts` — `profile`, `vehicles`, `services`, `fuels`,
   `expenses`, and `reminders`. Log and reminder records are scoped to a
-  vehicle; the active vehicle is stored in `profile`.
+  vehicle; the active vehicle is stored in `profile`. Each reminder references
+  its service or expense record, and derives its date/odometer baseline from
+  that record. Recording a matching category moves its reminder to the new
+  record; deleting a record deletes its linked reminder.
 - Config: `drizzle.config.ts` — `dialect:sqlite, driver:expo, schema:./src/db/schema.ts`
 - Migrations: bundled `src/db/migrations/migrations.js`, applied via
   `useMigrations(db, migrations)` in `app/_layout.tsx:27`
@@ -62,4 +65,6 @@ Flow: form → mutation → drizzle → sqlite → `invalidateQueries` → list 
 
 - `src/types/interfaces.ts` — DTOs (`$inferSelect`) + enums:
   `ReminderMode (OneTime|Recurring)`, `ReminderTriggerType (Odometer|Date|Either)`
-- `src/types/*-schema.ts` — zod schemas built per locale: `fuel/expense/service/reminder-schema.ts`
+- `src/types/*-schema.ts` — zod schemas built per locale:
+  `fuel/expense/service-schema.ts`; reminder settings are validated alongside
+  the service or expense record that owns them.

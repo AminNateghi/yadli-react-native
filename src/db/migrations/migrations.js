@@ -11,6 +11,7 @@ import m0006 from "./0006_closed_human_fly.sql";
 import m0007 from "./0007_multi_service_types.sql";
 import m0008 from "./0008_multiple_vehicles.sql";
 import m0009 from "./0009_serious_groot.sql";
+import m0010 from "./0010_record_linked_reminders.sql";
 
 export default {
   journal,
@@ -25,5 +26,6 @@ export default {
     m0007,
     m0008,
     m0009,
+    m0010,
   },
 };

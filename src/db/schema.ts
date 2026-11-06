@@ -1,4 +1,12 @@
-import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm";
+import {
+  check,
+  integer,
+  index,
+  real,
+  sqliteTable,
+  text,
+} from "drizzle-orm/sqlite-core";
 import type {
   ReminderMode,
   ReminderTriggerType,
@@ -75,42 +83,59 @@ export const expensesRecords = sqliteTable("expenses", {
   vehicleId: integer("vehicle_id").notNull().default(1),
 });
 
-export const remindersRecords = sqliteTable("reminders", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+export const remindersRecords = sqliteTable(
+  "reminders",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
 
-  // What the reminder is for
-  serviceType: text("service_type").$type<ServiceType>(),
-  expenseType: text("expense_type").$type<ExpenseType>(),
+    serviceId: integer("service_id").references(() => servicesRecords.id, {
+      onDelete: "cascade",
+    }),
+    expenseId: integer("expense_id").references(() => expensesRecords.id, {
+      onDelete: "cascade",
+    }),
+    serviceType: text("service_type").$type<ServiceType>(),
+    expenseType: text("expense_type").$type<ExpenseType>(),
 
-  // one-time | recurring
-  mode: text("mode").$type<ReminderMode>().notNull().default("OneTime"),
+    // one-time | recurring
+    mode: text("mode").$type<ReminderMode>().notNull().default("OneTime"),
 
-  // mileage | date | either
-  triggerType: text("trigger_type")
-    .$type<ReminderTriggerType>()
-    .notNull()
-    .default("Either"),
+    // mileage | date | either
+    triggerType: text("trigger_type")
+      .$type<ReminderTriggerType>()
+      .notNull()
+      .default("Either"),
 
-  // Mileage when the interval started
-  startOdometer: integer("start_odometer"),
-  // Date when the interval started
-  startDate: integer("start_date", {
-    mode: "timestamp",
-  }),
+    // How many km until next reminder
+    odometerInterval: integer("odometer_interval"),
 
-  // How many km until next reminder
-  odometerInterval: integer("odometer_interval"),
+    // How many months/days until next reminder.
+    // More on this below.
+    dateIntervalMonths: integer("date_interval_months"),
 
-  // How many months/days until next reminder.
-  // More on this below.
-  dateIntervalMonths: integer("date_interval_months"),
+    active: integer("active", {
+      mode: "boolean",
+    })
+      .notNull()
+      .default(true),
 
-  active: integer("active", {
-    mode: "boolean",
-  })
-    .notNull()
-    .default(true),
-
-  note: text("note"),
-  vehicleId: integer("vehicle_id").notNull().default(1),
-});
+    note: text("note"),
+    vehicleId: integer("vehicle_id").notNull().default(1),
+  },
+  (table) => [
+    index("reminders_service_id_idx").on(table.serviceId),
+    index("reminders_expense_id_idx").on(table.expenseId),
+    index("reminders_vehicle_service_type_idx").on(
+      table.vehicleId,
+      table.serviceType,
+    ),
+    index("reminders_vehicle_expense_type_idx").on(
+      table.vehicleId,
+      table.expenseType,
+    ),
+    check(
+      "reminders_single_source_check",
+      sql`(${table.serviceId} IS NOT NULL AND ${table.expenseId} IS NULL AND ${table.serviceType} IS NOT NULL AND ${table.expenseType} IS NULL) OR (${table.serviceId} IS NULL AND ${table.expenseId} IS NOT NULL AND ${table.serviceType} IS NULL AND ${table.expenseType} IS NOT NULL)`,
+    ),
+  ],
+);

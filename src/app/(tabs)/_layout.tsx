@@ -1,4 +1,4 @@
-import { Tabs, useSegments } from "expo-router";
+import { router, Tabs, useSegments } from "expo-router";
 import {
   BanknoteIcon,
   CarIcon,
@@ -16,8 +16,11 @@ export default function TabLayout() {
   const fontFamily = useAppFontFamily();
 
   const segments = useSegments() as string[];
-  const isFormScreen = segments.includes("form");
-  const isOnboardingScreen = segments.includes("onboarding");
+  const isFormScreen =
+    segments.includes("form") ||
+    segments.includes("onboarding") ||
+    segments.includes("recent-changes") ||
+    segments.includes("reports");
 
   return (
     <Tabs
@@ -27,7 +30,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: Theme.primary,
         tabBarInactiveTintColor: Theme.textMuted,
         tabBarStyle: {
-          display: isFormScreen || isOnboardingScreen ? "none" : "flex", //  Hide dynamically tabs bar in forms/onboarding screen
+          display: isFormScreen ? "none" : "flex", //  Hide dynamically tabs bar in forms/onboarding screen
           backgroundColor: Theme.surface,
           borderTopColor: Theme.borderLight,
           paddingTop: 0,
@@ -50,6 +53,12 @@ export default function TabLayout() {
             <LayoutDashboardIcon size={size} color={color} />
           ),
         }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.navigate("/(tabs)/(home)");
+          },
+        }}
       />
 
       <Tabs.Screen
@@ -59,6 +68,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <WrenchIcon size={size} color={color} />
           ),
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.navigate("/(tabs)/services");
+          },
         }}
       />
 
@@ -70,6 +85,12 @@ export default function TabLayout() {
             <FuelIcon size={size} color={color} />
           ),
         }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.navigate("/(tabs)/fuel");
+          },
+        }}
       />
 
       <Tabs.Screen
@@ -80,6 +101,12 @@ export default function TabLayout() {
             <BanknoteIcon size={size} color={color} />
           ),
         }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.navigate("/(tabs)/expenses");
+          },
+        }}
       />
 
       <Tabs.Screen
@@ -89,6 +116,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <TimerIcon size={size} color={color} />
           ),
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.navigate("/(tabs)/reminders");
+          },
         }}
       />
 

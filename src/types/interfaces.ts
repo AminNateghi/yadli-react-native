@@ -10,7 +10,24 @@ import type { TranslationKey } from "@/languages/useTranslation";
 export type ServiceDto = typeof servicesRecords.$inferSelect;
 export type FuelDto = typeof fuelsRecords.$inferSelect;
 export type ExpenseDto = typeof expensesRecords.$inferSelect;
-export type ReminderDto = typeof remindersRecords.$inferSelect;
+export type ReminderRecordDto = typeof remindersRecords.$inferSelect;
+export type ReminderDto = ReminderRecordDto & {
+  service: ServiceDto | null;
+  expense: ExpenseDto | null;
+  startDate: Date | null;
+  startOdometer: number | null;
+};
+export type ReminderSettingsDto = Pick<
+  ReminderRecordDto,
+  | "serviceType"
+  | "expenseType"
+  | "mode"
+  | "triggerType"
+  | "odometerInterval"
+  | "dateIntervalMonths"
+  | "active"
+  | "note"
+>;
 export type VehicleDto = typeof vehiclesRecords.$inferSelect;
 
 export type ServiceType =

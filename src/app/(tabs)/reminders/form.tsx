@@ -1,179 +1,89 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { View } from "react-native";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/Button";
+import { Card } from "@/components/Card";
+import { Text } from "@/components/Text";
+import { CompleteReminderModal } from "@/components/forms/CompleteReminderModal";
+import { CompleteReminderOneTimeModal } from "@/components/forms/CompleteReminderOneTimeModal";
+import { ReminderDeletionModal } from "@/components/forms/ReminderDeletionModal";
+import {
+  ReminderSettings,
+  parseReminderSettings,
+  reminderSettingsToForm,
+  type ReminderSettingsFormValues,
+} from "@/components/forms/ReminderSettings";
 import { GlobalStyles } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
 import {
-  useCreateReminder,
   useGetReminder,
   useUpdateReminder,
 } from "@/repositories/reminder-repository";
-import { type ReminderFormData, reminderSchema } from "@/types/reminder-schema";
-import {
-  type ExpenseType,
-  expenseTypeOptions,
-  reminderDateIntervalMonths,
-  type ReminderDependent,
-  reminderDependentOptions,
-  type ReminderDto,
-  type ReminderMode,
-  reminderModeOptions,
-  type ReminderTriggerType,
-  reminderTriggerTypeOptions,
-  type ServiceType,
-  serviceTypeOptions,
-} from "@/types/interfaces";
+import { getExpenseTypeTitle, getServiceTypeTitle } from "@/types/interfaces";
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
-import { Card } from "@/components/Card";
-import { SelectPicker } from "@/components/SelectPicker";
-import { SegmentedButtons } from "@/components/SegmentedButtons";
-import { DatePicker } from "@/components/DatePicker";
-import { Input } from "@/components/Input";
-import { SwitchToggle } from "@/components/SwitchToggle";
-import { CompleteReminderModal } from "@/components/forms/CompleteReminderModal";
-import { ReminderDeletionModal } from "@/components/forms/ReminderDeletionModal";
-import { Button } from "@/components/Button";
-import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
-import { CompleteReminderOneTimeModal } from "@/components/forms/CompleteReminderOneTimeModal";
-import { Toast } from "@/components/CustomToast";
 import { useActiveVehicle } from "@/repositories/active-vehicle";
 import { SoldVehicleNotice } from "@/components/SoldVehicleNotice";
-
-const defaultValues = {
-  dependent: "Service",
-  mode: "OneTime",
-  note: undefined,
-  serviceType: undefined,
-  expenseType: undefined,
-  triggerType: "Either",
-  startOdometer: undefined,
-  startDate: undefined,
-  odometerInterval: undefined,
-  dateIntervalMonths: undefined,
-  nextOdometer: undefined,
-  nextDate: undefined,
-  active: true,
-};
+import { Toast } from "@/components/CustomToast";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 export default function ReminderForm() {
-  const params = useLocalSearchParams<{ id: string }>();
-  const [id] = useState<number>(Number(params.id));
+  const params = useLocalSearchParams<{ id?: string }>();
+  const id = Number(params.id) || null;
   const { t, isRTL } = useTranslation();
   const { data: activeVehicle } = useActiveVehicle();
   const navigation = useNavigation();
-  const isEditMode = !!id;
-
-  const { mutate: updateService, isPending: isPendingUpdate } =
-    useUpdateReminder(id);
-  const { mutate: createService, isPending: isPendingCreate } =
-    useCreateReminder();
-  const { data } = useGetReminder(id);
-
-  const schema = reminderSchema(t);
-  const {
-    watch,
-    control,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
-    defaultValues: { ...defaultValues },
-  });
+  const { data: reminder, isSuccess, isError } = useGetReminder(id);
+  const { mutate: updateReminder, isPending } = useUpdateReminder(id ?? 0);
+  const [settings, setSettings] = useState<ReminderSettingsFormValues | null>(
+    null,
+  );
+  const [settingsError, setSettingsError] = useState<string>();
+  const currentSettings =
+    settings ?? (reminder ? reminderSettingsToForm(reminder) : null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditMode
-        ? t("reminders.updateTitle")
-        : t("reminders.createTitle"),
+      title: id ? t("reminders.updateTitle") : t("reminders.createTitle"),
       headerLargeTitle: true,
       headerTitleAlign: "center",
     });
-  }, [navigation, t, isEditMode]);
+  }, [id, navigation, t]);
 
   useEffect(() => {
-    if (!id) {
-      reset(defaultValues);
-      return;
+    if (isSuccess && reminder) {
+      setSettings(reminderSettingsToForm(reminder));
     }
-  }, [id, reset]);
+  }, [isSuccess, reminder]);
 
-  useEffect(() => {
-    if (!data || !id) {
-      return;
-    }
+  const handleClose = () => router.back();
 
-    reset({
-      dependent: data.serviceType ? "Service" : "Expense",
-      mode: data.mode,
-      note: data.note,
-      serviceType: data.serviceType ?? undefined,
-      expenseType: data.expenseType ?? undefined,
-      triggerType: data.triggerType,
-      startOdometer: data.startOdometer ?? undefined,
-      startDate: String(data.startDate) ?? undefined,
-      odometerInterval: data.odometerInterval ?? undefined,
-      dateIntervalMonths: data.dateIntervalMonths ?? undefined,
-      active: data.active,
+  const handleSave = () => {
+    if (!id || !currentSettings) return;
+    const parsedSettings = parseReminderSettings(currentSettings, {
+      serviceTypes: reminder?.service?.type,
+      expenseType: reminder?.expenseType ?? undefined,
     });
-  }, [data, id, reset]);
-
-  const handleResetForm = () => {
-    reset(defaultValues);
-  };
-
-  const handleClose = () => {
-    handleResetForm();
-    router.back();
-  };
-
-  const handleSave = (formData: ReminderFormData) => {
-    const reminder: Omit<ReminderDto, "id" | "vehicleId"> = {
-      mode: formData.mode as ReminderMode,
-      note: formData.note ?? null,
-      serviceType:
-        formData.dependent === "Service"
-          ? (formData.serviceType as ServiceType)
-          : null,
-      expenseType:
-        formData.dependent === "Expense"
-          ? (formData.expenseType as ExpenseType)
-          : null,
-      triggerType: formData.triggerType as ReminderTriggerType,
-      startOdometer: formData.startOdometer ?? null,
-      startDate: formData.startDate ? new Date(formData.startDate) : null,
-      odometerInterval: formData.odometerInterval ?? null,
-      dateIntervalMonths: formData.dateIntervalMonths ?? null,
-      active: formData.active,
-    };
-
-    const callbacks = {
-      onSuccess: (result: { notificationPermissionGranted: boolean }) => {
-        if (!result.notificationPermissionGranted) {
+    if (!parsedSettings) {
+      setSettingsError(t("common.required"));
+      return;
+    }
+    setSettingsError(undefined);
+    updateReminder(parsedSettings, {
+      onSuccess: (result) => {
+        if (result.notificationSyncFailed) {
+          Toast({ text: t("reminders.notificationError"), type: "warning" });
+        } else if (!result.notificationPermissionGranted) {
           Toast({
             text: t("reminders.notificationPermissionDenied"),
             type: "warning",
           });
         }
         handleClose();
-        handleResetForm();
       },
       onError: () => {
-        Toast({ text: t("reminders.notificationError"), type: "error" });
+        Toast({ text: t("reminders.saveFailed"), type: "error" });
       },
-    };
-
-    if (id) {
-      updateService(reminder, callbacks);
-    } else {
-      createService(reminder, callbacks);
-    }
+    });
   };
-
-  const dependent = watch("dependent") as ReminderDependent;
-  const mode = watch("mode") as ReminderMode;
-  const trigger = watch("triggerType") as ReminderTriggerType;
 
   if (activeVehicle?.sold) {
     return <SoldVehicleNotice onClose={handleClose} />;
@@ -187,268 +97,65 @@ export default function ReminderForm() {
       keyboardShouldPersistTaps="handled"
       keyboardDismissMode="on-drag"
     >
-      <Card title={t("reminders.titleCard1")}>
-        <Controller
-          control={control}
-          name="dependent"
-          render={({ field: { value, onChange } }) => (
-            <SelectPicker
-              label={t("reminders.dependent")}
-              value={value}
-              options={reminderDependentOptions(t)}
-              onValueChange={(value) => onChange(value)}
+      {!id && (
+        <Card title={t("reminders.addWithRecord")}>
+          <Text>{t("reminders.createFromRecord")}</Text>
+          <View style={GlobalStyles.buttonColumn}>
+            <Button
+              title={t("services.createTitle")}
+              onPress={() => router.push("/services/form")}
             />
-          )}
-        />
-
-        {dependent === "Service" && (
-          <Controller
-            control={control}
-            name="serviceType"
-            render={({ field: { value, onChange } }) => (
-              <SelectPicker
-                label={t("services.serviceType")}
-                value={value ?? ""}
-                options={serviceTypeOptions(t)}
-                onValueChange={(value) => onChange(value as ServiceType)}
-                error={errors.serviceType?.message}
-              />
-            )}
-          />
-        )}
-
-        {dependent === "Expense" && (
-          <Controller
-            control={control}
-            name="expenseType"
-            render={({ field: { value, onChange } }) => (
-              <SelectPicker
-                label={t("expenses.category")}
-                value={value ?? ""}
-                options={expenseTypeOptions(t)}
-                onValueChange={(value) => onChange(value as ExpenseType)}
-                error={errors.expenseType?.message}
-              />
-            )}
-          />
-        )}
-      </Card>
-
-      <Card title={t("reminders.mode")}>
-        <Controller
-          control={control}
-          name="mode"
-          render={({ field: { value, onChange } }) => (
-            <SegmentedButtons
-              buttons={reminderModeOptions(t)}
-              value={value}
-              onValueChange={(value) => onChange(value)}
-            />
-          )}
-        />
-      </Card>
-
-      <Card title={t("reminders.titleCard3")}>
-        <Controller
-          control={control}
-          name="triggerType"
-          render={({ field: { value, onChange } }) => (
-            <SegmentedButtons
-              label={t("reminders.triggerType")}
-              buttons={reminderTriggerTypeOptions(t)}
-              value={value}
-              onValueChange={(value) => onChange(value)}
-            />
-          )}
-        />
-
-        {trigger === "Date" && (
-          <>
-            <Controller
-              control={control}
-              name="dateIntervalMonths"
-              render={({ field: { value, onChange } }) => (
-                <SelectPicker
-                  label={t("reminders.dateIntervalMonths")}
-                  value={String(value)}
-                  options={reminderDateIntervalMonths(t)}
-                  onValueChange={(value) => onChange(Number(value))}
-                  error={errors.dateIntervalMonths?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="startDate"
-              render={({ field: { value, onChange } }) => (
-                <DatePicker
-                  label={t("reminders.startDate")}
-                  value={value ?? ""}
-                  onChange={onChange}
-                  error={errors.startDate?.message}
-                />
-              )}
-            />
-          </>
-        )}
-        {trigger === "Odometer" && (
-          <>
-            <Controller
-              control={control}
-              name="odometerInterval"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Input
-                  label={t("reminders.odometerInterval")}
-                  value={value?.toString() ?? ""}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  keyboardType="numeric"
-                  style={{ direction: "ltr" }}
-                  error={errors.odometerInterval?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="startOdometer"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Input
-                  label={t("reminders.startOdometer")}
-                  value={value?.toString() ?? ""}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  keyboardType="numeric"
-                  style={{ direction: "ltr" }}
-                  error={errors.startOdometer?.message}
-                />
-              )}
-            />
-          </>
-        )}
-
-        {trigger === "Either" && (
-          <>
-            <Controller
-              control={control}
-              name="dateIntervalMonths"
-              render={({ field: { value, onChange } }) => (
-                <SelectPicker
-                  label={t("reminders.dateIntervalMonths")}
-                  value={String(value)}
-                  options={reminderDateIntervalMonths(t)}
-                  onValueChange={(value) => onChange(Number(value))}
-                  error={errors.dateIntervalMonths?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="odometerInterval"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Input
-                  label={t("reminders.odometerInterval")}
-                  value={value?.toString() ?? ""}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  keyboardType="numeric"
-                  style={{ direction: "ltr" }}
-                  error={errors.odometerInterval?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="startDate"
-              render={({ field: { value, onChange } }) => (
-                <DatePicker
-                  label={t("reminders.startDate")}
-                  value={value ?? ""}
-                  onChange={onChange}
-                  error={errors.startDate?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="startOdometer"
-              render={({ field: { value, onChange, onBlur } }) => (
-                <Input
-                  label={t("reminders.startOdometer")}
-                  value={value?.toString() ?? ""}
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  keyboardType="numeric"
-                  style={{ direction: "ltr" }}
-                  error={errors.startOdometer?.message}
-                />
-              )}
-            />
-          </>
-        )}
-      </Card>
-
-      {isEditMode && (
-        <Controller
-          control={control}
-          name="active"
-          render={({ field: { value, onChange } }) => (
-            <SwitchToggle
-              label={t("reminders.active")}
-              value={value ?? false}
-              onValueChange={(value) => onChange(value)}
-            />
-          )}
-        />
-      )}
-
-      <Controller
-        control={control}
-        name="note"
-        render={({ field: { value, onChange, onBlur } }) => (
-          <Input
-            label={t("reminders.notes")}
-            value={value ?? ""}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            multiline
-            style={{
-              height: 80,
-              textAlignVertical: "top",
-              paddingTop: 12,
-            }}
-          />
-        )}
-      />
-
-      <View style={GlobalStyles.buttonColumn}>
-        <Button
-          title={id ? t("common.update") : t("common.save")}
-          onPress={handleSubmit(handleSave)}
-          loading={isPendingUpdate || isPendingCreate}
-          style={{ flex: 1 }}
-        />
-        {isEditMode && (
-          <View style={GlobalStyles.buttonRow}>
-            {mode === "OneTime" ? (
-              <CompleteReminderOneTimeModal
-                id={id}
-                onConfirm={() => handleClose()}
-              />
-            ) : (
-              <CompleteReminderModal
-                id={id}
-                trigger={trigger}
-                onConfirm={() => handleClose()}
-              />
-            )}
-            <ReminderDeletionModal
-              editingId={id}
-              onConfirm={() => handleClose()}
+            <Button
+              title={t("expenses.createTitle")}
+              onPress={() => router.push("/expenses/form")}
+              color="blue"
             />
           </View>
-        )}
-      </View>
+        </Card>
+      )}
 
+      {id && isError && <Text>{t("reminders.notificationError")}</Text>}
+
+      {id && reminder && (
+        <>
+          <Card title={t("reminders.linkedRecord")}>
+            <Text>
+              {reminder.service
+                ? getServiceTypeTitle(reminder.serviceType ?? "", t)
+                : reminder.expense
+                  ? getExpenseTypeTitle(reminder.expenseType ?? "", t)
+                  : "-"}
+            </Text>
+          </Card>
+          <ReminderSettings
+            value={currentSettings}
+            serviceTypes={reminder.service?.type}
+            expenseType={reminder.expenseType ?? undefined}
+            showEnableToggle={false}
+            onChange={(value) => {
+              if (value) setSettings(value);
+              setSettingsError(undefined);
+            }}
+            error={settingsError}
+          />
+          <View style={GlobalStyles.buttonColumn}>
+            <Button
+              title={t("common.update")}
+              onPress={handleSave}
+              loading={isPending}
+              style={{ flex: 1 }}
+            />
+            <View style={GlobalStyles.buttonRow}>
+              {reminder.mode === "OneTime" ? (
+                <CompleteReminderOneTimeModal id={id} onConfirm={handleClose} />
+              ) : (
+                <CompleteReminderModal reminder={reminder} />
+              )}
+              <ReminderDeletionModal editingId={id} onConfirm={handleClose} />
+            </View>
+          </View>
+        </>
+      )}
       <View style={{ height: 40 }} />
     </KeyboardAwareScrollView>
   );

@@ -28,6 +28,16 @@ import dayjs from "dayjs";
 import { useActiveVehicle } from "@/repositories/active-vehicle";
 import { SoldVehicleNotice } from "@/components/SoldVehicleNotice";
 import { Toast } from "@/components/CustomToast";
+import {
+  ReminderSettings,
+  parseReminderSettings,
+  reminderSettingsToForm,
+  type ReminderSettingsFormValues,
+} from "@/components/forms/ReminderSettings";
+import {
+  useGetReminder,
+  useGetReminderForExpense,
+} from "@/repositories/reminder-repository";
 
 const defaultValues = {
   type: "Reimbursement",
@@ -38,8 +48,9 @@ const defaultValues = {
 };
 
 export default function ExpenseForm() {
-  const params = useLocalSearchParams<{ id?: string }>();
+  const params = useLocalSearchParams<{ id?: string; reminderId?: string }>();
   const [id] = useState<number>(Number(params.id));
+  const reminderId = Number(params.reminderId) || null;
   const navigation = useNavigation();
   const isEditMode = !!id;
 
@@ -53,9 +64,18 @@ export default function ExpenseForm() {
   const { mutate: createService, isPending: isPendingCreate } =
     useCreateExpense();
   const { data } = useGetExpense(id);
+  const { data: linkedReminder, isSuccess: linkedReminderLoaded } =
+    useGetReminderForExpense(id || null);
+  const { data: completingReminder, isSuccess: completingReminderLoaded } =
+    useGetReminder(reminderId);
+  const [reminderSettings, setReminderSettings] =
+    useState<ReminderSettingsFormValues | null>(null);
+  const [reminderSettingsTouched, setReminderSettingsTouched] = useState(false);
+  const [reminderSettingsError, setReminderSettingsError] = useState<string>();
 
   const schema = expenseSchema(t);
   const {
+    watch,
     control,
     reset,
     handleSubmit,
@@ -64,6 +84,7 @@ export default function ExpenseForm() {
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   });
+  const selectedExpenseType = watch("type") as ExpenseType;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -94,6 +115,24 @@ export default function ExpenseForm() {
     });
   }, [data, id, reset]);
 
+  useEffect(() => {
+    if (id && linkedReminderLoaded) {
+      setReminderSettings(
+        linkedReminder ? reminderSettingsToForm(linkedReminder) : null,
+      );
+      setReminderSettingsTouched(false);
+    }
+  }, [id, linkedReminder, linkedReminderLoaded]);
+
+  useEffect(() => {
+    if (!reminderId || !completingReminderLoaded) return;
+    if (completingReminder?.expense) {
+      reset({ ...defaultValues, type: completingReminder.expense.type });
+      setReminderSettings(reminderSettingsToForm(completingReminder));
+    }
+    setReminderSettingsTouched(false);
+  }, [completingReminder, completingReminderLoaded, reminderId, reset]);
+
   const handleResetForm = () => {
     reset(defaultValues);
   };
@@ -103,7 +142,31 @@ export default function ExpenseForm() {
     router.back();
   };
 
+  const handleSaveSuccess = () => {
+    handleResetForm();
+    if (reminderId !== null) {
+      router.navigate("/reminders");
+      return;
+    }
+    router.back();
+  };
+
   const handleSave = async (formData: ExpenseFormData) => {
+    const parsedReminder =
+      reminderSettings !== null
+        ? parseReminderSettings(reminderSettings, {
+            expenseType: selectedExpenseType,
+          })
+        : null;
+    if (
+      reminderSettingsTouched &&
+      reminderSettings !== null &&
+      parsedReminder === null
+    ) {
+      setReminderSettingsError(t("common.required"));
+      return;
+    }
+    setReminderSettingsError(undefined);
     const expense: Omit<ExpenseDto, "id" | "vehicleId"> = {
       type: formData.type as ExpenseType,
       date: new Date(formData.date),
@@ -113,13 +176,34 @@ export default function ExpenseForm() {
     };
 
     const callbacks = {
-      onSuccess: handleClose,
+      onSuccess: (result: {
+        notificationSyncFailed: boolean;
+        notificationPermissionGranted: boolean;
+      }) => {
+        if (result.notificationSyncFailed) {
+          Toast({ text: t("reminders.notificationError"), type: "warning" });
+        } else if (!result.notificationPermissionGranted) {
+          Toast({
+            text: t("reminders.notificationPermissionDenied"),
+            type: "warning",
+          });
+        }
+        handleSaveSuccess();
+      },
       onError: () =>
         Toast({ text: t("vehicles.recordSaveFailed"), type: "error" }),
     };
 
-    if (id) updateService(expense, callbacks);
-    else createService(expense, callbacks);
+    const reminderOptions = {
+      ...(reminderId !== null ? { reminderId } : {}),
+      ...(id && reminderSettingsTouched && linkedReminder
+        ? { reminderId: linkedReminder.id }
+        : {}),
+      ...(reminderSettingsTouched ? { reminder: parsedReminder } : {}),
+    };
+
+    if (id) updateService({ ...expense, ...reminderOptions }, callbacks);
+    else createService({ ...expense, ...reminderOptions }, callbacks);
   };
 
   if (activeVehicle?.sold) {
@@ -214,11 +298,29 @@ export default function ExpenseForm() {
         )}
       />
 
+      {(!id || linkedReminderLoaded) &&
+        (reminderId === null || completingReminderLoaded) && (
+          <ReminderSettings
+            value={reminderSettings}
+            expenseType={selectedExpenseType}
+            onChange={(value) => {
+              setReminderSettings(value);
+              setReminderSettingsTouched(true);
+              setReminderSettingsError(undefined);
+            }}
+            error={reminderSettingsError}
+          />
+        )}
+
       <View style={GlobalStyles.buttonColumn}>
         <Button
           title={id ? t("common.update") : t("common.save")}
           onPress={handleSubmit(handleSave)}
-          loading={isPendingUpdate || isPendingCreate}
+          loading={
+            isPendingUpdate ||
+            isPendingCreate ||
+            (reminderId !== null && !completingReminderLoaded)
+          }
           color="blue"
           style={{ flex: 1 }}
         />

@@ -29,6 +29,16 @@ import dayjs from "dayjs";
 import { useActiveVehicle } from "@/repositories/active-vehicle";
 import { SoldVehicleNotice } from "@/components/SoldVehicleNotice";
 import { Toast } from "@/components/CustomToast";
+import {
+  ReminderSettings,
+  parseReminderSettings,
+  reminderSettingsToForm,
+  type ReminderSettingsFormValues,
+} from "@/components/forms/ReminderSettings";
+import {
+  useGetReminder,
+  useGetReminderForService,
+} from "@/repositories/reminder-repository";
 
 const defaultValues = {
   type: ["EngineOil"],
@@ -39,8 +49,9 @@ const defaultValues = {
 };
 
 export default function ServiceForm() {
-  const params = useLocalSearchParams<{ id: string }>();
+  const params = useLocalSearchParams<{ id?: string; reminderId?: string }>();
   const [id] = useState<number>(Number(params.id));
+  const reminderId = Number(params.reminderId) || null;
   const navigation = useNavigation();
   const { t, isRTL } = useTranslation();
   const { data: activeVehicle } = useActiveVehicle();
@@ -52,9 +63,18 @@ export default function ServiceForm() {
   const { mutate: createService, isPending: isPendingCreate } =
     useCreateService();
   const { data } = useGetService(id);
+  const { data: linkedReminder, isSuccess: linkedReminderLoaded } =
+    useGetReminderForService(id || null);
+  const { data: completingReminder, isSuccess: completingReminderLoaded } =
+    useGetReminder(reminderId);
+  const [reminderSettings, setReminderSettings] =
+    useState<ReminderSettingsFormValues | null>(null);
+  const [reminderSettingsTouched, setReminderSettingsTouched] = useState(false);
+  const [reminderSettingsError, setReminderSettingsError] = useState<string>();
 
   const schema = serviceSchema(t);
   const {
+    watch,
     control,
     reset,
     handleSubmit,
@@ -63,6 +83,7 @@ export default function ServiceForm() {
     resolver: zodResolver(schema),
     defaultValues: { ...defaultValues },
   });
+  const selectedServiceTypes = watch("type") as ServiceType[];
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -93,6 +114,24 @@ export default function ServiceForm() {
     });
   }, [data, id, reset]);
 
+  useEffect(() => {
+    if (id && linkedReminderLoaded) {
+      setReminderSettings(
+        linkedReminder ? reminderSettingsToForm(linkedReminder) : null,
+      );
+      setReminderSettingsTouched(false);
+    }
+  }, [id, linkedReminder, linkedReminderLoaded]);
+
+  useEffect(() => {
+    if (!reminderId || !completingReminderLoaded) return;
+    if (completingReminder?.service) {
+      reset({ ...defaultValues, type: completingReminder.service.type });
+      setReminderSettings(reminderSettingsToForm(completingReminder));
+    }
+    setReminderSettingsTouched(false);
+  }, [completingReminder, completingReminderLoaded, reminderId, reset]);
+
   const handleResetForm = () => {
     reset(defaultValues);
   };
@@ -102,7 +141,31 @@ export default function ServiceForm() {
     router.back();
   };
 
+  const handleSaveSuccess = () => {
+    handleResetForm();
+    if (reminderId !== null) {
+      router.navigate("/reminders");
+      return;
+    }
+    router.back();
+  };
+
   const handleSave = async (formData: ServiceFormData) => {
+    const parsedReminder =
+      reminderSettings !== null
+        ? parseReminderSettings(reminderSettings, {
+            serviceTypes: selectedServiceTypes,
+          })
+        : null;
+    if (
+      reminderSettingsTouched &&
+      reminderSettings !== null &&
+      parsedReminder === null
+    ) {
+      setReminderSettingsError(t("common.required"));
+      return;
+    }
+    setReminderSettingsError(undefined);
     const service: Omit<ServiceDto, "id" | "vehicleId"> = {
       type: formData.type as ServiceType[],
       date: dayjs(formData.date).toDate(),
@@ -112,13 +175,34 @@ export default function ServiceForm() {
     };
 
     const callbacks = {
-      onSuccess: handleClose,
+      onSuccess: (result: {
+        notificationSyncFailed: boolean;
+        notificationPermissionGranted: boolean;
+      }) => {
+        if (result.notificationSyncFailed) {
+          Toast({ text: t("reminders.notificationError"), type: "warning" });
+        } else if (!result.notificationPermissionGranted) {
+          Toast({
+            text: t("reminders.notificationPermissionDenied"),
+            type: "warning",
+          });
+        }
+        handleSaveSuccess();
+      },
       onError: () =>
         Toast({ text: t("vehicles.recordSaveFailed"), type: "error" }),
     };
 
-    if (id) updateService(service, callbacks);
-    else createService(service, callbacks);
+    const reminderOptions = {
+      ...(reminderId !== null ? { reminderId } : {}),
+      ...(id && reminderSettingsTouched && linkedReminder
+        ? { reminderId: linkedReminder.id }
+        : {}),
+      ...(reminderSettingsTouched ? { reminder: parsedReminder } : {}),
+    };
+
+    if (id) updateService({ ...service, ...reminderOptions }, callbacks);
+    else createService({ ...service, ...reminderOptions }, callbacks);
   };
 
   if (activeVehicle?.sold) {
@@ -215,11 +299,29 @@ export default function ServiceForm() {
         )}
       />
 
+      {(!id || linkedReminderLoaded) &&
+        (reminderId === null || completingReminderLoaded) && (
+          <ReminderSettings
+            value={reminderSettings}
+            serviceTypes={selectedServiceTypes}
+            onChange={(value) => {
+              setReminderSettings(value);
+              setReminderSettingsTouched(true);
+              setReminderSettingsError(undefined);
+            }}
+            error={reminderSettingsError}
+          />
+        )}
+
       <View style={GlobalStyles.buttonColumn}>
         <Button
           title={id ? t("common.update") : t("common.save")}
           onPress={handleSubmit(handleSave)}
-          loading={isPendingUpdate || isPendingCreate}
+          loading={
+            isPendingUpdate ||
+            isPendingCreate ||
+            (reminderId !== null && !completingReminderLoaded)
+          }
           style={{ flex: 1 }}
         />
         {isEditMode && (

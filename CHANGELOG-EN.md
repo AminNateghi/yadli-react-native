@@ -1,6 +1,7 @@
 # v1.7.0
 
 - Add Sold Vehicle
+- Change Reminder Structure
 - Bug Fixes and Improvements
 
 # v1.6.0

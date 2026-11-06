@@ -3,8 +3,18 @@ import dayjs from "dayjs";
 import { Platform } from "react-native";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { profileRecords, remindersRecords, vehiclesRecords } from "@/db/schema";
-import type { LanguageType, ReminderDto } from "@/types/interfaces";
+import {
+  expensesRecords,
+  profileRecords,
+  remindersRecords,
+  servicesRecords,
+  vehiclesRecords,
+} from "@/db/schema";
+import type {
+  LanguageType,
+  ReminderDto,
+  ReminderRecordDto,
+} from "@/types/interfaces";
 import { getExpenseTypeTitle, getServiceTypeTitle } from "@/types/interfaces";
 import { getTranslation } from "@/languages/translation";
 import type { TranslationKey } from "@/languages/translation";
@@ -97,11 +107,34 @@ export async function syncVehicleReminderNotifications(
 }
 
 export async function syncReminderNotification(
-  reminder: ReminderDto,
+  reminder: ReminderRecordDto,
 ): Promise<boolean> {
   if (Platform.OS === "web") return true;
 
   await removeReminderNotification(reminder.id);
+
+  const [service, expense] = await Promise.all([
+    reminder.serviceId
+      ? db.query.servicesRecords.findFirst({
+          where: eq(servicesRecords.id, reminder.serviceId),
+        })
+      : Promise.resolve(undefined),
+    reminder.expenseId
+      ? db.query.expensesRecords.findFirst({
+          where: eq(expensesRecords.id, reminder.expenseId),
+        })
+      : Promise.resolve(undefined),
+  ]);
+  if (!service && !expense) {
+    throw new Error("Reminder source record not found");
+  }
+  const reminderWithSource: ReminderDto = {
+    ...reminder,
+    service: service ?? null,
+    expense: expense ?? null,
+    startDate: service?.date ?? expense?.date ?? null,
+    startOdometer: service?.odometer ?? expense?.odometer ?? null,
+  };
 
   const vehicle = await db.query.vehiclesRecords.findFirst({
     where: eq(vehiclesRecords.id, reminder.vehicleId),
@@ -111,7 +144,7 @@ export async function syncReminderNotification(
   }
   if (vehicle.sold) return true;
 
-  const dueDate = getReminderDueDate(reminder);
+  const dueDate = getReminderDueDate(reminderWithSource);
   if (!reminder.active || !dueDate) return true;
 
   const notificationDate = dayjs(dueDate)
@@ -141,7 +174,7 @@ export async function syncReminderNotification(
       : await Notifications.requestPermissionsAsync();
   if (status !== "granted") return false;
 
-  const content = notificationContent(reminder, language);
+  const content = notificationContent(reminderWithSource, language);
 
   await Notifications.scheduleNotificationAsync({
     content: {
@@ -155,6 +188,31 @@ export async function syncReminderNotification(
     },
   });
   return true;
+}
+
+export async function refreshReminderNotifications(
+  reminders: ReminderRecordDto[],
+  removedReminderIds: number[] = [],
+): Promise<{
+  notificationPermissionGranted: boolean;
+  notificationSyncFailed: boolean;
+}> {
+  const operations = [
+    ...removedReminderIds.map(async (id) => {
+      await removeReminderNotification(id);
+      return true;
+    }),
+    ...reminders.map(syncReminderNotification),
+  ];
+  const results = await Promise.allSettled(operations);
+  return {
+    notificationPermissionGranted: results.every(
+      (result) => result.status === "rejected" || result.value,
+    ),
+    notificationSyncFailed: results.some(
+      (result) => result.status === "rejected",
+    ),
+  };
 }
 
 export async function removeAllReminderNotifications(): Promise<void> {

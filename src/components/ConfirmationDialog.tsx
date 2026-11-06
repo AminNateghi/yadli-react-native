@@ -35,7 +35,7 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
                 (cancelText ?? type === "Ok") ? t("common.ok") : t("common.no")
               }
               onPress={onCancel}
-              variant="outline"
+              variant="plain"
               color="gray"
               style={{ flex: 1 }}
             />
@@ -43,8 +43,8 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
               <Button
                 title={confirmText ?? t("common.yes")}
                 onPress={onConfirm}
-                variant="outline"
-                color="red"
+                variant="subtle"
+                color="blue"
                 style={{ flex: 1 }}
               />
             )}
@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "#fff",
     borderRadius: 20,
-    padding: 25,
+    padding: 10,
+    paddingTop: 25,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {

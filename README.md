@@ -15,7 +15,8 @@ Log refueling, periodic services, vehicle expenses, and set odometer/date
 - **Fuel log:** date, odometer, liters, price/liter, total, full-tank flag, station
 - **Services:** type, date, odometer, cost, note
 - **Expenses:** type (insurance, registration, etc.), date, odometer, amount
-- **Reminders:** one-time / recurring, by odometer and/or date
+- **Reminders:** create one-time or recurring odometer/date reminders while
+  logging services and expenses; reminders follow their linked record
 - **Multiple vehicles:** register vehicles with fuel type and optional vehicle details; switch between them from the dashboard or drawer
 - **Dashboard:** totals + recent records
 - **Bilingual FA/EN + RTL:** language stored in `profile` table

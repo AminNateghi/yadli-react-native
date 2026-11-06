@@ -10,6 +10,7 @@ import {
   type ReminderDto,
 } from "@/types/interfaces";
 import { dateFormat } from "@/utils/date-format";
+import { numberFormat } from "@/utils/number-format";
 import type { ReminderCardProp } from "@/utils/service-reminders";
 import {
   BanknoteIcon,
@@ -117,10 +118,10 @@ export function ReminderCard({ reminder, onPress }: Props) {
               ]}
             >
               {reminder.dateProgress.overdue
-                ? `${Math.abs(reminder.dateProgress.remainingDays)} ${t("reminders.daysOverdue")}`
+                ? `${numberFormat(Math.abs(reminder.dateProgress.remainingDays), { isRTL })} ${t("reminders.daysOverdue")}`
                 : reminder.dateProgress.remainingDays === 0
                   ? t("reminders.dueToday")
-                  : `${reminder.dateProgress.remainingDays} ${t("reminders.daysRemaining")}`}
+                  : `${numberFormat(reminder.dateProgress.remainingDays, { isRTL })} ${t("reminders.daysRemaining")}`}
             </Text>
           </View>
           <ProgressBar
@@ -141,7 +142,7 @@ export function ReminderCard({ reminder, onPress }: Props) {
             <GaugeIcon size={14} color={Theme.textSecondary} />
             <Text style={styles.progressLabel}>
               {t("reminders.dueAt")}{" "}
-              {reminder.odometerProgress.dueOdometer.toLocaleString()}{" "}
+              {numberFormat(reminder.odometerProgress.dueOdometer, { isRTL })}{" "}
               {t("common.kilometer")}
             </Text>
             <Text
@@ -153,8 +154,8 @@ export function ReminderCard({ reminder, onPress }: Props) {
               ]}
             >
               {reminder.odometerProgress.overdue
-                ? `${Math.abs(reminder.odometerProgress.remainingKm).toLocaleString()} ${t("common.km")} ${t("reminders.passed")}`
-                : `${reminder.odometerProgress.remainingKm.toLocaleString()} ${t("common.km")} ${t("reminders.remaining")}`}
+                ? `${numberFormat(Math.abs(reminder.odometerProgress.remainingKm), { isRTL })} ${t("common.km")} ${t("reminders.passed")}`
+                : `${numberFormat(reminder.odometerProgress.remainingKm, { isRTL })} ${t("common.km")} ${t("reminders.remaining")}`}
             </Text>
           </View>
           <ProgressBar

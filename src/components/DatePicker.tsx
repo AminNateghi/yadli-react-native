@@ -82,6 +82,8 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
                 color="gray"
                 onPress={() => handleClear()}
               />
+            </View>
+            <View style={styles.buttonRow}>
               <Button
                 title={t("common.ok")}
                 style={styles.button}
