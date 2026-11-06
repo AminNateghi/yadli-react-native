@@ -5,6 +5,7 @@ interface Props {
 export function numberFormat(value: number, options: Props) {
   return Intl.NumberFormat(options.isRTL ? "fa-IR" : "en-GB", {
     minimumFractionDigits: options.isRTL ? 0 : 2,
+    maximumFractionDigits: options.isRTL ? 0 : 2,
   }).format(value);
 }
 
