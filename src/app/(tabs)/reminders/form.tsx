@@ -98,7 +98,7 @@ export default function ReminderForm() {
       keyboardDismissMode="on-drag"
     >
       {!id && (
-        <Card title={t("reminders.addWithRecord")}>
+        <Card>
           <Text>{t("reminders.createFromRecord")}</Text>
           <View style={GlobalStyles.buttonColumn}>
             <Button

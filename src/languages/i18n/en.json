@@ -200,7 +200,6 @@
     "noReminders": "No Reminders Set",
     "noRemindersDescription": "By setting a reminder, you won't forget scheduled maintenance services",
     "confirmDelete": "Delete this reminder record?",
-    "dependent": "Reminder as",
     "addWithRecord": "Reminder for this record",
     "enableForRecord": "Set a reminder for this record",
     "createFromRecord": "Create a reminder while adding a service or expense record.",
