@@ -61,8 +61,8 @@
     "subitemVehicle": "مشاهده خودروهای ثبت شده",
     "itemAbout": "معرفی",
     "subitemAbout": "توضیحی درمورد برنامه",
-    "itemUpdate": "نسخه برنامه",
-    "subitemUpdate": "بررسی و دانلود آخرین نسخه"
+    "itemUpdate": "به‌روزرسانی برنامه",
+    "subitemUpdate": "بررسی و به‌روزرسانی آخرین نسخه"
   },
   "dashboard": {
     "myVehicle": "خودرو پیشفرض",

@@ -26,14 +26,11 @@
 - Add Notifications
 - Add Check update on start-up app
 
-# v1.2.1
-
-- Remove permission android.permission.SYSTEM_ALERT_WINDOW
-
 # v1.2.0
 
 - Add Reports
 - Change Dashboard layout
+- Remove permission android.permission.SYSTEM_ALERT_WINDOW
 - Fix some styles
 
 # v1.1.0
@@ -45,7 +42,7 @@
 - Add Average liter per kilometer
 - Add Latest odometer to forms
 
-# v1.0.34
+# v1.0.0
 
 The first version of the app with the following features:
 
