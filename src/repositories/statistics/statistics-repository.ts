@@ -4,6 +4,7 @@ import { useFuels } from "../fuel-repository";
 import { useExpenses } from "../expense-repository";
 import { useReminders } from "../reminder-repository";
 import { getReminders } from "@/utils/service-reminders";
+import { useToday } from "@/hooks/useToday";
 
 import {
   calculateGeneralStatistics,
@@ -49,6 +50,7 @@ export function useStatistics(): {
   const { data: listOfFuels } = useFuels();
   const { data: listOfExpenses } = useExpenses();
   const { data: listOfReminders } = useReminders();
+  const today = useToday();
 
   const totalReminders = useMemo(() => {
     if (
@@ -60,12 +62,16 @@ export function useStatistics(): {
       return 0;
     }
 
-    return getReminders(listOfReminders, {
-      services: listOfServices,
-      fuels: listOfFuels,
-      expense: listOfExpenses,
-    }).filter((reminder) => reminder.urgency >= 0.8).length;
-  }, [listOfReminders, listOfServices, listOfFuels, listOfExpenses]);
+    return getReminders(
+      listOfReminders,
+      {
+        services: listOfServices,
+        fuels: listOfFuels,
+        expense: listOfExpenses,
+      },
+      today,
+    ).filter((reminder) => reminder.urgency >= 0.8).length;
+  }, [listOfReminders, listOfServices, listOfFuels, listOfExpenses, today]);
 
   const { statistics, persianStatistics } = useMemo(() => {
     if (!listOfExpenses || !listOfFuels || !listOfServices) {

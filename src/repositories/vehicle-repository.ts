@@ -18,7 +18,11 @@ import { expenseQueryKey } from "./expense-repository";
 import { fuelQueryKey } from "./fuel-repository";
 import { remindersQueryKey } from "./reminder-repository";
 import { serviceQueryKey } from "./service-repository";
-import { removeReminderNotification } from "@/utils/reminder-notifications";
+import {
+  removeReminderNotification,
+  removeVehicleReminderNotifications,
+  syncVehicleReminderNotifications,
+} from "@/utils/reminder-notifications";
 
 export const vehicleQueryKey = {
   list: ["vehicle-list"],
@@ -131,14 +135,32 @@ export function useCreateVehicle() {
 
 export function useUpdateVehicle(id: number) {
   return useMutation({
-    mutationFn: async (values: Partial<Omit<VehicleDto, "id">>) =>
-      await db
+    mutationFn: async (values: Partial<Omit<VehicleDto, "id">>) => {
+      const previousVehicle = await db.query.vehiclesRecords.findFirst({
+        where: eq(vehiclesRecords.id, id),
+      });
+      if (!previousVehicle) {
+        throw new Error("Vehicle not found");
+      }
+      const [vehicle] = await db
         .update(vehiclesRecords)
         .set(values)
-        .where(eq(vehiclesRecords.id, id)),
-    onSuccess: () => {
+        .where(eq(vehiclesRecords.id, id))
+        .returning();
+      if (!vehicle) {
+        throw new Error("Vehicle not found");
+      }
+      if (vehicle.sold) {
+        await removeVehicleReminderNotifications(id);
+      } else if (previousVehicle.sold) {
+        await syncVehicleReminderNotifications(id);
+      }
+      return vehicle;
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: vehicleQueryKey.list });
       queryClient.invalidateQueries({ queryKey: vehicleQueryKey.byId(id) });
+      queryClient.invalidateQueries({ queryKey: ["active-vehicle"] });
       queryClient.invalidateQueries({ queryKey: profileQueryKey.profile });
       queryClient.invalidateQueries({ queryKey: activeVehicleQueryKey });
     },

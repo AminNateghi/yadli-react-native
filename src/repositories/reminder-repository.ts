@@ -8,7 +8,11 @@ import {
   removeReminderNotification,
   syncReminderNotification,
 } from "@/utils/reminder-notifications";
-import { getActiveVehicleId, useActiveVehicleId } from "./active-vehicle";
+import {
+  assertVehicleNotSold,
+  getActiveVehicleId,
+  useActiveVehicleId,
+} from "./active-vehicle";
 
 export const remindersQueryKey = {
   list: ["reminder-list"],
@@ -32,9 +36,11 @@ export function useReminders() {
 export function useCreateReminder() {
   return useMutation({
     mutationFn: async (values: Omit<ReminderDto, "id" | "vehicleId">) => {
+      const vehicleId = await getActiveVehicleId();
+      await assertVehicleNotSold(vehicleId);
       const [reminder] = await db
         .insert(remindersRecords)
-        .values({ ...values, vehicleId: await getActiveVehicleId() })
+        .values({ ...values, vehicleId })
         .returning();
       if (!reminder) {
         throw new Error("Created reminder could not be read");
@@ -56,13 +62,15 @@ export function useUpdateReminder(id: number) {
     mutationFn: async (
       values: Partial<Omit<ReminderDto, "id" | "vehicleId">>,
     ) => {
+      const activeVehicleId = vehicleId ?? (await getActiveVehicleId());
+      await assertVehicleNotSold(activeVehicleId);
       const [reminder] = await db
         .update(remindersRecords)
         .set(values)
         .where(
           and(
             eq(remindersRecords.id, id),
-            eq(remindersRecords.vehicleId, vehicleId ?? 1),
+            eq(remindersRecords.vehicleId, activeVehicleId),
           ),
         )
         .returning();
@@ -130,6 +138,7 @@ export function useCompleteReminder() {
   return useMutation({
     mutationFn: async (props: CompleteReminderProps) => {
       const vehicleId = await getActiveVehicleId();
+      await assertVehicleNotSold(vehicleId);
       const reminder = await db.query.remindersRecords.findFirst({
         where: and(
           eq(remindersRecords.id, props.reminderId),

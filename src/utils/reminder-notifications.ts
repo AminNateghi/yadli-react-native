@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { Platform } from "react-native";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { profileRecords } from "@/db/schema";
+import { profileRecords, remindersRecords, vehiclesRecords } from "@/db/schema";
 import type { LanguageType, ReminderDto } from "@/types/interfaces";
 import { getExpenseTypeTitle, getServiceTypeTitle } from "@/types/interfaces";
 import { getTranslation } from "@/languages/translation";
@@ -34,27 +34,66 @@ export async function removeReminderNotification(
 ): Promise<void> {
   if (Platform.OS === "web") return;
 
+  await removeNotificationsForReminderIds([reminderId]);
+}
+
+async function removeNotificationsForReminderIds(
+  reminderIds: number[],
+): Promise<void> {
+  const reminderIdSet = new Set(reminderIds);
+  if (reminderIdSet.size === 0) return;
+
   const scheduled = await Notifications.getAllScheduledNotificationsAsync();
-  const scheduledForReminder = scheduled.filter(
-    (notification) =>
-      Number(notification.content.data?.reminderId) === reminderId,
+  const scheduledForReminder = scheduled.filter((notification) =>
+    reminderIdSet.has(Number(notification.content.data?.reminderId)),
   );
-  await Promise.all(
+  const scheduledResults = await Promise.allSettled(
     scheduledForReminder.map((notification) =>
       Notifications.cancelScheduledNotificationAsync(notification.identifier),
     ),
   );
 
   const presented = await Notifications.getPresentedNotificationsAsync();
-  const presentedForReminder = presented.filter(
-    (notification) =>
-      Number(notification.request.content.data?.reminderId) === reminderId,
+  const presentedForReminder = presented.filter((notification) =>
+    reminderIdSet.has(Number(notification.request.content.data?.reminderId)),
   );
-  await Promise.all(
+  const presentedResults = await Promise.allSettled(
     presentedForReminder.map((notification) =>
       Notifications.dismissNotificationAsync(notification.request.identifier),
     ),
   );
+  if (
+    scheduledResults.some((result) => result.status === "rejected") ||
+    presentedResults.some((result) => result.status === "rejected")
+  ) {
+    throw new Error("Could not clear all reminder notifications");
+  }
+}
+
+export async function removeVehicleReminderNotifications(
+  vehicleId: number,
+): Promise<void> {
+  if (Platform.OS === "web") return;
+
+  const reminders = await db
+    .select({ id: remindersRecords.id })
+    .from(remindersRecords)
+    .where(eq(remindersRecords.vehicleId, vehicleId));
+  await removeNotificationsForReminderIds(
+    reminders.map((reminder) => reminder.id),
+  );
+}
+
+export async function syncVehicleReminderNotifications(
+  vehicleId: number,
+): Promise<void> {
+  if (Platform.OS === "web") return;
+
+  const reminders = await db
+    .select()
+    .from(remindersRecords)
+    .where(eq(remindersRecords.vehicleId, vehicleId));
+  await Promise.all(reminders.map(syncReminderNotification));
 }
 
 export async function syncReminderNotification(
@@ -63,6 +102,14 @@ export async function syncReminderNotification(
   if (Platform.OS === "web") return true;
 
   await removeReminderNotification(reminder.id);
+
+  const vehicle = await db.query.vehiclesRecords.findFirst({
+    where: eq(vehiclesRecords.id, reminder.vehicleId),
+  });
+  if (!vehicle) {
+    throw new Error("Vehicle not found");
+  }
+  if (vehicle.sold) return true;
 
   const dueDate = getReminderDueDate(reminder);
   if (!reminder.active || !dueDate) return true;

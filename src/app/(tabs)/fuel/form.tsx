@@ -23,6 +23,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useStatistics } from "@/repositories/statistics";
 import { numberFormat } from "@/utils/number-format";
 import dayjs from "dayjs";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
+import { SoldVehicleNotice } from "@/components/SoldVehicleNotice";
+import { Toast } from "@/components/CustomToast";
 
 const defaultValues = {
   date: dayjs().toISOString(),
@@ -39,6 +42,7 @@ export default function FuelForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
   const { t, isRTL } = useTranslation();
+  const { data: activeVehicle } = useActiveVehicle();
   const { statistics } = useStatistics();
   const navigation = useNavigation();
   const isEditMode = !!id;
@@ -114,20 +118,24 @@ export default function FuelForm() {
       station: formData.station ?? null,
     };
 
-    if (id) {
-      updateService(fuel);
-    } else {
-      createService(fuel);
-    }
+    const callbacks = {
+      onSuccess: handleClose,
+      onError: () =>
+        Toast({ text: t("vehicles.recordSaveFailed"), type: "error" }),
+    };
 
-    handleClose();
-    handleResetForm();
+    if (id) updateService(fuel, callbacks);
+    else createService(fuel, callbacks);
   };
 
   const liters = watch("liters");
   const pricePerLiter = watch("pricePerLiter");
   const totalCost =
     liters && pricePerLiter ? Number(liters) * Number(pricePerLiter) : 0;
+
+  if (activeVehicle?.sold) {
+    return <SoldVehicleNotice onClose={handleClose} />;
+  }
 
   return (
     <KeyboardAwareScrollView

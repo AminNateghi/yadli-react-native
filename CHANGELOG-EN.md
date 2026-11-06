@@ -1,3 +1,8 @@
+# v1.7.0
+
+- Add Sold Vehicle
+- Bug Fixes and Improvements
+
 # v1.6.0
 
 - Add Consumption Between Refuels

@@ -13,6 +13,7 @@ import { numberFormat } from "@/utils/number-format";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 import { useLayoutEffect } from "react";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
 
 export default function FuelScreen() {
   const { t, isRTL } = useTranslation();
@@ -20,6 +21,7 @@ export default function FuelScreen() {
   const navigation = useNavigation();
 
   const { data: fuels } = useFuels();
+  const { data: activeVehicle } = useActiveVehicle();
   const { statistics } = useStatistics();
   const intervalByTo = new Map(
     statistics.refueling.refuelingIntervals.map((interval) => [
@@ -38,13 +40,15 @@ export default function FuelScreen() {
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
-      <FloatButton
-        icon={PlusIcon}
-        text={t("fuel.createTitle")}
-        color={Theme.orange}
-        placement={isRTL ? "left" : "right"}
-        onPress={() => navigateOnce(() => router.push("/fuel/form"))}
-      />
+      {!activeVehicle?.sold && (
+        <FloatButton
+          icon={PlusIcon}
+          text={t("fuel.createTitle")}
+          color={Theme.orange}
+          placement={isRTL ? "left" : "right"}
+          onPress={() => navigateOnce(() => router.push("/fuel/form"))}
+        />
+      )}
       <FlatList
         style={styles.container}
         data={fuels ?? []}

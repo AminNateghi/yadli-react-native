@@ -5,7 +5,11 @@ import { servicesRecords } from "@/db/schema";
 import type { ServiceDto } from "@/types/interfaces";
 import { queryClient } from "../utils/query-client";
 import { remindersQueryKey } from "./reminder-repository";
-import { getActiveVehicleId, useActiveVehicleId } from "./active-vehicle";
+import {
+  assertVehicleNotSold,
+  getActiveVehicleId,
+  useActiveVehicleId,
+} from "./active-vehicle";
 
 export const serviceQueryKey = {
   list: ["service-list"],
@@ -28,10 +32,11 @@ export function useServices() {
 
 export function useCreateService() {
   return useMutation({
-    mutationFn: async (values: Omit<ServiceDto, "id" | "vehicleId">) =>
-      await db
-        .insert(servicesRecords)
-        .values({ ...values, vehicleId: await getActiveVehicleId() }),
+    mutationFn: async (values: Omit<ServiceDto, "id" | "vehicleId">) => {
+      const vehicleId = await getActiveVehicleId();
+      await assertVehicleNotSold(vehicleId);
+      return db.insert(servicesRecords).values({ ...values, vehicleId });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: serviceQueryKey.list });
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
@@ -42,16 +47,21 @@ export function useCreateService() {
 export function useUpdateService(id: number) {
   const { data: vehicleId } = useActiveVehicleId();
   return useMutation({
-    mutationFn: async (values: Partial<Omit<ServiceDto, "id" | "vehicleId">>) =>
-      await db
+    mutationFn: async (
+      values: Partial<Omit<ServiceDto, "id" | "vehicleId">>,
+    ) => {
+      const activeVehicleId = vehicleId ?? (await getActiveVehicleId());
+      await assertVehicleNotSold(activeVehicleId);
+      return db
         .update(servicesRecords)
         .set(values)
         .where(
           and(
             eq(servicesRecords.id, id),
-            eq(servicesRecords.vehicleId, vehicleId ?? 1),
+            eq(servicesRecords.vehicleId, activeVehicleId),
           ),
-        ),
+        );
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: serviceQueryKey.list });
       queryClient.invalidateQueries({ queryKey: serviceQueryKey.byId(id) });

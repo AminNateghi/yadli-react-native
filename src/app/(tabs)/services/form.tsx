@@ -26,6 +26,9 @@ import { useStatistics } from "@/repositories/statistics";
 import { DATE_FORMAT } from "@/utils/date-format";
 import { numberFormat } from "@/utils/number-format";
 import dayjs from "dayjs";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
+import { SoldVehicleNotice } from "@/components/SoldVehicleNotice";
+import { Toast } from "@/components/CustomToast";
 
 const defaultValues = {
   type: ["EngineOil"],
@@ -40,6 +43,7 @@ export default function ServiceForm() {
   const [id] = useState<number>(Number(params.id));
   const navigation = useNavigation();
   const { t, isRTL } = useTranslation();
+  const { data: activeVehicle } = useActiveVehicle();
   const { statistics } = useStatistics();
   const isEditMode = !!id;
 
@@ -107,15 +111,19 @@ export default function ServiceForm() {
       note: formData.note ?? null,
     };
 
-    if (id) {
-      updateService(service);
-    } else {
-      createService(service);
-    }
+    const callbacks = {
+      onSuccess: handleClose,
+      onError: () =>
+        Toast({ text: t("vehicles.recordSaveFailed"), type: "error" }),
+    };
 
-    handleClose();
-    handleResetForm();
+    if (id) updateService(service, callbacks);
+    else createService(service, callbacks);
   };
+
+  if (activeVehicle?.sold) {
+    return <SoldVehicleNotice onClose={handleClose} />;
+  }
 
   return (
     <KeyboardAwareScrollView

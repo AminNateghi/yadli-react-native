@@ -5,7 +5,11 @@ import { fuelsRecords } from "@/db/schema";
 import type { FuelDto } from "@/types/interfaces";
 import { queryClient } from "../utils/query-client";
 import { remindersQueryKey } from "./reminder-repository";
-import { getActiveVehicleId, useActiveVehicleId } from "./active-vehicle";
+import {
+  assertVehicleNotSold,
+  getActiveVehicleId,
+  useActiveVehicleId,
+} from "./active-vehicle";
 
 export const fuelQueryKey = {
   list: ["fuel-list"],
@@ -28,10 +32,11 @@ export function useFuels() {
 
 export function useCreateFuel() {
   return useMutation({
-    mutationFn: async (values: Omit<FuelDto, "id" | "vehicleId">) =>
-      await db
-        .insert(fuelsRecords)
-        .values({ ...values, vehicleId: await getActiveVehicleId() }),
+    mutationFn: async (values: Omit<FuelDto, "id" | "vehicleId">) => {
+      const vehicleId = await getActiveVehicleId();
+      await assertVehicleNotSold(vehicleId);
+      return db.insert(fuelsRecords).values({ ...values, vehicleId });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
@@ -42,16 +47,19 @@ export function useCreateFuel() {
 export function useUpdateFuel(id: number) {
   const { data: vehicleId } = useActiveVehicleId();
   return useMutation({
-    mutationFn: async (values: Partial<Omit<FuelDto, "id" | "vehicleId">>) =>
-      await db
+    mutationFn: async (values: Partial<Omit<FuelDto, "id" | "vehicleId">>) => {
+      const activeVehicleId = vehicleId ?? (await getActiveVehicleId());
+      await assertVehicleNotSold(activeVehicleId);
+      return db
         .update(fuelsRecords)
         .set(values)
         .where(
           and(
             eq(fuelsRecords.id, id),
-            eq(fuelsRecords.vehicleId, vehicleId ?? 1),
+            eq(fuelsRecords.vehicleId, activeVehicleId),
           ),
-        ),
+        );
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.list });
       queryClient.invalidateQueries({ queryKey: fuelQueryKey.byId(id) });

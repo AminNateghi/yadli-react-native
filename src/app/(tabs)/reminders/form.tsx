@@ -37,6 +37,8 @@ import { Button } from "@/components/Button";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { CompleteReminderOneTimeModal } from "@/components/forms/CompleteReminderOneTimeModal";
 import { Toast } from "@/components/CustomToast";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
+import { SoldVehicleNotice } from "@/components/SoldVehicleNotice";
 
 const defaultValues = {
   dependent: "Service",
@@ -58,6 +60,7 @@ export default function ReminderForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
   const { t, isRTL } = useTranslation();
+  const { data: activeVehicle } = useActiveVehicle();
   const navigation = useNavigation();
   const isEditMode = !!id;
 
@@ -171,6 +174,10 @@ export default function ReminderForm() {
   const dependent = watch("dependent") as ReminderDependent;
   const mode = watch("mode") as ReminderMode;
   const trigger = watch("triggerType") as ReminderTriggerType;
+
+  if (activeVehicle?.sold) {
+    return <SoldVehicleNotice onClose={handleClose} />;
+  }
 
   return (
     <KeyboardAwareScrollView
@@ -355,7 +362,7 @@ export default function ReminderForm() {
               render={({ field: { value, onChange } }) => (
                 <DatePicker
                   label={t("reminders.startDate")}
-                  value={value!}
+                  value={value ?? ""}
                   onChange={onChange}
                   error={errors.startDate?.message}
                 />

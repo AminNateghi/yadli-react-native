@@ -30,6 +30,10 @@ export const vehiclesRecords = sqliteTable("vehicles", {
   type: text("type").$type<VehicleType>(),
   fuelType: text("fuel_type").$type<FuelType>().notNull().default("Gasoline"),
   capacity: real("capacity"),
+  sold: integer("sold", { mode: "boolean" }).notNull().default(false),
+  soldDate: integer("sold_date", { mode: "timestamp" }),
+  soldPrice: real("sold_price"),
+  soldOdometer: integer("sold_odometer"),
 });
 
 export const servicesRecords = sqliteTable("services", {

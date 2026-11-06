@@ -10,6 +10,7 @@ import m0005 from "./0005_amazing_stick.sql";
 import m0006 from "./0006_closed_human_fly.sql";
 import m0007 from "./0007_multi_service_types.sql";
 import m0008 from "./0008_multiple_vehicles.sql";
+import m0009 from "./0009_serious_groot.sql";
 
 export default {
   journal,
@@ -23,5 +24,6 @@ export default {
     m0006,
     m0007,
     m0008,
+    m0009,
   },
 };

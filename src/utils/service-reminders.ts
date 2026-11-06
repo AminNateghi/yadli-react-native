@@ -11,7 +11,6 @@ dayjs.extend(relativeTime);
 
 type LatestData = {
   maxOdometer: number;
-  maxDate: Date | null;
 };
 
 type ReminderThresholds = {
@@ -45,14 +44,12 @@ function clampProgress(value: number): number {
   return Math.min(1, Math.max(0, value));
 }
 
-function getLatestOdometerAndDate(
+function getLatestOdometer(
   services: ServiceDto[],
   fuels: FuelDto[],
   expense: ExpenseDto[],
 ): LatestData {
-  const getHighestOdometerRecord = (
-    records: { odometer: number; date: Date }[],
-  ) => {
+  const getHighestOdometerRecord = (records: { odometer: number }[]) => {
     let highestRecord: (typeof records)[number] | undefined;
     for (const record of records) {
       if (!highestRecord || record.odometer > highestRecord.odometer) {
@@ -68,24 +65,20 @@ function getLatestOdometerAndDate(
     getHighestOdometerRecord(expense),
   ];
   let maxOdometer = 0;
-  let maxDate: Date | null = null;
 
   for (const record of highestOdometerRecords) {
     if (record?.odometer && record.odometer > maxOdometer) {
       maxOdometer = record.odometer;
     }
-    if (record && (!maxDate || record.date > maxDate)) {
-      maxDate = record.date;
-    }
   }
 
-  return { maxOdometer, maxDate };
+  return { maxOdometer };
 }
 
 // compute the progress of a reminder based on its trigger type and the latest data
 function getDateReminderProgress(
   reminder: ReminderDto,
-  latest: LatestData,
+  today: Date,
 ): DateReminderProgress | undefined {
   if (!reminder.startDate) return undefined;
 
@@ -97,22 +90,22 @@ function getDateReminderProgress(
     return undefined;
   }
 
-  // Fallback to current date if no log entries exist yet
-  const currentDate = latest.maxDate ? dayjs(latest.maxDate) : dayjs();
+  const currentDate = dayjs(today).startOf("day");
+  const dueDate = endDate.startOf("day");
 
-  const totalDurationMs = endDate.diff(startDate);
+  const totalDurationMs = dueDate.diff(startDate.startOf("day"));
   if (totalDurationMs <= 0) return undefined;
 
-  const elapsedMs = currentDate.diff(startDate);
+  const elapsedMs = currentDate.diff(startDate.startOf("day"));
   const progress = clampProgress(elapsedMs / totalDurationMs);
 
   // Calculate remaining whole days between the reference date and due date
-  const remainingDays = endDate.diff(currentDate, "day");
+  const remainingDays = dueDate.diff(currentDate, "day");
 
   return {
     progress,
     remainingDays,
-    overdue: remainingDays < 0 || currentDate.isAfter(endDate),
+    overdue: remainingDays < 0,
     dueDate: endDate.toDate(),
   };
 }
@@ -212,8 +205,9 @@ export function getReminders(
     fuels: FuelDto[];
     expense: ExpenseDto[];
   },
+  today: Date = new Date(),
 ): ReminderCardProp[] {
-  const latest = getLatestOdometerAndDate(
+  const latest = getLatestOdometer(
     inputData.services,
     inputData.fuels,
     inputData.expense,
@@ -222,7 +216,7 @@ export function getReminders(
   const result: ReminderCardProp[] = [];
 
   for (const reminder of reminders) {
-    const dateProgress = getDateReminderProgress(reminder, latest);
+    const dateProgress = getDateReminderProgress(reminder, today);
     const odometerProgress = getOdometerReminderProgress(reminder, latest);
 
     if (!dateProgress && !odometerProgress) continue;

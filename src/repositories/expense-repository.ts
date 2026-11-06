@@ -5,7 +5,11 @@ import { expensesRecords } from "@/db/schema";
 import type { ExpenseDto } from "@/types/interfaces";
 import { queryClient } from "../utils/query-client";
 import { remindersQueryKey } from "./reminder-repository";
-import { getActiveVehicleId, useActiveVehicleId } from "./active-vehicle";
+import {
+  assertVehicleNotSold,
+  getActiveVehicleId,
+  useActiveVehicleId,
+} from "./active-vehicle";
 
 export const expenseQueryKey = {
   list: ["expense-list"],
@@ -28,10 +32,11 @@ export function useExpenses() {
 
 export function useCreateExpense() {
   return useMutation({
-    mutationFn: async (values: Omit<ExpenseDto, "id" | "vehicleId">) =>
-      await db
-        .insert(expensesRecords)
-        .values({ ...values, vehicleId: await getActiveVehicleId() }),
+    mutationFn: async (values: Omit<ExpenseDto, "id" | "vehicleId">) => {
+      const vehicleId = await getActiveVehicleId();
+      await assertVehicleNotSold(vehicleId);
+      return db.insert(expensesRecords).values({ ...values, vehicleId });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });
       queryClient.invalidateQueries({ queryKey: remindersQueryKey.list });
@@ -42,16 +47,21 @@ export function useCreateExpense() {
 export function useUpdateExpense(id: number) {
   const { data: vehicleId } = useActiveVehicleId();
   return useMutation({
-    mutationFn: async (values: Partial<Omit<ExpenseDto, "id" | "vehicleId">>) =>
-      await db
+    mutationFn: async (
+      values: Partial<Omit<ExpenseDto, "id" | "vehicleId">>,
+    ) => {
+      const activeVehicleId = vehicleId ?? (await getActiveVehicleId());
+      await assertVehicleNotSold(activeVehicleId);
+      return db
         .update(expensesRecords)
         .set(values)
         .where(
           and(
             eq(expensesRecords.id, id),
-            eq(expensesRecords.vehicleId, vehicleId ?? 1),
+            eq(expensesRecords.vehicleId, activeVehicleId),
           ),
-        ),
+        );
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.list });
       queryClient.invalidateQueries({ queryKey: expenseQueryKey.byId(id) });

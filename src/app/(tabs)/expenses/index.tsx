@@ -13,6 +13,7 @@ import { router, useNavigation } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 import { useLayoutEffect } from "react";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
 
 export default function ExpensesScreen() {
   const { t, isRTL } = useTranslation();
@@ -20,6 +21,7 @@ export default function ExpensesScreen() {
   const navigation = useNavigation();
 
   const { data: expenses } = useExpenses();
+  const { data: activeVehicle } = useActiveVehicle();
   const { statistics } = useStatistics();
 
   useLayoutEffect(() => {
@@ -32,13 +34,15 @@ export default function ExpensesScreen() {
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
-      <FloatButton
-        icon={PlusIcon}
-        text={t("expenses.createTitle")}
-        color={Theme.violet}
-        placement={isRTL ? "left" : "right"}
-        onPress={() => navigateOnce(() => router.push("/expenses/form"))}
-      />
+      {!activeVehicle?.sold && (
+        <FloatButton
+          icon={PlusIcon}
+          text={t("expenses.createTitle")}
+          color={Theme.violet}
+          placement={isRTL ? "left" : "right"}
+          onPress={() => navigateOnce(() => router.push("/expenses/form"))}
+        />
+      )}
       <FlatList
         style={styles.container}
         data={expenses ?? []}

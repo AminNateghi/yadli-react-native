@@ -5,10 +5,50 @@ import { DoubleLabel } from "../DoubleLabel";
 import { numberFormat } from "@/utils/number-format";
 import { useTranslation } from "@/languages/useTranslation";
 import { useStatistics } from "@/repositories/statistics";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
+import { useToday } from "@/hooks/useToday";
+import dayjs from "dayjs";
 
 export default function ReportGeneral() {
   const { t, isRTL } = useTranslation();
   const { statistics, persianStatistics } = useStatistics();
+  const { data: vehicle } = useActiveVehicle();
+  const today = useToday();
+
+  const totalSpent = statistics.general.totalSpent;
+  const purchasePrice = vehicle?.purchasePrice;
+  const costRatio =
+    purchasePrice != null && purchasePrice > 0
+      ? totalSpent / purchasePrice
+      : null;
+  const costCategory =
+    costRatio !== null
+      ? costRatio <= 1.25
+        ? t("reports.lowCost")
+        : costRatio <= 1.5
+          ? t("reports.moderateCost")
+          : costRatio <= 2
+            ? t("reports.highCost")
+            : t("reports.veryHighCost")
+      : null;
+  const durationDays = (start: Date, end: Date) =>
+    Math.max(
+      0,
+      dayjs(end).startOf("day").diff(dayjs(start).startOf("day"), "day"),
+    );
+  const purchaseDuration = vehicle?.purchaseDate
+    ? durationDays(vehicle.purchaseDate, today)
+    : null;
+  const ownershipDuration =
+    vehicle?.purchaseDate && vehicle.soldDate
+      ? durationDays(vehicle.purchaseDate, vehicle.soldDate)
+      : null;
+  const distanceDriven =
+    vehicle?.soldOdometer != null
+      ? Math.max(0, vehicle.soldOdometer - (vehicle.purchaseOdometer ?? 0))
+      : null;
+  const saleBalance =
+    vehicle?.soldPrice != null ? vehicle.soldPrice - totalSpent : null;
 
   return (
     <>
@@ -25,7 +65,7 @@ export default function ReportGeneral() {
           </View>
           <DoubleLabel
             topLabel={t("dashboard.totalSpent")}
-            bottomLabel={numberFormat(statistics.general.totalSpent, { isRTL })}
+            bottomLabel={numberFormat(totalSpent, { isRTL })}
             size="large"
             bottomSpanLabel={t("common.priceSign")}
           />
@@ -91,6 +131,66 @@ export default function ReportGeneral() {
           </View>
         </View>
       </View>
+
+      {(costCategory ||
+        purchaseDuration !== null ||
+        ownershipDuration !== null ||
+        saleBalance !== null ||
+        distanceDriven !== null) && (
+        <View style={ReportStyles.card}>
+          <View style={ReportStyles.row}>
+            <View style={[ReportStyles.col, ReportStyles.container]}>
+              {costCategory && (
+                <DoubleLabel
+                  topLabel={costCategory}
+                  bottomLabel={t("reports.costCategory")}
+                  size="small"
+                />
+              )}
+              {saleBalance !== null && (
+                <DoubleLabel
+                  topLabel={
+                    saleBalance > 0
+                      ? t("reports.profit")
+                      : saleBalance < 0
+                        ? t("reports.loss")
+                        : t("reports.breakEven")
+                  }
+                  bottomLabel={numberFormat(Math.abs(saleBalance), { isRTL })}
+                  bottomSpanLabel={t("common.priceSign")}
+                  size="small"
+                />
+              )}
+            </View>
+            <View style={[ReportStyles.col, ReportStyles.container]}>
+              {ownershipDuration === null && purchaseDuration !== null && (
+                <DoubleLabel
+                  topLabel={numberFormat(purchaseDuration, { isRTL })}
+                  bottomLabel={t("reports.vehicleDuration")}
+                  topSpanLabel={t("common.days")}
+                  size="small"
+                />
+              )}
+              {ownershipDuration !== null && (
+                <DoubleLabel
+                  topLabel={numberFormat(ownershipDuration, { isRTL })}
+                  bottomLabel={t("reports.ownershipDuration")}
+                  topSpanLabel={t("common.days")}
+                  size="small"
+                />
+              )}
+              {distanceDriven !== null && (
+                <DoubleLabel
+                  topLabel={numberFormat(distanceDriven, { isRTL })}
+                  bottomLabel={t("reports.distanceDriven")}
+                  topSpanLabel={t("common.km")}
+                  size="small"
+                />
+              )}
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* ====== Average ====== */}
       <View style={ReportStyles.card}>

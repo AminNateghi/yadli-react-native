@@ -25,6 +25,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useStatistics } from "@/repositories/statistics";
 import { numberFormat } from "@/utils/number-format";
 import dayjs from "dayjs";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
+import { SoldVehicleNotice } from "@/components/SoldVehicleNotice";
+import { Toast } from "@/components/CustomToast";
 
 const defaultValues = {
   type: "Reimbursement",
@@ -41,6 +44,7 @@ export default function ExpenseForm() {
   const isEditMode = !!id;
 
   const { t, isRTL } = useTranslation();
+  const { data: activeVehicle } = useActiveVehicle();
 
   const { statistics } = useStatistics();
 
@@ -108,15 +112,19 @@ export default function ExpenseForm() {
       note: formData.note ?? null,
     };
 
-    if (id) {
-      updateService(expense);
-    } else {
-      createService(expense);
-    }
+    const callbacks = {
+      onSuccess: handleClose,
+      onError: () =>
+        Toast({ text: t("vehicles.recordSaveFailed"), type: "error" }),
+    };
 
-    handleClose();
-    handleResetForm();
+    if (id) updateService(expense, callbacks);
+    else createService(expense, callbacks);
   };
+
+  if (activeVehicle?.sold) {
+    return <SoldVehicleNotice onClose={handleClose} />;
+  }
 
   return (
     <KeyboardAwareScrollView

@@ -13,13 +13,17 @@ import { useExpenses } from "@/repositories/expense-repository";
 import { router, useNavigation } from "expo-router";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
+import { useToday } from "@/hooks/useToday";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
 
 export default function RemindersScreen() {
   const { t, isRTL } = useTranslation();
   const navigateOnce = useNavigationGuard();
   const navigation = useNavigation();
+  const today = useToday();
 
   const { data } = useReminders();
+  const { data: activeVehicle } = useActiveVehicle();
   const { data: services } = useServices();
   const { data: fuels } = useFuels();
   const { data: expenses } = useExpenses();
@@ -35,22 +39,28 @@ export default function RemindersScreen() {
   const reminders = useMemo(() => {
     if (!data || !services || !fuels || !expenses) return [];
 
-    return getReminders(data, {
-      services,
-      fuels,
-      expense: expenses,
-    });
-  }, [data, services, fuels, expenses]);
+    return getReminders(
+      data,
+      {
+        services,
+        fuels,
+        expense: expenses,
+      },
+      today,
+    );
+  }, [data, services, fuels, expenses, today]);
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
-      <FloatButton
-        icon={PlusIcon}
-        text={t("reminders.createTitle")}
-        color={Theme.green}
-        placement={isRTL ? "left" : "right"}
-        onPress={() => navigateOnce(() => router.push("/reminders/form"))}
-      />
+      {!activeVehicle?.sold && (
+        <FloatButton
+          icon={PlusIcon}
+          text={t("reminders.createTitle")}
+          color={Theme.green}
+          placement={isRTL ? "left" : "right"}
+          onPress={() => navigateOnce(() => router.push("/reminders/form"))}
+        />
+      )}
       <FlatList
         style={styles.container}
         data={reminders}

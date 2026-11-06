@@ -24,6 +24,8 @@ import { type VehicleFormData, vehicleSchema } from "@/types/vehicle-schema";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VehicleDeletionModal } from "@/components/forms/VehicleDeletionModal";
+import { SwitchToggle } from "@/components/SwitchToggle";
+import { Toast } from "@/components/CustomToast";
 
 const defaultValues: VehicleFormData = {
   customName: "",
@@ -32,6 +34,10 @@ const defaultValues: VehicleFormData = {
   purchaseDate: undefined,
   purchasePrice: undefined,
   purchaseOdometer: undefined,
+  sold: false,
+  soldDate: undefined,
+  soldPrice: undefined,
+  soldOdometer: undefined,
   type: undefined,
   fuelType: undefined,
   capacity: undefined,
@@ -98,6 +104,12 @@ export default function VehicleFormScreen() {
         : undefined,
       purchaseOdometer: data.purchaseOdometer?.toString() ?? "",
       purchasePrice: data.purchasePrice?.toString() ?? "",
+      sold: data.sold,
+      soldDate: data.soldDate
+        ? new Date(data.soldDate).toISOString()
+        : undefined,
+      soldPrice: data.soldPrice?.toString() ?? "",
+      soldOdometer: data.soldOdometer?.toString() ?? "",
       type: data.type ?? undefined,
       year: data.year?.toString() ?? "",
     });
@@ -112,7 +124,7 @@ export default function VehicleFormScreen() {
     router.back();
   };
 
-  const handleSave = async (formData: VehicleFormData) => {
+  const handleSave = (formData: VehicleFormData) => {
     const vehicle: Omit<VehicleDto, "id"> = {
       capacity: optionalNumber(String(formData.capacity)),
       customName: formData.customName.trim(),
@@ -123,21 +135,33 @@ export default function VehicleFormScreen() {
         : null,
       purchaseOdometer: optionalNumber(String(formData.purchaseOdometer)),
       purchasePrice: optionalNumber(String(formData.purchasePrice)),
+      sold: formData.sold,
+      soldDate:
+        formData.sold && formData.soldDate ? new Date(formData.soldDate) : null,
+      soldPrice: formData.sold
+        ? optionalNumber(String(formData.soldPrice))
+        : null,
+      soldOdometer: formData.sold
+        ? optionalNumber(String(formData.soldOdometer))
+        : null,
       type: (formData.type as VehicleType) ?? null,
       year: optionalNumber(String(formData.year)),
     };
 
-    if (id) {
-      updateVehicle(vehicle);
-    } else {
-      createVehicle(vehicle);
-    }
+    const callbacks = {
+      onSuccess: handleClose,
+      onError: () => Toast({ text: t("vehicles.saveFailed"), type: "error" }),
+    };
 
-    handleClose();
-    handleResetForm();
+    if (id) {
+      updateVehicle(vehicle, callbacks);
+    } else {
+      createVehicle(vehicle, callbacks);
+    }
   };
 
   const fuelType = watch("fuelType") as FuelType | undefined;
+  const isSold = watch("sold");
 
   return (
     <KeyboardAwareScrollView
@@ -241,6 +265,65 @@ export default function VehicleFormScreen() {
           />
         )}
       />
+
+      <Controller
+        control={control}
+        name="sold"
+        render={({ field: { value, onChange } }) => (
+          <SwitchToggle
+            label={t("vehicles.sold")}
+            value={value}
+            onValueChange={onChange}
+          />
+        )}
+      />
+
+      {isSold && (
+        <>
+          <Controller
+            control={control}
+            name="soldDate"
+            render={({ field: { value, onChange } }) => (
+              <DatePicker
+                label={t("vehicles.soldDate")}
+                value={value ? new Date(value).toISOString() : null}
+                onChange={onChange}
+                error={errors.soldDate?.message}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="soldPrice"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                label={t("vehicles.soldPrice")}
+                value={value?.toString() ?? ""}
+                onChangeText={onChange}
+                keyboardType="decimal-pad"
+                style={{ direction: "ltr" }}
+                error={errors.soldPrice?.message}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="soldOdometer"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                label={t("vehicles.soldOdometer")}
+                value={value?.toString() ?? ""}
+                onChangeText={onChange}
+                keyboardType="number-pad"
+                style={{ direction: "ltr" }}
+                error={errors.soldOdometer?.message}
+              />
+            )}
+          />
+        </>
+      )}
 
       <View style={ReportStyles.row}>
         <Controller

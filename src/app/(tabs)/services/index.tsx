@@ -14,6 +14,7 @@ import { numberFormat } from "@/utils/number-format";
 import { FloatButton } from "@/components/FloatButton";
 import { useNavigationGuard } from "@/hooks/useNavigationGuard";
 import { useLayoutEffect } from "react";
+import { useActiveVehicle } from "@/repositories/active-vehicle";
 
 export default function ServicesScreen() {
   const { t, isRTL } = useTranslation();
@@ -21,6 +22,7 @@ export default function ServicesScreen() {
   const navigation = useNavigation();
 
   const { data: services } = useServices();
+  const { data: activeVehicle } = useActiveVehicle();
   const { statistics } = useStatistics();
 
   useLayoutEffect(() => {
@@ -33,13 +35,15 @@ export default function ServicesScreen() {
 
   return (
     <View style={[styles.wrapper, isRTL && { direction: "rtl" }]}>
-      <FloatButton
-        icon={PlusIcon}
-        text={t("services.createTitle")}
-        color={Theme.mulberry}
-        placement={isRTL ? "left" : "right"}
-        onPress={() => navigateOnce(() => router.push("/services/form"))}
-      />
+      {!activeVehicle?.sold && (
+        <FloatButton
+          icon={PlusIcon}
+          text={t("services.createTitle")}
+          color={Theme.mulberry}
+          placement={isRTL ? "left" : "right"}
+          onPress={() => navigateOnce(() => router.push("/services/form"))}
+        />
+      )}
       <FlatList
         style={styles.container}
         data={services ?? []}
