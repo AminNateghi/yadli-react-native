@@ -7,13 +7,17 @@ import {
   TimerIcon,
   WrenchIcon,
 } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppFontFamily } from "@/hooks/useAppFontFamily";
 import { useTranslation } from "@/languages/useTranslation";
 import { Theme } from "@/constants";
 
+const TAB_BAR_CONTENT_HEIGHT = 60;
+
 export default function TabLayout() {
   const { t, isRTL } = useTranslation();
   const fontFamily = useAppFontFamily();
+  const insets = useSafeAreaInsets();
 
   const segments = useSegments() as string[];
   const isFormScreen =
@@ -34,8 +38,9 @@ export default function TabLayout() {
           backgroundColor: Theme.surface,
           borderTopColor: Theme.borderLight,
           paddingTop: 0,
+          paddingBottom: insets.bottom,
           marginBottom: 0,
-          height: 60,
+          height: TAB_BAR_CONTENT_HEIGHT + insets.bottom,
           direction: isRTL ? "rtl" : "ltr",
         },
         tabBarLabelStyle: {

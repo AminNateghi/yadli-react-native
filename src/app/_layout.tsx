@@ -12,7 +12,10 @@ import { Text } from "@/components/Text";
 import { queryClient } from "@/utils/query-client";
 import { db } from "@/db";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  SafeAreaProvider,
+  initialWindowMetrics,
+} from "react-native-safe-area-context";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import migrations from "@/db/migrations/migrations";
 import { UpdateCheckProvider } from "@/contexts/UpdateCheckContext";
@@ -101,7 +104,10 @@ export default function RootLayout() {
 
   return (
     <KeyboardProvider>
-      <SafeAreaProvider style={{ flex: 1 }}>
+      <SafeAreaProvider
+        style={{ flex: 1 }}
+        initialMetrics={initialWindowMetrics}
+      >
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
