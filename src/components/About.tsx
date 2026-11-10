@@ -46,7 +46,7 @@ export function About() {
             <Image
               width={26}
               height={26}
-              source={require("./../../assets/images/yadli-icon.png")}
+              source={require("./../../assets/images/yadli-icon-transparency.png")}
               style={styles.icon}
             />
           </View>
@@ -129,5 +129,5 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 10,
   },
-  icon: { width: 64, height: 64, borderRadius: 8, marginBottom: 10 },
+  icon: { width: 164, height: 164 },
 });
