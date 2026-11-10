@@ -4,6 +4,4 @@ import * as schema from "./schema";
 
 const sqlite = openDatabaseSync("yadli.db");
 
-export const db = drizzle(sqlite, {
-  schema,
-});
+export const db = drizzle(sqlite, { schema });

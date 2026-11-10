@@ -83,14 +83,14 @@ export default function ReportsScreen() {
 
 const styles = StyleSheet.create({
   card: {
-    height: 45,
+    height: 40,
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     gap: 5,
+    marginBottom: 5,
   },
   title: {
     fontSize: 14,
     fontWeight: 600,
-    marginBottom: 10,
   },
 });

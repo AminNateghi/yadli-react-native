@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   containerSmall: {
-    height: 35,
+    height: 45,
     padding: 3,
   },
   label: {
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonSmall: {
-    paddingVertical: 2,
+    paddingVertical: 5,
     paddingHorizontal: 8,
   },
   firstButton: {
