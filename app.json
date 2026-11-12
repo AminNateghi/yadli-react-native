@@ -47,7 +47,8 @@
       "expo-image",
       "expo-status-bar",
       "expo-web-browser",
-      "expo-notifications"
+      "expo-notifications",
+      "./plugins/with-android-release-signing"
     ],
     "experiments": {
       "typedRoutes": true,
