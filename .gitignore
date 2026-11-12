@@ -1,3 +1,8 @@
+credentials.json
+keystore/
+android/
+ios/
+
 # dependencies
 node_modules/
 
@@ -14,6 +19,7 @@ expo-env.d.ts
 *.p8
 *.p12
 *.key
+*.keystore
 *.mobileprovision
 
 # Metro
@@ -35,9 +41,5 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
-
-# generated native folders
-/ios
-/android
 
 .npmrc
