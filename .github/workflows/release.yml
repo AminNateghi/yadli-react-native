@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-26.04
     timeout-minutes: 60
 
+    environment:
+      name: android-release
+
     permissions:
       contents: read
 
