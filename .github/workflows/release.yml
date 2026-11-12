@@ -76,34 +76,16 @@ jobs:
       - name: Generate Android project
         run: pnpm exec expo prebuild --platform android --clean
 
-      - name: Restore and validate keystore
-        shell: bash
+      - name: Restore release keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           set -euo pipefail
-
-          : "${KEYSTORE_BASE64:?Missing keystore}"
-          : "${KEYSTORE_PASSWORD:?Missing keystore password}"
-          : "${KEY_ALIAS:?Missing key alias}"
-          : "${KEY_PASSWORD:?Missing key password}"
-
-          mkdir -p android/app
           umask 077
-
-          printf '%s' "$KEYSTORE_BASE64" \
-            | base64 --decode > android/app/release-key.jks
-
+          mkdir -p android/app
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode \
+            > android/app/release-key.jks
           test -s android/app/release-key.jks
-
-          keytool -list \
-            -keystore android/app/release-key.jks \
-            -storepass "$KEYSTORE_PASSWORD" \
-            -alias "$KEY_ALIAS" \
-            > /dev/null
 
       - name: Build Release APK
         working-directory: android
