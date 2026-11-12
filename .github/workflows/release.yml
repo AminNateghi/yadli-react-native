@@ -45,7 +45,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: "24.3.0"
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -59,7 +59,16 @@ jobs:
           java-version: "17"
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
+        with:
+          packages: "platform-tools"
+
+      - name: Install Android SDK 37
+        run: |
+          sdkmanager --install \
+            "platforms;android-37" \
+            "build-tools;37.0.0" \
+            "platform-tools"
 
       - name: Generate Android project
         run: pnpm exec expo prebuild --platform android --clean
