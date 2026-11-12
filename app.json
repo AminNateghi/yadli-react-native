@@ -2,18 +2,18 @@
   "expo": {
     "name": "Yadli",
     "slug": "yadli-app",
-    "version": "1.7.2",
+    "version": "1.7.6",
     "orientation": "portrait",
     "icon": "./assets/images/yadli-icon.png",
     "scheme": "yadli",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "buildNumber": "172",
+      "buildNumber": "176",
       "bundleIdentifier": "xyz.nateghi.yadli",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 172,
+      "versionCode": 176,
       "package": "xyz.nateghi.yadli",
       "predictiveBackGestureEnabled": false,
       "softwareKeyboardLayoutMode": "resize",

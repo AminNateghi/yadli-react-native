@@ -73,12 +73,6 @@ jobs:
           android sdk list --beta --all
           android sdk install --beta platforms/android-37 build-tools/37.0.0
 
-      - name: Check available Android 37 packages
-        run: |
-          android sdk list --all
-          android sdk list --beta --all
-          android sdk list --canary --all
-
       - name: Generate Android project
         run: pnpm exec expo prebuild --platform android --clean
 
