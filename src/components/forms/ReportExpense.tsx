@@ -7,7 +7,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { useStatistics } from "@/repositories/statistics";
 
 export default function ReportExpense() {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, currencySymbol } = useTranslation();
   const { statistics, persianStatistics } = useStatistics();
 
   return (
@@ -29,7 +29,7 @@ export default function ReportExpense() {
               isRTL,
             })}
             size="large"
-            bottomSpanLabel={t("common.priceSign")}
+            bottomSpanLabel={currencySymbol}
           />
         </View>
         <View style={GlobalStyles.separator} />
@@ -45,7 +45,7 @@ export default function ReportExpense() {
                 },
               )}
               bottomLabel={t("dashboard.thisYear")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -58,7 +58,7 @@ export default function ReportExpense() {
                 },
               )}
               bottomLabel={t("dashboard.previousYear")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>
@@ -74,7 +74,7 @@ export default function ReportExpense() {
                 },
               )}
               bottomLabel={t("dashboard.thisMonth")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -87,7 +87,7 @@ export default function ReportExpense() {
                 },
               )}
               bottomLabel={t("dashboard.previousMonth")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>
@@ -193,7 +193,7 @@ export default function ReportExpense() {
               isRTL,
             })}
             size="large"
-            bottomSpanLabel={t("common.priceSign")}
+            bottomSpanLabel={currencySymbol}
           />
         </View>
         <View style={GlobalStyles.separator} />
@@ -209,7 +209,7 @@ export default function ReportExpense() {
                 },
               )}
               bottomLabel={t("reports.averageCostPerDay")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -222,7 +222,7 @@ export default function ReportExpense() {
                 },
               )}
               bottomLabel={t("reports.averageCostPerKilometer")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>
@@ -237,7 +237,7 @@ export default function ReportExpense() {
                 },
               )}
               bottomLabel={t("reports.maxServiceAmount")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -250,7 +250,7 @@ export default function ReportExpense() {
                 },
               )}
               bottomLabel={t("reports.minServiceAmount")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>

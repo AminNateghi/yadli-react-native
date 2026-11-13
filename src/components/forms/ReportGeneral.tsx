@@ -10,7 +10,7 @@ import { useToday } from "@/hooks/useToday";
 import dayjs from "dayjs";
 
 export default function ReportGeneral() {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, currencySymbol, distanceUnit } = useTranslation();
   const { statistics, persianStatistics } = useStatistics();
   const { data: vehicle } = useActiveVehicle();
   const today = useToday();
@@ -67,7 +67,7 @@ export default function ReportGeneral() {
             topLabel={t("dashboard.totalSpent")}
             bottomLabel={numberFormat(totalSpent, { isRTL })}
             size="large"
-            bottomSpanLabel={t("common.priceSign")}
+            bottomSpanLabel={currencySymbol}
           />
         </View>
         <View style={GlobalStyles.separator} />
@@ -83,7 +83,7 @@ export default function ReportGeneral() {
                 },
               )}
               bottomLabel={t("dashboard.thisYear")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -96,7 +96,7 @@ export default function ReportGeneral() {
                 },
               )}
               bottomLabel={t("dashboard.previousYear")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>
@@ -112,7 +112,7 @@ export default function ReportGeneral() {
                 },
               )}
               bottomLabel={t("dashboard.thisMonth")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -125,7 +125,7 @@ export default function ReportGeneral() {
                 },
               )}
               bottomLabel={t("dashboard.previousMonth")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>
@@ -157,7 +157,7 @@ export default function ReportGeneral() {
                         : t("reports.breakEven")
                   }
                   bottomLabel={numberFormat(Math.abs(saleBalance), { isRTL })}
-                  bottomSpanLabel={t("common.priceSign")}
+                  bottomSpanLabel={currencySymbol}
                   size="small"
                 />
               )}
@@ -183,7 +183,7 @@ export default function ReportGeneral() {
                 <DoubleLabel
                   topLabel={numberFormat(distanceDriven, { isRTL })}
                   bottomLabel={t("reports.distanceDriven")}
-                  topSpanLabel={t("common.km")}
+                  topSpanLabel={distanceUnit}
                   size="small"
                 />
               )}
@@ -201,7 +201,7 @@ export default function ReportGeneral() {
                 isRTL,
               })}
               bottomLabel={t("reports.averageCostPerMonth")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -209,7 +209,7 @@ export default function ReportGeneral() {
                 isRTL,
               })}
               bottomLabel={t("reports.averageCostPerDay")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -220,7 +220,7 @@ export default function ReportGeneral() {
                 },
               )}
               bottomLabel={t("reports.averageCostPerKilometer")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>

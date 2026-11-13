@@ -59,6 +59,28 @@ export function useCompleteOnboarding() {
   });
 }
 
+export function useSaveProfileSettings() {
+  return useMutation({
+    mutationFn: async (
+      settings: Partial<{
+        distanceUnit: string;
+        fuelUnit: string;
+        currencySymbol: string;
+      }>,
+    ) =>
+      await db
+        .update(profileRecords)
+        .set({
+          id: 1,
+          ...settings,
+        })
+        .where(eq(profileRecords.id, 1)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: profileQueryKey.profile });
+    },
+  });
+}
+
 export function useGetProfile() {
   return useQuery({
     queryKey: profileQueryKey.profile,
@@ -78,6 +100,9 @@ export function useGetProfile() {
           fullName: "بدون اسم",
           language: "fa",
           activeVehicleId: 1,
+          distanceUnit: "km",
+          fuelUnit: "L",
+          currencySymbol: "تومان",
         })
         .returning();
 

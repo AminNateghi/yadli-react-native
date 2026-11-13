@@ -16,7 +16,7 @@ import { useLayoutEffect } from "react";
 import { useActiveVehicle } from "@/repositories/active-vehicle";
 
 export default function FuelScreen() {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, currencySymbol, distanceUnit, fuelUnit } = useTranslation();
   const navigateOnce = useNavigationGuard();
   const navigation = useNavigation();
 
@@ -59,7 +59,7 @@ export default function FuelScreen() {
           );
           const intervalDetails = interval
             ? [
-                `${t("fuel.distanceSincePrevious")} ${numberFormat(interval.distanceKm, { isRTL })} ${t("common.km")}`,
+                `${t("fuel.distanceSincePrevious")} ${numberFormat(interval.distanceKm, { isRTL })} ${distanceUnit}`,
                 ...(interval.fuelConsumptionLPer100Km !== null
                   ? [
                       `${t("fuel.consumptionBetweenRefuels")} ${numberFormat(interval.fuelConsumptionLPer100Km, { isRTL })}`,
@@ -71,10 +71,10 @@ export default function FuelScreen() {
           return (
             <RecordCard
               id={fuel.id}
-              title={`${numberFormat(fuel.liters, { isRTL })} ${t("common.liter")}`}
+              title={`${numberFormat(fuel.liters, { isRTL })} ${fuelUnit}`}
               date={fuel.date}
               amount={fuel.totalCost}
-              help={t("common.priceSign")}
+              help={currencySymbol}
               subtitle={[...intervalDetails].join(" - ")}
               icon={FuelIcon}
               color={Theme.orange}
@@ -102,7 +102,7 @@ export default function FuelScreen() {
                       {numberFormat(statistics.refueling.averageLiterPerKm, {
                         isRTL,
                       })}{" "}
-                      {t("common.liter")}
+                      {fuelUnit}
                     </Text>
                     <Text style={styles.disPerLiterLabel}>
                       {t("fuel.averageFuelEconomy")}
@@ -138,7 +138,7 @@ export default function FuelScreen() {
                 </Text>
                 <ValueWithHelp
                   value={statistics.refueling.totalFuelCost}
-                  help={t("common.priceSign")}
+                  help={currencySymbol}
                   style={GlobalStyles.summaryValue}
                 />
               </View>

@@ -1,3 +1,7 @@
+# v1.8.0
+
+- Add Settings
+
 # v1.7.0
 
 - Add Sold Vehicle

@@ -26,7 +26,7 @@ import { IconButton } from "@/components/IconButton";
 import AppDrawer from "@/components/Drawer";
 
 export default function DashboardScreen() {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, currencySymbol, distanceUnit, fuelUnit } = useTranslation();
   const { totalReminders, statistics } = useStatistics();
   const { updateAvailable } = useUpdateCheck();
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -96,14 +96,14 @@ export default function DashboardScreen() {
             <StatCard
               title={t("dashboard.totalSpent")}
               value={statistics.general.totalSpent}
-              help={t("common.priceSign")}
+              help={currencySymbol}
               icon={WalletIcon}
               color={Theme.primary}
             />
             <StatCard
               title={t("dashboard.totalDistance")}
               value={statistics.distance.totalDistanceKm}
-              help={t("common.kilometer")}
+              help={distanceUnit}
               icon={CarIcon}
               color={Theme.primary}
             />
@@ -113,14 +113,14 @@ export default function DashboardScreen() {
             <StatCard
               title={t("dashboard.fuelCosts")}
               value={statistics.refueling.totalFuelCost}
-              help={t("common.priceSign")}
+              help={currencySymbol}
               icon={FuelIcon}
               color={Theme.orange}
             />
             <StatCard
               title={t("dashboard.avgPerKm")}
               value={statistics.refueling.averageLiterPerKm}
-              help={t("common.liter")}
+              help={fuelUnit}
               icon={GaugeIcon}
               color={Theme.success}
             />
@@ -129,14 +129,14 @@ export default function DashboardScreen() {
             <StatCard
               title={t("dashboard.serviceCosts")}
               value={statistics.services.totalServiceCost}
-              help={t("common.priceSign")}
+              help={currencySymbol}
               icon={WrenchIcon}
               color={Theme.mulberry}
             />
             <StatCard
               title={t("dashboard.expenses")}
               value={statistics.expenses.totalExpenses}
-              help={t("common.priceSign")}
+              help={currencySymbol}
               icon={BanknoteIcon}
               color={Theme.violet}
             />

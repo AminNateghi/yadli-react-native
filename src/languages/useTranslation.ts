@@ -6,6 +6,11 @@ import {
   getTranslationString,
   type TranslationKey,
 } from "./translation";
+import {
+  DEFAULT_CURRENCY_SYMBOL,
+  DEFAULT_DISTANCE_UNIT,
+  DEFAULT_FUEL_UNIT,
+} from "@/constants";
 
 export type { TranslationDictionary, TranslationKey } from "./translation";
 export { getTranslation } from "./translation";
@@ -30,6 +35,12 @@ export const useTranslation = () => {
   };
 
   const isRTL = t("app.rtl") === "true";
+  const distanceUnit =
+    tString(`distanceUnit.${data?.distanceUnit}`) ?? DEFAULT_DISTANCE_UNIT;
+  const currencySymbol =
+    tString(`currencySymbol.${data?.currencySymbol}`) ??
+    DEFAULT_CURRENCY_SYMBOL;
+  const fuelUnit = tString(`fuelUnit.${data?.fuelUnit}`) ?? DEFAULT_FUEL_UNIT;
 
-  return { t, tString, isRTL };
+  return { t, tString, isRTL, distanceUnit, currencySymbol, fuelUnit };
 };

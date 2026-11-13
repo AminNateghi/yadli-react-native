@@ -41,7 +41,7 @@ const defaultValues = {
 export default function FuelForm() {
   const params = useLocalSearchParams<{ id: string }>();
   const [id] = useState<number>(Number(params.id));
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, currencySymbol } = useTranslation();
   const { data: activeVehicle } = useActiveVehicle();
   const { statistics } = useStatistics();
   const navigation = useNavigation();
@@ -220,7 +220,7 @@ export default function FuelForm() {
 
       <View style={styles.totalRow}>
         <Text style={styles.totalLabel}>{t("fuel.totalCost")}</Text>
-        <ValueWithHelp value={totalCost} help={t("common.priceSign")} />
+        <ValueWithHelp value={totalCost} help={currencySymbol} />
       </View>
 
       <Controller

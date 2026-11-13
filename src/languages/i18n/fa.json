@@ -6,12 +6,7 @@
     "madeWithLove": "ساخته شده با ❤️ در ایران"
   },
   "common": {
-    "liter": "لیتر",
-    "l": "لیتر",
-    "kilometer": "کیلومتر",
-    "km": "ک.م",
     "odometer": "کارکرد",
-    "priceSign": "تومان",
     "times": "بار",
     "new": "جدید",
     "save": "ذخیره",
@@ -55,14 +50,21 @@
     "sectionApplication": "برنامه",
     "itemLanguage": "زبان (Language)",
     "subitemLanguage": "تغییر زبان برنامه",
-    "itemRecentChanges": "تغییرات اخیر",
+    "itemRecentChanges": "تغییرات برنامه",
     "subitemRecentChanges": "مشاهده آخرین تغییرات برنامه",
     "vehicles": "خودروهای من",
     "subitemVehicle": "مشاهده خودروهای ثبت شده",
     "itemAbout": "معرفی",
     "subitemAbout": "توضیحی درمورد برنامه",
+    "itemSettings": "تنظیمات",
+    "subitemSettings": "تنظیمات برنامه",
     "itemUpdate": "به‌روزرسانی برنامه",
     "subitemUpdate": "بررسی و به‌روزرسانی آخرین نسخه"
+  },
+  "settings": {
+    "distanceUnit": "واحد مسافت",
+    "fuelUnit": "واحد سوخت",
+    "currencySymbol": "واحد پول"
   },
   "dashboard": {
     "myVehicle": "خودرو پیشفرض",
@@ -352,6 +354,42 @@
     "InsuranceSecondPerson": "بیمه شخص ثالث",
     "InsuranceBody": "بیمه بدنه",
     "Other": "سایر موارد"
+  },
+  "fuelUnit": {
+    "GroupEn": "انگلیسی",
+    "Liters": "Liters",
+    "L": "L",
+    "Gallons": "Gallons",
+    "gal": "gal",
+    "Kilowatt": "kWh",
+    "GroupFa": "فارسی",
+    "faLiters": "لیتر",
+    "faL": "ل",
+    "faGallons": "گالن",
+    "faGal": "گ",
+    "faKilowatt": "ک.وات"
+  },
+  "currencySymbol": {
+    "GroupEn": "انگلیسی",
+    "DollarSign": "$",
+    "EuroSign": "€",
+    "GroupFa": "فارسی",
+    "faToman": "تومان",
+    "faRial": "ریال",
+    "faDollar": "دلار",
+    "faEuro": "یورو"
+  },
+  "distanceUnit": {
+    "GroupEn": "انگلیسی",
+    "Kilometers": "Kilometers",
+    "km": "km",
+    "Miles": "Miles",
+    "mi": "mi",
+    "GroupFa": "فارسی",
+    "faKilometers": "کیلومتر",
+    "faKm": "ک.م",
+    "faMiles": "مایل",
+    "faMi": "م"
   },
   "reminderMode": {
     "OneTime": "يکبار",

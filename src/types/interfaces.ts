@@ -119,6 +119,39 @@ export type VehicleType =
   | "Bus"
   | "Tractor"
   | "Other";
+export type FuelUnit =
+  | "GroupEn"
+  | "Liters"
+  | "L"
+  | "Gallons"
+  | "gal"
+  | "Kilowatt"
+  | "GroupFa"
+  | "faLiters"
+  | "faL"
+  | "faGallons"
+  | "faGal"
+  | "faKilowatt";
+export type CurrencySymbol =
+  | "GroupEn"
+  | "DollarSign"
+  | "EuroSign"
+  | "GroupFa"
+  | "faToman"
+  | "faRial"
+  | "faDollar"
+  | "faEuro";
+export type DistanceUnit =
+  | "GroupEn"
+  | "Kilometers"
+  | "km"
+  | "Miles"
+  | "mi"
+  | "GroupFa"
+  | "faKilometers"
+  | "faKm"
+  | "faMiles"
+  | "faMi";
 
 export interface CarStats {
   totalKm: number;
@@ -173,6 +206,23 @@ export interface VehicleFuelOptionProps {
 
 export interface VehicleTypeOptionProps {
   value: VehicleType;
+  label: string;
+  isGroup?: boolean;
+}
+
+export interface FuelUnitOptionProps {
+  value: FuelUnit;
+  label: string;
+  isGroup?: boolean;
+}
+
+export interface CurrencySymbolOptionProps {
+  value: CurrencySymbol;
+  label: string;
+  isGroup?: boolean;
+}
+export interface DistanceUnitOptionProps {
+  value: DistanceUnit;
   label: string;
   isGroup?: boolean;
 }
@@ -374,6 +424,81 @@ export function vehicleTypeOptions(
     { value: "Bus", label: t("vehicles.bus") },
     { value: "Tractor", label: t("vehicles.tractor") },
     { value: "Other", label: t("vehicles.otherVehicle") },
+  ];
+}
+
+export function fuelUnitOptions(
+  t: (key: TranslationKey) => string,
+): FuelUnitOptionProps[] {
+  return [
+    {
+      value: "GroupEn",
+      label: t("fuelUnit.GroupEn"),
+      isGroup: true,
+    },
+    { value: "Liters", label: t("fuelUnit.Liters") },
+    { value: "L", label: t("fuelUnit.L") },
+    { value: "Gallons", label: t("fuelUnit.Gallons") },
+    { value: "gal", label: t("fuelUnit.gal") },
+    { value: "Kilowatt", label: t("fuelUnit.Kilowatt") },
+    {
+      value: "GroupFa",
+      label: t("fuelUnit.GroupFa"),
+      isGroup: true,
+    },
+    { value: "faLiters", label: t("fuelUnit.faLiters") },
+    { value: "faL", label: t("fuelUnit.faL") },
+    { value: "faGallons", label: t("fuelUnit.faGallons") },
+    { value: "faGal", label: t("fuelUnit.faGal") },
+    { value: "faKilowatt", label: t("fuelUnit.faKilowatt") },
+  ];
+}
+
+export function currencySymbolOptions(
+  t: (key: TranslationKey) => string,
+): CurrencySymbolOptionProps[] {
+  return [
+    {
+      value: "GroupEn",
+      label: t("currencySymbol.GroupEn"),
+      isGroup: true,
+    },
+    { value: "DollarSign", label: t("currencySymbol.DollarSign") },
+    { value: "EuroSign", label: t("currencySymbol.EuroSign") },
+    {
+      value: "GroupFa",
+      label: t("currencySymbol.GroupFa"),
+      isGroup: true,
+    },
+    { value: "faToman", label: t("currencySymbol.faToman") },
+    { value: "faRial", label: t("currencySymbol.faRial") },
+    { value: "faDollar", label: t("currencySymbol.faDollar") },
+    { value: "faEuro", label: t("currencySymbol.faEuro") },
+  ];
+}
+
+export function distanceUnitOptions(
+  t: (key: TranslationKey) => string,
+): DistanceUnitOptionProps[] {
+  return [
+    {
+      value: "GroupEn",
+      label: t("distanceUnit.GroupEn"),
+      isGroup: true,
+    },
+    { value: "Kilometers", label: t("distanceUnit.Kilometers") },
+    { value: "km", label: t("distanceUnit.km") },
+    { value: "Miles", label: t("distanceUnit.Miles") },
+    { value: "mi", label: t("distanceUnit.mi") },
+    {
+      value: "GroupFa",
+      label: t("distanceUnit.GroupFa"),
+      isGroup: true,
+    },
+    { value: "faKilometers", label: t("distanceUnit.faKilometers") },
+    { value: "faKm", label: t("distanceUnit.faKm") },
+    { value: "faMiles", label: t("distanceUnit.faMiles") },
+    { value: "faMi", label: t("distanceUnit.faMi") },
   ];
 }
 

@@ -7,7 +7,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { useStatistics } from "@/repositories/statistics";
 
 export default function ReportDistance() {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, distanceUnit } = useTranslation();
   const { statistics, persianStatistics } = useStatistics();
 
   return (
@@ -29,7 +29,7 @@ export default function ReportDistance() {
               isRTL,
             })}
             size="large"
-            bottomSpanLabel={t("common.kilometer")}
+            bottomSpanLabel={distanceUnit}
           />
         </View>
       </View>
@@ -66,7 +66,7 @@ export default function ReportDistance() {
                 },
               )}
               bottomLabel={t("dashboard.thisYear")}
-              topSpanLabel={t("common.kilometer")}
+              topSpanLabel={distanceUnit}
               size="small"
             />
             <DoubleLabel
@@ -79,7 +79,7 @@ export default function ReportDistance() {
                 },
               )}
               bottomLabel={t("dashboard.previousYear")}
-              topSpanLabel={t("common.kilometer")}
+              topSpanLabel={distanceUnit}
               size="small"
             />
           </View>
@@ -94,7 +94,7 @@ export default function ReportDistance() {
                 },
               )}
               bottomLabel={t("dashboard.thisMonth")}
-              topSpanLabel={t("common.kilometer")}
+              topSpanLabel={distanceUnit}
               size="small"
             />
             <DoubleLabel
@@ -107,7 +107,7 @@ export default function ReportDistance() {
                 },
               )}
               bottomLabel={t("dashboard.previousMonth")}
-              topSpanLabel={t("common.kilometer")}
+              topSpanLabel={distanceUnit}
               size="small"
             />
           </View>
@@ -126,7 +126,7 @@ export default function ReportDistance() {
                 },
               )}
               bottomLabel={t("reports.averageMileagePerYear")}
-              topSpanLabel={t("common.kilometer")}
+              topSpanLabel={distanceUnit}
               size="small"
             />
             <DoubleLabel
@@ -137,7 +137,7 @@ export default function ReportDistance() {
                 },
               )}
               bottomLabel={t("reports.averageMileagePerMonth")}
-              topSpanLabel={t("common.kilometer")}
+              topSpanLabel={distanceUnit}
               size="small"
             />
           </View>
@@ -147,7 +147,7 @@ export default function ReportDistance() {
                 isRTL,
               })}
               bottomLabel={t("reports.averageMileagePerDay")}
-              topSpanLabel={t("common.kilometer")}
+              topSpanLabel={distanceUnit}
               size="small"
             />
           </View>

@@ -1,5 +1,11 @@
 import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import { BoxIcon, CarIcon, HistoryIcon, XIcon } from "lucide-react-native";
+import {
+  BoxIcon,
+  CarIcon,
+  HistoryIcon,
+  SettingsIcon,
+  XIcon,
+} from "lucide-react-native";
 import { router } from "expo-router";
 import { useTranslation } from "@/languages/useTranslation";
 import { CheckUpdate } from "./CheckUpdate";
@@ -29,6 +35,11 @@ export default function AppDrawer({ visible, onClose }: Props) {
   const handleAbout = () => {
     onClose();
     router.navigate("/about");
+  };
+
+  const handleSettings = () => {
+    onClose();
+    router.navigate("/settings");
   };
 
   return (
@@ -74,6 +85,13 @@ export default function AppDrawer({ visible, onClose }: Props) {
               description={t("drawer.subitemVehicle")}
               onPress={handleVehicles}
             />
+
+            <MenuItem
+              icon={<SettingsIcon size={21} color={Theme.gray} />}
+              title={t("drawer.itemSettings")}
+              description={t("drawer.subitemSettings")}
+              onPress={handleSettings}
+            />
             <View style={GlobalStyles.separator} />
             <MenuItem
               icon={<BoxIcon size={21} color={Theme.success} />}
@@ -83,7 +101,7 @@ export default function AppDrawer({ visible, onClose }: Props) {
             />
             <CheckUpdate />
             <MenuItem
-              icon={<HistoryIcon size={21} color={Theme.primary} />}
+              icon={<HistoryIcon size={21} color={Theme.mulberry} />}
               title={t("drawer.itemRecentChanges")}
               description={t("drawer.subitemRecentChanges")}
               onPress={handleShowRecentChanges}

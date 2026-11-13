@@ -12,7 +12,7 @@ import { useTranslation } from "@/languages/useTranslation";
 import { useStatistics } from "@/repositories/statistics";
 
 export default function ReportFuel() {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, currencySymbol, fuelUnit } = useTranslation();
   const { statistics, persianStatistics } = useStatistics();
 
   return (
@@ -34,7 +34,7 @@ export default function ReportFuel() {
               isRTL,
             })}
             size="large"
-            bottomSpanLabel={t("common.priceSign")}
+            bottomSpanLabel={currencySymbol}
           />
         </View>
         <View style={GlobalStyles.separator} />
@@ -50,7 +50,7 @@ export default function ReportFuel() {
                 },
               )}
               bottomLabel={t("dashboard.thisYear")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -63,7 +63,7 @@ export default function ReportFuel() {
                 },
               )}
               bottomLabel={t("dashboard.previousYear")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>
@@ -79,7 +79,7 @@ export default function ReportFuel() {
                 },
               )}
               bottomLabel={t("dashboard.thisMonth")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
             <DoubleLabel
@@ -92,7 +92,7 @@ export default function ReportFuel() {
                 },
               )}
               bottomLabel={t("dashboard.previousMonth")}
-              topSpanLabel={t("common.priceSign")}
+              topSpanLabel={currencySymbol}
               size="small"
             />
           </View>
@@ -195,7 +195,7 @@ export default function ReportFuel() {
             topLabel={t("reports.gas")}
             bottomLabel={numberFormat(statistics.refueling.totalGas, { isRTL })}
             size="large"
-            bottomSpanLabel={t("common.liter")}
+            bottomSpanLabel={fuelUnit}
           />
         </View>
         <View style={GlobalStyles.separator} />
@@ -211,7 +211,7 @@ export default function ReportFuel() {
                 },
               )}
               bottomLabel={t("dashboard.thisYear")}
-              topSpanLabel={t("common.liter")}
+              topSpanLabel={fuelUnit}
               size="small"
             />
             <DoubleLabel
@@ -224,7 +224,7 @@ export default function ReportFuel() {
                 },
               )}
               bottomLabel={t("dashboard.previousYear")}
-              topSpanLabel={t("common.liter")}
+              topSpanLabel={fuelUnit}
               size="small"
             />
           </View>
@@ -239,7 +239,7 @@ export default function ReportFuel() {
                 },
               )}
               bottomLabel={t("dashboard.thisMonth")}
-              topSpanLabel={t("common.liter")}
+              topSpanLabel={fuelUnit}
               size="small"
             />
             <DoubleLabel
@@ -252,7 +252,7 @@ export default function ReportFuel() {
                 },
               )}
               bottomLabel={t("dashboard.previousMonth")}
-              topSpanLabel={t("common.liter")}
+              topSpanLabel={fuelUnit}
               size="small"
             />
           </View>
@@ -264,7 +264,7 @@ export default function ReportFuel() {
               isRTL,
             })}
             bottomLabel={t("reports.minFillUps")}
-            topSpanLabel={t("common.liter")}
+            topSpanLabel={fuelUnit}
             size="small"
           />
           <DoubleLabel
@@ -272,7 +272,7 @@ export default function ReportFuel() {
               isRTL,
             })}
             bottomLabel={t("reports.maxFillUps")}
-            topSpanLabel={t("common.liter")}
+            topSpanLabel={fuelUnit}
             size="small"
           />
         </View>
@@ -295,7 +295,7 @@ export default function ReportFuel() {
               isRTL,
             })}
             size="large"
-            bottomSpanLabel={t("common.liter")}
+            bottomSpanLabel={fuelUnit}
           />
         </View>
         <View style={GlobalStyles.separator} />
@@ -305,7 +305,7 @@ export default function ReportFuel() {
               isRTL,
             })}
             bottomLabel={t("reports.minFillUps")}
-            topSpanLabel={t("common.liter")}
+            topSpanLabel={fuelUnit}
             size="small"
           />
           <DoubleLabel
@@ -313,7 +313,7 @@ export default function ReportFuel() {
               isRTL,
             })}
             bottomLabel={t("reports.maxFillUps")}
-            topSpanLabel={t("common.liter")}
+            topSpanLabel={fuelUnit}
             size="small"
           />
         </View>

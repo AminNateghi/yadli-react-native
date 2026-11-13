@@ -8,6 +8,7 @@ export default function HomeLayout() {
       <Stack.Screen name="reports" />
       <Stack.Screen name="recent-changes" />
       <Stack.Screen name="onboarding" />
+      <Stack.Screen name="settings" />
     </Stack>
   );
 }

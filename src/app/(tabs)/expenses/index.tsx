@@ -16,7 +16,7 @@ import { useLayoutEffect } from "react";
 import { useActiveVehicle } from "@/repositories/active-vehicle";
 
 export default function ExpensesScreen() {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, currencySymbol } = useTranslation();
   const navigateOnce = useNavigationGuard();
   const navigation = useNavigation();
 
@@ -53,7 +53,7 @@ export default function ExpensesScreen() {
             title={getExpenseTypeTitle(expense.type, t)}
             date={expense.date}
             amount={expense.amount}
-            help={t("common.priceSign")}
+            help={currencySymbol}
             icon={BanknoteIcon}
             color={Theme.violet}
             rtl={isRTL}
@@ -77,7 +77,7 @@ export default function ExpensesScreen() {
               </Text>
               <ValueWithHelp
                 value={statistics.expenses.totalExpenses}
-                help={t("common.priceSign")}
+                help={currencySymbol}
                 style={GlobalStyles.summaryValue}
               />
             </View>

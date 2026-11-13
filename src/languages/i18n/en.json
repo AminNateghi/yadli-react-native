@@ -6,12 +6,7 @@
     "madeWithLove": "Made with ❤️ in Iran"
   },
   "common": {
-    "liter": "liter",
-    "l": "L",
-    "kilometer": "kilometer",
-    "km": "km",
     "odometer": "Odometer",
-    "priceSign": "$",
     "times": "times",
     "new": "New",
     "save": "Save",
@@ -61,8 +56,15 @@
     "subitemVehicle": "See your vehicles",
     "itemAbout": "About",
     "subitemAbout": "Learn about the app",
+    "itemSettings": "Settings",
+    "subitemSettings": "App Settings",
     "itemUpdate": "App Version",
     "subitemUpdate": "Check application version"
+  },
+  "settings": {
+    "distanceUnit": "Distance unit",
+    "fuelUnit": "Fuel unit",
+    "currencySymbol": "Currency symbol"
   },
   "dashboard": {
     "myVehicle": "Default Vehicle",
@@ -352,6 +354,42 @@
     "InsuranceSecondPerson": "Insurance Second Person",
     "InsuranceBody": "Insurance Body",
     "Other": "Other"
+  },
+  "fuelUnit": {
+    "GroupEn": "English",
+    "Liters": "Liters",
+    "L": "L",
+    "Gallons": "Gallons",
+    "gal": "gal",
+    "Kilowatt": "kWh",
+    "GroupFa": "Persian",
+    "faLiters": "لیتر",
+    "faL": "ل",
+    "faGallons": "گالن",
+    "faGal": "گ",
+    "faKilowatt": "ک.و"
+  },
+  "currencySymbol": {
+    "GroupEn": "English",
+    "DollarSign": "$",
+    "EuroSign": "€",
+    "GroupFa": "Persian",
+    "faToman": "تومان",
+    "faRial": "ریال",
+    "faDollar": "دلار",
+    "faEuro": "یورو"
+  },
+  "distanceUnit": {
+    "GroupEn": "English",
+    "Kilometers": "Kilometers",
+    "km": "km",
+    "Miles": "Miles",
+    "mi": "mi",
+    "GroupFa": "Persian",
+    "faKilometers": "کیلومتر",
+    "faKm": "ک.م",
+    "faMiles": "مایل",
+    "faMi": "م"
   },
   "reminderMode": {
     "OneTime": "One-Time",

@@ -16,12 +16,21 @@ import type {
   ServiceType,
   VehicleType,
 } from "@/types/interfaces";
+import {
+  DEFAULT_CURRENCY_SYMBOL,
+  DEFAULT_DISTANCE_UNIT,
+  DEFAULT_FUEL_UNIT,
+} from "@/constants";
 
 export const profileRecords = sqliteTable("profile", {
   id: integer("id").primaryKey(),
   fullName: text("full_name").default("-"),
   activeVehicleId: integer("active_vehicle_id").notNull().default(1),
   language: text("language").$type<LanguageType>().default("fa"),
+  distanceUnit: text("distance_unit").default(DEFAULT_DISTANCE_UNIT),
+  fuelUnit: text("fuel_unit").default(DEFAULT_FUEL_UNIT),
+  currencySymbol: text("currency_symbol").default(DEFAULT_CURRENCY_SYMBOL),
+  lastUpdatedDate: text("last_updated_date"),
   onboarding: integer("onboarding", { mode: "boolean" })
     .notNull()
     .default(false),

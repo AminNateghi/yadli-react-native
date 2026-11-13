@@ -57,7 +57,7 @@ const getTitle = (
 };
 
 export function ReminderCard({ reminder, onPress }: Props) {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, distanceUnit } = useTranslation();
   const primaryProgress = reminder.dateProgress ?? reminder.odometerProgress;
 
   return (
@@ -143,7 +143,7 @@ export function ReminderCard({ reminder, onPress }: Props) {
             <Text style={styles.progressLabel}>
               {t("reminders.dueAt")}{" "}
               {numberFormat(reminder.odometerProgress.dueOdometer, { isRTL })}{" "}
-              {t("common.kilometer")}
+              {distanceUnit}
             </Text>
             <Text
               style={[
@@ -154,8 +154,8 @@ export function ReminderCard({ reminder, onPress }: Props) {
               ]}
             >
               {reminder.odometerProgress.overdue
-                ? `${numberFormat(Math.abs(reminder.odometerProgress.remainingKm), { isRTL })} ${t("common.km")} ${t("reminders.passed")}`
-                : `${numberFormat(reminder.odometerProgress.remainingKm, { isRTL })} ${t("common.km")} ${t("reminders.remaining")}`}
+                ? `${numberFormat(Math.abs(reminder.odometerProgress.remainingKm), { isRTL })} ${distanceUnit} ${t("reminders.passed")}`
+                : `${numberFormat(reminder.odometerProgress.remainingKm, { isRTL })} ${distanceUnit} ${t("reminders.remaining")}`}
             </Text>
           </View>
           <ProgressBar

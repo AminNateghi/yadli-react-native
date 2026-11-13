@@ -17,7 +17,7 @@ import { useLayoutEffect } from "react";
 import { useActiveVehicle } from "@/repositories/active-vehicle";
 
 export default function ServicesScreen() {
-  const { t, isRTL } = useTranslation();
+  const { t, isRTL, currencySymbol } = useTranslation();
   const navigateOnce = useNavigationGuard();
   const navigation = useNavigation();
 
@@ -54,7 +54,7 @@ export default function ServicesScreen() {
             title={getServiceTypeTitle(service.type, t)}
             date={service.date}
             amount={service.cost}
-            help={t("common.priceSign")}
+            help={currencySymbol}
             subtitle={`${numberFormat(service.odometer, { isRTL })} ${t("common.odometer")}`}
             icon={WrenchIcon}
             color={Theme.mulberry}
@@ -79,7 +79,7 @@ export default function ServicesScreen() {
               </Text>
               <ValueWithHelp
                 value={statistics.services.totalServiceCost}
-                help={t("common.priceSign")}
+                help={currencySymbol}
                 style={GlobalStyles.summaryValue}
               />
             </View>
