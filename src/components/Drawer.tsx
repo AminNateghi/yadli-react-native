@@ -1,11 +1,10 @@
 import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
-import { CarIcon, HistoryIcon, XIcon } from "lucide-react-native";
+import { BoxIcon, CarIcon, HistoryIcon, XIcon } from "lucide-react-native";
 import { router } from "expo-router";
 import { useTranslation } from "@/languages/useTranslation";
 import { CheckUpdate } from "./CheckUpdate";
 import { Text } from "./Text";
 import { Theme, GlobalStyles } from "@/constants";
-import { About } from "./About";
 import Language from "./Language";
 import MenuItem from "./MenuItem";
 
@@ -25,6 +24,11 @@ export default function AppDrawer({ visible, onClose }: Props) {
   const handleVehicles = () => {
     onClose();
     router.navigate("/vehicles");
+  };
+
+  const handleAbout = () => {
+    onClose();
+    router.navigate("/about");
   };
 
   return (
@@ -71,7 +75,12 @@ export default function AppDrawer({ visible, onClose }: Props) {
               onPress={handleVehicles}
             />
             <View style={GlobalStyles.separator} />
-            <About />
+            <MenuItem
+              icon={<BoxIcon size={21} color={Theme.success} />}
+              title={t("drawer.itemAbout")}
+              description={t("drawer.subitemAbout")}
+              onPress={handleAbout}
+            />
             <CheckUpdate />
             <MenuItem
               icon={<HistoryIcon size={21} color={Theme.primary} />}
