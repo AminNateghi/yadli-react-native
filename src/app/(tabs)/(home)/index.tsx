@@ -47,11 +47,11 @@ export default function DashboardScreen() {
         isRTL ? (
           updateAvailable && <CheckUpdate type="icon" />
         ) : (
-          <IconButton icon={MenuIcon} onPress={() => handleShowDrawer()} />
+          <IconButton icon={<MenuIcon />} onPress={() => handleShowDrawer()} />
         ),
       headerRight: () =>
         isRTL ? (
-          <IconButton icon={MenuIcon} onPress={() => handleShowDrawer()} />
+          <IconButton icon={<MenuIcon />} onPress={() => handleShowDrawer()} />
         ) : (
           updateAvailable && <CheckUpdate type="icon" />
         ),

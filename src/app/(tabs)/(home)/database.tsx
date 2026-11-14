@@ -19,9 +19,11 @@ import {
   openDatabaseAsync,
   type SQLiteDatabase,
 } from "expo-sqlite";
-import { useNavigation } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { useLayoutEffect, useRef, useState } from "react";
 import { Platform, ScrollView, StyleSheet } from "react-native";
+import { IconButton } from "@/components/IconButton";
+import { ArrowRightIcon } from "lucide-react-native";
 
 const requiredColumns = {
   profile: ["id", "active_vehicle_id", "language", "onboarding"],
@@ -80,6 +82,10 @@ export default function DatabaseScreen() {
       title: t("database.title"),
       headerLargeTitle: true,
       headerTitleAlign: "center",
+      headerRight: () => (
+        <IconButton icon={<ArrowRightIcon />} onPress={() => router.back()} />
+      ),
+      headerLeft: () => <></>,
     });
   }, [navigation, t]);
 
@@ -138,14 +144,11 @@ export default function DatabaseScreen() {
       const file = result.result;
       const bytes = await file.bytes();
 
-      // 1. Write the backup bytes to a temporary file in the cache directory
       const dbName = `candidate-${Date.now()}.db`;
       const tempFile = new File(Paths.cache, dbName);
       tempFile.create({ overwrite: true });
       await tempFile.write(bytes);
 
-      // 2. Open the file-backed database
-      // The third argument explicitly tells Expo SQLite to look in Paths.cache
       candidate = await openDatabaseAsync(dbName, undefined, Paths.cache.uri);
 
       if (!(await isValidBackup(candidate))) {
@@ -212,6 +215,7 @@ export default function DatabaseScreen() {
       pendingBackup.current = null;
       await sourceDatabase.closeAsync();
       setAction(null);
+      router.navigate("/(tabs)/(home)");
     }
   };
 

@@ -1,10 +1,10 @@
 import { Theme } from "@/constants";
-import type { LucideIcon } from "lucide-react-native";
 import { Pressable, StyleSheet, type ViewStyle } from "react-native";
 import { Text } from "./Text";
+import type { ReactNode } from "react";
 
 interface ButtonProps {
-  icon: LucideIcon;
+  icon: ReactNode;
   label?: string;
   onPress: () => void;
   disabled?: boolean;
@@ -13,7 +13,7 @@ interface ButtonProps {
 }
 
 export function IconButton({
-  icon: Icon,
+  icon,
   label,
   onPress,
   disabled,
@@ -76,7 +76,7 @@ export function IconButton({
       disabled={disabled}
     >
       {label && <Text>{label}</Text>}
-      <Icon />
+      {icon}
     </Pressable>
   );
 }

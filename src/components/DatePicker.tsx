@@ -60,7 +60,7 @@ export function DatePicker({ label, value, error, onChange }: DatePickerProps) {
           <View style={styles.modal}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>{t("common.selectDate")}</Text>
-              <IconButton icon={XIcon} onPress={() => setVisible(false)} />
+              <IconButton icon={<XIcon />} onPress={() => setVisible(false)} />
             </View>
             <WheelDatePicker
               value={draftDate}

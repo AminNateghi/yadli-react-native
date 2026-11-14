@@ -2,18 +2,18 @@
   "expo": {
     "name": "Yadli",
     "slug": "yadli-app",
-    "version": "1.8.0",
+    "version": "1.8.1",
     "orientation": "portrait",
     "icon": "./assets/images/yadli-icon.png",
     "scheme": "yadli",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "buildNumber": "180",
+      "buildNumber": "181",
       "bundleIdentifier": "xyz.nateghi.yadli",
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 180,
+      "versionCode": 181,
       "package": "xyz.nateghi.yadli",
       "predictiveBackGestureEnabled": false,
       "softwareKeyboardLayoutMode": "resize",
@@ -48,7 +48,6 @@
       "expo-status-bar",
       "expo-web-browser",
       "expo-notifications",
-      "./plugins/with-android-release-signing",
       "expo-sharing",
       [
         "expo-file-system",
@@ -56,7 +55,8 @@
           "supportsOpeningDocumentsInPlace": true,
           "enableFileSharing": true
         }
-      ]
+      ],
+      "./plugins/with-android-release-signing"
     ],
     "experiments": {
       "typedRoutes": true,
