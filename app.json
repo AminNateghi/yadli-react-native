@@ -48,7 +48,15 @@
       "expo-status-bar",
       "expo-web-browser",
       "expo-notifications",
-      "./plugins/with-android-release-signing"
+      "./plugins/with-android-release-signing",
+      "expo-sharing",
+      [
+        "expo-file-system",
+        {
+          "supportsOpeningDocumentsInPlace": true,
+          "enableFileSharing": true
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

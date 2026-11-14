@@ -1,6 +1,7 @@
 # v1.8.0
 
 - Add Settings
+- Add Backup/Restore database
 
 # v1.7.0
 

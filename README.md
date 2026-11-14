@@ -6,13 +6,17 @@
 </p>
 <h1 align="center">Yadli - Offline Vehicle Maintenance Manager</h1>
 
-[![Android](https://shields.io/badge/Download-Android-0f0f0f)](https://github.com/AminNateghi/yadli-react-native/releases/latest)
-[![Architecture diagram](https://shields.io/badge/Architecture-Diagram-bf81fd)](https://gitdiagram.com/aminnateghi/yadli-react-native?utm_source=readme&utm_medium=badge)
-[![License: MIT](https://shields.io/badge/License-MIT-blue)](https://github.com/AminNateghi/yadli-react-native?tab=MIT-1-ov-file)
-![ReactNativeExpo](https://shields.io/badge/-ReactNative_Expo-404040)&nbsp;
-![TypeScript](https://shields.io/badge/-TypeScript-2f74c0)&nbsp;
-![SQLite](https://shields.io/badge/-SQLite-3446eb)&nbsp;
-![DrizzleORM](https://shields.io/badge/-DrizzleORM-194506)&nbsp;
+[![Latest Release](https://img.shields.io/github/v/release/AminNateghi/yadli-react-native)](https://github.com/AminNateghi/yadli-react-native/releases/latest)
+[![Last Commit](https://img.shields.io/github/last-commit/AminNateghi/yadli-react-native)](https://github.com/AminNateghi/yadli-react-native/commits/main)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/AminNateghi/yadli-react-native/release.yml)
+![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/AminNateghi/yadli-react-native/latest/total)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/t/AminNateghi/yadli-react-native)
+[![Architecture diagram](https://img.shields.io/badge/Architecture-Diagram-bf81fd)](https://gitdiagram.com/aminnateghi/yadli-react-native?utm_source=readme&utm_medium=badge)
+![GitHub License](https://img.shields.io/github/license/AminNateghi/yadli-react-native)
+![ReactNativeExpo](https://img.shields.io/badge/-ReactNative_Expo-404040)&nbsp;
+![TypeScript](https://img.shields.io/badge/-TypeScript-2f74c0)&nbsp;
+![SQLite](https://img.shields.io/badge/-SQLite-3446eb)&nbsp;
+![DrizzleORM](https://img.shields.io/badge/-DrizzleORM-194506)&nbsp;
 
 Offline-first React Native app for managing vehicle maintenance.
 No registration, no login, no backend. All data stays on-device in SQLite.

@@ -2,6 +2,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import {
   BoxIcon,
   CarIcon,
+  HardDriveIcon,
   HistoryIcon,
   SettingsIcon,
   XIcon,
@@ -21,6 +22,11 @@ type Props = {
 
 export default function AppDrawer({ visible, onClose }: Props) {
   const { t, isRTL } = useTranslation();
+
+  const handleDatabase = () => {
+    onClose();
+    router.push("/(tabs)/(home)/database");
+  };
 
   const handleShowRecentChanges = () => {
     onClose();
@@ -106,7 +112,16 @@ export default function AppDrawer({ visible, onClose }: Props) {
               description={t("drawer.subitemRecentChanges")}
               onPress={handleShowRecentChanges}
             />
+
             <Language />
+
+            <View style={GlobalStyles.separator} />
+            <MenuItem
+              icon={<HardDriveIcon size={21} color={Theme.text} />}
+              title={t("drawer.itemDatabase")}
+              description={t("drawer.subitemDatabase")}
+              onPress={handleDatabase}
+            />
           </ScrollView>
 
           <View style={styles.footer}>

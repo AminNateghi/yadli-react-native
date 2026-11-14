@@ -58,6 +58,8 @@
     "subitemAbout": "Learn about the app",
     "itemSettings": "Settings",
     "subitemSettings": "App Settings",
+    "itemDatabase": "Backup/Restore",
+    "subitemDatabase": "Backup and Restore data",
     "itemUpdate": "App Version",
     "subitemUpdate": "Check application version"
   },
@@ -65,6 +67,23 @@
     "distanceUnit": "Distance unit",
     "fuelUnit": "Fuel unit",
     "currencySymbol": "Currency symbol"
+  },
+  "database": {
+    "title": "Database",
+    "exportTitle": "Export backup",
+    "exportDescription": "Save a copy of your vehicle data to a file.",
+    "export": "Export backup",
+    "exportSuccess": "Database backup is ready to share.",
+    "exportFailed": "Could not export the database backup.",
+    "restoreTitle": "Restore backup",
+    "restoreDescription": "Choose a Yadli database backup file to restore.",
+    "restore": "Restore backup",
+    "restoreConfirmation": "Restoring this backup will replace all current data. Continue?",
+    "restoreSuccess": "Database backup restored.",
+    "restoreNotificationWarning": "Backup restored, but reminder notifications could not be fully updated.",
+    "restoreFailed": "Could not restore the database backup.",
+    "invalidBackup": "This file is not a valid Yadli database backup.",
+    "unsupported": "Database backup is only available on mobile devices."
   },
   "dashboard": {
     "myVehicle": "Default Vehicle",

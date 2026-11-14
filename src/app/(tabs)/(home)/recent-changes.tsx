@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, View } from "react-native";
-import changelogEn from "../../../../CHANGELOG-EN.md";
-import changelogFa from "../../../../CHANGELOG-FA.md";
+import changelogEn from "./../../../../CHANGELOG-EN.md";
+import changelogFa from "./../../../../CHANGELOG-FA.md";
 import { Text } from "@/components/Text";
 import { Theme } from "@/constants";
 import { useTranslation } from "@/languages/useTranslation";
