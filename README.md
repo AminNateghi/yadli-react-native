@@ -1,48 +1,18 @@
 <details open>
-  <summary>فارسی</summary>
-
-  <div dir="rtl">
-
-# یادلی - دستیار شخصی خودرو
-
-«یادلی» یک دستیار شخصی خودرو است که امکان ثبت سوابق سوخت‌گیری، سرویس‌های دوره‌ای و انواع هزینه‌های متفرقه را می‌دهد، همچنین برنامه امکان یادآوری سرویس‌های دوره‌ای برای جلوگیری از هزینه‌های سنگین تعمیر خودرو، دارد. یادلی اپلیکیشن اندرویدی، کاملا رایگان، آفلاین و بدون نیاز به اینترنت و بدون نیاز به ثبت نام و حق اشتراک است. تمامی داده‌های خودروهای شما بر روی گوشی خود شما ذخیره می‌شود. فقط کافیست به صورت مرتب بعد از هر تعمیر خودرو یا سوخت‌گیری، کیلومتر پشت‌آمپر را در برنامه ثبت کنید تا محاسبات مربوط به سررسید تاریخ‌ها سرویس‌ها انجام شود.
-
-همچنین در بخش گزارشات برنامه می‌توانید انواع اطلاعات از هزینه‌های انجام شده، میزان مصرف سوخت و... را مشاهده کنید.
-
-<img alt='yadli banner' src='https://raw.githubusercontent.com/AminNateghi/yadli-react-native/refs/heads/main/assets/yadli-banner-fa.png'/>
-
-# امکانات
-
-**سوابق سوخت‌گیری** : ثبت کیلومتر طی شده به همراه میزان سوخت
-
-**سوابق سرویس‌ها** : ثبت انواع سرویس‌های دوره‌ای و نگهداری از خودرو
-
-**سوابق هزینه‌ها** : ثبت انواع هزینه‌های مربوط به خودرو
-
-**چند خودرو** : ثبت چند وسیله نقلیه با نوع سوخت و جزئیات دلخواه و جابه‌جایی بین آن‌ها
-
-**یادآوری** : نمایش یادآوری سررویس‌های دوره‌ای به همراه تاریخ و کیلومتر مانده
-
-**داشبورد** : نمایش آماری از جمع هزینه‌ها، تعداد دفعات سوخت‌گیری
-
-**چند زبانه** : نمایش برنامه به صورت فارسی و انگلیسی
-
-**آفلاین** : برنامه کاملا به صورت آفلاین کار می‌کند و نیازی به اینترنت ندارد
-
-**اپن-سورس** : برنامه اوپن-سورس و رایگان می‌باشد
-
-# دانلود
-
-<a href='https://github.com/AminNateghi/yadli-react-native/releases/latest'><img height=70 alt='Get it on GitHub' src='./assets/github.svg'/></a>
-<a href='https://cafebazaar.ir/app/xyz.nateghi.yadli'><img height=70 alt='Get it on CafeBazaar' src='./assets/cafebazaar.png'/></a>
-
-  </div>
-</details>
-
-<details open>
   <summary>English</summary>
 
-# Yadli — Offline Vehicle Maintenance Manager
+<p align="center">
+<img width="260" height="260" src="./assets/images/yadli-icon-transparency.png" />
+</p>
+<h1 align="center">Yadli - Offline Vehicle Maintenance Manager</h1>
+
+[![Android](https://shields.io/badge/Download-Android-0f0f0f)](https://github.com/AminNateghi/yadli-react-native/releases/latest)
+[![Architecture diagram](https://shields.io/badge/Architecture-Diagram-bf81fd)](https://gitdiagram.com/aminnateghi/yadli-react-native?utm_source=readme&utm_medium=badge)
+[![License: MIT](https://shields.io/badge/License-MIT-blue)](https://github.com/AminNateghi/yadli-react-native?tab=MIT-1-ov-file)
+![ReactNativeExpo](https://shields.io/badge/-ReactNative_Expo-404040)&nbsp;
+![TypeScript](https://shields.io/badge/-TypeScript-2f74c0)&nbsp;
+![SQLite](https://shields.io/badge/-SQLite-3446eb)&nbsp;
+![DrizzleORM](https://shields.io/badge/-DrizzleORM-194506)&nbsp;
 
 Offline-first React Native app for managing vehicle maintenance.
 No registration, no login, no backend. All data stays on-device in SQLite.
@@ -128,4 +98,48 @@ docs/                 project architecture and other documents
 ## Offline data flow
 
 No auth, no network. `query-client.ts` is a bare `new QueryClient()`.
+</details>
+
+<details open>
+  <summary>فارسی</summary>
+
+  <div dir="rtl">
+
+<p align="center">
+<img width="260" height="260" src="./assets/images/yadli-icon-transparency.png" />
+</p>
+<h1 align="center">یادلی - دستیار شخصی خودرو</h1>
+
+«یادلی» یک دستیار شخصی خودرو است که امکان ثبت سوابق سوخت‌گیری، سرویس‌های دوره‌ای و انواع هزینه‌های متفرقه را می‌دهد، همچنین برنامه امکان یادآوری سرویس‌های دوره‌ای برای جلوگیری از هزینه‌های سنگین تعمیر خودرو، دارد. یادلی اپلیکیشن اندرویدی، کاملا رایگان، آفلاین و بدون نیاز به اینترنت و بدون نیاز به ثبت نام و حق اشتراک است. تمامی داده‌های خودروهای شما بر روی گوشی خود شما ذخیره می‌شود. فقط کافیست به صورت مرتب بعد از هر تعمیر خودرو یا سوخت‌گیری، کیلومتر پشت‌آمپر را در برنامه ثبت کنید تا محاسبات مربوط به سررسید تاریخ‌ها سرویس‌ها انجام شود.
+
+همچنین در بخش گزارشات برنامه می‌توانید انواع اطلاعات از هزینه‌های انجام شده، میزان مصرف سوخت و... را مشاهده کنید.
+
+<img alt='yadli banner' src='https://raw.githubusercontent.com/AminNateghi/yadli-react-native/refs/heads/main/assets/yadli-banner-fa.png'/>
+
+# امکانات
+
+**سوابق سوخت‌گیری** : ثبت کیلومتر طی شده به همراه میزان سوخت
+
+**سوابق سرویس‌ها** : ثبت انواع سرویس‌های دوره‌ای و نگهداری از خودرو
+
+**سوابق هزینه‌ها** : ثبت انواع هزینه‌های مربوط به خودرو
+
+**چند خودرو** : ثبت چند وسیله نقلیه با نوع سوخت و جزئیات دلخواه و جابه‌جایی بین آن‌ها
+
+**یادآوری** : نمایش یادآوری سررویس‌های دوره‌ای به همراه تاریخ و کیلومتر مانده
+
+**داشبورد** : نمایش آماری از جمع هزینه‌ها، تعداد دفعات سوخت‌گیری
+
+**چند زبانه** : نمایش برنامه به صورت فارسی و انگلیسی
+
+**آفلاین** : برنامه کاملا به صورت آفلاین کار می‌کند و نیازی به اینترنت ندارد
+
+**اپن-سورس** : برنامه اوپن-سورس و رایگان می‌باشد
+
+# دانلود
+
+<a href='https://github.com/AminNateghi/yadli-react-native/releases/latest'><img height=70 alt='Get it on GitHub' src='./assets/github.svg'/></a>
+<a href='https://cafebazaar.ir/app/xyz.nateghi.yadli'><img height=70 alt='Get it on CafeBazaar' src='./assets/cafebazaar.png'/></a>
+
+  </div>
 </details>
